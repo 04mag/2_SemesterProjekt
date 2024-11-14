@@ -12,7 +12,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int Id { get; set; }
         public string Navn { get; set; }
         public string Efternavn { get; set; }
-        public List <ScooterModel> Kompetencer { get; set; }
+        public List <Scooter> Kompetencer { get; set; }
 
     }
 }

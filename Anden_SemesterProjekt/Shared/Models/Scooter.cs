@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
-    public class ScooterModel
+    public abstract class Scooter
     {
         public int Id { get; set; }
-        public string Mærke { get; set; }
+        public Mærke Mærke { get; set; }
         public string Model { get; set; }
     }
 }

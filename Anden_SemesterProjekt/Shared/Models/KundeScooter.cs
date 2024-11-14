@@ -10,6 +10,6 @@ namespace Anden_SemesterProjekt.Shared.Models
     {
         public int Id { get; set; }
         public Kunde Kunde { get; set; }
-        public ScooterModel Scooter { get; set; }
+        public Scooter Scooter { get; set; }
     }
 }

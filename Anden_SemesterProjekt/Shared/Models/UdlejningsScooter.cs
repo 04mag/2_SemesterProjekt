@@ -6,20 +6,10 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
-    public class UdlejningsScooter
+    public class UdlejningsScooter : Scooter
     {
-        public int Id { get; set; }
-        public string Mærke { get; set; }
-        public string Model { get; set; }
-        public int Antal { get; set; }
-        public ScooterLager ScooterLager { get; set; }
-        public ScooterStatus Status { get; set; }
+       public bool ErTilgængelig { get; set; }
+       public bool ErAktiv { get; set; }
+       public List<Udlejning> Udlejninger { get; set; }
     }
-    public enum ScooterStatus
-    {
-        Ledig, // Ledig til udlejning
-        Udlejet,    // Udlejet
-        Værksted // Til reparation eller vedligeholdelse
-    }
-
 }
