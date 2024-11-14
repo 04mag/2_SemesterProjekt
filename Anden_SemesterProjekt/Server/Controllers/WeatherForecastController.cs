@@ -1,7 +1,7 @@
-using Anden_Semester_Project.Shared;
+using Anden_SemesterProjekt.Shared;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Anden_Semester_Project.Server.Controllers
+namespace Anden_SemesterProjekt.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
