@@ -13,4 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared\Anden_SemesterProjekt.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
 </Project>
