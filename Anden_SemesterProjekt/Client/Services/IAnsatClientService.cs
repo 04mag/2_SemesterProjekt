@@ -4,7 +4,7 @@ namespace Anden_SemesterProjekt.Client.Services
 {
     public interface IAnsatClientService
     {
-        public Task<List<Mekaniker>> GetMekanikere();
-        public Task<Mekaniker> GetMekaniker(int id);
+        public Task<List<Mekaniker>?> GetMekanikere();
+        public Task<Mekaniker?> GetMekaniker(int id);
     }
 }
