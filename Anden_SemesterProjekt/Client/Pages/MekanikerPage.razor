@@ -8,10 +8,12 @@
 @foreach (var mekaniker in MekanikerList)
 {
     <p>@mekaniker.Navn</p>
-    @foreach (var mærke in mekaniker.Mærker)
-    {
-        <p>@mærke.ScooterMærke</p>
-    }
+    <div class="p-3">
+        @foreach (var mærke in mekaniker.Mærker)
+        {
+            <p>@mærke.ScooterMærke</p>
+        }
+    </div>
 }
 
 @code {
