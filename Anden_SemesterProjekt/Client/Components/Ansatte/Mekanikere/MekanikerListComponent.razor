@@ -1,8 +1,14 @@
-﻿<div>
-    <div class="row p-3 mb-3 border border-primary rounded">
-        @foreach (var mekaniker in Mekanikere)
-        {
-            <MekanikerRenderComponent Mekaniker="mekaniker" />
-        }
+﻿<div class="row p-3 border border-primary rounded">
+    <h3>Mekanikere</h3>
+    <div class="col-lg-4 mb-3">
+        <input class="form-control" @bind-value="searchString" @bind-value:event="oninput" placeholder="Søg via navn" />
+    </div>
+    <div class="row p-4 mb-3 scroll">
+        <div class="col-12">
+            @foreach (var mekaniker in FilteredMekanikere)
+            {
+                <MekanikerRenderComponent Mekaniker="mekaniker" OnSelect="OnSelect" />
+            }
+        </div>
     </div>
 </div>

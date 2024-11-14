@@ -1,0 +1,18 @@
+﻿@using Anden_SemesterProjekt.Client.Components.Ansatte.Mekanikere
+
+@page "/mekanikere"
+
+<h3>MekanikerPage</h3>
+
+@if (mekanikerList != null)
+{
+    <MekanikerListComponent Mekanikere="mekanikerList" OnSelect="OnSelectHandler" />
+}
+
+@*Til test og reference til implementering af vælg knap. Skal slettes senere*@
+<h3>Valgt Mekaniker</h3>
+
+@if (SelectedMekaniker != null)
+{
+    <MekanikerRenderComponent Mekaniker="SelectedMekaniker" />
+}

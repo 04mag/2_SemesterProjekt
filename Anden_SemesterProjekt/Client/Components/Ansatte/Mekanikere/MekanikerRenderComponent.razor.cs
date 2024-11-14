@@ -7,5 +7,8 @@ namespace Anden_SemesterProjekt.Client.Components.Ansatte.Mekanikere
     {
         [Parameter, EditorRequired]
         public Mekaniker Mekaniker { get; set; }
+
+        [Parameter]
+        public EventCallback<Mekaniker> OnSelect { get; set; }
     }
 }
