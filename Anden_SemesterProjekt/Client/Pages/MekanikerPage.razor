@@ -2,17 +2,18 @@
 
 @page "/mekanikere"
 
-<h3>MekanikerPage</h3>
+<div class="row p-3">
+    <h3>MekanikerPage</h3>
 
-@if (mekanikerList != null)
-{
-    <MekanikerListComponent Mekanikere="mekanikerList" OnSelect="OnSelectHandler" />
-}
+    @if (mekanikerList != null)
+    {
+        <MekanikerListComponent Mekanikere="mekanikerList" OnSelect="OnSelectHandler" />
+    }
 
-@*Til test og reference til implementering af vælg knap. Skal slettes senere*@
-<h3>Valgt Mekaniker</h3>
-
-@if (SelectedMekaniker != null)
-{
-    <MekanikerRenderComponent Mekaniker="SelectedMekaniker" />
-}
+    @*Til test og reference til implementering af vælg knap. Skal slettes senere*@
+    @if (SelectedMekaniker != null)
+    {
+        <h3>Valgt Mekaniker</h3>
+        <MekanikerRenderComponent Mekaniker="SelectedMekaniker" />
+    }
+</div>
