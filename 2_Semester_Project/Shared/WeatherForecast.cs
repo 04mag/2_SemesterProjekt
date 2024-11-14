@@ -1,4 +1,4 @@
-namespace _2_Semester_Project.Shared
+namespace Anden_Semester_Project.Shared
 {
     public class WeatherForecast
     {

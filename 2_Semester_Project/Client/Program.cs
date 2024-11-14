@@ -1,4 +1,4 @@
-using _2_Semester_Project.Client;
+using Anden_Semester_Project.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 

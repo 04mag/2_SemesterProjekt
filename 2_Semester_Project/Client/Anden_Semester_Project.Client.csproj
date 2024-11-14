@@ -11,7 +11,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.11" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Shared\2_Semester_Project.Shared.csproj" />
+    <ProjectReference Include="..\Shared\Anden_Semester_Project.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
