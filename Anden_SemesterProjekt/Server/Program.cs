@@ -1,5 +1,6 @@
 using Anden_SemesterProjekt.Server.Context;
 using Anden_SemesterProjekt.Server.Repositories;
+using Anden_SemesterProjekt.Server.Services;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +17,7 @@ namespace Anden_SemesterProjekt
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
             builder.Services.AddSingleton<IAnsatRepository, AnsatRepository>();
+            builder.Services.AddScoped<IAnsatService, AnsatService>();
 
             var app = builder.Build();
 
