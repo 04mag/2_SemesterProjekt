@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
-    internal class Class1
+    public class By
     {
+        public int Postnummer { get; set; }
+        public string ByNavn { get; set; }
+        public List<Adresse> Adresser { get; set; }
     }
 }

@@ -9,12 +9,13 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class Kunde
     {
 
-        public int Id { get; set; }
+        public int KundeId { get; set; }
         public string Navn { get; set; }
-        public string Efternavn { get; set; }
-        public string Adresse { get; set; }
+        public Adresse Adresse { get; set; }
+        public List<TlfNummer> TlfNumre { get; set; }
         public string Email { get; set; }
-        public string Telefon { get; set; }
-
+        public Mekaniker TilknyttetMekaniker { get; set; }
+        public List<Scooter> Scootere { get; set; }
+        public List<Ordre> Ordrer { get; set; }
     }
 }
