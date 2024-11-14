@@ -23,7 +23,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int UdlejningsScooterId { get; set; }
         public Mekaniker Mekaniker { get; set; }
         public int MekanikerId { get; set; }
-        public Betaling Betaling { get; set; }
         public string Bemærkninger { get; set; }
     }
 }
