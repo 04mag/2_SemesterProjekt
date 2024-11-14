@@ -15,7 +15,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public List<TlfNummer> TlfNumre { get; set; }
         public string Email { get; set; }
         public Mekaniker TilknyttetMekaniker { get; set; }
-        public List<Scooter> Scootere { get; set; }
+        public List<KundeScooter> Scootere { get; set; }
         public List<Ordre> Ordrer { get; set; }
     }
 }

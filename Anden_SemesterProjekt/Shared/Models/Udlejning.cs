@@ -9,7 +9,7 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class Udlejning
     {
         public int UdlejningId { get; set; }
-        public int ScooterId { get; set; }
+        public int UdlejningsScooterId { get; set; }
         public UdlejningsScooter UdlejningsScooter { get; set; }
         public int OrdreId { get; set; }
         public Ordre Ordre { get; set; }
@@ -17,10 +17,10 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime SlutDato { get; set; }
         public double AntalKmKørt { get; set; }
         public bool SelvrisikoUdløst { get; set; }
-        public double lejePrDag { get; set; } = 200;
-        public double forsikringPrDag { get; set; }
-        public double prisPrKm { get; set; } = 0.53;
+        public double LejePrDag { get; set; } = 200;
+        public double ForsikringPrDag { get; set; }
+        public double PrisPrKm { get; set; } = 0.53;
 
-        public double selvrisiko { get; set; } = 1000;
+        public double Selvrisiko { get; set; } = 1000;
     }
 }
