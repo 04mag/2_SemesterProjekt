@@ -9,10 +9,11 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class Mekaniker
     {
 
-        public int Id { get; set; }
+        public int MekanikerId { get; set; }
         public string Navn { get; set; }
-        public string Efternavn { get; set; }
-        public List <Scooter> Kompetencer { get; set; }
+        public bool ErAktiv { get; set; }
+        public List<Mærke> Mærker { get; set; }
+        public List<Ordre> Ordrer { get; set; }
 
     }
 }
