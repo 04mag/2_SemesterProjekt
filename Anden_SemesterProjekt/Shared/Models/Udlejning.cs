@@ -17,10 +17,10 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime SlutDato { get; set; }
         public double AntalKmKørt { get; set; }
         public bool SelvrisikoUdløst { get; set; }
-        public double lejePrDag { get; set; }
+        public double lejePrDag { get; set; } = 200;
         public double forsikringPrDag { get; set; }
-        public double prisPrKm { get; set; }
+        public double prisPrKm { get; set; } = 0.53;
 
-        public readonly double selvrisiko = 1000;
+        public double selvrisiko { get; set; } = 1000;
     }
 }
