@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anden_SemesterProjekt.Server", "Anden_SemesterProjekt\Server\Anden_SemesterProjekt.Server.csproj", "{53CAAA83-EC23-4B78-8B9C-0E149BA1EF47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anden_SemesterProjekt.Server", "Anden_SemesterProjekt\Server\Anden_SemesterProjekt.Server.csproj", "{53CAAA83-EC23-4B78-8B9C-0E149BA1EF47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anden_SemesterProjekt.Client", "Anden_SemesterProjekt\Client\Anden_SemesterProjekt.Client.csproj", "{A146C310-C205-45C3-9302-2FF25A4BAF09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anden_SemesterProjekt.Client", "Anden_SemesterProjekt\Client\Anden_SemesterProjekt.Client.csproj", "{A146C310-C205-45C3-9302-2FF25A4BAF09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Anden_SemesterProjekt.Shared", "Anden_SemesterProjekt\Shared\Anden_SemesterProjekt.Shared.csproj", "{E11EA301-74F8-42D8-AF62-7DED9EE39760}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anden_SemesterProjekt.Shared", "Anden_SemesterProjekt\Shared\Anden_SemesterProjekt.Shared.csproj", "{E11EA301-74F8-42D8-AF62-7DED9EE39760}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

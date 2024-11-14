@@ -14,14 +14,23 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public Mekaniker? ReadMekaniker(int id)
         {
-            return _context.Mekanikere.Find(id);
+            var result = _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).FirstOrDefault(m => m.MekanikerId == id);
+
+            if (result != null && result.MekanikerId == id)
+            {
+                return result;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public List<Mekaniker>? ReadMekanikere()
         {
             try
             {
-                return _context.Mekanikere.ToList();
+                return _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).ToList();
             }
             catch
             {

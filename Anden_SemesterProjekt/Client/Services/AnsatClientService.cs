@@ -13,13 +13,13 @@ namespace Anden_SemesterProjekt.Client.Services
 
         public async Task<Mekaniker?> GetMekaniker(int id)
         {
-            var result = await _httpClient.GetFromJsonAsync<Mekaniker>($"api/Mekaniker/{id}");
+            var result = await _httpClient.GetFromJsonAsync<Mekaniker>($"api/ansat/{id}");
             return result;
         }
 
         public async Task<List<Mekaniker>?> GetMekanikere()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<Mekaniker>>("api/Mekaniker");
+            var result = await _httpClient.GetFromJsonAsync<List<Mekaniker>>("api/ansat");
 
             return result;
         }

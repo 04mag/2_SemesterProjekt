@@ -1,0 +1,27 @@
+﻿@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
+
+@page "/mekaniker"
+
+<h3>MekanikerPage</h3>
+
+@foreach (var mekaniker in MekanikerList)
+{
+    <p>@mekaniker.Navn</p>
+    @foreach (var mærke in mekaniker.Mærker)
+    {
+        <p>@mærke.ScooterMærke</p>
+    }
+}
+
+@code {
+    List<Mekaniker> MekanikerList = new List<Mekaniker>();
+
+    [Inject]
+    public IAnsatClientService AnsatService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MekanikerList = await AnsatService.GetMekanikere();
+    }
+}
