@@ -4,6 +4,7 @@ using Anden_SemesterProjekt.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    partial class SLContextModelSnapshot : ModelSnapshot
+    [Migration("20241114193103_addedMekanikerHasData")]
+    partial class addedMekanikerHasData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -430,124 +433,17 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("MekanikerMærke", b =>
                 {
-                    b.Property<int>("MekanikerId")
+                    b.Property<int>("MekanikereMekanikerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MærkeId")
+                    b.Property<int>("MærkerMærkeId")
                         .HasColumnType("int");
 
-                    b.HasKey("MekanikerId", "MærkeId");
+                    b.HasKey("MekanikereMekanikerId", "MærkerMærkeId");
 
-                    b.HasIndex("MærkeId");
+                    b.HasIndex("MærkerMærkeId");
 
                     b.ToTable("MekanikerMærke");
-
-                    b.HasData(
-                        new
-                        {
-                            MekanikerId = 1,
-                            MærkeId = 1
-                        },
-                        new
-                        {
-                            MekanikerId = 1,
-                            MærkeId = 4
-                        },
-                        new
-                        {
-                            MekanikerId = 1,
-                            MærkeId = 8
-                        },
-                        new
-                        {
-                            MekanikerId = 1,
-                            MærkeId = 5
-                        },
-                        new
-                        {
-                            MekanikerId = 1,
-                            MærkeId = 2
-                        },
-                        new
-                        {
-                            MekanikerId = 1,
-                            MærkeId = 10
-                        },
-                        new
-                        {
-                            MekanikerId = 2,
-                            MærkeId = 6
-                        },
-                        new
-                        {
-                            MekanikerId = 2,
-                            MærkeId = 3
-                        },
-                        new
-                        {
-                            MekanikerId = 2,
-                            MærkeId = 7
-                        },
-                        new
-                        {
-                            MekanikerId = 2,
-                            MærkeId = 10
-                        },
-                        new
-                        {
-                            MekanikerId = 3,
-                            MærkeId = 2
-                        },
-                        new
-                        {
-                            MekanikerId = 3,
-                            MærkeId = 8
-                        },
-                        new
-                        {
-                            MekanikerId = 3,
-                            MærkeId = 9
-                        },
-                        new
-                        {
-                            MekanikerId = 3,
-                            MærkeId = 10
-                        },
-                        new
-                        {
-                            MekanikerId = 4,
-                            MærkeId = 1
-                        },
-                        new
-                        {
-                            MekanikerId = 4,
-                            MærkeId = 4
-                        },
-                        new
-                        {
-                            MekanikerId = 4,
-                            MærkeId = 5
-                        },
-                        new
-                        {
-                            MekanikerId = 4,
-                            MærkeId = 3
-                        },
-                        new
-                        {
-                            MekanikerId = 4,
-                            MærkeId = 6
-                        },
-                        new
-                        {
-                            MekanikerId = 4,
-                            MærkeId = 7
-                        },
-                        new
-                        {
-                            MekanikerId = 4,
-                            MærkeId = 9
-                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.KundeScooter", b =>
@@ -706,13 +602,13 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", null)
                         .WithMany()
-                        .HasForeignKey("MekanikerId")
+                        .HasForeignKey("MekanikereMekanikerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", null)
                         .WithMany()
-                        .HasForeignKey("MærkeId")
+                        .HasForeignKey("MærkerMærkeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
