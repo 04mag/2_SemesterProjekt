@@ -30,7 +30,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         {
             try
             {
-                return _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).ToList();
+                 return _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).Where(m => m.ErAktiv == true).ToList();
             }
             catch
             {
