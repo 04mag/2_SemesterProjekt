@@ -1,0 +1,13 @@
+﻿<div class="row p-3 mb-3 border border-primary rounded">
+    <div class="col-md-4">
+        <p>@Mekaniker.Navn</p>
+    </div>
+    <div class="col-md-8">
+        <ul>
+            @foreach (var mærke in Mekaniker.Mærker)
+            {
+                <li>@mærke.ScooterMærke</li>
+            }
+        </ul>
+    </div>
+</div>
