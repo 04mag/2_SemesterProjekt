@@ -20,7 +20,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [EmailAddress(ErrorMessage = "Ugyldig Email.")]
         public string Email { get; set; }
         public Mekaniker? TilknyttetMekaniker { get; set; }
-        public List<KundeScooter>? Scootere { get; set; }
+        public List<KundeScooter> Scootere { get; set; } = new List<KundeScooter>();
         public List<Ordre>? Ordrer { get; set; }
     }
 }

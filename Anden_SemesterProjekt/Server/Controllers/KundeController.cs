@@ -2,6 +2,7 @@
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.FileProviders;
 using System.Net;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
@@ -18,15 +19,33 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet]
-        public List<Kunde>? GetKunder()
+        public IActionResult GetKunder()
         {
-            return _kundeService.ReadKunder();
+            var kunder = _kundeService.ReadKunder();
+
+            if (kunder == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(kunder);
+            }
         }
 
         [HttpGet("{tlfnummer}/{mærke}")]
-        public List<Kunde>? GetKunder(string tlfnummer, string mærke)
+        public IActionResult GetKunder(string tlfnummer, string mærke)
         {
-            return _kundeService.ReadKunder(tlfnummer, mærke);
+            var kunder = _kundeService.ReadKunder(tlfnummer, mærke);
+
+            if (kunder == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(kunder);
+            }
         }
 
         [HttpGet("{id}")]
@@ -51,7 +70,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
 
             if (id == -1)
             {
-                return new StatusCodeResult((int)HttpStatusCode.Conflict);
+                return Conflict();
             }
             else
             {
@@ -66,11 +85,11 @@ namespace Anden_SemesterProjekt.Server.Controllers
 
             if (updated)
             {
-                return new StatusCodeResult((int)HttpStatusCode.OK);
+                return Ok();
             }
             else
             {
-                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+                return NotFound();
             }
         }
 
@@ -81,11 +100,11 @@ namespace Anden_SemesterProjekt.Server.Controllers
             
             if (deleted)
             {
-                return new StatusCodeResult((int)HttpStatusCode.OK);
+                return Ok();
             }
             else
             {
-                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+                return NotFound();
             }
         }
     }

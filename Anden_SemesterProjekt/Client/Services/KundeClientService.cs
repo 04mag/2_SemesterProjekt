@@ -23,22 +23,52 @@ namespace Anden_SemesterProjekt.Client.Services
 
         public async Task<Kunde?> GetKunde(int id)
         {
-            return await _httpClient.GetFromJsonAsync<Kunde>($"api/kunder/{id}");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<Kunde>($"api/kunder/{id}");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<Kunde>?> GetKunder()
         {
-            return await _httpClient.GetFromJsonAsync<List<Kunde>>("api/kunder");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<Kunde>>("api/kunder");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<Kunde>?> GetKunder(string tlfnummer, string mærke)
         {
-            return await _httpClient.GetFromJsonAsync<List<Kunde>>($"api/kunder/{tlfnummer}/{mærke}");  
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<Kunde>>($"api/kunder/{tlfnummer}/{mærke}");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        public async Task<int> PostKunde(Kunde kunde)
+        public async Task<Kunde?> PostKunde(Kunde kunde)
         {
-            return await _httpClient.PostAsJsonAsync("api/kunder", kunde).Result.Content.ReadFromJsonAsync<int>();
+            var response = await _httpClient.PostAsJsonAsync("api/kunder", kunde);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<Kunde>();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<int> PutKunde(Kunde kunde)

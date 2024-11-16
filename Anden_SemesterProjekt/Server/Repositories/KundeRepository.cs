@@ -83,13 +83,22 @@ namespace Anden_SemesterProjekt.Server.Repositories
         {
             try
             {
-                return _context.Kunder
+                var result = _context.Kunder
+                    .Include(k => k.Scootere).ThenInclude(s => s.Mærke)
                     .Include(k => k.TlfNumre)
-                    .Include(k => k.Adresse).ThenInclude(a => a.By)
                     .Include(k => k.TilknyttetMekaniker)
-                    .Include(k => k.Scootere).ThenInclude(m => m.Mærke)
                     .Include(k => k.Ordrer)
+                    .Include(k => k.Adresse).ThenInclude(a => a.By)
                     .ToList();
+
+                if (result.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return result;
+                }
             }
             catch
             {
@@ -107,7 +116,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         {
             try
             {
-                return _context.Kunder
+                var result = _context.Kunder
                     .Include(k => k.TlfNumre)
                     .Include(k => k.Adresse).ThenInclude(a => a.By)
                     .Include(k => k.TilknyttetMekaniker)
@@ -116,6 +125,15 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Where(k => k.TlfNumre.Any(t => t.TelefonNummer.Contains(tlfNummer, StringComparison.OrdinalIgnoreCase)))
                     .Where(k => k.Scootere.Any(s => s.Mærke.ScooterMærke.Contains(mærke, StringComparison.OrdinalIgnoreCase)))
                     .ToList();
+
+                if (result.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    return result;
+                }
             }
             catch
             {
