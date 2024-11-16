@@ -1,12 +1,11 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
 @using Anden_SemesterProjekt.Client.Services
 @inject HttpClient Http
-@inject IMærkeClientService MærkeService
 
 @page "/Scooterlager"
-<h3>ScooterLager</h3>
+<h1>ScooterLager</h1>
 
-<h1>Tilføj ny scooter</h1>
+<h3>Tilføj ny scooter</h3>
 <EditForm Model="nyUdlejningsScooter" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -14,7 +13,7 @@
    
 
     <div>
-        <label for="adresse">Adresse:</label>
+        <label for="mærke">Mærke:</label>
         <select @bind="valgtMærkeId"> 
         <option value =""> Vælg et mærke...</option>
         @foreach (var mærke in mærker)
@@ -29,6 +28,3 @@
     <button type="submit" class="btn btn-primary">Tilføj scooter</button>
 </EditForm>
 
-@code {
-
-}
