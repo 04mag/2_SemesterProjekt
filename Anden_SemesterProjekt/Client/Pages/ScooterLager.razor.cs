@@ -16,34 +16,63 @@ namespace Anden_SemesterProjekt.Client.Pages
         private int? valgtMærkeId;
         [Inject]
         public IMærkeClientService MærkeService { get; set; }
+        [Inject]
+        public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
         protected override async Task OnInitializedAsync()
         {
             mærker = await MærkeService.GetMærker();
         }
+
+        private void UpdateMærke()
+        {
+            // Find mærket baseret på valgtMærkeId
+            var valgtMærke = mærker.FirstOrDefault(m => m.MærkeId == valgtMærkeId);
+
+            if (valgtMærke != null)
+            {
+                // Tildel det fundne mærke til nyUdlejningsScooter.Mærke
+                nyUdlejningsScooter.Mærke = valgtMærke;
+            }
+            else
+            {
+                // Hvis intet mærke blev fundet, kan vi sætte Mærke til null eller en tom værdi
+                nyUdlejningsScooter.Mærke = null;
+            }
+        }
         private async Task HandleValidSubmit()
         {
-            try
+            successMessage = "Kunde oprettet med succes!";
+            errorMessage = null;
+            Console.WriteLine(successMessage);
+            nyUdlejningsScooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == valgtMærkeId);
+            nyUdlejningsScooter.ErAktiv= true;
+            nyUdlejningsScooter.ErTilgængelig = true;
+            nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
+            nyUdlejningsScooter.Mærke.Mekanikere = null;
+            nyUdlejningsScooter.Mærke.Scootere = null;
+
+            if (nyUdlejningsScooter.Mærke != null)
             {
-                var response = await Http.PostAsJsonAsync("api/scootere", nyUdlejningsScooter);
-                if (response.IsSuccessStatusCode)
-                {
-                    successMessage = "Kunde oprettet med succes!";
-                    errorMessage = null;
-                    nyUdlejningsScooter = new UdlejningsScooter
-                    {
-                    };
+                var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
+                if (response != -1)
+                { 
+                    Console.WriteLine("Scooter added successfully");
                 }
                 else
                 {
-                    successMessage = null;
-                    errorMessage = "Kunne ikke oprette kunden.";
+                    Console.WriteLine("There was an error adding the scooter");
                 }
             }
-            catch (Exception ex)
+            else
             {
-                successMessage = null;
-                errorMessage = $"Fejl: {ex.Message}";
+                Console.WriteLine("Mærke er ikke valgt");
             }
+        }
+
+        private async Task ButtonClickHandler()
+        {
+            await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
+
         }
 
     }

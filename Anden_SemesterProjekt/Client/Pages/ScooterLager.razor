@@ -14,7 +14,7 @@
 
     <div>
         <label for="mærke">Mærke:</label>
-        <select @bind="valgtMærkeId"> 
+        <select @bind="valgtMærkeId">
         <option value =""> Vælg et mærke...</option>
         @foreach (var mærke in mærker)
             {
@@ -22,9 +22,9 @@
             }
         </select>
         <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
-        <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreiringsnummer" class="form-control" placeholder="Registreringsnummer" />
+        <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Tilføj scooter</button>
+    <button type="submit">Tilføj scooter</button>
 </EditForm>
 

@@ -1,11 +1,17 @@
 ﻿using Anden_SemesterProjekt.Server.Context;
 using Anden_SemesterProjekt.Shared.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Anden_SemesterProjekt.Server.Repositories
 {
     public class MærkeRepository : IMærkeRepository
     {
         private readonly SLContext _context;
+
+        public MærkeRepository()
+        {
+            _context = new SLContext();
+        }
         public Mærke? ReadMærke(int id)
         {
             return _context.Mærker.Find(id);
@@ -13,7 +19,16 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public List<Mærke>? ReadMærke()
         {
-            return _context.Mærker.ToList();
+            try
+            {
+                return _context.Mærker.ToList();
+            }
+            catch (Exception ex)
+            {
+                // Log fejlen, f.eks. med en logging-framework
+                Console.WriteLine($"Fejl ved læsning af mærker: {ex.Message}");
+                return null;
+            }
         }
 
         public int CreateMærke(Mærke mærke)

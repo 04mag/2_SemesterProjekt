@@ -9,8 +9,8 @@ namespace Anden_SemesterProjekt.Shared.Models
     public abstract class Scooter
     {
         public int ScooterId { get; set; }
-        public string? Stelnummer { get; set; }
-        public string? Registreiringsnummer { get; set; }
+        public string Stelnummer { get; set; }
+        public string? Registreringsnummer { get; set; }
         public Mærke? Mærke { get; set; }
     }
 }

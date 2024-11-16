@@ -6,6 +6,11 @@ namespace Anden_SemesterProjekt.Server.Repositories
     public class UdlejningsScooterRepository : IUdlejningsScooterRepository
     {
         private readonly SLContext _context;
+
+        public UdlejningsScooterRepository()
+        {
+            _context = new SLContext();
+        }
         public UdlejningsScooter? ReadUdlejningsScooter(int id)
         {
          return  _context.Scootere.OfType<UdlejningsScooter>().FirstOrDefault(s => s.ScooterId == id);

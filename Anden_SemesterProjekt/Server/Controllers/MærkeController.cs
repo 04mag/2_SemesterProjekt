@@ -10,6 +10,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
     public class MærkeController : ControllerBase
     {
         private readonly IMærkeService _mærkeService;
+        public List<Mærke> mærker;
 
         public MærkeController(IMærkeService mærkeService)
         {
@@ -19,7 +20,8 @@ namespace Anden_SemesterProjekt.Server.Controllers
         [HttpGet]
         public List<Mærke>? Get()
         {
-            return _mærkeService.ReadMærke();
+            mærker = _mærkeService.ReadMærke();
+            return mærker;
         }
 
         [HttpGet("{id}")]
