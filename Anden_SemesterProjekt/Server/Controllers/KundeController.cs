@@ -2,6 +2,8 @@
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Anden_SemesterProjekt.Server.Controllers
 {
@@ -40,15 +42,33 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPut]
-        public bool PutKunde(Kunde kunde)
+        public StatusCodeResult PutKunde(Kunde kunde)
         {
-            return _kundeService.UpdateKunde(kunde);
+            bool updated = _kundeService.UpdateKunde(kunde);
+
+            if (updated)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.OK);
+            }
+            else
+            {
+                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+            }
         }
 
         [HttpDelete("{id}")]
-        public bool DeleteKunde(int id)
+        public StatusCodeResult DeleteKunde(int id)
         {
-            return _kundeService.DeleteKunde(id);
+            bool deleted = _kundeService.DeleteKunde(id);
+            
+            if (deleted)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.OK);
+            }
+            else
+            {
+                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+            }
         }
     }
 }
