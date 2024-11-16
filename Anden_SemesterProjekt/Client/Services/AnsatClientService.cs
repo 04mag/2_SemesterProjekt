@@ -13,15 +13,30 @@ namespace Anden_SemesterProjekt.Client.Services
 
         public async Task<Mekaniker?> GetMekaniker(int id)
         {
-            var result = await _httpClient.GetFromJsonAsync<Mekaniker>($"api/ansat/{id}");
-            return result;
+            try
+            {
+                var result = await _httpClient.GetFromJsonAsync<Mekaniker>($"api/mekaniker/{id}");
+
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<Mekaniker>?> GetMekanikere()
         {
-            var result = await _httpClient.GetFromJsonAsync<List<Mekaniker>>("api/ansat");
+            try
+            {
+                var result = await _httpClient.GetFromJsonAsync<List<Mekaniker>>("api/mekaniker");
 
-            return result;
+                return result;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
