@@ -18,6 +18,21 @@ namespace Anden_SemesterProjekt.Server.Controllers
             _kundeService = kundeService;
         }
 
+        [HttpGet("by/{postnummer}")]
+        public IActionResult GetBy(int postnummer)
+        {
+            var by = _kundeService.GetBy(postnummer);
+
+            if (by == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(by);
+            }
+        }
+
         [HttpGet]
         public IActionResult GetKunder()
         {

@@ -12,6 +12,18 @@ namespace Anden_SemesterProjekt.Client.Services
             _httpClient = httpClient;
         }
 
+        public async Task<By?> GetBy(int postnummer)
+        {
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<By>($"api/kunder/by/{postnummer}");
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<int> DeleteKunde(int id)
         {
             var response = await _httpClient.DeleteAsync($"api/kunder/{id}");
