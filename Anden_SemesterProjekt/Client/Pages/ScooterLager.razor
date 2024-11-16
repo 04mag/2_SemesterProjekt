@@ -1,5 +1,8 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
+@using Anden_SemesterProjekt.Client.Services
 @inject HttpClient Http
+@inject IMærkeClientService MærkeService
+
 @page "/Scooterlager"
 <h3>ScooterLager</h3>
 
@@ -12,6 +15,13 @@
 
     <div>
         <label for="adresse">Adresse:</label>
+        <select @bind="valgtMærkeId"> 
+        <option value =""> Vælg et mærke...</option>
+        @foreach (var mærke in mærker)
+            {
+                <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
+            }
+        </select>
         <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
         <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreiringsnummer" class="form-control" placeholder="Registreringsnummer" />
     </div>

@@ -1,5 +1,7 @@
 ﻿using Anden_SemesterProjekt.Shared.Models;
 using System.Net.Http.Json;
+using Anden_SemesterProjekt.Client.Services;
+
 
 namespace Anden_SemesterProjekt.Client.Pages
 {
@@ -9,7 +11,13 @@ namespace Anden_SemesterProjekt.Client.Pages
         private string? newPhone;
         private string? successMessage;
         private string? errorMessage;
+        private List<Mærke> mærker = new List<Mærke>();
+        private int? valgtMærkeId;
 
+        protected override async Task OnInitializedAsync()
+        {
+            mærker = await MærkeClientService.GetMærker();
+        }
         private async Task HandleValidSubmit()
         {
             try

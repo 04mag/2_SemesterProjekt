@@ -12,7 +12,7 @@ namespace Anden_SemesterProjekt.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Mærke?> GetUdlejningsScooter(int id)
+        public async Task<Mærke?> GetMærker(int id)
         {
             return await _httpClient.GetFromJsonAsync<Mærke>($"api/Mærke/{id}");
         }

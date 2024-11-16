@@ -4,7 +4,7 @@ namespace Anden_SemesterProjekt.Client.Services
 {
     public interface IMærkeClientService
     {
-        public Task<Mærke?> GetUdlejningsScooter(int id);
+        public Task<Mærke?> GetMærker(int id);
         public Task<List<Mærke>?> GetMærke();
         public Task<int> AddMærke(Mærke mærke); 
         public Task<int> DeleteMærke(int id); 
