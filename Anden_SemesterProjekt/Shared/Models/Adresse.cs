@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public string? Side { get; set; }
         [StringLength(5, MinimumLength = 1, ErrorMessage = "Dørnummer skal være mellem 1 og 5 karaktere langt!")]
         public string? Dørnummer { get; set; }
-        public string Postnummer { get; set; }
+        public int Postnummer { get; set; }
         public By By { get; set; }
         public int KundeId { get; set; }
         public Kunde Kunde { get; set; }
