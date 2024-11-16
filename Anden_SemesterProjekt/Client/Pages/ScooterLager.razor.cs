@@ -1,6 +1,7 @@
 ﻿using Anden_SemesterProjekt.Shared.Models;
 using System.Net.Http.Json;
 using Anden_SemesterProjekt.Client.Services;
+using Microsoft.AspNetCore.Components;
 
 
 namespace Anden_SemesterProjekt.Client.Pages
@@ -19,7 +20,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            mærker = await MærkeClientService.GetMærker();
+            mærker = await MærkeService.GetMærker();
         }
 
         private void UpdateMærke()
@@ -48,24 +49,14 @@ namespace Anden_SemesterProjekt.Client.Pages
             nyUdlejningsScooter.ErTilgængelig = true;
             nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
             nyUdlejningsScooter.Mærke.Mekanikere = null;
-            nyUdlejningsScooter.Mærke.Scootere = null;
 
-            if (nyUdlejningsScooter.Mærke != null)
-            {
-                var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
-                if (response != -1)
-                { 
-                    Console.WriteLine("Scooter added successfully");
-                }
-                else
-                {
-                    Console.WriteLine("There was an error adding the scooter");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Mærke er ikke valgt");
-            }
+            var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
+                
+              
+              
+          
+               
+            
         }
 
         private async Task ButtonClickHandler()
