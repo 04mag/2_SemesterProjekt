@@ -12,12 +12,12 @@ namespace Anden_SemesterProjekt.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<Mærke?> GetMærker(int id)
+        public async Task<Mærke?> GetMærke(int id)
         {
             return await _httpClient.GetFromJsonAsync<Mærke>($"api/Mærke/{id}");
         }
 
-        public async Task<List<Mærke>?> GetMærke()
+        public async Task<List<Mærke>?> GetMærker()
         {
             return await _httpClient.GetFromJsonAsync<List<Mærke>>("api/Mærke");
         }
