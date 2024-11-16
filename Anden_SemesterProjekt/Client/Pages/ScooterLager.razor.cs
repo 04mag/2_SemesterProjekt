@@ -13,7 +13,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         private string? successMessage;
         private string? errorMessage;
         private List<Mærke> mærker = new List<Mærke>();
-        private int? valgtMærkeId;
+        private int? valgtScooterMærkeId;
         [Inject]
         public IMærkeClientService MærkeService { get; set; }
         [Inject]
@@ -23,48 +23,17 @@ namespace Anden_SemesterProjekt.Client.Pages
             mærker = await MærkeService.GetMærker();
         }
 
-        private void UpdateMærke()
-        {
-            // Find mærket baseret på valgtMærkeId
-            var valgtMærke = mærker.FirstOrDefault(m => m.MærkeId == valgtMærkeId);
-
-            if (valgtMærke != null)
-            {
-                // Tildel det fundne mærke til nyUdlejningsScooter.Mærke
-                nyUdlejningsScooter.Mærke = valgtMærke;
-            }
-            else
-            {
-                // Hvis intet mærke blev fundet, kan vi sætte Mærke til null eller en tom værdi
-                nyUdlejningsScooter.Mærke = null;
-            }
-        }
         private async Task HandleValidSubmit()
         {
             successMessage = "Kunde oprettet med succes!";
             errorMessage = null;
             Console.WriteLine(successMessage);
-            nyUdlejningsScooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == valgtMærkeId);
+            nyUdlejningsScooter.ScooterMærke = mærker.FirstOrDefault(m => m.MærkeId == valgtScooterMærkeId); // Tildeler ScooterMærke til den valgte mærke, som er valgt i dropdown menuen baseret på mærkeId
             nyUdlejningsScooter.ErAktiv= true;
             nyUdlejningsScooter.ErTilgængelig = true;
             nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
-            nyUdlejningsScooter.Mærke.Mekanikere = null;
-
             var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
-                
-              
-              
-          
-               
-            
         }
-
-        private async Task ButtonClickHandler()
-        {
-            await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
-
-        }
-
     }
 
 

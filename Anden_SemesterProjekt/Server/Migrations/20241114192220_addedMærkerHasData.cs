@@ -14,7 +14,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
         {
             migrationBuilder.InsertData(
                 table: "Mærker",
-                columns: new[] { "MærkeId", "Mærke" },
+                columns: new[] { "MærkeId", "ScooterMærke" },
                 values: new object[,]
                 {
                     { 1, "Aprilla" },

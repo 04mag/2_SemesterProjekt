@@ -20,10 +20,10 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             migrationBuilder.DropPrimaryKey(
                 name: "PK_Mærke",
-                table: "Mærke");
+                table: "ScooterMærke");
 
             migrationBuilder.RenameTable(
-                name: "Mærke",
+                name: "ScooterMærke",
                 newName: "Mærker");
 
             migrationBuilder.AlterColumn<string>(
@@ -74,7 +74,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             migrationBuilder.RenameTable(
                 name: "Mærker",
-                newName: "Mærke");
+                newName: "ScooterMærke");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Navn",
@@ -87,14 +87,14 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Mærke",
-                table: "Mærke",
+                table: "ScooterMærke",
                 column: "MærkeId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_MekanikerMærke_Mærke_MærkerMærkeId",
                 table: "MekanikerMærke",
                 column: "MærkerMærkeId",
-                principalTable: "Mærke",
+                principalTable: "ScooterMærke",
                 principalColumn: "MærkeId",
                 onDelete: ReferentialAction.Cascade);
 
@@ -102,7 +102,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 name: "FK_Scootere_Mærke_MærkeId",
                 table: "Scootere",
                 column: "MærkeId",
-                principalTable: "Mærke",
+                principalTable: "ScooterMærke",
                 principalColumn: "MærkeId",
                 onDelete: ReferentialAction.Cascade);
         }

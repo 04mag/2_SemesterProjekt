@@ -283,11 +283,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScooterId"));
 
-                    b.Property<int?>("MærkeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Registreringsnummer")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ScooterMærkeMærkeId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Stelnummer")
                         .IsRequired()
@@ -295,7 +295,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("ScooterId");
 
-                    b.HasIndex("MærkeId");
+                    b.HasIndex("ScooterMærkeMærkeId");
 
                     b.ToTable("Scootere");
 
@@ -644,11 +644,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "Mærke")
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "ScooterMærke")
                         .WithMany("Scootere")
-                        .HasForeignKey("MærkeId");
+                        .HasForeignKey("ScooterMærkeMærkeId");
 
-                    b.Navigation("Mærke");
+                    b.Navigation("ScooterMærke");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.TlfNummer", b =>

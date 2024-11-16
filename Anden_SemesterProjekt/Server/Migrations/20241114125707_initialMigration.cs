@@ -38,7 +38,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Mærke",
+                name: "ScooterMærke",
                 columns: table => new
                 {
                     MærkeId = table.Column<int>(type: "int", nullable: false)
@@ -105,7 +105,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     table.ForeignKey(
                         name: "FK_MekanikerMærke_Mærke_MærkerMærkeId",
                         column: x => x.MærkerMærkeId,
-                        principalTable: "Mærke",
+                        principalTable: "ScooterMærke",
                         principalColumn: "MærkeId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -126,7 +126,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     table.ForeignKey(
                         name: "FK_Scootere_Mærke_MærkeId",
                         column: x => x.MærkeId,
-                        principalTable: "Mærke",
+                        principalTable: "ScooterMærke",
                         principalColumn: "MærkeId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -474,7 +474,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 name: "Mekanikere");
 
             migrationBuilder.DropTable(
-                name: "Mærke");
+                name: "ScooterMærke");
         }
     }
 }
