@@ -14,7 +14,9 @@ namespace Anden_SemesterProjekt.Shared.Models
         [Required]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Navn skal være mellem 2 og 50 karaktere langt.")]
         public string Navn { get; set; }
+        [Required]
         public Adresse Adresse { get; set; }
+        [Required]
         public List<TlfNummer> TlfNumre { get; set; }
         [Required]
         [EmailAddress(ErrorMessage = "Ugyldig Email.")]
