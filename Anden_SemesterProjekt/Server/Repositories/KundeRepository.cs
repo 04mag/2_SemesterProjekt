@@ -62,7 +62,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns>Retunerer By Object fra postnummer. Null hvis ikke fundet.</returns>
         public By? GetBy(int postnummer)
         {
-            return _context.Byer.Find(postnummer);
+            return _context.By.Find(postnummer);
         }
 
         /// <summary>
