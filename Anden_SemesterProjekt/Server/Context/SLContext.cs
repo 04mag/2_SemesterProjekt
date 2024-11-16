@@ -8,7 +8,7 @@ namespace Anden_SemesterProjekt.Server.Context
         public DbSet<Kunde> Kunder { get; set; }
         public DbSet<TlfNummer> TlfNumre { get; set; }
         public DbSet<Adresse> Adresser { get; set; }
-        public DbSet<By> Byer { get; set; }
+        public DbSet<By> By { get; set; }
         public DbSet<Mekaniker> Mekanikere { get; set; }
         public DbSet<Scooter> Scootere { get; set; }
         public DbSet<Mærke> Mærker { get; set; }
