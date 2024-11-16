@@ -21,7 +21,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
             editContext = new EditContext(kundeModel);
         }
 
-        private async void HandleValidSubmit()
+        private async Task HandleValidSubmit()
         {
             isSubmitting = true;
 
@@ -33,14 +33,23 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
             }
             else
             {
-
+                postnummerErrorMessage = "";
             }
             isSubmitting = false;
         }
 
-        private void HandleInvalidSubmit()
+        private async Task HandleInvalidSubmit()
         {
-            Console.WriteLine("Form not submitted");
+            By by = await KundeService.GetBy(kundeModel.Adresse.Postnummer);
+
+            if (by == null)
+            {
+                postnummerErrorMessage = "Postnummeret findes ikke";
+            }
+            else
+            {
+                postnummerErrorMessage = "";
+            }
         }
 
         private async Task<string> GetBynavn()
@@ -49,7 +58,6 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
             if (result == null)
             {
-                postnummerErrorMessage = "Postnummeret findes ikke";
                 return "";
             }
             else
