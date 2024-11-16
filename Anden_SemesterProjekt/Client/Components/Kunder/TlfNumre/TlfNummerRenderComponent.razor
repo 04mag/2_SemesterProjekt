@@ -1,0 +1,15 @@
+﻿@using Anden_SemesterProjekt.Shared.Models
+
+<span>+45 @TlfNummer.TelefonNummer</span>
+@if (OnDelete.HasDelegate)
+{
+    <button class="btn btn-danger" @onclick="() => OnDelete.InvokeAsync(TlfNummer)">Slet</button>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public TlfNummer TlfNummer { get; set; }
+
+    [Parameter]
+    public EventCallback<TlfNummer> OnDelete { get; set; }
+}
