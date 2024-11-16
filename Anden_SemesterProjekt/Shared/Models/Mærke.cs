@@ -12,14 +12,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int MærkeId { get; set; }
         public string ScooterMærke { get; set; }
         [JsonIgnore]
-        public List <Scooter?> Scootere { get; set; }
-        [JsonIgnore]
-        public List<Mekaniker?> Mekanikere { get; set; }
-
-        public Mærke()
-        {
-            Scootere = new List<Scooter?>();
-            Mekanikere = new List<Mekaniker?>();
-        }
+        public List<Mekaniker> Mekanikere { get; set; }
     }
 }

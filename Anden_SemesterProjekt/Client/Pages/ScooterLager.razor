@@ -1,11 +1,12 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
 @using Anden_SemesterProjekt.Client.Services
 @inject HttpClient Http
+@inject IMærkeClientService MærkeService
 
 @page "/Scooterlager"
-<h1>ScooterLager</h1>
+<h3>ScooterLager</h3>
 
-<h3>Tilføj ny scooter</h3>
+<h1>Tilføj ny scooter</h1>
 <EditForm Model="nyUdlejningsScooter" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
@@ -28,3 +29,6 @@
     <button type="submit">Tilføj scooter</button>
 </EditForm>
 
+@code {
+
+}
