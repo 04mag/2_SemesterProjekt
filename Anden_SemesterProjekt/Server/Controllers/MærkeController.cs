@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Anden_SemesterProjekt.Server.Controllers
 {
-    [Route("api/ansat")]
+    [Route("api/mærke")]
     [ApiController]
     public class MærkeController : ControllerBase
     {
