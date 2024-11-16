@@ -13,12 +13,12 @@ namespace Anden_SemesterProjekt.Client.Services
         }
         public async Task<UdlejningsScooter?> GetUdlejningsScooter(int id)
         {
-            UdlejningsScooter result = await _httpClient.GetFromJsonAsync<UdlejningsScooter>($"api/udlejningsScooter/{id}");
+            UdlejningsScooter? result = await _httpClient.GetFromJsonAsync<UdlejningsScooter>($"api/udlejningsScooter/{id}");
             return result;
         }
         public async Task<List<UdlejningsScooter>?> GetUdlejningsScootere()
         {
-            List<UdlejningsScooter> result = await _httpClient.GetFromJsonAsync<List<UdlejningsScooter>>("api/udlejningsScooter");
+            List<UdlejningsScooter>? result = await _httpClient.GetFromJsonAsync<List<UdlejningsScooter>>("api/udlejningsScooter");
             return result;
         }
         public Task<int> AddUdlejningsScooter(UdlejningsScooter udlejningsScooter) // Tilføjer et udlejningsScooter og returnerer et int

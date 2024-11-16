@@ -1,0 +1,25 @@
+﻿
+@inject HttpClient Http
+@page "/Scooterlager"
+<h3>ScooterLager</h3>
+
+<h1>Tilføj ny scooter</h1>
+<EditForm Model="" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+   
+
+    <div>
+        <label for="adresse">Adresse:</label>
+    @*     <InputText id="mærke" @bind-Value="nyUdlejningsScooter.Mærke" class="form-control" placeholder="Mærke" /> *@
+        <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
+        <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreiringsnummer" class="form-control" placeholder="Registreringsnummer" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Tilføj scooter</button>
+</EditForm>
+
+@code {
+
+}
