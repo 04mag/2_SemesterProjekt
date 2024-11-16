@@ -2,10 +2,50 @@
     <div class="mb-3">
         <h3>Opret ny kunde</h3>
     </div>
-    <div class="col-md-6 mb-3">
+
+    <div class="col-12 mb-3">
         <label for="Navn" class="form-label">Navn</label>
         <InputText id="Navn" class="form-control" @bind-Value="kundeModel.Navn" />
         <ValidationMessage For="@(() => kundeModel.Navn)" />
      </div>
 
+     <div class="col-md-6 mb-3">
+         <label for="Vej" class="form-label">Vej</label>
+         <InputText id="Vej" class="form-control" @bind-Value="kundeModel.Adresse.Gadenavn"/>
+         <ValidationMessage For="@(() => kundeModel.Adresse.Gadenavn)" />
+     </div>
+    <div class="col-md-2 mb-3">
+        <label for="Husnummer" class="form-label">Husnummer</label>
+        <InputText id="Husnummer" class="form-control" @bind-Value="kundeModel.Adresse.Husnummer" />
+        <ValidationMessage For="@(() => kundeModel.Adresse.Husnummer)" />
+    </div>
+    <div class="col-md-2 mb-3">
+        <label for="Etage" class="form-label">Etage</label>
+        <InputText id="Etage" class="form-control" @bind-Value="kundeModel.Adresse.Etage" />
+        <ValidationMessage For="@(() => kundeModel.Adresse.Etage)" />
+    </div>
+    <div class="col-md-2 mb-3">
+        <label for="Side" class="form-label">Side</label>
+        <InputText id="Side" class="form-control" @bind-Value="kundeModel.Adresse.Side" />
+        <ValidationMessage For="@(() => kundeModel.Adresse.Side)" />
+    </div>
+    <div class="col-md-2 mb-3">
+        <label for="Dør" class="form-label">Dør</label>
+        <InputText id="Dør" class="form-control" @bind-Value="kundeModel.Adresse.Dørnummer" />
+        <ValidationMessage For="@(() => kundeModel.Adresse.Dørnummer)" />
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Postnummer" class="form-label">Postnummer</label>
+        <InputNumber id="Postnummer" class="form-control" @bind-Value="kundeModel.Adresse.Postnummer" @onchange="PostnummerChanged" />
+        <label class="alert-danger">@postnummerErrorMessage</label>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="By" class="form-label">By</label>
+        <input id="By" class="form-control" value="@byNavn" disabled="disabled" />
+    </div>
+
+    <div class="col-12 mb-3">
+        <button disabled="@isSubmitting" type="submit" class="btn btn-primary">Submit</button>
+    </div>
+    <DataAnnotationsValidator />
 </EditForm>
