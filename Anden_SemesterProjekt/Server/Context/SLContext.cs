@@ -29,10 +29,7 @@ namespace Anden_SemesterProjekt.Server.Context
             modelBuilder.Entity<Vare>().ToTable("Varer");
             modelBuilder.Entity<Ydelse>().ToTable("Ydelser");
 
-            modelBuilder.Entity<Scooter>().HasDiscriminator<string>("ScooterType") // Laver en discriminator på Scooter klassen, så vi kan skelne mellem KundeScooter og UdlejningsScooter
-                .HasValue<KundeScooter>("KundeScooter")
-                .HasValue<UdlejningsScooter>("UdlejningsScooter");
-
+           
             modelBuilder.Entity<Mærke>().HasData(
                 new Mærke { MærkeId = 1, ScooterMærke = "Aprilla" },
                 new Mærke { MærkeId = 2, ScooterMærke = "Derbi" },
