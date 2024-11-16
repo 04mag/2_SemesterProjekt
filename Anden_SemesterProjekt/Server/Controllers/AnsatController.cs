@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Anden_SemesterProjekt.Server.Controllers
 {
-    [Route("api/ansat")]
+    [Route("api/mekaniker")]
     [ApiController]
     public class AnsatController : ControllerBase
     {
@@ -17,15 +17,28 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet]
-        public List<Mekaniker>? Get()
+        public IActionResult Get()
         {
-            return _ansatService.ReadMekanikere();
+            var mekanikere = _ansatService.ReadMekanikere();
+
+            if (mekanikere == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(mekanikere);
         }
 
         [HttpGet("{id}")]
-        public Mekaniker? Get(int id)
+        public IActionResult Get(int id)
         {
-            return _ansatService.ReadMekaniker(id);
+            var mekaniker = _ansatService.ReadMekaniker(id);
+
+            if (mekaniker == null)
+            {
+                return NotFound();
+            }
+            return Ok(mekaniker);
         }
     }
 }

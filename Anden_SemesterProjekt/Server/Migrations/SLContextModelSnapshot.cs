@@ -69,7 +69,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("KundeId")
                         .IsUnique();
 
-                    b.ToTable("Adresser");
+                    b.ToTable("Adresser", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
@@ -83,7 +83,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("Postnummer");
 
-                    b.ToTable("By");
+                    b.ToTable("By", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
@@ -110,7 +110,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("TilknyttetMekanikerMekanikerId");
 
-                    b.ToTable("Kunder");
+                    b.ToTable("Kunder", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Mekaniker", b =>
@@ -131,7 +131,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("MekanikerId");
 
-                    b.ToTable("Mekanikere");
+                    b.ToTable("Mekanikere", (string)null);
 
                     b.HasData(
                         new
@@ -174,7 +174,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("MærkeId");
 
-                    b.ToTable("Mærker");
+                    b.ToTable("Mærker", (string)null);
 
                     b.HasData(
                         new
@@ -278,7 +278,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("UdlejningsScooterId");
 
-                    b.ToTable("Ordrer");
+                    b.ToTable("Ordrer", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
@@ -303,7 +303,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("MærkeId");
 
-                    b.ToTable("Scootere");
+                    b.ToTable("Scootere", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -327,7 +327,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("KundeId");
 
-                    b.ToTable("TlfNumre");
+                    b.ToTable("TlfNumre", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Udlejning", b =>
@@ -374,7 +374,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("UdlejningsScooterId");
 
-                    b.ToTable("Udlejninger");
+                    b.ToTable("Udlejninger", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Vare", b =>
@@ -431,7 +431,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("VareId");
 
-                    b.ToTable("VareLinjer");
+                    b.ToTable("VareLinjer", (string)null);
                 });
 
             modelBuilder.Entity("MekanikerMærke", b =>
@@ -446,7 +446,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("MærkeId");
 
-                    b.ToTable("MekanikerMærke");
+                    b.ToTable("MekanikerMærke", (string)null);
 
                     b.HasData(
                         new
