@@ -12,5 +12,15 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         {
             editContext = new EditContext(kundeModel);
         }
+
+        private void HandleValidSubmit()
+        {
+            Console.WriteLine("Form submitted");
+        }
+
+        private void HandleInvalidSubmit()
+        {
+            Console.WriteLine("Form not submitted");
+        }
     }
 }

@@ -1,1 +1,11 @@
-﻿
+﻿<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+    <div class="mb-3">
+        <h3>Opret ny kunde</h3>
+    </div>
+    <div class="col-md-6 mb-3">
+        <label for="Navn" class="form-label">Navn</label>
+        <InputText id="Navn" class="form-control" @bind-Value="kundeModel.Navn" />
+        <ValidationMessage For="@(() => kundeModel.Navn)" />
+     </div>
+
+</EditForm>
