@@ -12,16 +12,16 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int AdresseId { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 2, ErrorMessage = "Gadenavn skal være mellem 2 og 100 karaktere langt!")]
-        public string Gadenavn { get; set; }
+        public string Gadenavn { get; set; } = string.Empty;
         [Required]
-        [StringLength(5, MinimumLength = 2, ErrorMessage = "Husnummer skal være mellem 2 og 5 karaktere langt!")]
-        public string Husnummer { get; set; }
+        [StringLength(5, MinimumLength = 1, ErrorMessage = "Husnummer skal være mellem 1 og 5 karaktere langt!")]
+        public string Husnummer { get; set; } = string.Empty;
         [StringLength(3, MinimumLength = 1, ErrorMessage = "Etage skal være mellem 1 og 3 karaktere langt!")]
-        public string? Etage { get; set; }
-        [StringLength(1, MinimumLength = 1, ErrorMessage = "Side skal være 1 karakter langt!")]
-        public string? Side { get; set; }
+        public string? Etage { get; set; } = string.Empty;
+        [StringLength(2, MinimumLength = 1, ErrorMessage = "Side skal være mellem 1 og 2 karaktere langt!")]
+        public string? Side { get; set; } = string.Empty;
         [StringLength(5, MinimumLength = 1, ErrorMessage = "Dørnummer skal være mellem 1 og 5 karaktere langt!")]
-        public string? Dørnummer { get; set; }
+        public string? Dørnummer { get; set; } = string.Empty;
         [Required]
         public int Postnummer { get; set; }
         public By By { get; set; }
