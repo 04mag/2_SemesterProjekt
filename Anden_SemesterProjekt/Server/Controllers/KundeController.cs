@@ -30,15 +30,33 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public Kunde? GetKunde(int id)
+        public IActionResult GetKunde(int id)
         {
-            return _kundeService.ReadKunde(id);
+            var kunde = _kundeService.ReadKunde(id);
+
+            if (kunde == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(kunde);
+            }
         }
 
         [HttpPost]
-        public int PostKunde(Kunde kunde)
+        public IActionResult PostKunde(Kunde kunde)
         {
-            return _kundeService.CreateKunde(kunde);
+            int id = _kundeService.CreateKunde(kunde);
+
+            if (id == -1)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.Conflict);
+            }
+            else
+            {
+                return CreatedAtAction(nameof(GetKunde), new { id = id }, kunde);
+            }
         }
 
         [HttpPut]
