@@ -16,6 +16,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public string Navn { get; set; }
         public bool ErAktiv { get; set; } = true;
       [JsonIgnore]  public List<Mærke>? Mærker { get; set; }
-        public List<Ordre>? Ordrer { get; set; }
+      [JsonIgnore] public List<Ordre>? Ordrer { get; set; }
     }
 }

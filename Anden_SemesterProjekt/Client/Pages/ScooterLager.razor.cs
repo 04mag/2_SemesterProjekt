@@ -11,7 +11,6 @@ namespace Anden_SemesterProjekt.Client.Pages
     {
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
-        private string? newPhone;
         private string? successMessage;
         private string? errorMessage;
         private List<Mærke> mærker = new List<Mærke>();
@@ -48,7 +47,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                     throw new InvalidOperationException("Det valgte mærke blev ikke fundet.");
                 }
                 
-                nyUdlejningsScooter.Mærke = valgtScooterMærke;
+                // nyUdlejningsScooter.Mærke = valgtScooterMærke;
                
                 if (nyUdlejningsScooter.Mærke == null)
                 {

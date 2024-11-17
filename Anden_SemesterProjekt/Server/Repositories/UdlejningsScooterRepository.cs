@@ -15,7 +15,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<UdlejningsScooter?> ReadUdlejningsScooterAsync(int id)
         {
-            return await _context.Scootere.OfType<UdlejningsScooter>()
+            return await _context.Scootere.OfType<UdlejningsScooter>().Include(s=>s.Mærke)
                                           .FirstOrDefaultAsync(s => s.ScooterId == id);
         }
 
