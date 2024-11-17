@@ -54,7 +54,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 if (response != null && response.IsSuccessStatusCode)
                 {
                     successMessage = "Scooter oprettet med succes!";
-                    udlejningsScootere.Add(nyUdlejningsScooter);
+                    udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
                     HentMærker();
 
                     // Eller, opret en ny liste, der inkluderer den nye scooter
@@ -80,14 +80,13 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         private void HentMærker()
         {
-            foreach (var scooter in udlejningsScootere)
-            {
-                if (scooter.Mærke == null)
-                {
-                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
-                }
-            }
-
+            //foreach (var scooter in udlejningsScootere)
+            //{
+            //    if (scooter.Mærke == null)
+            //    {
+            //        scooter.Mærke =  mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
+            //    }
+            //}
         }
         private void OnScooterClick(UdlejningsScooter scooter)
         {
@@ -98,16 +97,19 @@ namespace Anden_SemesterProjekt.Client.Pages
             nyUdlejningsScooter = scooter;
             valgtScooterMærkeId = scooter.MærkeId;
             var response = await UdlejningsScooterService.UpdateUdlejningsScooter(nyUdlejningsScooter);
-            HentMærker();
-            StateHasChanged();
-
+            if (response.IsSuccessStatusCode)
+            {
+                udlejningsScootere.Add(scooter);
+                HentMærker();
+                StateHasChanged();
+            }
         }
         private async Task DeleteScooter(UdlejningsScooter scooter)
         {
             var response = await UdlejningsScooterService.DeleteUdlejningsScooter(scooter.ScooterId);
+                udlejningsScootere.Remove(scooter);
             if (response.IsSuccessStatusCode)
             {
-                udlejningsScootere.Remove(scooter);
                 HentMærker();
                 StateHasChanged();
             }
