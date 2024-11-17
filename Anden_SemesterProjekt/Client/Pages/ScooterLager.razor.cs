@@ -80,13 +80,13 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         private void HentMærker()
         {
-            //foreach (var scooter in udlejningsScootere)
-            //{
-            //    if (scooter.Mærke == null)
-            //    {
-            //        scooter.Mærke =  mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
-            //    }
-            //}
+            foreach (var scooter in udlejningsScootere)
+            {
+                if (scooter.Mærke == null)
+                {
+                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
+                }
+            }
         }
         private void OnScooterClick(UdlejningsScooter scooter)
         {
