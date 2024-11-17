@@ -36,7 +36,7 @@ namespace Anden_SemesterProjekt.Server.Services
         /// </summary>
         /// <param name="postnummer"></param>
         /// <returns>Retunerer By Object fra postnummer. Null hvis ikke fundet.</returns>
-        public By? GetBy(int postnummer)
+        public By? GetBy(string postnummer)
         {
             return _kundeRepository.GetBy(postnummer);
         }

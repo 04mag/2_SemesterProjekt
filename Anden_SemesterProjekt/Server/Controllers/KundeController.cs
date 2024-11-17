@@ -19,7 +19,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet("by/{postnummer}")]
-        public IActionResult GetBy(int postnummer)
+        public IActionResult GetBy(string postnummer)
         {
             var by = _kundeService.GetBy(postnummer);
 

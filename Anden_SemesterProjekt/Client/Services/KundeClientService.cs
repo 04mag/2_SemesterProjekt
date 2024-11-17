@@ -12,7 +12,7 @@ namespace Anden_SemesterProjekt.Client.Services
             _httpClient = httpClient;
         }
 
-        public async Task<By?> GetBy(int postnummer)
+        public async Task<By?> GetBy(string postnummer)
         {
             try
             {

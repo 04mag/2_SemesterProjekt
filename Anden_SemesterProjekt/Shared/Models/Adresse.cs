@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,7 +24,8 @@ namespace Anden_SemesterProjekt.Shared.Models
         [StringLength(5, MinimumLength = 1, ErrorMessage = "Dørnummer skal være mellem 1 og 5 karaktere langt!")]
         public string? Dørnummer { get; set; } = string.Empty;
         [Required]
-        public int Postnummer { get; set; }
+        [ForeignKey("By")]
+        public string Postnummer { get; set; }
         public By By { get; set; }
         public int KundeId { get; set; }
         public Kunde Kunde { get; set; }

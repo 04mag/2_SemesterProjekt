@@ -10,6 +10,6 @@ namespace Anden_SemesterProjekt.Client.Services
         Task<Kunde?> PostKunde(Kunde kunde);
         Task<int> PutKunde(Kunde kunde);
         Task<int> DeleteKunde(int id);
-        Task<By?> GetBy(int postnummer);
+        Task<By?> GetBy(string postnummer);
     }
 }

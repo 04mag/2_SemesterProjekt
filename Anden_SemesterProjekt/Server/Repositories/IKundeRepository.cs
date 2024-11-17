@@ -51,6 +51,6 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// </summary>
         /// <param name="postnummer"></param>
         /// <returns>Retunerer By Object fra postnummer. Null hvis ikke fundet.</returns>
-        public By? GetBy(int postnummer);
+        public By? GetBy(string postnummer);
     }
 }

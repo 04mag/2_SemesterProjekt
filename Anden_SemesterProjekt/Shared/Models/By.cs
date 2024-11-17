@@ -12,7 +12,7 @@ namespace Anden_SemesterProjekt.Shared.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Postnummer { get; set; }
+        public string Postnummer { get; set; }
         public string ByNavn { get; set; }
         public List<Adresse> Adresser { get; set; }
     }
