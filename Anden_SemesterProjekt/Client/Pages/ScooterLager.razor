@@ -18,14 +18,15 @@
     </tr>
     </thead>
     <tbody>
+
     @foreach (var scooter in udlejningsScootere)
     {
         <tr>
             <td>@scooter.Stelnummer</td>
             <td>@scooter.Registreringsnummer</td>
             <td>@scooter.Mærke?.ScooterMærke</td>
-                <td>@(scooter.ErTilgængelig ? "Til rådighed":"Udlejet")</td>
-            <td>@(scooter.ErAktiv ? "Ja":"Nej")</td> 
+            <td>@(scooter.ErTilgængelig ? "Til rådighed" : "Udlejet")</td>
+            <td>@(scooter.ErAktiv ? "Ja" : "Nej")</td>
         </tr>
     }
     </tbody>

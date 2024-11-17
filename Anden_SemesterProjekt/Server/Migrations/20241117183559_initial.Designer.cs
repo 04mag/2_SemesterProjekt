@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241116233611_ScooterMærkeIdAdded")]
-    partial class ScooterMærkeIdAdded
+    [Migration("20241117183559_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,47 +33,49 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"));
 
-                    b.Property<int>("ByPostnummer")
-                        .HasColumnType("int");
-
                     b.Property<string>("Dørnummer")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("Etage")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<string>("Gadenavn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Husnummer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<int>("KundeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Postnummer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Side")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.HasKey("AdresseId");
 
-                    b.HasIndex("ByPostnummer");
-
                     b.HasIndex("KundeId")
                         .IsUnique();
+
+                    b.HasIndex("Postnummer");
 
                     b.ToTable("Adresser");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
                 {
-                    b.Property<int>("Postnummer")
-                        .HasColumnType("int");
+                    b.Property<string>("Postnummer")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ByNavn")
                         .IsRequired()
@@ -98,9 +100,10 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Navn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("TilknyttetMekanikerMekanikerId")
+                    b.Property<int?>("TilknyttetMekanikerMekanikerId")
                         .HasColumnType("int");
 
                     b.HasKey("KundeId");
@@ -123,8 +126,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Navn")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MekanikerId");
 
@@ -590,15 +592,15 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
-                        .WithMany("Adresser")
-                        .HasForeignKey("ByPostnummer")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
                         .WithOne("Adresse")
                         .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Adresse", "KundeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
+                        .WithMany("Adresser")
+                        .HasForeignKey("Postnummer")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -611,9 +613,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
-                        .HasForeignKey("TilknyttetMekanikerMekanikerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TilknyttetMekanikerMekanikerId");
 
                     b.Navigation("TilknyttetMekaniker");
                 });
@@ -647,13 +647,13 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "ScooterMærke")
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "Mærke")
                         .WithMany("Scootere")
                         .HasForeignKey("MærkeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("ScooterMærke");
+                    b.Navigation("Mærke");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.TlfNummer", b =>

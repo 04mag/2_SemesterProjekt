@@ -11,27 +11,55 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             _httpClient = httpClient;
         }
+
         public async Task<UdlejningsScooter?> GetUdlejningsScooter(int id)
         {
-            UdlejningsScooter? result = await _httpClient.GetFromJsonAsync<UdlejningsScooter>($"api/udlejningsscooter/{id}");
+            var result = await _httpClient.GetFromJsonAsync<UdlejningsScooter>($"api/udlejningsscooter/{id}");
             return result;
         }
+
         public async Task<List<UdlejningsScooter>?> GetUdlejningsScootere()
         {
             return await _httpClient.GetFromJsonAsync<List<UdlejningsScooter>>("api/udlejningsscooter");
         }
-        public Task<int> AddUdlejningsScooter(UdlejningsScooter udlejningsScooter) // Tilføjer et udlejningsScooter og returnerer et int
+
+        public async Task<UdlejningsScooter> AddUdlejningsScooter(UdlejningsScooter udlejningsScooter)
         {
-            return _httpClient.PostAsJsonAsync("api/udlejningsscooter", udlejningsScooter).Result.Content.ReadFromJsonAsync<int>();
+            var response = await _httpClient.PostAsJsonAsync("api/udlejningsscooter", udlejningsScooter);
+            if (response.IsSuccessStatusCode)
+            {
+                
+                return await response.Content.ReadFromJsonAsync<UdlejningsScooter>();
+            }
+
+            throw new Exception("Fejl ved oprettelse af scooter.");
         }
-        public Task<int> DeleteUdlejningsScooter(int id) // Sletter et udlejningsScooter og returnerer et int. Denne int er id'et på det slettede udlejningsScooter
+        public async Task<int> DeleteUdlejningsScooter(int id)
         {
-            return _httpClient.DeleteAsync($"api/udlejningsscooter/{id}").Result.Content.ReadFromJsonAsync<int>();
+            var response = await _httpClient.DeleteAsync($"api/udlejningsscooter/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+
+       
+            throw new Exception("Fejl ved sletning af scooter.");
         }
 
-        public Task<int> updateUdlejningsScooter(UdlejningsScooter udlejningsScooter) // Opdaterer et udlejningsScooter og returnerer et int
+        public async Task<UdlejningsScooter> UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter)
         {
-            return _httpClient.PutAsJsonAsync("api/udlejningscooter", udlejningsScooter).Result.Content.ReadFromJsonAsync<int>();
+            var response = await _httpClient.PutAsJsonAsync("api/udlejningsscooter", udlejningsScooter);
+
+            if (response.IsSuccessStatusCode)
+            {
+          
+                return await response.Content.ReadFromJsonAsync<UdlejningsScooter>();
+            }
+
+        
+            throw new Exception("Fejl ved opdatering af scooter.");
         }
     }
 }

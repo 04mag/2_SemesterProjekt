@@ -123,8 +123,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Navn")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MekanikerId");
 
@@ -165,7 +164,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MærkeId"));
 
-                    b.Property<string>("Mærke")
+                    b.Property<string>("ScooterMærke")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -648,7 +647,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "Mærke")
                         .WithMany("Scootere")
                         .HasForeignKey("MærkeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Mærke");

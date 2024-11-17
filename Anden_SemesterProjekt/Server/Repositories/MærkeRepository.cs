@@ -15,9 +15,13 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<Mærke?> ReadMærkeAsync(int id)
         {
+            //return await _context.Mærker
+            //    .Include(m => m.Mekanikere)
+            //    .FirstOrDefaultAsync(m => m.MærkeId == id);
+
             return await _context.Mærker
-                .Include(m => m.Mekanikere)
-                .FirstOrDefaultAsync(m => m.MærkeId == id);
+                .Where(m => m.MærkeId == id)
+                .FirstOrDefaultAsync();
         }
 
         public async Task<List<Mærke>> ReadMærkerAsync()

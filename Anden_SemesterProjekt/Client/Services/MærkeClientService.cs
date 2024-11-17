@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Client.Services
             return await _httpClient.GetFromJsonAsync<List<Mærke>>("api/mærke");
         }
 
-        public async Task<Mærke> AddMærke(Mærke mærke)
+        public async Task<Mærke?> AddMærke(Mærke mærke)
         {
             var response = await _httpClient.PostAsJsonAsync("api/mærke", mærke);
             return await response.Content.ReadFromJsonAsync<Mærke>();

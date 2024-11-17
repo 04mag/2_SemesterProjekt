@@ -14,18 +14,17 @@ namespace Anden_SemesterProjekt.Client.Pages
         private string? successMessage;
         private string? errorMessage;
         private List<Mærke> mærker = new List<Mærke>();
-        private int? valgtScooterMærkeId;
-        [Inject]
-        public IMærkeClientService MærkeService { get; set; }
-        [Inject]
-        public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+        private int? valgtScooterMærkeId = new int();
+        [Inject] public IMærkeClientService MærkeService { get; set; }
+        [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             mærker = await MærkeService.GetMærker();
             udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
         }
 
-        
+
         private async Task HandleValidSubmit()
         {
             try
@@ -46,25 +45,17 @@ namespace Anden_SemesterProjekt.Client.Pages
                 {
                     throw new InvalidOperationException("Det valgte mærke blev ikke fundet.");
                 }
-                
-                // nyUdlejningsScooter.Mærke = valgtScooterMærke;
-               
-                if (nyUdlejningsScooter.Mærke == null)
-                {
-                    nyUdlejningsScooter.Mærke = new Mærke();
-                }
-                nyUdlejningsScooter.Mærke.Mekanikere = valgtScooterMærke.Mekanikere?.ToList() ?? new List<Mekaniker>();
-                // Tildel data til nyUdlejningsScooter.Mærke
 
-                // Tildel øvrige værdier
-                nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
+                // Tildel data til nyUdlejningsScooter
+                //nyUdlejningsScooter.Mærke = valgtScooterMærke;
+                nyUdlejningsScooter.MærkeId = valgtScooterMærkeId.Value;
                 nyUdlejningsScooter.ErAktiv = true;
                 nyUdlejningsScooter.ErTilgængelig = true;
-                nyUdlejningsScooter.Udlejninger = new  List<Udlejning>();
+                //nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
 
                 // Kald API for at gemme
                 var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
-                if (response <= 0)
+                if (response == null)
                 {
                     throw new InvalidOperationException("Fejl ved oprettelse af udlejningsscooter.");
                 }
@@ -80,7 +71,6 @@ namespace Anden_SemesterProjekt.Client.Pages
             }
         }
 
+
     }
-
-
 }

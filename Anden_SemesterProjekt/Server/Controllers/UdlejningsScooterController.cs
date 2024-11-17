@@ -12,14 +12,16 @@ namespace Anden_SemesterProjekt.Server.Controllers
     public class UdlejningsScooterController : ControllerBase
     {
         private readonly IUdlejningsScooterService _udlejningsScooterService;
+        private readonly IMærkeService _mærkeService;
 
-        public UdlejningsScooterController(IUdlejningsScooterService udlejningsScooterService)
+        public UdlejningsScooterController(IUdlejningsScooterService udlejningsScooterService, IMærkeService mærkeService)
         {
             _udlejningsScooterService = udlejningsScooterService;
+            _mærkeService = mærkeService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UdlejningsScooter>>> Get()
+        public async Task<IActionResult> Get()
         {
             var scootere = await _udlejningsScooterService.GetAllUdlejningsScootereAsync();
             if (scootere == null || scootere.Count == 0)
@@ -30,49 +32,67 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UdlejningsScooter>> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
             var scooter = await _udlejningsScooterService.GetUdlejningsScooterAsync(id);
             if (scooter == null)
             {
                 return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");
             }
+
             return Ok(scooter);
         }
 
         [HttpPost]
-        public async Task<ActionResult<int>> Post(UdlejningsScooter udlejningsScooter)
+        public async Task<IActionResult> Post(UdlejningsScooter udlejningsScooter) 
         {
             if (udlejningsScooter == null)
             {
                 return BadRequest("Scooter data mangler.");
             }
 
-            var id = await _udlejningsScooterService.AddUdlejningsScooterAsync(udlejningsScooter);
-            return Ok(id);
+            if (udlejningsScooter.MærkeId == 0)
+            {
+                return BadRequest("MærkeId er påkrævet.");
+            }
+
+            // Hent Mærke baseret på MærkeId
+            var mærke = await _mærkeService.GetMærkeAsync(udlejningsScooter.MærkeId);
+            if (mærke == null)
+            {
+                return BadRequest("Ugyldigt MærkeId.");
+            }
+
+            // Sæt det hentede Mærke på UdlejningsScooter
+            udlejningsScooter.Mærke = mærke;
+
+            // Gem scooteren i databasen
+            var createdScooter = await _udlejningsScooterService.AddUdlejningsScooterAsync(udlejningsScooter);
+
+
+            return Ok(createdScooter);
         }
 
         [HttpPut]
-        public async Task<ActionResult<int>> Put(UdlejningsScooter udlejningsScooter)
+        public async Task<IActionResult> Put(UdlejningsScooter udlejningsScooter)
         {
             if (udlejningsScooter == null)
             {
                 return BadRequest("Scooter data mangler.");
             }
-
-            var id = await _udlejningsScooterService.UpdateUdlejningsScooterAsync(udlejningsScooter);
-            return Ok(id);
+            var updatedScooter = await _udlejningsScooterService.UpdateUdlejningsScooterAsync(udlejningsScooter);
+            return Ok();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<int>> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var deletedId = await _udlejningsScooterService.RemoveUdlejningsScooterAsync(id);
             if (deletedId == 0)
             {
                 return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");
             }
-            return Ok(deletedId);
+            return Ok();
         }
     }
 }
