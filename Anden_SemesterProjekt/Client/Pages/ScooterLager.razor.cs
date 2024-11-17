@@ -33,7 +33,6 @@ namespace Anden_SemesterProjekt.Client.Pages
             }
         }
 
-
         private async Task HandleValidSubmit()
         {
             try
@@ -49,14 +48,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 // Find det valgte mærke
                 var valgtScooterMærke = mærker.FirstOrDefault(m => m.MærkeId == valgtScooterMærkeId);
 
-                // Kontrollér, om mærket blev fundet
-                if (valgtScooterMærke == null)
-                {
-                    throw new InvalidOperationException("Det valgte mærke blev ikke fundet.");
-                }
-
                 // Tildel data til nyUdlejningsScooter
-                nyUdlejningsScooter.Mærke = valgtScooterMærke;
                 nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
                 nyUdlejningsScooter.ErAktiv = true;
                 nyUdlejningsScooter.ErTilgængelig = true;
@@ -64,15 +56,16 @@ namespace Anden_SemesterProjekt.Client.Pages
 
                 // Kald API for at gemme
                 var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
-                if (response == null)
+
+                if (response != null && response.IsSuccessStatusCode)
                 {
-                    throw new InvalidOperationException("Fejl ved oprettelse af udlejningsscooter.");
+                    successMessage = "Scooter oprettet med succes!";
                 }
                 else
                 {
-                    Console.WriteLine(successMessage);
-                    StateHasChanged();
+                    throw new InvalidOperationException("API oprettelsen mislykkedes.");
                 }
+
             }
             catch (Exception ex)
             {

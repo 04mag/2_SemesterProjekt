@@ -23,17 +23,20 @@ namespace Anden_SemesterProjekt.Client.Services
             return await _httpClient.GetFromJsonAsync<List<UdlejningsScooter>>("api/udlejningsscooter");
         }
 
-        public async Task<UdlejningsScooter> AddUdlejningsScooter(UdlejningsScooter udlejningsScooter)
+        public async Task<HttpResponseMessage> AddUdlejningsScooter(UdlejningsScooter scooter)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/udlejningsscooter", udlejningsScooter);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                
-                return await response.Content.ReadFromJsonAsync<UdlejningsScooter>();
+                var response = await _httpClient.PostAsJsonAsync("api/udlejningsscooter", scooter);
+                return response; // Returner response til klienten
             }
-
-            throw new Exception("Fejl ved oprettelse af scooter.");
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Fejl i AddUdlejningsScooter: {ex.Message}");
+                throw; // Kast undtagelsen videre, så den fanges i din frontend
+            }
         }
+
         public async Task<int> DeleteUdlejningsScooter(int id)
         {
             var response = await _httpClient.DeleteAsync($"api/udlejningsscooter/{id}");
