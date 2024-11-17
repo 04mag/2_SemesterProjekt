@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
@@ -11,7 +12,8 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int ScooterId { get; set; }
         public string Stelnummer { get; set; }
         public string? Registreringsnummer { get; set; }
-        public Mærke? ScooterMærke { get; set; }
+        [JsonIgnore] public Mærke ScooterMærke { get; set; }
         public int MærkeId { get; set; }
+
     }
 }

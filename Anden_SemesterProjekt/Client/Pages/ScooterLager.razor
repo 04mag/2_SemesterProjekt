@@ -4,7 +4,32 @@
 
 
 @page "/Scooterlager"
-<h3>ScooterLager</h3>
+<h1>ScooterLager</h1>
+<h3>Liste over UdlejningsScootere</h3>
+
+<table class="table">
+    <thead>
+    <tr> 
+        <th>Stelnummer</th>
+        <th>Registreringsnummer</th>
+        <th>Mærke</th>
+        <th>Er Tilgængelig</th>
+        <th>Er Aktiv</th> 
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var scooter in udlejningsScootere)
+    {
+        <tr>
+            <td>@scooter.Stelnummer</td>
+            <td>@scooter.Registreringsnummer</td>
+            <td>@scooter.ScooterMærke?.ScooterMærke</td>
+                <td>@(scooter.ErTilgængelig ? "Til rådighed":"Udlejet")</td>
+            <td>@(scooter.ErAktiv ? "Ja":"Nej")</td> 
+        </tr>
+    }
+    </tbody>
+</table>
 
 <h1>Tilføj ny scooter</h1>
 <EditForm Model="nyUdlejningsScooter" OnValidSubmit="HandleValidSubmit">
