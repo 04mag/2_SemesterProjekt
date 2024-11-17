@@ -13,7 +13,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int ScooterId { get; set; }
         public string Stelnummer { get; set; }
         public string? Registreringsnummer { get; set; }
-        [JsonIgnore] public Mærke ScooterMærke { get; set; }
+        [JsonIgnore] public Mærke Mærke { get; set; }
         public int MærkeId { get; set; }
 
     }

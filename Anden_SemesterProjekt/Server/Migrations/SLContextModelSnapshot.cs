@@ -165,7 +165,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MærkeId"));
 
-                    b.Property<string>("ScooterMærke")
+                    b.Property<string>("Mærke")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -645,13 +645,13 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "ScooterMærke")
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "Mærke")
                         .WithMany("Scootere")
                         .HasForeignKey("MærkeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ScooterMærke");
+                    b.Navigation("Mærke");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.TlfNummer", b =>

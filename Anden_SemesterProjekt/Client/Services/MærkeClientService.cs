@@ -22,10 +22,10 @@ namespace Anden_SemesterProjekt.Client.Services
             return await _httpClient.GetFromJsonAsync<List<Mærke>>("api/mærke");
         }
 
-        public async Task<int> AddMærke(Mærke mærke)
+        public async Task<Mærke> AddMærke(Mærke mærke)
         {
             var response = await _httpClient.PostAsJsonAsync("api/mærke", mærke);
-            return await response.Content.ReadFromJsonAsync<int>();
+            return await response.Content.ReadFromJsonAsync<Mærke>();
         }
 
         public async Task<int> DeleteMærke(int id)
@@ -34,10 +34,10 @@ namespace Anden_SemesterProjekt.Client.Services
             return await response.Content.ReadFromJsonAsync<int>();
         }
 
-        public async Task<int> updateMærke(Mærke mærke)
+        public async Task<Mærke> updateMærke(Mærke mærke)
         {
             var response = await _httpClient.PutAsJsonAsync("api/mærke", mærke);
-            return await response.Content.ReadFromJsonAsync<int>();
+            return await response.Content.ReadFromJsonAsync<Mærke>();
         }
     }
 }

@@ -23,7 +23,7 @@
         <tr>
             <td>@scooter.Stelnummer</td>
             <td>@scooter.Registreringsnummer</td>
-            <td>@scooter.ScooterMærke?.ScooterMærke</td>
+            <td>@scooter.Mærke?.ScooterMærke</td>
                 <td>@(scooter.ErTilgængelig ? "Til rådighed":"Udlejet")</td>
             <td>@(scooter.ErAktiv ? "Ja":"Nej")</td> 
         </tr>
@@ -39,7 +39,7 @@
    
 
     <div>
-        <label for="mærke">ScooterMærke:</label>
+        <label for="mærke">Mærke:</label>
         <select @bind="valgtScooterMærkeId">
         <option value =""> Vælg et mærke...</option>
         @foreach (var mærke in mærker)

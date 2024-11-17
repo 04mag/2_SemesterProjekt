@@ -43,7 +43,7 @@ namespace Anden_SemesterProjekt.Server.Context
                 new Mærke { MærkeId = 10, ScooterMærke = "Yamaha" }
             );
             modelBuilder.Entity<Scooter>()
-                .HasOne(s => s.ScooterMærke)
+                .HasOne(s => s.Mærke)
                 .WithMany(m => m.Scootere)
                 .HasForeignKey(s => s.MærkeId);
 
