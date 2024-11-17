@@ -8,8 +8,8 @@ namespace Anden_SemesterProjekt.Client.Services
         Task<List<Kunde>?> GetKunder(string tlfnummer, string mærke);
         Task<Kunde?> GetKunde(int id);
         Task<Kunde?> PostKunde(Kunde kunde);
-        Task<int> PutKunde(Kunde kunde);
-        Task<int> DeleteKunde(int id);
+        Task<HttpResponseMessage> PutKunde(Kunde kunde);
+        Task<HttpResponseMessage> DeleteKunde(int id);
         Task<By?> GetBy(string postnummer);
     }
 }

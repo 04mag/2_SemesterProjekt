@@ -1,4 +1,5 @@
 ﻿using Anden_SemesterProjekt.Shared.Models;
+using System.Net;
 using System.Net.Http.Json;
 using System.Text;
 
@@ -24,13 +25,9 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<int> DeleteKunde(int id)
+        public async Task<HttpResponseMessage> DeleteKunde(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/kunder/{id}");
-
-            var responseStatusCode = response.StatusCode;
-
-            return (int)responseStatusCode;
+            return await _httpClient.DeleteAsync($"api/kunder/{id}");
         }
 
         public async Task<Kunde?> GetKunde(int id)
@@ -83,13 +80,9 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<int> PutKunde(Kunde kunde)
+        public async Task<HttpResponseMessage> PutKunde(Kunde kunde)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/kunder", kunde);
-
-            var responseStatusCode = response.StatusCode;
-
-            return (int)responseStatusCode;
+            return await _httpClient.PutAsJsonAsync("api/kunder", kunde);
         }
     }
 }
