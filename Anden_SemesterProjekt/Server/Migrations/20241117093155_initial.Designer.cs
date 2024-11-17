@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241114125920_UpdateToOrder")]
-    partial class UpdateToOrder
+    [Migration("20241117093155_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,47 +33,49 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"));
 
-                    b.Property<int>("ByPostnummer")
-                        .HasColumnType("int");
-
                     b.Property<string>("Dørnummer")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("Etage")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
 
                     b.Property<string>("Gadenavn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Husnummer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(5)
+                        .HasColumnType("nvarchar(5)");
 
                     b.Property<int>("KundeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Postnummer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Side")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.HasKey("AdresseId");
 
-                    b.HasIndex("ByPostnummer");
-
                     b.HasIndex("KundeId")
                         .IsUnique();
+
+                    b.HasIndex("Postnummer");
 
                     b.ToTable("Adresser");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
                 {
-                    b.Property<int>("Postnummer")
-                        .HasColumnType("int");
+                    b.Property<string>("Postnummer")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ByNavn")
                         .IsRequired()
@@ -98,9 +100,10 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Navn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("TilknyttetMekanikerMekanikerId")
+                    b.Property<int?>("TilknyttetMekanikerMekanikerId")
                         .HasColumnType("int");
 
                     b.HasKey("KundeId");
@@ -123,11 +126,38 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Navn")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("MekanikerId");
 
                     b.ToTable("Mekanikere");
+
+                    b.HasData(
+                        new
+                        {
+                            MekanikerId = 1,
+                            ErAktiv = true,
+                            Navn = "Troels Nielsen"
+                        },
+                        new
+                        {
+                            MekanikerId = 2,
+                            ErAktiv = true,
+                            Navn = "Mads Jensen"
+                        },
+                        new
+                        {
+                            MekanikerId = 3,
+                            ErAktiv = true,
+                            Navn = "Mikkel Larsen"
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            ErAktiv = true,
+                            Navn = "Anders Pedersen"
+                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Mærke", b =>
@@ -144,7 +174,59 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("MærkeId");
 
-                    b.ToTable("Mærke");
+                    b.ToTable("Mærker");
+
+                    b.HasData(
+                        new
+                        {
+                            MærkeId = 1,
+                            ScooterMærke = "Aprilla"
+                        },
+                        new
+                        {
+                            MærkeId = 2,
+                            ScooterMærke = "Derbi"
+                        },
+                        new
+                        {
+                            MærkeId = 3,
+                            ScooterMærke = "Karma"
+                        },
+                        new
+                        {
+                            MærkeId = 4,
+                            ScooterMærke = "Lindebjerg"
+                        },
+                        new
+                        {
+                            MærkeId = 5,
+                            ScooterMærke = "Pegasus"
+                        },
+                        new
+                        {
+                            MærkeId = 6,
+                            ScooterMærke = "Peugeot"
+                        },
+                        new
+                        {
+                            MærkeId = 7,
+                            ScooterMærke = "PGO"
+                        },
+                        new
+                        {
+                            MærkeId = 8,
+                            ScooterMærke = "Puch"
+                        },
+                        new
+                        {
+                            MærkeId = 9,
+                            ScooterMærke = "Vespa"
+                        },
+                        new
+                        {
+                            MærkeId = 10,
+                            ScooterMærke = "Yamaha"
+                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Ordre", b =>
@@ -259,11 +341,20 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<double>("AntalKmKørt")
                         .HasColumnType("float");
 
+                    b.Property<double>("ForsikringPrDag")
+                        .HasColumnType("float");
+
+                    b.Property<double>("LejePrDag")
+                        .HasColumnType("float");
+
                     b.Property<int>("OrdreId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ScooterId")
-                        .HasColumnType("int");
+                    b.Property<double>("PrisPrKm")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Selvrisiko")
+                        .HasColumnType("float");
 
                     b.Property<bool>("SelvrisikoUdløst")
                         .HasColumnType("bit");
@@ -274,26 +365,14 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<DateTime>("StartDato")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UdlejningsScooterScooterId")
+                    b.Property<int>("UdlejningsScooterId")
                         .HasColumnType("int");
-
-                    b.Property<double>("forsikringPrDag")
-                        .HasColumnType("float");
-
-                    b.Property<double>("lejePrDag")
-                        .HasColumnType("float");
-
-                    b.Property<double>("prisPrKm")
-                        .HasColumnType("float");
-
-                    b.Property<double>("selvrisiko")
-                        .HasColumnType("float");
 
                     b.HasKey("UdlejningId");
 
                     b.HasIndex("OrdreId");
 
-                    b.HasIndex("UdlejningsScooterScooterId");
+                    b.HasIndex("UdlejningsScooterId");
 
                     b.ToTable("Udlejninger");
                 });
@@ -357,17 +436,124 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("MekanikerMærke", b =>
                 {
-                    b.Property<int>("MekanikereMekanikerId")
+                    b.Property<int>("MekanikerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MærkerMærkeId")
+                    b.Property<int>("MærkeId")
                         .HasColumnType("int");
 
-                    b.HasKey("MekanikereMekanikerId", "MærkerMærkeId");
+                    b.HasKey("MekanikerId", "MærkeId");
 
-                    b.HasIndex("MærkerMærkeId");
+                    b.HasIndex("MærkeId");
 
                     b.ToTable("MekanikerMærke");
+
+                    b.HasData(
+                        new
+                        {
+                            MekanikerId = 1,
+                            MærkeId = 1
+                        },
+                        new
+                        {
+                            MekanikerId = 1,
+                            MærkeId = 4
+                        },
+                        new
+                        {
+                            MekanikerId = 1,
+                            MærkeId = 8
+                        },
+                        new
+                        {
+                            MekanikerId = 1,
+                            MærkeId = 5
+                        },
+                        new
+                        {
+                            MekanikerId = 1,
+                            MærkeId = 2
+                        },
+                        new
+                        {
+                            MekanikerId = 1,
+                            MærkeId = 10
+                        },
+                        new
+                        {
+                            MekanikerId = 2,
+                            MærkeId = 6
+                        },
+                        new
+                        {
+                            MekanikerId = 2,
+                            MærkeId = 3
+                        },
+                        new
+                        {
+                            MekanikerId = 2,
+                            MærkeId = 7
+                        },
+                        new
+                        {
+                            MekanikerId = 2,
+                            MærkeId = 10
+                        },
+                        new
+                        {
+                            MekanikerId = 3,
+                            MærkeId = 2
+                        },
+                        new
+                        {
+                            MekanikerId = 3,
+                            MærkeId = 8
+                        },
+                        new
+                        {
+                            MekanikerId = 3,
+                            MærkeId = 9
+                        },
+                        new
+                        {
+                            MekanikerId = 3,
+                            MærkeId = 10
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            MærkeId = 1
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            MærkeId = 4
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            MærkeId = 5
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            MærkeId = 3
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            MærkeId = 6
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            MærkeId = 7
+                        },
+                        new
+                        {
+                            MekanikerId = 4,
+                            MærkeId = 9
+                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.KundeScooter", b =>
@@ -407,15 +593,15 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
-                        .WithMany("Adresser")
-                        .HasForeignKey("ByPostnummer")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
                         .WithOne("Adresse")
                         .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Adresse", "KundeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
+                        .WithMany("Adresser")
+                        .HasForeignKey("Postnummer")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -428,9 +614,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
-                        .HasForeignKey("TilknyttetMekanikerMekanikerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TilknyttetMekanikerMekanikerId");
 
                     b.Navigation("TilknyttetMekaniker");
                 });
@@ -494,7 +678,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", "UdlejningsScooter")
                         .WithMany("Udlejninger")
-                        .HasForeignKey("UdlejningsScooterScooterId")
+                        .HasForeignKey("UdlejningsScooterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -526,13 +710,13 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", null)
                         .WithMany()
-                        .HasForeignKey("MekanikereMekanikerId")
+                        .HasForeignKey("MekanikerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", null)
                         .WithMany()
-                        .HasForeignKey("MærkerMærkeId")
+                        .HasForeignKey("MærkeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

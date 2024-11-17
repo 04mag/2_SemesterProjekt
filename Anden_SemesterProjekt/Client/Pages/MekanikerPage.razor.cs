@@ -16,6 +16,8 @@ namespace Anden_SemesterProjekt.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             mekanikerList = await AnsatService.GetMekanikere();
+
+            TestMekaniker = await AnsatService.GetMekaniker(6);
         }
 
         //Til test og reference til implementering af vælg knap.Skal slettes senere
@@ -24,5 +26,9 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             SelectedMekaniker = mekaniker;
         }
+
+
+        //Til test af IActionResult Get(int id) i AnsatController.cs
+        public Mekaniker? TestMekaniker { get; set; }
     }
 }
