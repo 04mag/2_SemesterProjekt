@@ -3,12 +3,16 @@ using System.Net.Http.Json;
 using Anden_SemesterProjekt.Client.Services;
 using Microsoft.AspNetCore.Components;
 using System.Text.Json;
+using Microsoft.JSInterop;
+
 
 
 namespace Anden_SemesterProjekt.Client.Pages
 {
     public partial class ScooterLager
     {
+        [Inject] private IJSRuntime JS { get; set; } // JavaScript runtime
+
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
         private string? successMessage;
@@ -106,13 +110,20 @@ namespace Anden_SemesterProjekt.Client.Pages
         }
         private async Task DeleteScooter(UdlejningsScooter scooter)
         {
-            var response = await UdlejningsScooterService.DeleteUdlejningsScooter(scooter.ScooterId);
-                udlejningsScootere.Remove(scooter);
-            if (response.IsSuccessStatusCode)
+            // Vis en bekræftelsesdialog med JavaScript
+            var confirmDelete = await JS.InvokeAsync<bool>("confirm", "Er du sikker på, at du vil slette denne scooter?");
+
+            if (confirmDelete)
             {
-                HentMærker();
-                StateHasChanged();
+                var response = await UdlejningsScooterService.DeleteUdlejningsScooter(scooter.ScooterId);
+                if (response.IsSuccessStatusCode)
+                {
+                    udlejningsScootere.Remove(scooter);
+                    HentMærker();
+                    StateHasChanged();
+                }
             }
         }
+
     }
 }
