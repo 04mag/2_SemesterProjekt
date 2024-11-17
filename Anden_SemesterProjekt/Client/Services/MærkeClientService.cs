@@ -14,29 +14,29 @@ namespace Anden_SemesterProjekt.Client.Services
 
         public async Task<Mærke?> GetMærke(int id)
         {
-            return await _httpClient.GetFromJsonAsync<Mærke>($"api/Mærke/{id}");
+            return await _httpClient.GetFromJsonAsync<Mærke>($"api/mærke/{id}");
         }
 
         public async Task<List<Mærke>?> GetMærker()
         {
-            return await _httpClient.GetFromJsonAsync<List<Mærke>>("api/Mærke");
+            return await _httpClient.GetFromJsonAsync<List<Mærke>>("api/mærke");
         }
 
         public async Task<int> AddMærke(Mærke mærke)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Mærke", mærke);
+            var response = await _httpClient.PostAsJsonAsync("api/mærke", mærke);
             return await response.Content.ReadFromJsonAsync<int>();
         }
 
         public async Task<int> DeleteMærke(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/Mærke/{id}");
+            var response = await _httpClient.DeleteAsync($"api/mærke/{id}");
             return await response.Content.ReadFromJsonAsync<int>();
         }
 
         public async Task<int> updateMærke(Mærke mærke)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/Mærke", mærke);
+            var response = await _httpClient.PutAsJsonAsync("api/mærke", mærke);
             return await response.Content.ReadFromJsonAsync<int>();
         }
     }

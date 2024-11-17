@@ -29,7 +29,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPost]
-        public int Post(UdlejningsScooter udlejningsScooter)
+        public int Post([FromBody] UdlejningsScooter udlejningsScooter)
         {
             return _udlejningsScooterService.CreateUdlejningsScooter(udlejningsScooter);
         }

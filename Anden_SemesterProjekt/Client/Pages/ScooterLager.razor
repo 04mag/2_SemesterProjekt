@@ -19,7 +19,7 @@
         <option value =""> Vælg et mærke...</option>
         @foreach (var mærke in mærker)
             {
-                <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
+                <option value="@mærke.MærkeId">@mærke.ScooterMærke</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
             }
         </select>
         <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />

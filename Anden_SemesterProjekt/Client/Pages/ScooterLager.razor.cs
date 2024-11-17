@@ -25,14 +25,34 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         private async Task HandleValidSubmit()
         {
-            successMessage = "Kunde oprettet med succes!";
-            errorMessage = null;
-            Console.WriteLine(successMessage);
-            nyUdlejningsScooter.ScooterMærke = mærker.FirstOrDefault(m => m.MærkeId == valgtScooterMærkeId); // Tildeler ScooterMærke til den valgte mærke, som er valgt i dropdown menuen baseret på mærkeId
-            nyUdlejningsScooter.ErAktiv= true;
-            nyUdlejningsScooter.ErTilgængelig = true;
-            nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
-            var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
+            try
+            {
+                successMessage = "Scooter oprettet med succes!";
+                errorMessage = null;
+                Console.WriteLine(successMessage);
+
+                if (valgtScooterMærkeId == null)
+                {
+                    throw new InvalidOperationException("Valgt scooter mærke ID er null.");
+                }
+
+                nyUdlejningsScooter.MærkeId = valgtScooterMærkeId.Value;
+                nyUdlejningsScooter.ErAktiv = true;
+                nyUdlejningsScooter.ErTilgængelig = true;
+                nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
+                
+
+                var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
+                if (response <= 0)
+                {
+                    throw new InvalidOperationException("Fejl ved oprettelse af udlejnings scooter.");
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessage = $"Fejl: {ex.Message}";
+                Console.WriteLine(errorMessage);
+            }
         }
     }
 
