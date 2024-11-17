@@ -22,6 +22,13 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             mærker = await MærkeService.GetMærker();
             udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+            foreach (var scooter in udlejningsScootere)
+            {
+                if (scooter.Mærke == null)
+                {
+                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
+                }
+            }
         }
 
 
