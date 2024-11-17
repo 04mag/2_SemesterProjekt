@@ -24,13 +24,7 @@ namespace Anden_SemesterProjekt.Client.Pages
             udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
 
             // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
-            foreach (var scooter in udlejningsScootere)
-            {
-                if (scooter.Mærke == null)
-                {
-                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
-                }
-            }
+           HentMærker();
         }
 
         private async Task HandleValidSubmit()
@@ -52,7 +46,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
                 nyUdlejningsScooter.ErAktiv = true;
                 nyUdlejningsScooter.ErTilgængelig = true;
-                //nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
+
 
                 // Kald API for at gemme
                 var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
@@ -60,6 +54,16 @@ namespace Anden_SemesterProjekt.Client.Pages
                 if (response != null && response.IsSuccessStatusCode)
                 {
                     successMessage = "Scooter oprettet med succes!";
+                    udlejningsScootere.Add(nyUdlejningsScooter);
+                    HentMærker();
+
+                    // Eller, opret en ny liste, der inkluderer den nye scooter
+                    // udlejningsScootere = udlejningsScootere.Concat(new [] { nyUdlejningsScooter }).ToList();
+
+                    // Tving UI-opdatering
+                    StateHasChanged();
+                    nyUdlejningsScooter = new UdlejningsScooter();
+                    valgtScooterMærkeId = null;
                 }
                 else
                 {
@@ -74,6 +78,16 @@ namespace Anden_SemesterProjekt.Client.Pages
             }
         }
 
+        public void HentMærker()
+        {
+            foreach (var scooter in udlejningsScootere)
+            {
+                if (scooter.Mærke == null)
+                {
+                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
+                }
+            }
 
+        }
     }
 }
