@@ -12,12 +12,10 @@ namespace Anden_SemesterProjekt.Server.Controllers
     public class UdlejningsScooterController : ControllerBase
     {
         private readonly IUdlejningsScooterService _udlejningsScooterService;
-        private readonly IMærkeService _mærkeService;
 
-        public UdlejningsScooterController(IUdlejningsScooterService udlejningsScooterService, IMærkeService mærkeService)
+        public UdlejningsScooterController(IUdlejningsScooterService udlejningsScooterService)
         {
             _udlejningsScooterService = udlejningsScooterService;
-            _mærkeService = mærkeService;
         }
 
         [HttpGet]
@@ -51,22 +49,6 @@ namespace Anden_SemesterProjekt.Server.Controllers
                 return BadRequest("Scooter data mangler.");
             }
 
-            if (udlejningsScooter.MærkeId == 0)
-            {
-                return BadRequest("MærkeId er påkrævet.");
-            }
-
-            // Hent Mærke baseret på MærkeId
-            var mærke = await _mærkeService.GetMærkeAsync(udlejningsScooter.MærkeId);
-            if (mærke == null)
-            {
-                return BadRequest("Ugyldigt MærkeId.");
-            }
-
-            // Sæt det hentede Mærke på UdlejningsScooter
-            udlejningsScooter.Mærke = mærke;
-
-            // Gem scooteren i databasen
             var createdScooter = await _udlejningsScooterService.AddUdlejningsScooterAsync(udlejningsScooter);
 
 

@@ -22,6 +22,8 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             mærker = await MærkeService.GetMærker();
             udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+
+            // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
             foreach (var scooter in udlejningsScootere)
             {
                 if (scooter.Mærke == null)
@@ -54,8 +56,8 @@ namespace Anden_SemesterProjekt.Client.Pages
                 }
 
                 // Tildel data til nyUdlejningsScooter
-                //nyUdlejningsScooter.Mærke = valgtScooterMærke;
-                nyUdlejningsScooter.MærkeId = valgtScooterMærkeId.Value;
+                nyUdlejningsScooter.Mærke = valgtScooterMærke;
+                nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
                 nyUdlejningsScooter.ErAktiv = true;
                 nyUdlejningsScooter.ErTilgængelig = true;
                 //nyUdlejningsScooter.Udlejninger = new List<Udlejning>();
@@ -69,6 +71,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 else
                 {
                     Console.WriteLine(successMessage);
+                    StateHasChanged();
                 }
             }
             catch (Exception ex)
