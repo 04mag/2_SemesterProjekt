@@ -7,8 +7,8 @@ namespace Anden_SemesterProjekt.Client.Services
         public Task<UdlejningsScooter?> GetUdlejningsScooter(int id);
         public Task<List<UdlejningsScooter>?> GetUdlejningsScootere();
         public Task<HttpResponseMessage> AddUdlejningsScooter(UdlejningsScooter udlejningsScooter);
-        public Task<int> DeleteUdlejningsScooter(int id); 
-        public Task<UdlejningsScooter> UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter); 
+        public Task<HttpResponseMessage> DeleteUdlejningsScooter(int id); 
+        public Task<HttpResponseMessage> UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter); 
     }
 }
  

@@ -7,7 +7,7 @@
 <h1>ScooterLager</h1>
 <h3>Liste over UdlejningsScootere</h3>
 
-<table class="table">
+<table class="table table-sm" >
     <thead>
     <tr> 
         <th>Stelnummer</th>
@@ -21,12 +21,16 @@
 
     @foreach (var scooter in udlejningsScootere)
     {
-        <tr>
+        <tr @onclick="() => OnScooterClick(scooter)">
             <td>@scooter.Stelnummer</td>
             <td>@scooter.Registreringsnummer</td>
             <td>@scooter.Mærke?.ScooterMærke</td>
             <td>@(scooter.ErTilgængelig ? "Til rådighed" : "Udlejet")</td>
             <td>@(scooter.ErAktiv ? "Ja" : "Nej")</td>
+            <td>
+                <button class="btn btn-primary btn-sm" @onclick="() => EditScooter(scooter)">Opdater</button>
+                <button class="btn btn-danger btn-sm" @onclick="() => DeleteScooter(scooter)">Slet</button>
+            </td>
         </tr>
     }
     </tbody>

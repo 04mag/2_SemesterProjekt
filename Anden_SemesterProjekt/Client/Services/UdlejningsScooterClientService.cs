@@ -37,28 +37,28 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<int> DeleteUdlejningsScooter(int id)
+        public async Task<HttpResponseMessage> DeleteUdlejningsScooter(int id)
         {
             var response = await _httpClient.DeleteAsync($"api/udlejningsscooter/{id}");
 
             if (response.IsSuccessStatusCode)
             {
-                
-                return await response.Content.ReadFromJsonAsync<int>();
+
+                return response;
             }
 
        
             throw new Exception("Fejl ved sletning af scooter.");
         }
 
-        public async Task<UdlejningsScooter> UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter)
+        public async Task<HttpResponseMessage> UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter)
         {
             var response = await _httpClient.PutAsJsonAsync("api/udlejningsscooter", udlejningsScooter);
 
             if (response.IsSuccessStatusCode)
             {
-          
-                return await response.Content.ReadFromJsonAsync<UdlejningsScooter>();
+
+                return response;
             }
 
         

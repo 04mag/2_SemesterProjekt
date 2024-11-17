@@ -1,13 +1,10 @@
-﻿using Anden_SemesterProjekt.Shared.Models;
-using System.Net.Http.Json;
-using Anden_SemesterProjekt.Client.Services;
+﻿using Anden_SemesterProjekt.Client.Services;
+using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
-using System.Text.Json;
 
-
-namespace Anden_SemesterProjekt.Client.Pages
+namespace Anden_SemesterProjekt.Client.Components.Scootere
 {
-    public partial class ScooterLager
+    public partial class ScooterHåndtering
     {
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
@@ -17,16 +14,6 @@ namespace Anden_SemesterProjekt.Client.Pages
         private int? valgtScooterMærkeId = new int();
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
-
-        protected override async Task OnInitializedAsync()
-        {
-            mærker = await MærkeService.GetMærker();
-            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
-
-            // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
-           HentMærker();
-        }
-
         private async Task HandleValidSubmit()
         {
             try
@@ -55,7 +42,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 {
                     successMessage = "Scooter oprettet med succes!";
                     udlejningsScootere.Add(nyUdlejningsScooter);
-                    HentMærker();
+                   
 
                     // Eller, opret en ny liste, der inkluderer den nye scooter
                     // udlejningsScootere = udlejningsScootere.Concat(new [] { nyUdlejningsScooter }).ToList();
@@ -75,41 +62,6 @@ namespace Anden_SemesterProjekt.Client.Pages
             {
                 errorMessage = $"Fejl: {ex.Message}";
                 Console.WriteLine(errorMessage);
-            }
-        }
-
-        private void HentMærker()
-        {
-            foreach (var scooter in udlejningsScootere)
-            {
-                if (scooter.Mærke == null)
-                {
-                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
-                }
-            }
-
-        }
-        private void OnScooterClick(UdlejningsScooter scooter)
-        {
-            Console.WriteLine($"Scooter med stelnummer {scooter.Stelnummer} blev klikket på.");
-        }
-        private async Task EditScooter(UdlejningsScooter scooter)
-        {
-            nyUdlejningsScooter = scooter;
-            valgtScooterMærkeId = scooter.MærkeId;
-            var response = await UdlejningsScooterService.UpdateUdlejningsScooter(nyUdlejningsScooter);
-            HentMærker();
-            StateHasChanged();
-
-        }
-        private async Task DeleteScooter(UdlejningsScooter scooter)
-        {
-            var response = await UdlejningsScooterService.DeleteUdlejningsScooter(scooter.ScooterId);
-            if (response.IsSuccessStatusCode)
-            {
-                udlejningsScootere.Remove(scooter);
-                HentMærker();
-                StateHasChanged();
             }
         }
     }
