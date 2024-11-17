@@ -4,11 +4,10 @@ namespace Anden_SemesterProjekt.Server.Services
 {
     public interface IUdlejningsScooterService
     {
-        public UdlejningsScooter? ReadUdlejningsScooter(int id);
-        public List<UdlejningsScooter>? ReadUdlejningsScootere();
-        public int CreateUdlejningsScooter(UdlejningsScooter udlejningsScooter);
-        public int UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter);
-        public int DeleteUdlejningsScooter(int id);
-
+        Task<UdlejningsScooter?> GetUdlejningsScooterAsync(int id);
+        Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync();
+        Task<int> AddUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter);
+        Task<int> UpdateUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter);
+        Task<int> RemoveUdlejningsScooterAsync(int id);
     }
 }

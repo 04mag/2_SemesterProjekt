@@ -12,46 +12,49 @@ namespace Anden_SemesterProjekt.Server.Repositories
         {
             _context = new SLContext();
         }
-        public Mærke? ReadMærke(int id)
+
+        public async Task<Mærke?> ReadMærkeAsync(int id)
         {
-            return _context.Mærker.Find(id);
+            return await _context.Mærker
+                .Include(m => m.Mekanikere)
+                .FirstOrDefaultAsync(m => m.MærkeId == id);
         }
 
-        public List<Mærke>? ReadMærke()
+        public async Task<List<Mærke>> ReadMærkerAsync()
         {
             try
             {
-                return _context.Mærker.ToList();
+                return await _context.Mærker.Include(m=>m.Mekanikere).ToListAsync();
             }
             catch (Exception ex)
             {
                 // Log fejlen, f.eks. med en logging-framework
                 Console.WriteLine($"Fejl ved læsning af mærker: {ex.Message}");
-                return null;
+                return new List<Mærke>();
             }
         }
 
-        public int CreateMærke(Mærke mærke)
+        public async Task<int> CreateMærkeAsync(Mærke mærke)
         {
-            _context.Mærker.Add(mærke);
-            _context.SaveChanges();
+            await _context.Mærker.AddAsync(mærke);
+            await _context.SaveChangesAsync();
             return mærke.MærkeId;
         }
 
-        public int UpdateMærke(Mærke mærke)
+        public async Task<int> UpdateMærkeAsync(Mærke mærke)
         {
             _context.Mærker.Update(mærke);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return mærke.MærkeId;
         }
 
-        public int DeleteMærke(int id)
+        public async Task<int> DeleteMærkeAsync(int id)
         {
-            var mærke = _context.Mærker.Find(id);
+            var mærke = await _context.Mærker.FindAsync(id);
             if (mærke != null)
             {
                 _context.Mærker.Remove(mærke);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return id;
             }
             else

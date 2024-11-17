@@ -4,10 +4,10 @@ namespace Anden_SemesterProjekt.Server.Services
 {
     public interface IMærkeService
     {
-        public Mærke? ReadMærke(int id);
-        public List<Mærke>? ReadMærke();
-        public int CreateMærke(Mærke mærke);
-        public int UpdateMærke(Mærke mærke);
-        public int DeleteMærke(int id);
+        Task<Mærke?> GetMærkeAsync(int id);
+        Task<List<Mærke>> GetAllMærkerAsync();
+        Task<int> AddMærkeAsync(Mærke mærke);
+        Task<int> UpdateMærkeAsync(Mærke mærke);
+        Task<int> DeleteMærkeAsync(int id);
     }
 }

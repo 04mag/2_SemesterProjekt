@@ -1,6 +1,5 @@
 ﻿using Anden_SemesterProjekt.Server.Repositories;
 using Anden_SemesterProjekt.Shared.Models;
-
 namespace Anden_SemesterProjekt.Server.Services
 {
     public class MærkeService : IMærkeService
@@ -12,29 +11,29 @@ namespace Anden_SemesterProjekt.Server.Services
             _mærkeRepository = mærkeRepository;
         }
 
-        public int CreateMærke(Mærke mærke)
+        public async Task<Mærke?> GetMærkeAsync(int id)
         {
-            return _mærkeRepository.CreateMærke(mærke);
+            return await _mærkeRepository.ReadMærkeAsync(id);
         }
 
-        public int DeleteMærke(int id)
+        public async Task<List<Mærke>> GetAllMærkerAsync()
         {
-            return _mærkeRepository.DeleteMærke(id);
+            return await _mærkeRepository.ReadMærkerAsync();
         }
 
-        public Mærke? ReadMærke(int id)
+        public async Task<int> AddMærkeAsync(Mærke mærke)
         {
-            return _mærkeRepository.ReadMærke(id);
+            return await _mærkeRepository.CreateMærkeAsync(mærke);
         }
 
-        public List<Mærke>? ReadMærke()
+        public async Task<int> UpdateMærkeAsync(Mærke mærke)
         {
-            return _mærkeRepository.ReadMærke();
+            return await _mærkeRepository.UpdateMærkeAsync(mærke);
         }
 
-        public int UpdateMærke(Mærke mærke)
+        public async Task<int> DeleteMærkeAsync(int id)
         {
-            return _mærkeRepository.UpdateMærke(mærke);
+            return await _mærkeRepository.DeleteMærkeAsync(id);
         }
     }
 }

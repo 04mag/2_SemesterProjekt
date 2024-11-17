@@ -5,36 +5,36 @@ namespace Anden_SemesterProjekt.Server.Services
 {
     public class UdlejningsScooterService : IUdlejningsScooterService
     {
-       private readonly IUdlejningsScooterRepository _udlejningsScooterRepository;
+        private readonly IUdlejningsScooterRepository _udlejningsScooterRepository;
 
         public UdlejningsScooterService(IUdlejningsScooterRepository udlejningsScooterRepository)
         {
             _udlejningsScooterRepository = udlejningsScooterRepository;
         }
-        public UdlejningsScooter? ReadUdlejningsScooter(int id)
+
+        public async Task<UdlejningsScooter?> GetUdlejningsScooterAsync(int id)
         {
-            return _udlejningsScooterRepository.ReadUdlejningsScooter(id);
+            return await _udlejningsScooterRepository.ReadUdlejningsScooterAsync(id);
         }
 
-        public List<UdlejningsScooter>? ReadUdlejningsScootere()
+        public async Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync()
         {
-            return _udlejningsScooterRepository.ReadUdlejningsScootere();
+            return await _udlejningsScooterRepository.ReadUdlejningsScootereAsync();
         }
 
-        public int CreateUdlejningsScooter(UdlejningsScooter udlejningsScooter)
+        public async Task<int> AddUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter)
         {
-            return _udlejningsScooterRepository.CreateUdlejningsScooter(udlejningsScooter);
+            return await _udlejningsScooterRepository.CreateUdlejningsScooterAsync(udlejningsScooter);
         }
 
-        public int UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter)
+        public async Task<int> UpdateUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter)
         {
-            return _udlejningsScooterRepository.UpdateUdlejningsScooter(udlejningsScooter);
+            return await _udlejningsScooterRepository.UpdateUdlejningsScooterAsync(udlejningsScooter);
         }
 
-        public int DeleteUdlejningsScooter(int id)
+        public async Task<int> RemoveUdlejningsScooterAsync(int id)
         {
-            return _udlejningsScooterRepository.DeleteUdlejningsScooter(id);
+            return await _udlejningsScooterRepository.DeleteUdlejningsScooterAsync(id);
         }
-
     }
 }
