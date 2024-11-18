@@ -12,9 +12,7 @@ namespace Anden_SemesterProjekt.Client.Components.Ansatte.Mekanikere
 
         List<Mekaniker> FilteredMekanikere => Mekanikere.Where(m => m.Navn.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
 
-
         [Parameter]
         public EventCallback<Mekaniker> OnSelect { get; set; }
-
     }
 }

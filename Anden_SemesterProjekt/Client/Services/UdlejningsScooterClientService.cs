@@ -36,46 +36,43 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<HttpResponseMessage> AddUdlejningsScooter(UdlejningsScooter scooter)
+        public async Task<HttpResponseMessage> AddUdlejningsScooter(UdlejningsScooter udlejningsScooter)
         {
             try
             {
-                var response = await _httpClient.PostAsJsonAsync("api/udlejningsscooter", scooter);
+                var response = await _httpClient.PostAsJsonAsync("api/udlejningsscooter", udlejningsScooter);
                 return response; // Returner response til klienten
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Fejl i AddUdlejningsScooter: {ex.Message}");
-                throw; // Kast undtagelsen videre, så den fanges i din frontend
+            catch 
+            { 
+                throw new Exception ($"Fejl i AddUdlejningsScooter");
             }
         }
 
         public async Task<HttpResponseMessage> DeleteUdlejningsScooter(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/udlejningsscooter/{id}");
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-
+                var response = await _httpClient.DeleteAsync($"api/udlejningsscooter/{id}");
                 return response;
             }
-
-       
-            throw new Exception("Fejl ved sletning af scooter.");
+            catch
+            {
+                throw new Exception("Fejl ved sletning af scooter.");
+            }
         }
 
         public async Task<HttpResponseMessage> UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/udlejningsscooter", udlejningsScooter);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-
+                var response = await _httpClient.PutAsJsonAsync("api/udlejningsscooter", udlejningsScooter);
                 return response;
             }
-
-        
-            throw new Exception("Fejl ved opdatering af scooter.");
+            catch (Exception ex)
+            {
+                throw new Exception("Fejl ved opdatering af scooter: " + ex.Message);
+            }
         }
     }
 }

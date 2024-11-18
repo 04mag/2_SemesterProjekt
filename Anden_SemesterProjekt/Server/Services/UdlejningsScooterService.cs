@@ -32,7 +32,7 @@ namespace Anden_SemesterProjekt.Server.Services
             return await _udlejningsScooterRepository.UpdateUdlejningsScooterAsync(udlejningsScooter);
         }
 
-        public async Task<int> RemoveUdlejningsScooterAsync(int id)
+        public async Task<int> DeleteUdlejningsScooterAsync(int id)
         {
             return await _udlejningsScooterRepository.DeleteUdlejningsScooterAsync(id);
         }

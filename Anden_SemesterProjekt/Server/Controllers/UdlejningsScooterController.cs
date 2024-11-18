@@ -63,18 +63,18 @@ namespace Anden_SemesterProjekt.Server.Controllers
                 return BadRequest("Scooter data mangler.");
             }
             var updatedScooter = await _udlejningsScooterService.UpdateUdlejningsScooterAsync(udlejningsScooter);
-            return Ok();
+            return Ok(updatedScooter);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var deletedId = await _udlejningsScooterService.RemoveUdlejningsScooterAsync(id);
+            var deletedId = await _udlejningsScooterService.DeleteUdlejningsScooterAsync(id);
             if (deletedId == 0)
             {
                 return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");
             }
-            return Ok();
+            return Ok(deletedId);
         }
     }
 }

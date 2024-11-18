@@ -15,8 +15,8 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<UdlejningsScooter?> ReadUdlejningsScooterAsync(int id)
         {
-            return await _context.Scootere.OfType<UdlejningsScooter>().Include(s=>s.Mærke)
-                                          .FirstOrDefaultAsync(s => s.ScooterId == id);
+            return await _context.Scootere.OfType<UdlejningsScooter>().Include(s => s.Mærke)
+                .FirstOrDefaultAsync(s => s.ScooterId == id);
         }
 
         public async Task<List<UdlejningsScooter>> ReadUdlejningsScootereAsync()
@@ -36,7 +36,14 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<int> UpdateUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter)
         {
-            _context.Scootere.Update(udlejningsScooter);
+            // Henter scooteren fra databasen og gemmer den i existingScooter
+            var existingScooter = await _context.Scootere.FindAsync(udlejningsScooter.ScooterId); 
+            if (existingScooter == null)
+            {
+                throw new ArgumentException("Scooteren findes ikke.");
+            }
+            // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
+            _context.Entry(existingScooter).CurrentValues.SetValues(udlejningsScooter);
             await _context.SaveChangesAsync();
             return udlejningsScooter.ScooterId;
         }
@@ -47,7 +54,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                                                  .FirstOrDefaultAsync(s => s.ScooterId == id);
             if (scooter != null)
             {
-                _context.Scootere.Remove(scooter);
+                scooter.ErAktiv = false;
                 await _context.SaveChangesAsync();
                 return id;
             }

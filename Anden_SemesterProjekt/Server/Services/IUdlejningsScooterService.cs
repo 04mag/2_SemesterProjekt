@@ -8,6 +8,6 @@ namespace Anden_SemesterProjekt.Server.Services
         Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync();
         Task<int> AddUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter);
         Task<int> UpdateUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter);
-        Task<int> RemoveUdlejningsScooterAsync(int id);
+        Task<int> DeleteUdlejningsScooterAsync(int id);
     }
 }
