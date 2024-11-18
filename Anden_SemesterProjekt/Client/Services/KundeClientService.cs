@@ -46,7 +46,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<Kunde>>("api/kunder");
+                return await _httpClient.GetFromJsonAsync<List<Kunde>>($"api/kunder");
             }
             catch
             {
