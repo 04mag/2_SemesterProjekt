@@ -18,7 +18,8 @@
     </tr>
     </thead>
     <tbody>
-
+@if (udlejningsScootere != null)
+{
     @foreach (var scooter in udlejningsScootere)
     {
         <tr>
@@ -33,6 +34,7 @@
             </td>
         </tr>
     }
+}
     </tbody>
 </table>
 

@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         protected override async Task OnInitializedAsync()
         {
             mærker = await MærkeService.GetMærker();
-            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere() ?? new List<UdlejningsScooter>();
 
             // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
            HentMærker();
