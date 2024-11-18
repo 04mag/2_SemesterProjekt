@@ -21,8 +21,20 @@ namespace Anden_SemesterProjekt.Client.Pages
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            mærker = await MærkeService.GetMærker();
-            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere() ?? new List<UdlejningsScooter>();
+
+            var mærkerResult = await MærkeService.GetMærker();
+
+            if (mærkerResult != null)
+            {
+                mærker = mærkerResult;
+            }
+
+            var udlejningsScootereResult = await UdlejningsScooterService.GetUdlejningsScootere();
+
+            if (udlejningsScootereResult != null)
+            {
+                udlejningsScootere = udlejningsScootereResult;
+            }
 
             // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
            HentMærker();
