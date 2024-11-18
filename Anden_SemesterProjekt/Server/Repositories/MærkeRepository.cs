@@ -15,10 +15,6 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<Mærke?> ReadMærkeAsync(int id)
         {
-            //return await _context.Mærker
-            //    .Include(m => m.Mekanikere)
-            //    .FirstOrDefaultAsync(m => m.MærkeId == id);
-
             return await _context.Mærker
                 .Where(m => m.MærkeId == id)
                 .FirstOrDefaultAsync();
@@ -32,8 +28,6 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             catch (Exception ex)
             {
-                // Log fejlen, f.eks. med en logging-framework
-                Console.WriteLine($"Fejl ved læsning af mærker: {ex.Message}");
                 return new List<Mærke>();
             }
         }
