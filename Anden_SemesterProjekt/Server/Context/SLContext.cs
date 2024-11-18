@@ -98,7 +98,20 @@ namespace Anden_SemesterProjekt.Server.Context
                             new { MekanikerId = 4, MærkeId = 6 },
                             new { MekanikerId = 4, MærkeId = 7 },
                             new { MekanikerId = 4, MærkeId = 9 });
-                     });
+            });
+
+            modelBuilder.Entity<By>().HasData(
+                new By { Postnummer = "1000", ByNavn = "København" },
+                new By { Postnummer = "2000", ByNavn = "Frederiksberg" },
+                new By { Postnummer = "3000", ByNavn = "Helsingør" },
+                new By { Postnummer = "4000", ByNavn = "Roskilde" },
+                new By { Postnummer = "5000", ByNavn = "Odense" },
+                new By { Postnummer = "6000", ByNavn = "Kolding" },
+                new By { Postnummer = "7000", ByNavn = "Fredericia" },
+                new By { Postnummer = "7100", ByNavn = "Vejle" },
+                new By { Postnummer = "8000", ByNavn = "Århus" }
+                );
+
         }
     }
 }
