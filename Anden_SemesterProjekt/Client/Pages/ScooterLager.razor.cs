@@ -15,18 +15,15 @@ namespace Anden_SemesterProjekt.Client.Pages
         private UdlejningsScooter valgtUdlejningsScooter = new UdlejningsScooter();
         private UdlejningsScooter redigeretScooter;
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
-        private string? successMessage;
-        private string? errorMessage;
         private List<Mærke> mærker = new List<Mærke>();
         private int? nyScooterMærkeId = new int();
         private int? valgtScooterMærkeId = new int();
-        private bool detaljerModal = false;
+        private bool detailsModal = false;
         private bool editModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
         protected override async Task OnInitializedAsync()
         {
-
             var mærkerResult = await MærkeService.GetMærker();
 
             if (mærkerResult != null)
@@ -48,9 +45,6 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             try
             {
-                successMessage = "Scooter oprettet med succes!";
-                errorMessage = null;
-
                 if (nyScooterMærkeId == null)
                 {
                     throw new InvalidOperationException("Valgt scooter mærke ID er null.");
@@ -70,7 +64,6 @@ namespace Anden_SemesterProjekt.Client.Pages
 
                 if (response != null && response.IsSuccessStatusCode)
                 {
-                    successMessage = "Scooter oprettet med succes!";
                     udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
                     await HentMærker();
 
@@ -87,8 +80,7 @@ namespace Anden_SemesterProjekt.Client.Pages
             }
             catch (Exception ex)
             {
-                errorMessage = $"Fejl: {ex.Message}";
-                Console.WriteLine(errorMessage);
+                var errorBox = await JS.InvokeAsync<string>("alert", ex.Message);
             }
         }
         private void ScooterDetaljer(UdlejningsScooter scooter)
@@ -97,16 +89,16 @@ namespace Anden_SemesterProjekt.Client.Pages
             {
                 if (s.ScooterId == scooter.ScooterId)
                 {   valgtUdlejningsScooter = scooter;
-                    detaljerModal = true;
+                    detailsModal = true;
                     StateHasChanged();
                 }
                 else
                 {
-                    detaljerModal = false;
+                    detailsModal = false;
                     StateHasChanged();
                 }
             }
-            detaljerModal = true;
+            detailsModal = true;
         }
         private void EditScooter(UdlejningsScooter scooter)
         {
@@ -116,11 +108,10 @@ namespace Anden_SemesterProjekt.Client.Pages
                 ScooterId = scooter.ScooterId,
                 Stelnummer = scooter.Stelnummer,
                 Registreringsnummer = scooter.Registreringsnummer,
-                MærkeId = valgtUdlejningsScooter.MærkeId,
+                MærkeId = scooter.MærkeId,
                 ErAktiv = scooter.ErAktiv,
                 ErTilgængelig = scooter.ErTilgængelig,
-                // Kopiér andre relevante felter
-            };
+              };
             
             editModal = true;
             StateHasChanged();
@@ -128,7 +119,7 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         private void CloseModal()
         {
-            detaljerModal = false;
+            detailsModal = false;
         }
         private async Task CloseEditModal()
         {
@@ -143,11 +134,12 @@ namespace Anden_SemesterProjekt.Client.Pages
             if (response.IsSuccessStatusCode)
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Scooteren er opdateret.");
-                detaljerModal = false;
+                detailsModal = false;
                 udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
                 HentMærker();
-                detaljerModal = true;
+                detailsModal = true;
                 editModal = false;
+                detailsModal = false;
             }
         }
         private async Task DeleteScooter(UdlejningsScooter scooter)

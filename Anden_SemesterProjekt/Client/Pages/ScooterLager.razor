@@ -5,10 +5,14 @@
 
 @page "/Scooterlager"
 <h1>ScooterLager</h1>
+@if (udlejningsScootere.Count < 1)
+{
+    <h3>Indlæser. Vent venligst...</h3>
+}
 
 @if (udlejningsScootere.Count > 0)
 {
-<h3>Liste over UdlejningsScootere</h3>
+<h3> Scooter beholdning:</h3>
 
 <table class="table table-sm" >
     <thead>
@@ -54,14 +58,16 @@
     <button type="submit">Tilføj scooter</button>
 </EditForm>
 
-@if (detaljerModal)
+@if (detailsModal)
 {
     <div class="modal">
         <div class="modal-content">
             <span class="close-button" @onclick="CloseModal">&times;</span>
-            <h2>Detaljer for @valgtUdlejningsScooter?.Stelnummer</h2>
-            <p>Registreringsnummer: @valgtUdlejningsScooter?.Registreringsnummer</p>
-            <p>Mærke: @valgtUdlejningsScooter?.Mærke?.ScooterMærke</p>
+            <h3>Scooter detaljer</h3>
+            <h4>Id: @valgtUdlejningsScooter?.ScooterId</h4>
+            <h4>Mærke</h4> <p>@valgtUdlejningsScooter?.Mærke?.ScooterMærke</p> 
+            <h4>Stelnummer</h4> <p>@valgtUdlejningsScooter?.Stelnummer</p>
+            <h4>Registreringsnummer</h4> <p>@valgtUdlejningsScooter?.Registreringsnummer</p>
             <button class="btn btn-primary" @onclick="() =>EditScooter(valgtUdlejningsScooter)">Rediger</button>
         </div>
     </div>
