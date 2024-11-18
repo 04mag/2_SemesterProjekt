@@ -61,12 +61,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("AdresseId");
 
-                    b.HasIndex("KundeId")
-                        .IsUnique();
-
                     b.HasIndex("Postnummer");
 
-                    b.ToTable("Adresser");
+                    b.ToTable("Adresser", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
@@ -80,7 +77,54 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("Postnummer");
 
-                    b.ToTable("By");
+                    b.ToTable("By", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Postnummer = "1000",
+                            ByNavn = "København"
+                        },
+                        new
+                        {
+                            Postnummer = "2000",
+                            ByNavn = "Frederiksberg"
+                        },
+                        new
+                        {
+                            Postnummer = "3000",
+                            ByNavn = "Helsingør"
+                        },
+                        new
+                        {
+                            Postnummer = "4000",
+                            ByNavn = "Roskilde"
+                        },
+                        new
+                        {
+                            Postnummer = "5000",
+                            ByNavn = "Odense"
+                        },
+                        new
+                        {
+                            Postnummer = "6000",
+                            ByNavn = "Kolding"
+                        },
+                        new
+                        {
+                            Postnummer = "7000",
+                            ByNavn = "Fredericia"
+                        },
+                        new
+                        {
+                            Postnummer = "7100",
+                            ByNavn = "Vejle"
+                        },
+                        new
+                        {
+                            Postnummer = "8000",
+                            ByNavn = "Århus"
+                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
@@ -90,6 +134,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KundeId"));
+
+                    b.Property<int>("AdresseId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -105,9 +152,12 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("KundeId");
 
+                    b.HasIndex("AdresseId")
+                        .IsUnique();
+
                     b.HasIndex("TilknyttetMekanikerMekanikerId");
 
-                    b.ToTable("Kunder");
+                    b.ToTable("Kunder", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Mekaniker", b =>
@@ -128,7 +178,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("MekanikerId");
 
-                    b.ToTable("Mekanikere");
+                    b.ToTable("Mekanikere", (string)null);
 
                     b.HasData(
                         new
@@ -171,7 +221,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("MærkeId");
 
-                    b.ToTable("Mærker");
+                    b.ToTable("Mærker", (string)null);
 
                     b.HasData(
                         new
@@ -275,7 +325,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("UdlejningsScooterId");
 
-                    b.ToTable("Ordrer");
+                    b.ToTable("Ordrer", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
@@ -300,7 +350,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("MærkeId");
 
-                    b.ToTable("Scootere");
+                    b.ToTable("Scootere", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -324,7 +374,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("KundeId");
 
-                    b.ToTable("TlfNumre");
+                    b.ToTable("TlfNumre", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Udlejning", b =>
@@ -371,7 +421,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("UdlejningsScooterId");
 
-                    b.ToTable("Udlejninger");
+                    b.ToTable("Udlejninger", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Vare", b =>
@@ -428,7 +478,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("VareId");
 
-                    b.ToTable("VareLinjer");
+                    b.ToTable("VareLinjer", (string)null);
                 });
 
             modelBuilder.Entity("MekanikerMærke", b =>
@@ -443,7 +493,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("MærkeId");
 
-                    b.ToTable("MekanikerMærke");
+                    b.ToTable("MekanikerMærke", (string)null);
 
                     b.HasData(
                         new
@@ -590,12 +640,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
-                        .WithOne("Adresse")
-                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Adresse", "KundeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
                         .WithMany("Adresser")
                         .HasForeignKey("Postnummer")
@@ -603,15 +647,21 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("By");
-
-                    b.Navigation("Kunde");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Adresse", "Adresse")
+                        .WithOne("Kunde")
+                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Kunde", "AdresseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
                         .HasForeignKey("TilknyttetMekanikerMekanikerId");
+
+                    b.Navigation("Adresse");
 
                     b.Navigation("TilknyttetMekaniker");
                 });
@@ -753,6 +803,12 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
+                {
+                    b.Navigation("Kunde")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
                 {
                     b.Navigation("Adresser");
@@ -760,9 +816,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
-                    b.Navigation("Adresse")
-                        .IsRequired();
-
                     b.Navigation("Ordrer");
 
                     b.Navigation("Scootere");
