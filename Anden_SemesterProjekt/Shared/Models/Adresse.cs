@@ -28,6 +28,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [ForeignKey("By")]
         public string Postnummer { get; set; }
         public By? By { get; set; }
+        public int KundeId { get; set; }
         [JsonIgnore]
         public Kunde? Kunde { get; set; }
     }
