@@ -68,26 +68,23 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Adresser",
+                name: "Kunder",
                 columns: table => new
                 {
-                    AdresseId = table.Column<int>(type: "int", nullable: false)
+                    KundeId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Gadenavn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Husnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    Etage = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
-                    Side = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
-                    Dørnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
-                    Postnummer = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Navn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MekanikerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Adresser", x => x.AdresseId);
+                    table.PrimaryKey("PK_Kunder", x => x.KundeId);
                     table.ForeignKey(
-                        name: "FK_Adresser_By_Postnummer",
-                        column: x => x.Postnummer,
-                        principalTable: "By",
-                        principalColumn: "Postnummer",
+                        name: "FK_Kunder_Mekanikere_MekanikerId",
+                        column: x => x.MekanikerId,
+                        principalTable: "Mekanikere",
+                        principalColumn: "MekanikerId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -155,49 +152,53 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Kunder",
+                name: "Adresser",
                 columns: table => new
                 {
-                    KundeId = table.Column<int>(type: "int", nullable: false)
+                    AdresseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Navn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AdresseId = table.Column<int>(type: "int", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MekanikerId = table.Column<int>(type: "int", nullable: false)
+                    Gadenavn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Husnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
+                    Etage = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
+                    Side = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
+                    Dørnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    Postnummer = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    KundeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kunder", x => x.KundeId);
+                    table.PrimaryKey("PK_Adresser", x => x.AdresseId);
                     table.ForeignKey(
-                        name: "FK_Kunder_Adresser_AdresseId",
-                        column: x => x.AdresseId,
-                        principalTable: "Adresser",
-                        principalColumn: "AdresseId",
+                        name: "FK_Adresser_By_Postnummer",
+                        column: x => x.Postnummer,
+                        principalTable: "By",
+                        principalColumn: "Postnummer",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Kunder_Mekanikere_MekanikerId",
-                        column: x => x.MekanikerId,
-                        principalTable: "Mekanikere",
-                        principalColumn: "MekanikerId",
+                        name: "FK_Adresser_Kunder_KundeId",
+                        column: x => x.KundeId,
+                        principalTable: "Kunder",
+                        principalColumn: "KundeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "UdlejningsScootere",
+                name: "TlfNumre",
                 columns: table => new
                 {
-                    ScooterId = table.Column<int>(type: "int", nullable: false),
-                    ErTilgængelig = table.Column<bool>(type: "bit", nullable: false),
-                    ErAktiv = table.Column<bool>(type: "bit", nullable: false)
+                    TlfNummerId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TelefonNummer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    KundeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UdlejningsScootere", x => x.ScooterId);
+                    table.PrimaryKey("PK_TlfNumre", x => x.TlfNummerId);
                     table.ForeignKey(
-                        name: "FK_UdlejningsScootere_Scootere_ScooterId",
-                        column: x => x.ScooterId,
-                        principalTable: "Scootere",
-                        principalColumn: "ScooterId",
+                        name: "FK_TlfNumre_Kunder_KundeId",
+                        column: x => x.KundeId,
+                        principalTable: "Kunder",
+                        principalColumn: "KundeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -226,22 +227,21 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TlfNumre",
+                name: "UdlejningsScootere",
                 columns: table => new
                 {
-                    TlfNummerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TelefonNummer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    KundeId = table.Column<int>(type: "int", nullable: false)
+                    ScooterId = table.Column<int>(type: "int", nullable: false),
+                    ErTilgængelig = table.Column<bool>(type: "bit", nullable: false),
+                    ErAktiv = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TlfNumre", x => x.TlfNummerId);
+                    table.PrimaryKey("PK_UdlejningsScootere", x => x.ScooterId);
                     table.ForeignKey(
-                        name: "FK_TlfNumre_Kunder_KundeId",
-                        column: x => x.KundeId,
-                        principalTable: "Kunder",
-                        principalColumn: "KundeId",
+                        name: "FK_UdlejningsScootere_Scootere_ScooterId",
+                        column: x => x.ScooterId,
+                        principalTable: "Scootere",
+                        principalColumn: "ScooterId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -423,15 +423,15 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Adresser_KundeId",
+                table: "Adresser",
+                column: "KundeId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Adresser_Postnummer",
                 table: "Adresser",
                 column: "Postnummer");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Kunder_AdresseId",
-                table: "Kunder",
-                column: "AdresseId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Kunder_MekanikerId",
@@ -503,6 +503,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Adresser");
+
+            migrationBuilder.DropTable(
                 name: "MekanikerMærke");
 
             migrationBuilder.DropTable(
@@ -516,6 +519,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Ydelser");
+
+            migrationBuilder.DropTable(
+                name: "By");
 
             migrationBuilder.DropTable(
                 name: "Ordrer");
@@ -536,16 +542,10 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 name: "Scootere");
 
             migrationBuilder.DropTable(
-                name: "Adresser");
-
-            migrationBuilder.DropTable(
                 name: "Mekanikere");
 
             migrationBuilder.DropTable(
                 name: "Mærker");
-
-            migrationBuilder.DropTable(
-                name: "By");
         }
     }
 }
