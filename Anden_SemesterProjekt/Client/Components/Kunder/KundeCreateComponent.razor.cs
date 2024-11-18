@@ -11,7 +11,8 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         private EditContext editContext;
         private bool isSubmitting = false;
         private string postnummerErrorMessage = "";
-        private string byNavn = "";
+        public string? ByNavn { get; set; }
+
 
         [Inject]
         public IKundeClientService KundeService { get; set; }
@@ -25,51 +26,45 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         {
             isSubmitting = true;
 
-            By by = await KundeService.GetBy(kundeModel.Adresse.Postnummer);
+            if (await CheckPostnummer())
+            {
+                await KundeService.PostKunde(kundeModel);
+            }
 
-            if (by == null)
-            {
-                postnummerErrorMessage = "Postnummeret findes ikke";
-            }
-            else
-            {
-                postnummerErrorMessage = "";
-            }
             isSubmitting = false;
         }
 
         private async Task HandleInvalidSubmit()
         {
-            By by = await KundeService.GetBy(kundeModel.Adresse.Postnummer);
-
-            if (by == null)
-            {
-                postnummerErrorMessage = "Postnummeret findes ikke";
-            }
-            else
-            {
-                postnummerErrorMessage = "";
-            }
+            await CheckPostnummer();
         }
 
-        private async Task<string> GetBynavn()
+        private async Task<bool> CheckPostnummer()
         {
             var result = await KundeService.GetBy(kundeModel.Adresse.Postnummer);
 
             if (result == null)
             {
-                return "";
+                ByNavn = null;
+                postnummerErrorMessage = "Postnummeret findes ikke.";
+                return false;
             }
             else
             {
                 postnummerErrorMessage = "";
-                return result.ByNavn;
+                ByNavn = result.ByNavn;
+                return true;
             }
         }
 
-        private async void PostnummerChanged()
+        private void OnTlfNummerInputSuccess(TlfNummer tlfNummer)
         {
-            byNavn = await GetBynavn();
+            kundeModel.TlfNumre.Add(tlfNummer);
+        }
+
+        private void OnTlfNummerInputRemove(TlfNummer tlfNummer)
+        {
+            kundeModel.TlfNumre.Remove(tlfNummer);
         }
     }
 }

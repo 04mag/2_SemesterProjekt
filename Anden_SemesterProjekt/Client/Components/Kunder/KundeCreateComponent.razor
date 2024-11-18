@@ -1,4 +1,6 @@
-﻿<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+﻿@using Anden_SemesterProjekt.Client.Components.Kunder.TlfNumre
+<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+    <ObjectGraphDataAnnotationsValidator />
     <div class="mb-3">
         <h3>Opret ny kunde</h3>
     </div>
@@ -36,20 +38,37 @@
     </div>
     <div class="col-md-6 mb-3">
         <label for="Postnummer" class="form-label">Postnummer</label>
-        <InputText id="Postnummer" class="form-control" @bind-Value="kundeModel.Adresse.Postnummer" @onchange="PostnummerChanged" />
+        <InputText id="Postnummer" class="form-control" @bind-Value="kundeModel.Adresse.Postnummer" />
         <label class="alert-danger">@postnummerErrorMessage</label>
     </div>
     <div class="col-md-6 mb-3">
         <label for="By" class="form-label">By</label>
-        <input id="By" class="form-control" value="@byNavn" disabled="disabled" />
+        <input id="By" class="form-control" value="@ByNavn" disabled="disabled" />
     </div>
 
-    <ValidationSummary />
+    @* <ValidationSummary /> *@
+
+    <TlfNummerCreateComponent OnInputSuccess="OnTlfNummerInputSuccess" />
+
+    @if (kundeModel.TlfNumre.Count > 0)
+    {
+        <div class="col-12 mb-5 p-3 border border-primary rounded">
+            <h4>Telefonnumre tilføjet</h4>
+            <ul>
+                @foreach (var tlfNummer in kundeModel.TlfNumre)
+                {
+                    <li>
+                        <TlfNummerRenderComponent TlfNummer="tlfNummer" OnDelete="OnTlfNummerInputRemove" />
+                    </li>
+                }
+            </ul>
+        </div>
+    }
+
 
     <div class="col-12 mb-3">
         <button disabled="@isSubmitting" type="submit" class="btn btn-primary">Submit</button>
     </div>
 
-    <ObjectGraphDataAnnotationsValidator />
 
 </EditForm>

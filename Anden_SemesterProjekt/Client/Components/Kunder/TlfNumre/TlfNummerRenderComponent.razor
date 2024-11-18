@@ -1,10 +1,12 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
 
-<span>+45 @TlfNummer.TelefonNummer</span>
-@if (OnDelete.HasDelegate)
-{
-    <button class="btn btn-danger" @onclick="() => OnDelete.InvokeAsync(TlfNummer)">Slet</button>
-}
+<div class="align-content-center">
+    <span>(+45) @TlfNummer.TelefonNummer</span>
+    @if (OnDelete.HasDelegate)
+    {
+        <button class="btn btn-danger m-3" @onclick="() => OnDelete.InvokeAsync(TlfNummer)">Slet</button>
+    }
+</div>
 
 @code {
     [Parameter, EditorRequired]

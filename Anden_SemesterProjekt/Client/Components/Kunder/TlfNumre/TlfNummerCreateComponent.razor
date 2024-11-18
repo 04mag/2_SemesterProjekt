@@ -1,9 +1,9 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
 
-<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+<EditForm EditContext="editContext" class="col-12 p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
     
-    <div class="col-md-12">
-        <label for="TelefonNummer">Telefonnummer</label>
+    <div class="col-md-12 mb-3">
+        <label for="TelefonNummer">Telefonnummer (+45)</label>
         <InputText id="TelefonNummer" class="form-control" @bind-Value="tlfNummerModel.TelefonNummer" />
         <ValidationMessage For="@(() => tlfNummerModel.TelefonNummer)" />
     </div>
@@ -13,7 +13,6 @@
     </div>
 
     <DataAnnotationsValidator />
-    <ValidationSummary />
 </EditForm>
 
 
@@ -23,7 +22,7 @@
     private bool isSubmitting = false;
 
     [Parameter, EditorRequired]
-    public EventCallback<TlfNummer> OnCreateSuccess { get; set; }
+    public EventCallback<TlfNummer> OnInputSuccess { get; set; }
 
     protected override void OnInitialized()
     {
@@ -33,7 +32,7 @@
     private void HandleValidSubmit()
     {
         isSubmitting = true;
-        OnCreateSuccess.InvokeAsync(tlfNummerModel);
+        OnInputSuccess.InvokeAsync(tlfNummerModel);
         tlfNummerModel = new TlfNummer();
         isSubmitting = false;
     }
