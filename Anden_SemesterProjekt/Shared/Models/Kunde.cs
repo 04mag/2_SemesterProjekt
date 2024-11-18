@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,10 +13,10 @@ namespace Anden_SemesterProjekt.Shared.Models
     {
 
         public int KundeId { get; set; }
-        [Required]
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Navn skal være mellem 2 og 50 karaktere langt.")]
         public string Navn { get; set; } = string.Empty;
-        [Required]
+        [ForeignKey("Adresse")]
+        public int AdresseId { get; set; }
         [ValidateComplexType]
         public Adresse Adresse { get; set; } = new Adresse();
         [Required]
