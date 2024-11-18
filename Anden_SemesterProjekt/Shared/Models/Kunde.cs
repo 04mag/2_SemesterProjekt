@@ -16,6 +16,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Navn skal være mellem 2 og 50 karaktere langt.")]
         public string Navn { get; set; } = string.Empty;
         [Required]
+        [ValidateComplexType]
         public Adresse Adresse { get; set; } = new Adresse();
         [Required]
         public List<TlfNummer> TlfNumre { get; set; } = new List<TlfNummer>();
