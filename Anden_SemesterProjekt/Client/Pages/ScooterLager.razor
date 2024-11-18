@@ -29,9 +29,6 @@
             <td>@scooter.Registreringsnummer</td>
             <td>@scooter.Mærke?.ScooterMærke</td>
             <td>@(scooter.ErTilgængelig ? "Til rådighed" : "Udlejet")</td>
-            <td>
-                <button class="btn btn-danger btn-sm" @onclick="() => DeleteScooter(scooter)">Slet</button>
-            </td>
         </tr>
     }
     </tbody>
@@ -57,7 +54,7 @@
     <button type="submit">Tilføj scooter</button>
 </EditForm>
 
-@if (showModal)
+@if (detaljerModal)
 {
     <div class="modal">
         <div class="modal-content">
@@ -65,26 +62,28 @@
             <h2>Detaljer for @valgtUdlejningsScooter?.Stelnummer</h2>
             <p>Registreringsnummer: @valgtUdlejningsScooter?.Registreringsnummer</p>
             <p>Mærke: @valgtUdlejningsScooter?.Mærke?.ScooterMærke</p>
-                <button class="btn btn-danger" @onclick="() =>DeleteScooter(valgtUdlejningsScooter)">Slet</button>
             <button class="btn btn-primary" @onclick="() =>EditScooter(valgtUdlejningsScooter)">Rediger</button>
         </div>
     </div>
 }
 @if (editModal)
 {
+
     <div class="modal">
         <div class="modal-content">
             <span class="close-button" @onclick="CloseEditModal">&times;</span>
             <label for="mærke">Mærke:</label>
-            <select @bind="valgtScooterMærkeId">
+            <select @bind="redigeretScooter.MærkeId">
+            <option value=""> Vælg et mærke...</option>
                 @foreach (var mærke in mærker)
                 {
                     <option value="@mærke.MærkeId">@mærke.ScooterMærke</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
                 }
             </select>
-            <InputText id="stelnummer" @bind-Value="valgtUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer"/>
-            <InputText id="registreringsnummer" @bind-Value="valgtUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer"/>
+            <InputText id="stelnummer" @bind-Value="redigeretScooter.Stelnummer" class="form-control" placeholder="Stelnummer"/>
+            <InputText id="registreringsnummer" @bind-Value="redigeretScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer"/>
             <button class="btn btn-primary" @onclick="UpdateScooter">Gem</button>
+            <button class="btn btn-danger btn-sm" style="width: 100px;" @onclick="() =>DeleteScooter(valgtUdlejningsScooter)">Slet</button>
         </div>
     </div>
 }

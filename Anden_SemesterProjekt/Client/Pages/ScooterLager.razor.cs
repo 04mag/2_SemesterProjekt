@@ -13,13 +13,14 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
         private UdlejningsScooter valgtUdlejningsScooter = new UdlejningsScooter();
+        private UdlejningsScooter redigeretScooter;
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
         private string? successMessage;
         private string? errorMessage;
         private List<Mærke> mærker = new List<Mærke>();
         private int? nyScooterMærkeId = new int();
         private int? valgtScooterMærkeId = new int();
-        private bool showModal = false;
+        private bool detaljerModal = false;
         private bool editModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
@@ -96,29 +97,40 @@ namespace Anden_SemesterProjekt.Client.Pages
             {
                 if (s.ScooterId == scooter.ScooterId)
                 {   valgtUdlejningsScooter = scooter;
-                    showModal = true;
+                    detaljerModal = true;
                     StateHasChanged();
                 }
                 else
                 {
-                    showModal = false;
+                    detaljerModal = false;
                     StateHasChanged();
                 }
             }
-            showModal = true;
+            detaljerModal = true;
         }
         private void EditScooter(UdlejningsScooter scooter)
         {
-            valgtScooterMærkeId = valgtUdlejningsScooter.MærkeId;
+            valgtUdlejningsScooter = scooter;
+            redigeretScooter = new UdlejningsScooter
+            {
+                ScooterId = scooter.ScooterId,
+                Stelnummer = scooter.Stelnummer,
+                Registreringsnummer = scooter.Registreringsnummer,
+                MærkeId = valgtUdlejningsScooter.MærkeId,
+                ErAktiv = scooter.ErAktiv,
+                ErTilgængelig = scooter.ErTilgængelig,
+                // Kopiér andre relevante felter
+            };
+            
             editModal = true;
             StateHasChanged();
         }
 
         private void CloseModal()
         {
-            showModal = false;
+            detaljerModal = false;
         }
-        private void CloseEditModal()
+        private async Task CloseEditModal()
         {
             editModal = false;
         }
@@ -126,11 +138,15 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         private async Task UpdateScooter()
         {
-            var response = await UdlejningsScooterService.UpdateUdlejningsScooter(valgtUdlejningsScooter);
+            valgtUdlejningsScooter.MærkeId = valgtScooterMærkeId.Value;
+            var response = await UdlejningsScooterService.UpdateUdlejningsScooter(redigeretScooter);
             if (response.IsSuccessStatusCode)
             {
-               
-                StateHasChanged();
+                var successBox = await JS.InvokeAsync<string>("alert", "Scooteren er opdateret.");
+                detaljerModal = false;
+                udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+                HentMærker();
+                detaljerModal = true;
                 editModal = false;
             }
         }
@@ -138,7 +154,6 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             // Vis en bekræftelsesdialog med JavaScript
             var confirmDelete = await JS.InvokeAsync<bool>("confirm", "Er du sikker på, at du vil slette denne scooter?");
-
             if (confirmDelete)
             {
                 var response = await UdlejningsScooterService.DeleteUdlejningsScooter(scooter.ScooterId);
@@ -146,7 +161,8 @@ namespace Anden_SemesterProjekt.Client.Pages
                 {
                     udlejningsScootere.Remove(scooter);
                     await HentMærker();
-                    showModal = false;
+                   editModal = false;
+
                     nyUdlejningsScooter = new UdlejningsScooter();
                     StateHasChanged();
                 }
