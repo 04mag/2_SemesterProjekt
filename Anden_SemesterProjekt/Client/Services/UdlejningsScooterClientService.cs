@@ -14,8 +14,14 @@ namespace Anden_SemesterProjekt.Client.Services
 
         public async Task<UdlejningsScooter?> GetUdlejningsScooter(int id)
         {
-            var result = await _httpClient.GetFromJsonAsync<UdlejningsScooter>($"api/udlejningsscooter/{id}");
-            return result;
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<UdlejningsScooter>($"api/udlejningsscooter/{id}");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<UdlejningsScooter>?> GetUdlejningsScootere()
