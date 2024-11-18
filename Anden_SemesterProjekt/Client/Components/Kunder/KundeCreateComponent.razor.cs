@@ -26,9 +26,23 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         {
             isSubmitting = true;
 
-            if (await CheckPostnummer())
+            bool check = await CheckPostnummer();
+
+            if (check)
             {
-                await KundeService.PostKunde(kundeModel);
+                kundeModel.MekanikerId = 1;
+
+                Console.WriteLine("Making post call");
+
+                var result = await KundeService.PostKunde(kundeModel);
+
+                Console.WriteLine($"After post call.");
+
+                if (result != null)
+                {
+                    Console.WriteLine($"ID: {result.KundeId}");
+                    kundeModel = new Kunde();
+                }
             }
 
             isSubmitting = false;

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
@@ -15,6 +16,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [RegularExpression(@"([2-9])\d{7}", ErrorMessage = "Ugyldigt telefonnummer.")]
         public string TelefonNummer { get; set; }
         public int KundeId { get; set; }
-        public Kunde Kunde { get; set; }
+        [JsonIgnore]
+        public Kunde? Kunde { get; set; }
     }
 }

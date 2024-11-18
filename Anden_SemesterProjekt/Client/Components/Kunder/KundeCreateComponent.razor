@@ -11,6 +11,12 @@
         <ValidationMessage For="@(() => kundeModel.Navn)" />
      </div>
 
+    <div class="col-12 mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <InputText id="Email" class="form-control" @bind-Value="kundeModel.Email" />
+        <ValidationMessage For="@(() => kundeModel.Email)" />
+    </div>
+
      <div class="col-md-8 mb-3">
          <label for="Vej" class="form-label">Vej</label>
          <InputText id="Vej" class="form-control" @bind-Value="kundeModel.Adresse.Gadenavn"/>
@@ -45,8 +51,6 @@
         <label for="By" class="form-label">By</label>
         <input id="By" class="form-control" value="@ByNavn" disabled="disabled" />
     </div>
-
-    @* <ValidationSummary /> *@
 
     <TlfNummerCreateComponent OnInputSuccess="OnTlfNummerInputSuccess" />
 

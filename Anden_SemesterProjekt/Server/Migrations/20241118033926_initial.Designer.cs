@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241118025628_addedAdresseIdToKunde")]
-    partial class addedAdresseIdToKunde
+    [Migration("20241118033926_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,9 +50,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
-
-                    b.Property<int>("KundeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Postnummer")
                         .IsRequired()
@@ -145,20 +142,20 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MekanikerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Navn")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("TilknyttetMekanikerMekanikerId")
-                        .HasColumnType("int");
 
                     b.HasKey("KundeId");
 
                     b.HasIndex("AdresseId")
                         .IsUnique();
 
-                    b.HasIndex("TilknyttetMekanikerMekanikerId");
+                    b.HasIndex("MekanikerId");
 
                     b.ToTable("Kunder");
                 });
@@ -662,7 +659,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
-                        .HasForeignKey("TilknyttetMekanikerMekanikerId");
+                        .HasForeignKey("MekanikerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Adresse");
 

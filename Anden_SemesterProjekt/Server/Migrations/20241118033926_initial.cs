@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class addedAdresseIdToKunde : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,8 +78,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     Etage = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
                     Side = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: true),
                     Dørnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
-                    Postnummer = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    KundeId = table.Column<int>(type: "int", nullable: false)
+                    Postnummer = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -164,7 +163,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     Navn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     AdresseId = table.Column<int>(type: "int", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TilknyttetMekanikerMekanikerId = table.Column<int>(type: "int", nullable: true)
+                    MekanikerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -176,10 +175,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         principalColumn: "AdresseId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Kunder_Mekanikere_TilknyttetMekanikerMekanikerId",
-                        column: x => x.TilknyttetMekanikerMekanikerId,
+                        name: "FK_Kunder_Mekanikere_MekanikerId",
+                        column: x => x.MekanikerId,
                         principalTable: "Mekanikere",
-                        principalColumn: "MekanikerId");
+                        principalColumn: "MekanikerId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -434,9 +434,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Kunder_TilknyttetMekanikerMekanikerId",
+                name: "IX_Kunder_MekanikerId",
                 table: "Kunder",
-                column: "TilknyttetMekanikerMekanikerId");
+                column: "MekanikerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_KundeScootere_KundeId",

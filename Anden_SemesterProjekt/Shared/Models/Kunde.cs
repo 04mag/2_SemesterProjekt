@@ -17,6 +17,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public string Navn { get; set; } = string.Empty;
         [ForeignKey("Adresse")]
         public int AdresseId { get; set; }
+        [Required]
         [ValidateComplexType]
         public Adresse Adresse { get; set; } = new Adresse();
         [Required]
@@ -24,6 +25,8 @@ namespace Anden_SemesterProjekt.Shared.Models
         [Required]
         [EmailAddress(ErrorMessage = "Ugyldig Email.")]
         public string Email { get; set; }
+        [ForeignKey("TilknyttetMekaniker")]
+        public int MekanikerId { get; set; }
         public Mekaniker? TilknyttetMekaniker { get; set; }
         public List<KundeScooter> Scootere { get; set; } = new List<KundeScooter>();
         public List<Ordre>? Ordrer { get; set; }
