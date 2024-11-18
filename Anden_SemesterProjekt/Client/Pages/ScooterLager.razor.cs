@@ -5,8 +5,6 @@ using Microsoft.AspNetCore.Components;
 using System.Text.Json;
 using Microsoft.JSInterop;
 
-
-
 namespace Anden_SemesterProjekt.Client.Pages
 {
     public partial class ScooterLager
@@ -21,7 +19,6 @@ namespace Anden_SemesterProjekt.Client.Pages
         private int? valgtScooterMærkeId = new int();
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
-
         protected override async Task OnInitializedAsync()
         {
             mærker = await MærkeService.GetMærker();
@@ -30,7 +27,6 @@ namespace Anden_SemesterProjekt.Client.Pages
             // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
            HentMærker();
         }
-
         private async Task HandleValidSubmit()
         {
             try
@@ -81,21 +77,6 @@ namespace Anden_SemesterProjekt.Client.Pages
                 Console.WriteLine(errorMessage);
             }
         }
-
-        private void HentMærker()
-        {
-            foreach (var scooter in udlejningsScootere)
-            {
-                if (scooter.Mærke == null)
-                {
-                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
-                }
-            }
-        }
-        private void OnScooterClick(UdlejningsScooter scooter)
-        {
-            Console.WriteLine($"Scooter med stelnummer {scooter.Stelnummer} blev klikket på.");
-        }
         private async Task EditScooter(UdlejningsScooter scooter)
         {
             nyUdlejningsScooter = scooter;
@@ -124,6 +105,15 @@ namespace Anden_SemesterProjekt.Client.Pages
                 }
             }
         }
-
+        private void HentMærker()
+        {
+            foreach (var scooter in udlejningsScootere)
+            {
+                if (scooter.Mærke == null)
+                {
+                    scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
+                }
+            }
+        }
     }
 }

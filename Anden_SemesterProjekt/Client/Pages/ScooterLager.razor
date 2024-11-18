@@ -21,7 +21,7 @@
 
     @foreach (var scooter in udlejningsScootere)
     {
-        <tr @onclick="() => OnScooterClick(scooter)">
+        <tr>
             <td>@scooter.Stelnummer</td>
             <td>@scooter.Registreringsnummer</td>
             <td>@scooter.Mærke?.ScooterMærke</td>
@@ -40,9 +40,6 @@
 <EditForm Model="nyUdlejningsScooter" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
-
-   
-
     <div>
         <label for="mærke">Mærke:</label>
         <select @bind="valgtScooterMærkeId">
@@ -55,7 +52,6 @@
         <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
         <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer" />
     </div>
-
     <button type="submit">Tilføj scooter</button>
 </EditForm>
 
