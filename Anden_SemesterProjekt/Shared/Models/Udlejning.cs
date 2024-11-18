@@ -20,7 +20,9 @@ namespace Anden_SemesterProjekt.Shared.Models
         public double LejePrDag { get; set; } = 200;
         public double ForsikringPrDag { get; set; }
         public double PrisPrKm { get; set; } = 0.53;
-
         public double Selvrisiko { get; set; } = 1000;
+        public Udlejning()
+        {
+        }
     }
 }

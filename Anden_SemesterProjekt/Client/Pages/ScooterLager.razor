@@ -1,0 +1,58 @@
+﻿@using Anden_SemesterProjekt.Shared.Models
+@using Anden_SemesterProjekt.Client.Services
+@inject HttpClient Http
+
+
+@page "/Scooterlager"
+<h1>ScooterLager</h1>
+<h3>Liste over UdlejningsScootere</h3>
+
+<table class="table table-sm" >
+    <thead>
+    <tr> 
+        <th>Stelnummer</th>
+        <th>Registreringsnummer</th>
+        <th>Mærke</th>
+        <th>Status</th>
+        <th>Aktiv</th> 
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (var scooter in udlejningsScootere)
+    {
+        <tr>
+            <td>@scooter.Stelnummer</td>
+            <td>@scooter.Registreringsnummer</td>
+            <td>@scooter.Mærke?.ScooterMærke</td>
+            <td>@(scooter.ErTilgængelig ? "Til rådighed" : "Udlejet")</td>
+            <td>@(scooter.ErAktiv ? "Ja" : "Nej")</td>
+            <td>
+                <button class="btn btn-primary btn-sm" @onclick="() => EditScooter(scooter)">Opdater</button>
+                <button class="btn btn-danger btn-sm" @onclick="() => DeleteScooter(scooter)">Slet</button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<h1>Tilføj ny scooter</h1>
+<EditForm Model="nyUdlejningsScooter" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div>
+        <label for="mærke">Mærke:</label>
+        <select @bind="valgtScooterMærkeId">
+        <option value =""> Vælg et mærke...</option>
+        @foreach (var mærke in mærker)
+            {
+                <option value="@mærke.MærkeId">@mærke.ScooterMærke</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
+            }
+        </select>
+        <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
+        <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer" />
+    </div>
+    <button type="submit">Tilføj scooter</button>
+</EditForm>
+
+

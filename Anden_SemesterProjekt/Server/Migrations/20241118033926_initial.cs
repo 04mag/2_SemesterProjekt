@@ -31,7 +31,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     MekanikerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Navn = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Navn = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ErAktiv = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -122,7 +122,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     ScooterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Stelnummer = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Registreiringsnummer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Registreringsnummer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MærkeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -133,7 +133,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         column: x => x.MærkeId,
                         principalTable: "Mærker",
                         principalColumn: "MærkeId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

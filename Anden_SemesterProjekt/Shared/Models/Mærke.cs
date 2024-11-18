@@ -10,9 +10,16 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class Mærke
     {
         public int MærkeId { get; set; }
-        public string ScooterMærke { get; set; }
-        public List <Scooter> Scootere { get; set; }
-        [JsonIgnore]
+        public string ScooterMærke { get; set; } 
+        public List<Scooter> Scootere { get; set; }
         public List<Mekaniker> Mekanikere { get; set; }
+
+        public Mærke()
+        {
+        }
+        public override string ToString()
+        {
+            return ScooterMærke;
+        }
     }
 }

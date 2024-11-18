@@ -29,6 +29,7 @@ namespace Anden_SemesterProjekt.Server.Context
             modelBuilder.Entity<Vare>().ToTable("Varer");
             modelBuilder.Entity<Ydelse>().ToTable("Ydelser");
 
+           
             modelBuilder.Entity<Mærke>().HasData(
                 new Mærke { MærkeId = 1, ScooterMærke = "Aprilla" },
                 new Mærke { MærkeId = 2, ScooterMærke = "Derbi" },
@@ -41,6 +42,12 @@ namespace Anden_SemesterProjekt.Server.Context
                 new Mærke { MærkeId = 9, ScooterMærke = "Vespa" },
                 new Mærke { MærkeId = 10, ScooterMærke = "Yamaha" }
             );
+
+            modelBuilder.Entity<Scooter>()
+                .HasOne(s => s.Mærke)  // Hver Scooter har et Mærke
+                .WithMany(m => m.Scootere)  // Hvert Mærke har mange Scootere
+                .HasForeignKey(s => s.MærkeId)  // Uden denne linje, vil EF Core oprette en ekstra kolonne i Scooter-tabellen
+                .OnDelete(DeleteBehavior.Restrict);  // Forhindrer sletning af Mærke, hvis der er Scootere tilknyttet
 
             modelBuilder.Entity<Mekaniker>().HasData(
                 new Mekaniker
@@ -65,6 +72,7 @@ namespace Anden_SemesterProjekt.Server.Context
                     ErAktiv = true
                 }
             );
+
 
             modelBuilder.Entity<Mekaniker>()
                 .HasMany(p => p.Mærker)

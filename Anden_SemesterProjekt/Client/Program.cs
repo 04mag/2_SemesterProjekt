@@ -18,6 +18,14 @@ namespace Anden_SemesterProjekt.Client
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
+            builder.Services.AddHttpClient<IMærkeClientService, MærkeClientService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+            });
+            builder.Services.AddHttpClient<IUdlejningsScooterClientService, UdlejningsScooterClientService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+            });
             builder.Services.AddHttpClient<IKundeClientService, KundeClientService>(client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);

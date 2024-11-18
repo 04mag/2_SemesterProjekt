@@ -12,7 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
+<<<<<<<< HEAD:Anden_SemesterProjekt/Server/Migrations/20241118033926_initial.Designer.cs
     [Migration("20241118033926_initial")]
+========
+    [Migration("20241117183559_initial")]
+>>>>>>>> Soren_1:Anden_SemesterProjekt/Server/Migrations/20241117183559_initial.Designer.cs
     partial class initial
     {
         /// <inheritdoc />
@@ -173,8 +177,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Navn")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MekanikerId");
 
@@ -339,7 +342,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<int>("MærkeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Registreiringsnummer")
+                    b.Property<string>("Registreringsnummer")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Stelnummer")
@@ -700,7 +703,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "Mærke")
                         .WithMany("Scootere")
                         .HasForeignKey("MærkeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Mærke");
