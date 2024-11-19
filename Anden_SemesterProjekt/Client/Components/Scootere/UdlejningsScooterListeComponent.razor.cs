@@ -114,6 +114,8 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                     udlejningsScootere.Remove(scooter);
                     await HentMærker();
                     editModal = false;
+                    detailsModal = false;
+                    JS.InvokeVoidAsync("alert", "Scooteren er slettet.");
 
                     nyUdlejningsScooter = new UdlejningsScooter();
                     StateHasChanged();
@@ -130,5 +132,6 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 }
             }
         }
+
     }
 }

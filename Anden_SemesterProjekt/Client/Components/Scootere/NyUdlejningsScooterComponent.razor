@@ -1,23 +1,30 @@
-﻿<h3>Tilføj ny scooter</h3>
-
-<EditForm Model="nyUdlejningsScooter" OnValidSubmit="HandleValidSubmit">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-    <div class="col-3 mb-3">
-        <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
-        <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer" />
-        <label for="mærke">Mærke:</label>
-        <select @bind="nyScooterMærkeId">
-            <option value=""> Vælg et mærke...</option>
-            @foreach (var mærke in mærker)
-            {
-                <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
-                // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
-            }
-        </select>
-       
-    </div>
-    <button type="submit">Tilføj scooter</button>
-</EditForm>
+﻿
+<button type="button" @onclick="@ShowAddModal">Ny scooter</button>
 
 
+@if (addModal)
+ {
+     <div class="modal">
+     <div class="modal-content">
+         <span class="close-button" @onclick="@CloseAddModal">&times;</span>
+         <div class="col-12 mb-3">
+             <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer"/>
+             <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer"/>
+             <label for="mærke">Mærke:</label>
+             <select @bind="nyScooterMærkeId">
+                 <option value=""> Vælg et mærke...</option>
+                 @foreach (var mærke in mærker)
+                 {
+                     <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
+                     // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
+                 }
+             </select>
+
+         </div>
+         <button type="button" @onclick="@AddScooter">Tilføj scooter</button>
+        </div>
+     </div>
+
+     
+
+ }

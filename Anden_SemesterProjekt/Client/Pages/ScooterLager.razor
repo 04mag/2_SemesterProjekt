@@ -1,9 +1,12 @@
-﻿@using Anden_SemesterProjekt.Shared.Models
+﻿ @using Anden_SemesterProjekt.Shared.Models
 @using Anden_SemesterProjekt.Client.Services
 @using Anden_SemesterProjekt.Client.Components.Scootere
 @inject HttpClient Http
+@page "/Scooterlager"
+<UdlejningsScooterListeComponent/>
+<NyUdlejningsScooterComponent/>
 
-
+@*
 @page "/Scooterlager"
 <UdlejningsScooterListeComponent/>
 <NyUdlejningsScooterComponent/>
@@ -17,7 +20,7 @@
 
 
 
-@* @if (udlejningsScootere.Count < 1)
+@if (udlejningsScootere.Count < 1)
 {
     <h3>Indlæser. Vent venligst...</h3>
 }

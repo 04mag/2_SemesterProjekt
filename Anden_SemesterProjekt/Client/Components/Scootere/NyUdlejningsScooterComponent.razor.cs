@@ -16,19 +16,18 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private List<Mærke> mærker = new List<Mærke>();
         private int? nyScooterMærkeId = new int();
         private int? valgtScooterMærkeId = new int();
-        private bool detailsModal = false;
-        private bool editModal = false;
+        private bool addModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
-        protected override async Task OnInitializedAsync()
-        {
-            var mærkerResult = await MærkeService.GetMærker();
+        //protected override async Task OnInitializedAsync()
+        //{
+        //    var mærkerResult = await MærkeService.GetMærker();
 
-            if (mærkerResult != null)
-            {
-                mærker = mærkerResult;
-            }
-        }
+        //    if (mærkerResult != null)
+        //    {
+        //        mærker = mærkerResult;
+        //    }
+        //}
         private async Task HandleValidSubmit()
         {
             try
@@ -56,6 +55,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                     StateHasChanged();
                     nyUdlejningsScooter = new UdlejningsScooter();
                     nyScooterMærkeId = null;
+                    await JS.InvokeVoidAsync("alert", "Scooteren blev oprettet.");
                 }
                 else
                 {
@@ -68,6 +68,26 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 var errorBox = await JS.InvokeAsync<string>("alert", ex.Message);
             }
         }
+        private async Task ShowAddModal()
+        {
+            var mærkerResult = await MærkeService.GetMærker();
 
+            if (mærkerResult != null)
+            {
+                mærker = mærkerResult;
+            }
+            addModal = true;
+            StateHasChanged();
+        }
+        private void CloseAddModal()
+        {
+            addModal = false;
+        }
+
+        private async Task AddScooter()
+        {
+            await HandleValidSubmit();
+            addModal = false;
+        }
     }
 }
