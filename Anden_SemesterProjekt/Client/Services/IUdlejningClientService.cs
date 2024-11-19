@@ -2,7 +2,7 @@
 
 namespace Anden_SemesterProjekt.Client.Services
 {
-    public class IUdlejningClientService
+    public interface IUdlejningClientService
     {
         public Task<Udlejning?> GetUdlejningAsync(int id);
         public Task<List<Udlejning>> GetUdlejningerAsync();
