@@ -3,16 +3,16 @@ using Anden_SemesterProjekt.Shared.Models;
 
 namespace Anden_SemesterProjekt.Client.Services
 {
-    public class UdlejningsScooterClientService : IUdlejningsScooterClientService
+    public class ScooterClientService : IScooterClientService
     {
         private readonly HttpClient _httpClient;
 
-        public UdlejningsScooterClientService(HttpClient httpClient)
+        public ScooterClientService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<UdlejningsScooter?> GetUdlejningsScooter(int id)
+        public async Task<UdlejningsScooter?> GetScooter(int id)
         {
             try
             {
@@ -24,7 +24,7 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<List<UdlejningsScooter>?> GetUdlejningsScootere()
+        public async Task<List<UdlejningsScooter>?> GetScootere()
         {
             try
             {
@@ -36,7 +36,7 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<HttpResponseMessage> AddUdlejningsScooter(UdlejningsScooter udlejningsScooter)
+        public async Task<HttpResponseMessage> AddScooter(Scooter udlejningsScooter)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<HttpResponseMessage> DeleteUdlejningsScooter(int id)
+        public async Task<HttpResponseMessage> DeleteScooter(int id)
         {
             try
             {
@@ -62,7 +62,7 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<HttpResponseMessage> UpdateUdlejningsScooter(UdlejningsScooter udlejningsScooter)
+        public async Task<HttpResponseMessage> UpdateScooter(Scooter udlejningsScooter)
         {
             try
             {

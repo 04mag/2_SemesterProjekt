@@ -9,11 +9,11 @@ namespace Anden_SemesterProjekt.Server.Controllers
 {
     [Route("api/udlejningsscooter")]
     [ApiController]
-    public class UdlejningsScooterController : ControllerBase
+    public class ScooterController : ControllerBase
     {
-        private readonly IUdlejningsScooterService _udlejningsScooterService;
+        private readonly IScooterService _udlejningsScooterService;
 
-        public UdlejningsScooterController(IUdlejningsScooterService udlejningsScooterService)
+        public ScooterController(IScooterService udlejningsScooterService)
         {
             _udlejningsScooterService = udlejningsScooterService;
         }
@@ -32,7 +32,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var scooter = await _udlejningsScooterService.GetUdlejningsScooterAsync(id);
+            var scooter = await _udlejningsScooterService.GetScooterAsync(id);
             if (scooter == null)
             {
                 return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");
@@ -42,34 +42,34 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(UdlejningsScooter udlejningsScooter) 
+        public async Task<IActionResult> Post(Scooter scooter) 
         {
-            if (udlejningsScooter == null)
+            if (scooter == null)
             {
                 return BadRequest("Scooter data mangler.");
             }
 
-            var createdScooter = await _udlejningsScooterService.AddUdlejningsScooterAsync(udlejningsScooter);
+            var createdScooter = await _udlejningsScooterService.AddScooterAsync(scooter);
 
 
             return Ok(createdScooter);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(UdlejningsScooter udlejningsScooter)
+        public async Task<IActionResult> Put(Scooter scooter)
         {
-            if (udlejningsScooter == null)
+            if (scooter == null)
             {
                 return BadRequest("Scooter data mangler.");
             }
-            var updatedScooter = await _udlejningsScooterService.UpdateUdlejningsScooterAsync(udlejningsScooter);
+            var updatedScooter = await _udlejningsScooterService.UpdateScooterAsync(scooter);
             return Ok(updatedScooter);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var deletedId = await _udlejningsScooterService.DeleteUdlejningsScooterAsync(id);
+            var deletedId = await _udlejningsScooterService.DeleteScooterAsync(id);
             if (deletedId == 0)
             {
                 return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");

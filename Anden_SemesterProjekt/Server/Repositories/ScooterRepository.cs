@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anden_SemesterProjekt.Server.Repositories
 {
-    public class UdlejningsScooterRepository : IUdlejningsScooterRepository
+    public class ScooterRepository : IScooterRepository
     {
         private readonly SLContext _context;
 
-        public UdlejningsScooterRepository()
+        public ScooterRepository()
         {
             _context = new SLContext();
         }
@@ -27,28 +27,28 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 .ToListAsync();
         }
 
-        public async Task<int> CreateUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter)
+        public async Task<int> CreateScooterAsync(Scooter Scooter)
         {
-            await _context.Scootere.AddAsync(udlejningsScooter);
+            await _context.Scootere.AddAsync(Scooter);
             await _context.SaveChangesAsync();
-            return udlejningsScooter.ScooterId;
+            return Scooter.ScooterId;
         }
 
-        public async Task<int> UpdateUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter)
+        public async Task<int> UpdateScooterAsync(Scooter Scooter)
         {
             // Henter scooteren fra databasen og gemmer den i existingScooter
-            var existingScooter = await _context.Scootere.FindAsync(udlejningsScooter.ScooterId); 
+            var existingScooter = await _context.Scootere.FindAsync(Scooter.ScooterId); 
             if (existingScooter == null)
             {
                 throw new ArgumentException("Scooteren findes ikke.");
             }
             // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
-            _context.Entry(existingScooter).CurrentValues.SetValues(udlejningsScooter);
+            _context.Entry(existingScooter).CurrentValues.SetValues(Scooter);
             await _context.SaveChangesAsync();
-            return udlejningsScooter.ScooterId;
+            return Scooter.ScooterId;
         }
 
-        public async Task<int> DeleteUdlejningsScooterAsync(int id)
+        public async Task<int> DeleteScooterAsync(int id)
         {
             var scooter = await _context.Scootere.OfType<UdlejningsScooter>()
                                                  .FirstOrDefaultAsync(s => s.ScooterId == id);

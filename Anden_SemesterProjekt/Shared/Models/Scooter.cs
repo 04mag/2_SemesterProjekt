@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
+    
+    // Dette er en attribut som bruges til at identificere hvilken type af objekt der er tale om, så man kan deserialisere det korrekt.
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "$type")]
+    [JsonDerivedType(typeof(KundeScooter), "KundeScooter")] 
+    [JsonDerivedType(typeof(UdlejningsScooter), "UdlejningsScooter")]
     public abstract class Scooter
     {
         public int ScooterId { get; set; }

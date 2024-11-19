@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Client
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
-            builder.Services.AddHttpClient<IUdlejningsScooterClientService, UdlejningsScooterClientService>(client =>
+            builder.Services.AddHttpClient<IScooterClientService, ScooterClientService>(client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
