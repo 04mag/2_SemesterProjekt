@@ -1,12 +1,29 @@
 ﻿<div class="row p-3 mb-5 border border-primary rounded">
-    <div class="col-12">
+    <div class="col-md-4 mb-3">
         <h3>Kunder</h3>
     </div>
-    @if (Kunder != null)
-    {
-        @foreach (var kunde in Kunder)
+    <div class="col-md-4 mb-3">
+        <select class="form-control form-select" @bind="selectedMærkeId">
+            <option value="0">Mærke</option>
+            @if (Mærker != null)
+            {
+                @foreach (var mærke in Mærker)
+                {
+                    <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
+                }
+            }
+        </select>
+    </div>
+    <div class="col-md-4 mb-3">
+        <input class="form-control float-end" @bind-value="searchString" @bind-value:event="oninput" placeholder="Søg via telefonnummer" />
+    </div>
+    <div class="col-12 p-3 mb-3 scroll border border-primary rounded">
+        @if (Kunder != null)
         {
-            <KundeRenderComponent Kunde="kunde" OnEditKunde="OnEditKunde" OnDeleteKunde="OnDeleteKunde"/>
+            @foreach (var kunde in FilteredKunder)
+            {
+                <KundeRenderComponent Kunde="kunde" OnEditKunde="OnEditKunde" OnDeleteKunde="OnDeleteKunde" />
+            }
         }
-    }
+    </div>
 </div>
