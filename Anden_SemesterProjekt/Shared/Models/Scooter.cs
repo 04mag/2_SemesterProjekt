@@ -18,6 +18,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int MærkeId { get; set; }
 
         //[Required(ErrorMessage = "Mærke er påkrævet.")]
-        [JsonIgnore] public Mærke? Mærke { get; set; }
+        public Mærke? Mærke { get; set; }
     }
 }

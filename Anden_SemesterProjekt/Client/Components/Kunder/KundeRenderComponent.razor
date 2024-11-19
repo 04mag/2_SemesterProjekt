@@ -20,18 +20,19 @@
             </div>
             <div class="card-body">
                 <div class="row p-3 mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
                         <span class="card-text">@Kunde.Adresse</span>
                         <br />
                         <span class="card-text">@Kunde.Adresse.Postnummer</span>
                         <span class="card-text">@Kunde.Adresse.By.ByNavn</span>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
                         <p class="card-text">@Kunde.Email</p>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
                         @if (Kunde.TlfNumre != null && Kunde.TlfNumre.Count > 0)
                         {
+                            <label>Telefonnumre:</label>
                             <ul>
                                 @foreach (var tlf in Kunde.TlfNumre)
                                 {
@@ -40,13 +41,14 @@
                             </ul>
                         }
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mb-3">
                         @if (Kunde.Scootere != null && Kunde.Scootere.Count > 0)
                         {
+                            <label>Scootere:</label>
                             <ul>
                                 @foreach (var scooter in Kunde.Scootere)
                                 {
-                                    <li>@scooter.Registreringsnummer</li>
+                                    <li>@scooter</li>
                                 }
                             </ul>
                         }

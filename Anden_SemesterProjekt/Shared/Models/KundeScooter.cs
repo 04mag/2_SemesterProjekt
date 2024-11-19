@@ -13,5 +13,17 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int KundeId { get; set; }
         [JsonIgnore]
         public Kunde Kunde { get; set; }
+
+        public override string ToString()
+        {
+            if (this.Mærke == null)
+            {
+                return $"{this.Registreringsnummer}";
+            }
+            else
+            {
+                return $"{this.Registreringsnummer} ({this.Mærke.ScooterMærke})";
+            }
+        }
     }
 }
