@@ -10,7 +10,7 @@ namespace Anden_SemesterProjekt.Server.Services
         {
             _vareRepository = vareRepository;
         }
-
+        
         /// <summary>
         /// Opretter en ny vare i databasen
         /// </summary>
@@ -76,6 +76,11 @@ namespace Anden_SemesterProjekt.Server.Services
         public bool DeleteVare(int id)
         {
             return _vareRepository.DeleteVare(id);
+        }
+
+        List<Vare>? IVareService.ReadAktiveYdelser()
+        {
+            throw new NotImplementedException();
         }
     }
 }
