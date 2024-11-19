@@ -1,24 +1,65 @@
-﻿<div class="col-12 mb-3">
+﻿<div class="col-12 mb-2 p-3">
     <div>
         <div class="card">
             <div class="card-header">
-                <h5 class="card-title">@Kunde.Navn</h5>
+                <div class="row p-3">
+                    <div class="col-md-6 align-content-center">
+                        <h5 class="card-title">@Kunde.Navn</h5>
+                    </div>
+                    <div class="col-md-6 align-content-center">
+                        @if (OnDeleteKunde.HasDelegate)
+                        {
+                            <button class="btn btn-danger m-1 float-end" @onclick="() => OnDeleteKunde.InvokeAsync(Kunde)">Slet</button>
+                        }
+                        @if (OnEditKunde.HasDelegate)
+                        {
+                            <button class="btn btn-primary m-1 float-end" @onclick="() => OnEditKunde.InvokeAsync(Kunde)">Rediger</button>
+                        }
+                    </div>
+                </div>
             </div>
             <div class="card-body">
-                <p class="card-text">@Kunde.Adresse.Gadenavn</p>
-                <p class="card-text">@Kunde.Adresse.Postnummer</p>
-                <p class="card-text">@Kunde.Adresse.By.ByNavn</p>
-                <p class="card-text">@Kunde.Email</p>
+                <div class="row p-3 mb-3">
+                    <div class="col-md-3">
+                        <span class="card-text">@Kunde.Adresse</span>
+                        <br />
+                        <span class="card-text">@Kunde.Adresse.Postnummer</span>
+                        <span class="card-text">@Kunde.Adresse.By.ByNavn</span>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="card-text">@Kunde.Email</p>
+                    </div>
+                    <div class="col-md-3">
+                        @if (Kunde.TlfNumre != null && Kunde.TlfNumre.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var tlf in Kunde.TlfNumre)
+                                {
+                                    <li>(+45) @tlf.TelefonNummer</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        @if (Kunde.Scootere != null && Kunde.Scootere.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var scooter in Kunde.Scootere)
+                                {
+                                    <li>@scooter.Registreringsnummer</li>
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
             </div>
             <div class="card-footer">
-                @if (OnEditKunde.HasDelegate)
-                {
-                    <button class="btn btn-primary" @onclick="() => OnEditKunde.InvokeAsync(Kunde)">Rediger</button>
-                }
-                @if(OnDeleteKunde.HasDelegate)
-                {
-                    <button class="btn btn-danger" @onclick="() => OnDeleteKunde.InvokeAsync(Kunde)">Slet</button>
-                })
+                <div class="p-3">
+                    @if (Kunde.TilknyttetMekaniker != null)
+                    {
+                        <p>Mekaniker: @Kunde.TilknyttetMekaniker.Navn</p>
+                    }
+                </div>
             </div>
         </div>
     </div>

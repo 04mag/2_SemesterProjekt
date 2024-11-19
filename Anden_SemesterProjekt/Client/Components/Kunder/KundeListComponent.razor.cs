@@ -8,7 +8,9 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         [Parameter, EditorRequired]
         public List<Kunde>? Kunder { get; set; }
 
+        [Parameter]
         public EventCallback<Kunde> OnEditKunde { get; set; }
+        [Parameter]
         public EventCallback<Kunde> OnDeleteKunde { get; set; }
     }
 }
