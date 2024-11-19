@@ -1,0 +1,11 @@
+﻿@page "/kunder/edit/{KundeId:int}"
+@using Anden_SemesterProjekt.Client.Components.Kunder
+
+@if (Kunde == null)
+{
+    <h3>Indlæser...</h3>
+}
+else
+{
+    <KundeEditComponent KundeModel="Kunde" />
+}

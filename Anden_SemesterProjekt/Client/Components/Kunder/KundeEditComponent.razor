@@ -1,52 +1,55 @@
 ﻿@using Anden_SemesterProjekt.Client.Components.Ansatte.Mekanikere
 @using Anden_SemesterProjekt.Client.Components.Kunder.TlfNumre
-<EditForm EditContext="editContext" class="col-12 mb-5" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+
+<EditForm EditContext="EditContext" class="row p-3 mb-5" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
     <ObjectGraphDataAnnotationsValidator />
+
     <div class="mb-3">
-        <h3>Opret ny kunde</h3>
+        <h2>Rediger kunde</h2>
     </div>
 
     <div class="row p-3 mb-5 border border-primary rounded">
+
         <div class="col-12 mb-3">
             <label for="Navn" class="form-label">Navn</label>
-            <InputText id="Navn" class="form-control" @bind-Value="kundeModel.Navn" />
-            <ValidationMessage For="@(() => kundeModel.Navn)" />
+            <InputText id="Navn" class="form-control" @bind-Value="KundeModel.Navn" />
+            <ValidationMessage For="@(() => KundeModel.Navn)" />
         </div>
 
         <div class="col-12 mb-3">
             <label for="Email" class="form-label">Email</label>
-            <InputText id="Email" class="form-control" @bind-Value="kundeModel.Email" />
-            <ValidationMessage For="@(() => kundeModel.Email)" />
+            <InputText id="Email" class="form-control" @bind-Value="KundeModel.Email" />
+            <ValidationMessage For="@(() => KundeModel.Email)" />
         </div>
 
         <div class="col-md-8 mb-3">
             <label for="Vej" class="form-label">Vej</label>
-            <InputText id="Vej" class="form-control" @bind-Value="kundeModel.Adresse.Gadenavn" />
-            <ValidationMessage For="@(() => kundeModel.Adresse.Gadenavn)" />
+            <InputText id="Vej" class="form-control" @bind-Value="KundeModel.Adresse.Gadenavn" />
+            <ValidationMessage For="@(() => KundeModel.Adresse.Gadenavn)" />
         </div>
         <div class="col-md-4 mb-3">
             <label for="Husnummer" class="form-label">Husnummer</label>
-            <InputText id="Husnummer" class="form-control" @bind-Value="kundeModel.Adresse.Husnummer" />
-            <ValidationMessage For="@(() => kundeModel.Adresse.Husnummer)" />
+            <InputText id="Husnummer" class="form-control" @bind-Value="KundeModel.Adresse.Husnummer" />
+            <ValidationMessage For="@(() => KundeModel.Adresse.Husnummer)" />
         </div>
         <div class="col-md-4 mb-3">
             <label for="Etage" class="form-label">Etage</label>
-            <InputText id="Etage" class="form-control" @bind-Value="kundeModel.Adresse.Etage" />
-            <ValidationMessage For="@(() => kundeModel.Adresse.Etage)" />
+            <InputText id="Etage" class="form-control" @bind-Value="KundeModel.Adresse.Etage" />
+            <ValidationMessage For="@(() => KundeModel.Adresse.Etage)" />
         </div>
         <div class="col-md-4 mb-3">
             <label for="Side" class="form-label">Side</label>
-            <InputText id="Side" class="form-control" @bind-Value="kundeModel.Adresse.Side" />
-            <ValidationMessage For="@(() => kundeModel.Adresse.Side)" />
+            <InputText id="Side" class="form-control" @bind-Value="KundeModel.Adresse.Side" />
+            <ValidationMessage For="@(() => KundeModel.Adresse.Side)" />
         </div>
         <div class="col-md-4 mb-3">
             <label for="Dør" class="form-label">Dør</label>
-            <InputText id="Dør" class="form-control" @bind-Value="kundeModel.Adresse.Dørnummer" />
-            <ValidationMessage For="@(() => kundeModel.Adresse.Dørnummer)" />
+            <InputText id="Dør" class="form-control" @bind-Value="KundeModel.Adresse.Dørnummer" />
+            <ValidationMessage For="@(() => KundeModel.Adresse.Dørnummer)" />
         </div>
         <div class="col-md-6 mb-3">
             <label for="Postnummer" class="form-label">Postnummer</label>
-            <InputText id="Postnummer" class="form-control" @bind-Value="kundeModel.Adresse.Postnummer" />
+            <InputText id="Postnummer" class="form-control" @bind-Value="KundeModel.Adresse.Postnummer" />
             <label class="alert-danger">@postnummerErrorMessage</label>
         </div>
         <div class="col-md-6 mb-3">
@@ -57,12 +60,12 @@
 
     <TlfNummerCreateComponent OnInputSuccess="OnTlfNummerInputSuccess" />
 
-    @if (kundeModel.TlfNumre != null)
+    @if (KundeModel.TlfNumre != null)
     {
         <div class="row mb-5 p-3 border border-primary rounded">
             <h4>Telefonnumre tilføjet</h4>
             <ul>
-                @foreach (var tlfNummer in kundeModel.TlfNumre)
+                @foreach (var tlfNummer in KundeModel.TlfNumre)
                 {
                     <li>
                         <TlfNummerRenderComponent TlfNummer="tlfNummer" OnDelete="OnTlfNummerInputRemove" />
@@ -73,10 +76,10 @@
     }
 
     <div class="row p-3 mb-5 border border-primary rounded">
-        <div class="col-md-6 mb-2">
-            <h4>Mekaniker</h4>
+        <div class="col-md-6 mb-2 align-content-center">
+            <h4>Tilknyt mekaniker</h4>
         </div>
-        <div class="col-md-6 mb-2">
+        <div class="col-md-6 mb-2 align-content-center">
             <button type="button" class="btn btn-primary float-end" @onclick="() => mekanikerSelectOpen = !mekanikerSelectOpen">@addMekanikerButtonText</button>
         </div>
 
@@ -91,12 +94,14 @@
         {
             <div class="col-12 mb-3">
                 <MekanikerRenderComponent Mekaniker="Mekaniker" />
+                <button type="button" class="btn btn-danger float-end" @onclick="OnMekanikerRemove">Fjern tilknyttet mekaniker</button>
             </div>
         }
     </div>
 
     <div class="col-12 mb-3">
-        <button disabled="@isSubmitting" type="submit" class="btn btn-primary float-end">Opret</button>
+        <button disabled="@isSubmitting" type="submit" class="btn btn-primary float-end">Gem</button>
     </div>
+
 
 </EditForm>

@@ -169,14 +169,18 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns>Om opdatering var successfuld som bool.</returns>
         public bool UpdateKunde(Kunde kunde)
         {
-            var result = _context.Kunder.Find(kunde.KundeId);
-
-            if (result == null)
+            var existingKunde = _context.Kunder.Find(kunde.KundeId);
+            if (existingKunde == null)
             {
                 return false;
             }
             else
             {
+                _context.Entry(existingKunde).State = EntityState.Detached;
+
+                kunde.TilknyttetMekaniker = null;
+                kunde.Adresse.By = null;
+
                 _context.Update(kunde);
                 _context.SaveChanges();
                 return true;

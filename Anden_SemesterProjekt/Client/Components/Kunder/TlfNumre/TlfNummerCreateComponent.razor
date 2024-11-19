@@ -1,6 +1,6 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
 
-<EditForm EditContext="editContext" class="col-12 p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
     
     <div class="col-md-12 mb-3">
         <label for="TelefonNummer">Telefonnummer (+45)</label>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="col-12">
-        <button type="submit" disabled="@isSubmitting" class="btn btn-primary">Tilføj</button>
+        <button type="button" disabled="@isSubmitting" class="btn btn-primary">Tilføj</button>
     </div>
 
     <DataAnnotationsValidator />

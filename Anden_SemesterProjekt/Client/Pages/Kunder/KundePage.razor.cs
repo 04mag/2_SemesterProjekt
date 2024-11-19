@@ -1,10 +1,9 @@
-﻿
-using Anden_SemesterProjekt.Client.Services;
+﻿using Anden_SemesterProjekt.Client.Services;
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Anden_SemesterProjekt.Client.Pages
+namespace Anden_SemesterProjekt.Client.Pages.Kunder
 {
     public partial class KundePage
     {
@@ -13,7 +12,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         [Inject]
         public IKundeClientService KundeService { get; set; }
 
-        [Inject] 
+        [Inject]
         private IJSRuntime JS { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -33,7 +32,7 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         private async Task OnEditKunde(Kunde kunde)
         {
-            
+
         }
 
         private async Task OnDeleteKunde(Kunde kunde)

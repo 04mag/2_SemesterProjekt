@@ -3,12 +3,15 @@
         <h4>@Mekaniker.Navn</h4>
     </div>
     <div class="col-md-4">
-        <ul>
-            @foreach (var mærke in Mekaniker.Mærker)
-            {
-                <li>@mærke.ScooterMærke</li>
-            }
-        </ul>
+        @if (Mekaniker.Mærker != null)
+        {
+            <ul>
+                @foreach (var mærke in Mekaniker.Mærker)
+                {
+                    <li>@mærke.ScooterMærke</li>
+                }
+            </ul>
+        }
     </div>
     @if (OnSelect.HasDelegate)
     {

@@ -24,9 +24,9 @@ namespace Anden_SemesterProjekt.Shared.Models
         [EmailAddress(ErrorMessage = "Ugyldig Email.")]
         public string Email { get; set; }
         [ForeignKey("TilknyttetMekaniker")]
-        public int? MekanikerId { get; set; }
-        public Mekaniker? TilknyttetMekaniker { get; set; }
-        public List<KundeScooter> Scootere { get; set; } = new List<KundeScooter>();
-        public List<Ordre>? Ordrer { get; set; }
+        public int? MekanikerId { get; set; } = null;
+        public Mekaniker? TilknyttetMekaniker { get; set; } = null;
+        public List<KundeScooter>? Scootere { get; set; } = null;
+        public List<Ordre>? Ordrer { get; set; } = null;
     }
 }
