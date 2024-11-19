@@ -94,7 +94,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPut]
-        public StatusCodeResult PutKunde(Kunde kunde)
+        public IActionResult PutKunde(Kunde kunde)
         {
             bool updated = _kundeService.UpdateKunde(kunde);
 
@@ -109,7 +109,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public StatusCodeResult DeleteKunde(int id)
+        public IActionResult DeleteKunde(int id)
         {
             bool deleted = _kundeService.DeleteKunde(id);
             
