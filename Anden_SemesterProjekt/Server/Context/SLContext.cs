@@ -24,12 +24,16 @@ namespace Anden_SemesterProjekt.Server.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<KundeScooter>().ToTable("KundeScootere");
-            modelBuilder.Entity<UdlejningsScooter>().ToTable("UdlejningsScootere");
-            modelBuilder.Entity<Vare>().ToTable("Varer");
-            modelBuilder.Entity<Ydelse>().ToTable("Ydelser");
+            modelBuilder.Entity<Scooter>()
+                .HasDiscriminator<string>("ScooterType")  // Oprette en discriminator (den kan hedde ScooterType eller et hvilket som helst navn).
+                .HasValue<KundeScooter>("KundeScooter")   // Indstil hvilken type som er tilknyttet hvilken værdi af diskriminator.
+                .HasValue<UdlejningsScooter>("UdlejningsScooter");
+            modelBuilder.Entity<Scooter>().ToTable("Scootere");
 
-           
+            // Oprette separate tabeller for hver type.
+
+
+
             modelBuilder.Entity<Mærke>().HasData(
                 new Mærke { MærkeId = 1, ScooterMærke = "Aprilla" },
                 new Mærke { MærkeId = 2, ScooterMærke = "Derbi" },

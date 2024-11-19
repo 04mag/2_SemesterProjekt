@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Server.Controllers
 {
-    [Route("api/udlejningsscooter")]
+    [Route("api/scootere")]
     [ApiController]
     public class ScooterController : ControllerBase
     {
-        private readonly IScooterService _udlejningsScooterService;
+        private readonly IScooterService _scooterService;
 
-        public ScooterController(IScooterService udlejningsScooterService)
+        public ScooterController(IScooterService scooterService)
         {
-            _udlejningsScooterService = udlejningsScooterService;
+            _scooterService = scooterService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<ActionResult<T>> GetUdlejningsScootere<T>() where T : Scooter
         {
-            var scootere = await _udlejningsScooterService.GetAllUdlejningsScootereAsync();
+            var scootere = await _scooterService.GetAllScootereAsync<T>();
             if (scootere == null || scootere.Count == 0)
             {
                 return NotFound("Ingen udlejnings-scootere fundet.");
@@ -29,10 +29,22 @@ namespace Anden_SemesterProjekt.Server.Controllers
             return Ok(scootere);
         }
 
+        [HttpGet("kunde")]
+        public async Task<IActionResult> GetKundeScootere()
+        {
+            var scootere = await _scooterService.GetAllScootereAsync<KundeScooter>();
+            if (scootere == null || scootere.Count == 0)
+            {
+                return NotFound("Ingen kunde-scootere fundet.");
+            }
+            return Ok(scootere);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var scooter = await _udlejningsScooterService.GetScooterAsync(id);
+            var scooter = await _scooterService.GetScooterAsync<Scooter>(id);
             if (scooter == null)
             {
                 return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");
@@ -42,37 +54,47 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Scooter scooter) 
+        public async Task<IActionResult> Post([FromBody]Scooter scooter) 
         {
             if (scooter == null)
             {
                 return BadRequest("Scooter data mangler.");
             }
 
-            var createdScooter = await _udlejningsScooterService.AddScooterAsync(scooter);
+            if (scooter is KundeScooter kundeScooter)
+            {
+                await _scooterService.AddScooterAsync(kundeScooter);
+            }
+            else if (scooter is UdlejningsScooter udlejningsScooter)
+            {
+                await _scooterService.AddScooterAsync(udlejningsScooter);
+            }
+            else
+            {
+                return BadRequest("Unknown scooter type");
+            }
 
-
-            return Ok(createdScooter);
+            return Ok();
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Scooter scooter)
+        public async Task<IActionResult> Put(UdlejningsScooter scooter)
         {
             if (scooter == null)
             {
                 return BadRequest("Scooter data mangler.");
             }
-            var updatedScooter = await _udlejningsScooterService.UpdateScooterAsync(scooter);
+            var updatedScooter = await _scooterService.UpdateScooterAsync<UdlejningsScooter>(scooter);
             return Ok(updatedScooter);
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var deletedId = await _udlejningsScooterService.DeleteScooterAsync(id);
+            var deletedId = await _scooterService.DeleteScooterAsync(id);
             if (deletedId == 0)
             {
-                return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");
+                return NotFound($"Ingen scooter fundet med ID {id}.");
             }
             return Ok(deletedId);
         }

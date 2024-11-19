@@ -13,28 +13,32 @@ namespace Anden_SemesterProjekt.Server.Repositories
             _context = new SLContext();
         }
 
-        public async Task<UdlejningsScooter?> ReadUdlejningsScooterAsync(int id)
+        public async Task<T?> ReadScooterAsync<T>(int id) where T : Scooter
         {
-            return await _context.Scootere.OfType<UdlejningsScooter>().Include(s => s.Mærke)
+            return await _context.Scootere
+                .OfType<T>()              // Begræns typen til den angivne subklasse
+                .Include(s => s.Mærke)    // Inkluder relateret data
                 .FirstOrDefaultAsync(s => s.ScooterId == id);
         }
 
-        public async Task<List<UdlejningsScooter>> ReadUdlejningsScootereAsync()
+        // Generisk metode til at læse alle scootere af en bestemt type
+        public async Task<List<T>> ReadScootereAsync<T>() where T : Scooter
         {
             return await _context.Scootere
-                .OfType<UdlejningsScooter>()
-                .Include(s => s.Mærke)
+                .OfType<T>()              // Begræns typen til den angivne subklasse
+                .Include(s => s.Mærke)    // Inkluder relateret data
                 .ToListAsync();
         }
+     
 
-        public async Task<int> CreateScooterAsync(Scooter Scooter)
+        public async Task<int> CreateScooterAsync<T>(T Scooter) where T: Scooter
         {
             await _context.Scootere.AddAsync(Scooter);
             await _context.SaveChangesAsync();
             return Scooter.ScooterId;
         }
 
-        public async Task<int> UpdateScooterAsync(Scooter Scooter)
+        public async Task<int> UpdateScooterAsync<T>(T Scooter) where T : Scooter
         {
             // Henter scooteren fra databasen og gemmer den i existingScooter
             var existingScooter = await _context.Scootere.FindAsync(Scooter.ScooterId); 

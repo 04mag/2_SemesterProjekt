@@ -5,36 +5,37 @@ namespace Anden_SemesterProjekt.Server.Services
 {
     public class ScooterService : IScooterService
     {
-        private readonly IScooterRepository _udlejningsScooterRepository;
+        private readonly IScooterRepository _scooterRepository;
 
-        public ScooterService(IScooterRepository udlejningsScooterRepository)
+        public ScooterService(IScooterRepository scooterRepository)
         {
-            _udlejningsScooterRepository = udlejningsScooterRepository;
+            _scooterRepository = scooterRepository;
         }
 
-        public async Task<Scooter?> GetScooterAsync(int id)
+        public async Task<T?> GetScooterAsync<T>(int id) where T : Scooter
         {
-            return await _udlejningsScooterRepository.ReadUdlejningsScooterAsync(id);
+            return await _scooterRepository.ReadScooterAsync<T>(id);
         }
 
-        public async Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync()
+        public async Task<List<T>> GetAllScootereAsync<T>() where T : Scooter
         {
-            return await _udlejningsScooterRepository.ReadUdlejningsScootereAsync();
+            return await _scooterRepository.ReadScootereAsync<T>();
         }
 
-        public async Task<int> AddScooterAsync(Scooter Scooter)
+        public async Task<int> AddScooterAsync<T>(T scooter) where T : Scooter
         {
-            return await _udlejningsScooterRepository.CreateScooterAsync(Scooter);
+            return await _scooterRepository.CreateScooterAsync(scooter);
         }
 
-        public async Task<int> UpdateScooterAsync(Scooter Scooter)
+        public async Task<int> UpdateScooterAsync<T>(T scooter) where T : Scooter
         {
-            return await _udlejningsScooterRepository.UpdateScooterAsync(Scooter);
+            return await _scooterRepository.UpdateScooterAsync(scooter);
         }
+        
 
         public async Task<int> DeleteScooterAsync(int id)
         {
-            return await _udlejningsScooterRepository.DeleteScooterAsync(id);
+            return await _scooterRepository.DeleteScooterAsync(id);
         }
     }
 }

@@ -12,16 +12,16 @@ namespace Anden_SemesterProjekt.Client.Pages
         [Inject] private IJSRuntime JS { get; set; } // JavaScript runtime
 
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
-        private UdlejningsScooter valgtUdlejningsScooter = new UdlejningsScooter();
-        private UdlejningsScooter redigeretScooter;
-        private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
+        private UdlejningsScooter? valgtUdlejningsScooter = new UdlejningsScooter();
+        private UdlejningsScooter? redigeretScooter = new UdlejningsScooter();
+        private List<UdlejningsScooter>? udlejningsScootere = new List<UdlejningsScooter>();
         private List<Mærke> mærker = new List<Mærke>();
         private int? nyScooterMærkeId = new int();
         private int? valgtScooterMærkeId = new int();
         private bool detailsModal = false;
         private bool editModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
-        [Inject] public IScooterClientService UdlejningsScooterService { get; set; }
+        [Inject] public IScooterClientService ScooterService { get; set; }
         protected override async Task OnInitializedAsync()
         {
             var mærkerResult = await MærkeService.GetMærker();
@@ -31,15 +31,19 @@ namespace Anden_SemesterProjekt.Client.Pages
                 mærker = mærkerResult;
             }
 
-            var udlejningsScootereResult = await UdlejningsScooterService.GetScootere();
+            var udlejningsScootereResult = await ScooterService.GetScootere<UdlejningsScooter>();
 
             if (udlejningsScootereResult != null)
             {
                 udlejningsScootere = udlejningsScootereResult;
             }
+            else
+            {
+                udlejningsScootere = new List<UdlejningsScooter>();
+            }
 
-            // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
-             await HentMærker();
+            // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-attributter,
+            await HentMærker();
         }
         private async Task HandleValidSubmit()
         {
@@ -60,11 +64,11 @@ namespace Anden_SemesterProjekt.Client.Pages
 
 
                 // Kald API for at gemme
-                var response = await UdlejningsScooterService.AddScooter(nyUdlejningsScooter);
+                var response = await ScooterService.AddScooterAsync(nyUdlejningsScooter);
 
-                if (response != null && response.IsSuccessStatusCode)
+                if (response != null)
                 {
-                    udlejningsScootere = await UdlejningsScooterService.GetScootere();
+                    udlejningsScootere = await ScooterService.GetScootere<UdlejningsScooter>();
                     await HentMærker();
 
                     // Tving UI-opdatering
@@ -130,12 +134,12 @@ namespace Anden_SemesterProjekt.Client.Pages
         private async Task UpdateScooter()
         {
             valgtUdlejningsScooter.MærkeId = valgtScooterMærkeId.Value;
-            var response = await UdlejningsScooterService.UpdateScooter(redigeretScooter);
+            var response = await ScooterService.UpdateScooter(redigeretScooter);
             if (response.IsSuccessStatusCode)
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Scooteren er opdateret.");
                 detailsModal = false;
-                udlejningsScootere = await UdlejningsScooterService.GetScootere();
+                udlejningsScootere = await ScooterService.GetScootere<UdlejningsScooter>();
                 HentMærker();
                 detailsModal = true;
                 editModal = false;
@@ -148,7 +152,7 @@ namespace Anden_SemesterProjekt.Client.Pages
             var confirmDelete = await JS.InvokeAsync<bool>("confirm", "Er du sikker på, at du vil slette denne scooter?");
             if (confirmDelete)
             {
-                var response = await UdlejningsScooterService.DeleteScooter(scooter.ScooterId);
+                var response = await ScooterService.DeleteScooter(scooter.ScooterId);
                 if (response.IsSuccessStatusCode)
                 {
                     udlejningsScootere.Remove(scooter);
