@@ -1,4 +1,5 @@
-﻿@using Anden_SemesterProjekt.Client.Components.Kunder.TlfNumre
+﻿@using Anden_SemesterProjekt.Client.Components.Ansatte.Mekanikere
+@using Anden_SemesterProjekt.Client.Components.Kunder.TlfNumre
 <EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
     <ObjectGraphDataAnnotationsValidator />
     <div class="mb-3">
@@ -52,7 +53,9 @@
         <input id="By" class="form-control" value="@ByNavn" disabled="disabled" />
     </div>
 
-    <TlfNummerCreateComponent OnInputSuccess="OnTlfNummerInputSuccess" />
+    <div class="col-12 mb-3">
+        <TlfNummerCreateComponent OnInputSuccess="OnTlfNummerInputSuccess" />
+    </div>
 
     @if (kundeModel.TlfNumre.Count > 0)
     {
@@ -69,10 +72,29 @@
         </div>
     }
 
+    <div class="col-md-6 mb-2">
+        <h4>Mekaniker</h4>
+    </div>
+    <div class="col-md-6 mb-2">
+        <button type="button" class="btn btn-primary float-end" @onclick="() => mekanikerSelectOpen = !mekanikerSelectOpen">@addMekanikerButtonText</button>
+    </div>
+
+    @if (mekanikerSelectOpen)
+    {
+        <div class="col-12 mb-3">
+            <MekanikerListComponent Mekanikere="Mekanikere" OnSelect="OnMekanikerSelected" />
+        </div>
+    }
+
+    @if (Mekaniker != null && mekanikerSelectOpen == false)
+    {
+        <div class="col-12 mb-3">
+            <MekanikerRenderComponent Mekaniker="Mekaniker" />
+        </div>
+    }
 
     <div class="col-12 mb-3">
         <button disabled="@isSubmitting" type="submit" class="btn btn-primary">Submit</button>
     </div>
-
 
 </EditForm>
