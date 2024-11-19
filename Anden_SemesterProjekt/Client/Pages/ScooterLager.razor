@@ -77,24 +77,18 @@
     <div class="modal">
         <div class="modal-content">
             <span class="close-button" @onclick="CloseEditModal">&times;</span>
-            <h3>Mærke:</h3>
+            <label for="mærke">Mærke:</label>
             <select @bind="redigeretScooter.MærkeId">
-                <option value=""> Vælg et mærke...</option>
+            <option value=""> Vælg et mærke...</option>
                 @foreach (var mærke in mærker)
                 {
                     <option value="@mærke.MærkeId">@mærke.ScooterMærke</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
                 }
             </select>
-            <p></p>
-            <h3>Stelnummer</h3>
             <InputText id="stelnummer" @bind-Value="redigeretScooter.Stelnummer" class="form-control" placeholder="Stelnummer"/>
-            <p></p>
-            <h3>Registreringsnummer</h3>
             <InputText id="registreringsnummer" @bind-Value="redigeretScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer"/>
-            <p></p>
             <button class="btn btn-primary" @onclick="UpdateScooter">Gem</button>
-            <p></p>
-            <button class="btn btn-danger btn-sm delete-button" @onclick="() =>DeleteScooter(valgtUdlejningsScooter)">Slet</button>
+            <button class="btn btn-danger btn-sm" style="width: 100px;" @onclick="() =>DeleteScooter(valgtUdlejningsScooter)">Slet</button>
         </div>
     </div>
 }
