@@ -20,8 +20,8 @@ namespace Anden_SemesterProjekt.Client.Pages
         private int? valgtScooterMærkeId = new int();
         private bool detailsModal = false;
         private bool editModal = false;
-        [Inject] public IMærkeClientService MærkeService { get; set; }
-        [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+        [Inject] public IMærkeClientService MærkeService { get; }
+        [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; }
         protected override async Task OnInitializedAsync()
         {
             var mærkerResult = await MærkeService.GetMærker();

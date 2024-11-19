@@ -1,4 +1,5 @@
-﻿using Anden_SemesterProjekt.Shared.Models;
+﻿using Anden_SemesterProjekt.Server.Repositories;
+using Anden_SemesterProjekt.Shared.Models;
 
 namespace Anden_SemesterProjekt.Server.Services
 {
