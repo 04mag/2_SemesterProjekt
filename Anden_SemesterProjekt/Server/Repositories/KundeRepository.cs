@@ -77,7 +77,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 var result = _context.Kunder
                     .Include(k => k.Scootere).ThenInclude(s => s.Mærke)
                     .Include(k => k.TlfNumre)
-                    .Include(k => k.TilknyttetMekaniker)
+                    .Include(k => k.TilknyttetMekaniker).ThenInclude(m => m.Mærker)
                     .Include(k => k.Ordrer)
                     .Include(k => k.Adresse).ThenInclude(a => a.By).Where(k => k.KundeId == id).FirstOrDefault();
 
