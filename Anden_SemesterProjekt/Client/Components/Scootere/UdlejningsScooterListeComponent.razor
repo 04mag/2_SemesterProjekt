@@ -1,0 +1,35 @@
+﻿<h3>Udlejningsscooter liste</h3>
+
+@if (udlejningsScootere.Count < 1)
+{
+    <h3>Indlæser. Vent venligst...</h3>
+}
+
+@if (udlejningsScootere.Count > 0)
+{
+    <h3> Scooter beholdning:</h3>
+
+    <table class="table table-sm" >
+        <thead>
+        <tr> 
+            <th>Stelnummer</th>
+            <th>Registreringsnummer</th>
+            <th>Mærke</th>
+            <th>Status</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var scooter in udlejningsScootere.Where(s => s.ErAktiv == true))
+        {
+            <tr @onclick="() => ScooterDetaljer(scooter)">
+           
+                <td>@scooter.Stelnummer</td>
+                <td>@scooter.Registreringsnummer</td>
+                <td>@scooter.Mærke?.ScooterMærke</td>
+                <td>@(scooter.ErTilgængelig ? "Til rådighed" : "Udlejet")</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
