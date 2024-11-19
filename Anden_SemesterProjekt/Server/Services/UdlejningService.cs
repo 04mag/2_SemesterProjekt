@@ -3,7 +3,7 @@ using Anden_SemesterProjekt.Shared.Models;
 
 namespace Anden_SemesterProjekt.Server.Services
 {
-    public class UdlejningService
+    public class UdlejningService : IUdlejningService
     {
         private readonly IUdlejningRepository _udlejningRepository;
 

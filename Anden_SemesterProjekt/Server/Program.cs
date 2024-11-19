@@ -16,12 +16,21 @@ namespace Anden_SemesterProjekt
 
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
+
             builder.Services.AddSingleton<IAnsatRepository, AnsatRepository>();
             builder.Services.AddScoped<IAnsatService, AnsatService>();
+
             builder.Services.AddSingleton<IMærkeRepository, MærkeRepository>();
             builder.Services.AddScoped<IMærkeService, MærkeService>();
+
             builder.Services.AddSingleton<IUdlejningsScooterRepository, UdlejningsScooterRepository>();
             builder.Services.AddScoped<IUdlejningsScooterService, UdlejningsScooterService>();
+
+            //builder.Services.AddSingleton<IUdlejningRepository, UdlejningRepository>();
+            //builder.Services.AddScoped<IUdlejningService, UdlejningService>();
+
+            //builder.Services.AddSingleton<IOrdreRepository, OrdreRepository>();
+            //builder.Services.AddScoped<IOrdreService, OrdreService>();
 
             builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();
