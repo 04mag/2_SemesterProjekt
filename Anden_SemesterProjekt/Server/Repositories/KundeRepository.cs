@@ -186,5 +186,38 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 return true;
             }
         }
+
+        public bool RemoveTlfNummer(int id)
+        {
+            TlfNummer? tlfnummer = _context.TlfNumre.Find(id);
+
+            if (tlfnummer == null)
+            {
+                return false;
+            }
+            else
+            {
+                _context.TlfNumre.Remove(tlfnummer);
+                _context.SaveChanges();
+                return true;
+            }
+        }
+
+        public int? AddTlfNummer(TlfNummer tlfNummer)
+        {
+            _context.TlfNumre.Add(tlfNummer);
+            _context.SaveChanges();
+
+            int id = tlfNummer.TlfNummerId;
+
+            if (id > 0)
+            {
+                return id;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

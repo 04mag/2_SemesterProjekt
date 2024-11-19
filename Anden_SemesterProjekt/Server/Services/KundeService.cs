@@ -80,5 +80,15 @@ namespace Anden_SemesterProjekt.Server.Services
         {
             return _kundeRepository.UpdateKunde(kunde);
         }
+
+        public bool RemoveTlfNummer(int id)
+        {
+            return _kundeRepository.RemoveTlfNummer(id);
+        }
+
+        public int? AddTlfNummer(TlfNummer tlfNummer)
+        {
+            return _kundeRepository.AddTlfNummer(tlfNummer);
+        }
     }
 }

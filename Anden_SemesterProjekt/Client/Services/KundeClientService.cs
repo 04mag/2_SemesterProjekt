@@ -84,5 +84,24 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             return await _httpClient.PutAsJsonAsync("api/kunder", kunde);
         }
+
+        public async Task<TlfNummer?> PostTlfNummer(TlfNummer tlfNummer)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/kunder/tlf", tlfNummer);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<TlfNummer>();
+            }
+            else
+            {
+                return new TlfNummer();
+            }
+        }
+
+        public async Task<HttpResponseMessage> DeleteTlfNummer(int id)
+        {
+            return await _httpClient.DeleteAsync($"api/kunder/tlf/{id}");
+        }
     }
 }
