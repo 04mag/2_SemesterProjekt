@@ -12,5 +12,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         public EventCallback<Kunde> OnEditKunde { get; set; }
         [Parameter]
         public EventCallback<Kunde> OnDeleteKunde { get; set; }
+        [Parameter]
+        public EventCallback<Kunde> OnSelectKunde { get; set; }
     }
 }

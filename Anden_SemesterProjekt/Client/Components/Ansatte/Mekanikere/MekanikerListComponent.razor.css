@@ -6,7 +6,7 @@ body {
     height: 100%;
 }
 
-.scroll{
+.scroll {
     height: 500px;
     overflow: auto;
 }

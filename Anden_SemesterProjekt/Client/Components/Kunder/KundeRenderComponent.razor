@@ -13,7 +13,11 @@
                         }
                         @if (OnEditKunde.HasDelegate)
                         {
-                            <button class="btn btn-primary m-1 float-end" @onclick="() => OnEditKunde.InvokeAsync(Kunde)">Rediger</button>
+                            <button class="btn btn-warning m-1 float-end" @onclick="() => OnEditKunde.InvokeAsync(Kunde)">Rediger</button>
+                        }
+                        @if (OnSelectKunde.HasDelegate)
+                        {
+                            <button class="btn btn-primary m-1 float-end" @onclick="() => OnSelectKunde.InvokeAsync(Kunde)">Vælg</button>
                         }
                     </div>
                 </div>

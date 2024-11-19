@@ -26,6 +26,11 @@ namespace Anden_SemesterProjekt.Client.Pages
             kunder = await KundeService.GetKunder();
         }
 
+        private async Task OnSelectKunde()
+        {
+
+        }
+
         private async Task OnEditKunde(Kunde kunde)
         {
             

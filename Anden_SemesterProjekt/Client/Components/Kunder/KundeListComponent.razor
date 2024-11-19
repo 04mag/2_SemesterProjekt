@@ -17,13 +17,15 @@
     <div class="col-md-4 mb-3">
         <input class="form-control float-end" @bind-value="searchString" @bind-value:event="oninput" placeholder="Søg via telefonnummer" />
     </div>
-    <div class="col-12 p-3 mb-3 scroll border border-primary rounded">
-        @if (Kunder != null)
-        {
-            @foreach (var kunde in FilteredKunder)
+    <div class="row p-3 mb-3 scroll">
+        <div class="col-12">
+            @if (Kunder != null)
             {
-                <KundeRenderComponent Kunde="kunde" OnEditKunde="OnEditKunde" OnDeleteKunde="OnDeleteKunde" />
+                @foreach (var kunde in FilteredKunder)
+                {
+                    <KundeRenderComponent Kunde="kunde" OnEditKunde="OnEditKunde" OnDeleteKunde="OnDeleteKunde" OnSelectKunde="OnSelectKunde" />
+                }
             }
-        }
+        </div>
     </div>
 </div>
