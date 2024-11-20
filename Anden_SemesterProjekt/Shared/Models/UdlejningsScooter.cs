@@ -11,11 +11,12 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class UdlejningsScooter : Scooter
     { 
        public bool ErTilgængelig { get; set; }
-       public bool ErAktiv { get; set; }
+      
        [JsonIgnore] public List<Udlejning>? Udlejninger { get; set; }
 
        public UdlejningsScooter()
        {
-       }
+            ScooterType = "UdlejningsScooter";
+        }
     }
 }

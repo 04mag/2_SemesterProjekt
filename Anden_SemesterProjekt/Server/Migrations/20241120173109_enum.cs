@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class create : Migration
+    public partial class @enum : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -116,6 +116,29 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Scootere",
+                columns: table => new
+                {
+                    ScooterId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Stelnummer = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Registreringsnummer = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MærkeId = table.Column<int>(type: "int", nullable: false),
+                    ErAktiv = table.Column<bool>(type: "bit", nullable: false),
+                    ScooterType = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Scootere", x => x.ScooterId);
+                    table.ForeignKey(
+                        name: "FK_Scootere_Mærker_MærkeId",
+                        column: x => x.MærkeId,
+                        principalTable: "Mærker",
+                        principalColumn: "MærkeId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Kunder",
                 columns: table => new
                 {
@@ -144,34 +167,45 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Scootere",
+                name: "UdlejningsScootere",
                 columns: table => new
                 {
-                    ScooterId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Stelnummer = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Registreringsnummer = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MærkeId = table.Column<int>(type: "int", nullable: false),
-                    ScooterType = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
-                    KundeId = table.Column<int>(type: "int", nullable: true),
-                    ErTilgængelig = table.Column<bool>(type: "bit", nullable: true),
-                    ErAktiv = table.Column<bool>(type: "bit", nullable: true)
+                    ScooterId = table.Column<int>(type: "int", nullable: false),
+                    ErTilgængelig = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Scootere", x => x.ScooterId);
+                    table.PrimaryKey("PK_UdlejningsScootere", x => x.ScooterId);
                     table.ForeignKey(
-                        name: "FK_Scootere_Kunder_KundeId",
+                        name: "FK_UdlejningsScootere_Scootere_ScooterId",
+                        column: x => x.ScooterId,
+                        principalTable: "Scootere",
+                        principalColumn: "ScooterId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "KundeScootere",
+                columns: table => new
+                {
+                    ScooterId = table.Column<int>(type: "int", nullable: false),
+                    KundeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KundeScootere", x => x.ScooterId);
+                    table.ForeignKey(
+                        name: "FK_KundeScootere_Kunder_KundeId",
                         column: x => x.KundeId,
                         principalTable: "Kunder",
                         principalColumn: "KundeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Scootere_Mærker_MærkeId",
-                        column: x => x.MærkeId,
-                        principalTable: "Mærker",
-                        principalColumn: "MærkeId",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_KundeScootere_Scootere_ScooterId",
+                        column: x => x.ScooterId,
+                        principalTable: "Scootere",
+                        principalColumn: "ScooterId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -215,6 +249,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     table.PrimaryKey("PK_Ordrer", x => x.OrdreId);
                     table.ForeignKey(
+                        name: "FK_Ordrer_KundeScootere_KundeScooterId",
+                        column: x => x.KundeScooterId,
+                        principalTable: "KundeScootere",
+                        principalColumn: "ScooterId");
+                    table.ForeignKey(
                         name: "FK_Ordrer_Kunder_KundeId",
                         column: x => x.KundeId,
                         principalTable: "Kunder",
@@ -225,14 +264,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         principalTable: "Mekanikere",
                         principalColumn: "MekanikerId");
                     table.ForeignKey(
-                        name: "FK_Ordrer_Scootere_KundeScooterId",
-                        column: x => x.KundeScooterId,
-                        principalTable: "Scootere",
-                        principalColumn: "ScooterId");
-                    table.ForeignKey(
-                        name: "FK_Ordrer_Scootere_UdlejningsScooterId",
+                        name: "FK_Ordrer_UdlejningsScootere_UdlejningsScooterId",
                         column: x => x.UdlejningsScooterId,
-                        principalTable: "Scootere",
+                        principalTable: "UdlejningsScootere",
                         principalColumn: "ScooterId");
                 });
 
@@ -263,9 +297,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         principalColumn: "OrdreId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Udlejninger_Scootere_UdlejningsScooterId",
+                        name: "FK_Udlejninger_UdlejningsScootere_UdlejningsScooterId",
                         column: x => x.UdlejningsScooterId,
-                        principalTable: "Scootere",
+                        principalTable: "UdlejningsScootere",
                         principalColumn: "ScooterId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -388,6 +422,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 column: "MekanikerId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_KundeScootere_KundeId",
+                table: "KundeScootere",
+                column: "KundeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MekanikerMærke_MærkeId",
                 table: "MekanikerMærke",
                 column: "MærkeId");
@@ -411,11 +450,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 name: "IX_Ordrer_UdlejningsScooterId",
                 table: "Ordrer",
                 column: "UdlejningsScooterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Scootere_KundeId",
-                table: "Scootere",
-                column: "KundeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Scootere_MærkeId",
@@ -470,19 +504,25 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 name: "Varer");
 
             migrationBuilder.DropTable(
-                name: "Scootere");
+                name: "KundeScootere");
+
+            migrationBuilder.DropTable(
+                name: "UdlejningsScootere");
 
             migrationBuilder.DropTable(
                 name: "Kunder");
 
             migrationBuilder.DropTable(
-                name: "Mærker");
+                name: "Scootere");
 
             migrationBuilder.DropTable(
                 name: "Adresser");
 
             migrationBuilder.DropTable(
                 name: "Mekanikere");
+
+            migrationBuilder.DropTable(
+                name: "Mærker");
 
             migrationBuilder.DropTable(
                 name: "By");

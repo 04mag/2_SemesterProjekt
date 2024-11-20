@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241119212325_create")]
-    partial class create
+    [Migration("20241120202456_12")]
+    partial class _12
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -335,6 +335,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScooterId"));
 
+                    b.Property<bool>("ErAktiv")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MærkeId")
                         .HasColumnType("int");
 
@@ -343,8 +346,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("ScooterType")
                         .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Stelnummer")
                         .IsRequired()
@@ -357,9 +359,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.ToTable("Scootere", (string)null);
 
-                    b.HasDiscriminator<string>("ScooterType").HasValue("Scooter");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.TlfNummer", b =>
@@ -617,20 +617,17 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasIndex("KundeId");
 
-                    b.HasDiscriminator().HasValue("KundeScooter");
+                    b.ToTable("KundeScootere", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", b =>
                 {
                     b.HasBaseType("Anden_SemesterProjekt.Shared.Models.Scooter");
 
-                    b.Property<bool>("ErAktiv")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("ErTilgængelig")
                         .HasColumnType("bit");
 
-                    b.HasDiscriminator().HasValue("UdlejningsScooter");
+                    b.ToTable("UdlejningsScootere", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
@@ -773,7 +770,22 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Scooter", null)
+                        .WithOne()
+                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.KundeScooter", "ScooterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Kunde");
+                });
+
+            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", b =>
+                {
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Scooter", null)
+                        .WithOne()
+                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", "ScooterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>

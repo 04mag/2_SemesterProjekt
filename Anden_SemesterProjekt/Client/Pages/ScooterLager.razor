@@ -24,7 +24,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var scooter in udlejningsScootere.Where(s => s.ErAktiv == true))
+    @foreach (var scooter in udlejningsScootere.Where(s => s.ErAktiv))
     {
         <tr @onclick="() => ScooterDetaljer(scooter)">
            

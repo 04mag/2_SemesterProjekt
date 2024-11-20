@@ -1,6 +1,7 @@
 using Anden_SemesterProjekt.Server.Context;
 using Anden_SemesterProjekt.Server.Repositories;
 using Anden_SemesterProjekt.Server.Services;
+using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,13 +19,20 @@ namespace Anden_SemesterProjekt
             builder.Services.AddRazorPages();
             builder.Services.AddSingleton<IAnsatRepository, AnsatRepository>();
             builder.Services.AddScoped<IAnsatService, AnsatService>();
-            builder.Services.AddSingleton<IMærkeRepository, MærkeRepository>();
+
+            builder.Services.AddScoped<IMærkeRepository, MærkeRepository>();
             builder.Services.AddScoped<IMærkeService, MærkeService>();
-            builder.Services.AddSingleton<IScooterRepository, ScooterRepository>();
-            builder.Services.AddScoped<IScooterService, ScooterService>();
+
+            builder.Services.AddScoped(typeof(IScooterRepository<>), typeof(ScooterRepository<>));
+            builder.Services.AddScoped(typeof(IScooterService<>), typeof(ScooterService<>));
 
             builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new ScooterJsonConverter());
+                });
 
             var app = builder.Build();
 
@@ -51,8 +59,9 @@ namespace Anden_SemesterProjekt
             app.MapRazorPages();
             app.MapControllers();
             app.MapFallbackToFile("index.html");
-
             app.Run();
+            
         }
+      
     }
 }

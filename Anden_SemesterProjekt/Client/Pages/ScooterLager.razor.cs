@@ -21,7 +21,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         private bool detailsModal = false;
         private bool editModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
-        [Inject] public IScooterClientService ScooterService { get; set; }
+        [Inject] public IScooterClientService<UdlejningsScooter> ScooterService { get; set; }
         protected override async Task OnInitializedAsync()
         {
             var mærkerResult = await MærkeService.GetMærker();
@@ -31,7 +31,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 mærker = mærkerResult;
             }
 
-            var udlejningsScootereResult = await ScooterService.GetScootere<UdlejningsScooter>();
+            var udlejningsScootereResult = await ScooterService.GetScootere();
 
             if (udlejningsScootereResult != null)
             {
@@ -61,6 +61,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
                 nyUdlejningsScooter.ErAktiv = true;
                 nyUdlejningsScooter.ErTilgængelig = true;
+                nyUdlejningsScooter.ScooterType = "UdlejningsScooter";
 
 
                 // Kald API for at gemme
@@ -68,7 +69,7 @@ namespace Anden_SemesterProjekt.Client.Pages
 
                 if (response != null)
                 {
-                    udlejningsScootere = await ScooterService.GetScootere<UdlejningsScooter>();
+                    udlejningsScootere = await ScooterService.GetScootere();
                     await HentMærker();
 
                     // Tving UI-opdatering
@@ -139,7 +140,7 @@ namespace Anden_SemesterProjekt.Client.Pages
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Scooteren er opdateret.");
                 detailsModal = false;
-                udlejningsScootere = await ScooterService.GetScootere<UdlejningsScooter>();
+                udlejningsScootere = await ScooterService.GetScootere();
                 HentMærker();
                 detailsModal = true;
                 editModal = false;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Anden_SemesterProjekt.Server.Repositories
 {
-    public class ScooterRepository : IScooterRepository
+    public class ScooterRepository<T> : IScooterRepository<T> where T : Scooter
     {
         private readonly SLContext _context;
 
@@ -13,32 +13,32 @@ namespace Anden_SemesterProjekt.Server.Repositories
             _context = new SLContext();
         }
 
-        public async Task<T?> ReadScooterAsync<T>(int id) where T : Scooter
+        public async Task<T?> ReadScooterAsync(int id)
         {
             return await _context.Scootere
                 .OfType<T>()              // Begræns typen til den angivne subklasse
                 .Include(s => s.Mærke)    // Inkluder relateret data
-                .FirstOrDefaultAsync(s => s.ScooterId == id);
+                .FirstOrDefaultAsync(s => s.ScooterType== "sas");
         }
 
-        // Generisk metode til at læse alle scootere af en bestemt type
-        public async Task<List<T>> ReadScootereAsync<T>() where T : Scooter
+        // Generisk metode til at læse alle scootere af en bestemt Type
+        public async Task<List<T>> ReadScootereAsync() 
         {
             return await _context.Scootere
-                .OfType<T>()              // Begræns typen til den angivne subklasse
+                .OfType<T>().Where(s=>s.ErAktiv)              // Begræns typen til den angivne subklasse
                 .Include(s => s.Mærke)    // Inkluder relateret data
                 .ToListAsync();
         }
      
 
-        public async Task<int> CreateScooterAsync<T>(T Scooter) where T: Scooter
+        public async Task<int> CreateScooterAsync(T scooter) 
         {
-            await _context.Scootere.AddAsync(Scooter);
+            await _context.Scootere.AddAsync(scooter);
             await _context.SaveChangesAsync();
-            return Scooter.ScooterId;
+            return scooter.ScooterId;
         }
 
-        public async Task<int> UpdateScooterAsync<T>(T Scooter) where T : Scooter
+        public async Task<int> UpdateScooterAsync(T Scooter) 
         {
             // Henter scooteren fra databasen og gemmer den i existingScooter
             var existingScooter = await _context.Scootere.FindAsync(Scooter.ScooterId); 
@@ -54,7 +54,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<int> DeleteScooterAsync(int id)
         {
-            var scooter = await _context.Scootere.OfType<UdlejningsScooter>()
+            var scooter = await _context.Scootere.OfType<T>()
                                                  .FirstOrDefaultAsync(s => s.ScooterId == id);
             if (scooter != null)
             {

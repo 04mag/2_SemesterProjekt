@@ -24,13 +24,12 @@ namespace Anden_SemesterProjekt.Server.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Scooter>()
-                .HasDiscriminator<string>("ScooterType")  // Oprette en discriminator (den kan hedde ScooterType eller et hvilket som helst navn).
-                .HasValue<KundeScooter>("KundeScooter")   // Indstil hvilken type som er tilknyttet hvilken værdi af diskriminator.
-                .HasValue<UdlejningsScooter>("UdlejningsScooter");
-            modelBuilder.Entity<Scooter>().ToTable("Scootere");
 
-            // Oprette separate tabeller for hver type.
+            modelBuilder.Entity<Scooter>().ToTable("Scootere");
+            modelBuilder.Entity<UdlejningsScooter>().ToTable("UdlejningsScootere");
+            modelBuilder.Entity<KundeScooter>().ToTable("KundeScootere");
+
+            // Oprette separate tabeller for hver Type.
 
 
 

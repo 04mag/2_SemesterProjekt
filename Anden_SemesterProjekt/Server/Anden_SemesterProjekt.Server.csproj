@@ -24,4 +24,7 @@
     <ProjectReference Include="..\Client\Anden_SemesterProjekt.Client.csproj" />
     <ProjectReference Include="..\Shared\Anden_SemesterProjekt.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\" />
+  </ItemGroup>
 </Project>

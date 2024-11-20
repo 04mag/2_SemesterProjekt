@@ -8,16 +8,17 @@ using Anden_SemesterProjekt.Shared.Models;
 
 namespace Anden_SemesterProjekt.Client.Services
 {
-    public class ScooterClientService : IScooterClientService
+    public class ScooterClientService <T> : IScooterClientService<T> where T : Scooter
     {
         private readonly HttpClient _httpClient;
+      
 
         public ScooterClientService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<T?> GetScooter<T>(int id) where T : Scooter
+        public async Task<T?> GetScooter(int id)
         {
             try
             {
@@ -25,28 +26,64 @@ namespace Anden_SemesterProjekt.Client.Services
             }
             catch
             {
-                return null;
+                throw new Exception( "Error in client service");
             }
         }
 
-        public async Task<List<T>?> GetScootere<T>() where T : Scooter
+        public async Task<List<T>> GetScootere() 
         {
-            try
+            var scooterJson = await _httpClient.GetStringAsync("api/scooter");
+
+            // First, deserialize the list of base class Scooter
+            var scooters = JsonSerializer.Deserialize<List<T>>(scooterJson);
+
+            if (scooters == null)
             {
-                return await _httpClient.GetFromJsonAsync<List<T>>("api/scootere");
+                throw new Exception("Failed to deserialize scooters.");
             }
-            catch
+
+            // Iterate through each scooter, check its type, and deserialize accordingly
+            List<T> deserializedScooters = new List<T>();
+
+            foreach (var scooter in scooters)
             {
-                return null;
+                if (scooter.ScooterType == "KundeScooter")
+                {
+                    // Deserialize to KundeScooter
+                    var kundeScooter = JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(scooter));
+                    if (kundeScooter != null)
+                    {
+                        deserializedScooters.Add(kundeScooter);
+                    }
+                }
+                else if (scooter.ScooterType == "UdlejningsScooter")
+                {
+                    // Deserialize to UdlejningsScooter
+                    var udlejningsScooter = JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(scooter));
+                    if (udlejningsScooter != null)
+                    {
+                        deserializedScooters.Add(udlejningsScooter);
+                    }
+                }
+                else
+                {
+                    throw new Exception($"Unknown scooter type: {scooter.ScooterType}");
+                }
             }
+
+            return deserializedScooters;
         }
 
-        public async Task<HttpResponseMessage> AddScooterAsync<T>(T scooter) where T : Scooter
+        public async Task<HttpResponseMessage> AddScooterAsync(T scooter) 
         {
             try
             {
                 // Sørger for korrekt serialisering af polymorf JSON
-                var response = await _httpClient.PostAsJsonAsync("api/scootere", scooter);
+                var options = new JsonSerializerOptions
+                {
+                    Converters = { new ScooterJsonConverter() }
+                };
+                var response = await _httpClient.PostAsJsonAsync("api/scootere", scooter, options);
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception($"Fejl ved oprettelse af scooter: {response.ReasonPhrase}");

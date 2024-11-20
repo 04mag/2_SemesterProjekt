@@ -3,31 +3,31 @@ using Anden_SemesterProjekt.Shared.Models;
 
 namespace Anden_SemesterProjekt.Server.Services
 {
-    public class ScooterService : IScooterService
+    public class ScooterService<T> : IScooterService <T> where T : Scooter
     {
-        private readonly IScooterRepository _scooterRepository;
+        private readonly IScooterRepository<T> _scooterRepository;
 
-        public ScooterService(IScooterRepository scooterRepository)
+        public ScooterService(IScooterRepository<T> scooterRepository)
         {
             _scooterRepository = scooterRepository;
         }
 
-        public async Task<T?> GetScooterAsync<T>(int id) where T : Scooter
+        public async Task<T?> GetScooterAsync(int id) 
         {
-            return await _scooterRepository.ReadScooterAsync<T>(id);
+            return await _scooterRepository.ReadScooterAsync(id);
         }
 
-        public async Task<List<T>> GetAllScootereAsync<T>() where T : Scooter
+        public async Task<List<T>> GetAllScootereAsync() 
         {
-            return await _scooterRepository.ReadScootereAsync<T>();
+            return await _scooterRepository.ReadScootereAsync();
         }
 
-        public async Task<int> AddScooterAsync<T>(T scooter) where T : Scooter
+        public async Task<int> AddScooterAsync(T scooter) 
         {
             return await _scooterRepository.CreateScooterAsync(scooter);
         }
 
-        public async Task<int> UpdateScooterAsync<T>(T scooter) where T : Scooter
+        public async Task<int> UpdateScooterAsync(T scooter) 
         {
             return await _scooterRepository.UpdateScooterAsync(scooter);
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
-  
+
     public class KundeScooter : Scooter
     {
         public int KundeId { get; set; }
@@ -16,6 +16,7 @@ namespace Anden_SemesterProjekt.Shared.Models
 
         public KundeScooter()
         {
+            ScooterType = "KundeScooter";
         }
     }
 }

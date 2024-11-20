@@ -2,13 +2,13 @@
 
 namespace Anden_SemesterProjekt.Server.Repositories
 {
-    public interface IScooterRepository
+    public interface IScooterRepository <T> where T : Scooter
     {
-        Task<T?> ReadScooterAsync<T>(int id) where T : Scooter;
-        Task<List<T>> ReadScootereAsync<T>() where T : Scooter;
+        Task<T?> ReadScooterAsync(int id);
+        Task<List<T>> ReadScootereAsync();
 
-        Task<int> CreateScooterAsync<T>(T Scooter) where T : Scooter;
-        Task<int> UpdateScooterAsync<T>(T Scooter) where T : Scooter;
+        Task<int> CreateScooterAsync(T scooter);
+        Task<int> UpdateScooterAsync(T Scooter);
         Task<int> DeleteScooterAsync(int id);
     }
 }

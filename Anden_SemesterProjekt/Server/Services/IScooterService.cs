@@ -2,12 +2,12 @@
 
 namespace Anden_SemesterProjekt.Server.Services
 {
-    public interface IScooterService
+    public interface IScooterService <T> where T : Scooter
     {
-        Task<T?> GetScooterAsync<T>(int id) where T : Scooter;
-        Task<List<T>> GetAllScootereAsync<T>() where T : Scooter;
-        Task<int> AddScooterAsync<T>(T Scooter) where T : Scooter;
-        Task<int> UpdateScooterAsync<T>(T Scooter) where T : Scooter;
+        Task<T?> GetScooterAsync(int id);
+        Task<List<T>> GetAllScootereAsync();
+        Task<int> AddScooterAsync(T Scooter);
+        Task<int> UpdateScooterAsync(T Scooter);
         Task<int> DeleteScooterAsync(int id);
     }
 }
