@@ -33,10 +33,11 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<Vare>>("api/VarerOgYdelser"); //Dobbelttjek 
+                return await _httpClient.GetFromJsonAsync<List<Vare>>("api/varer/VarerOgYdelser"); //Dobbelttjek 
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -48,8 +49,9 @@ namespace Anden_SemesterProjekt.Client.Services
             {
                 return await _httpClient.GetFromJsonAsync<List<Vare>>("api/varer/Varer"); //Dobbelttjek
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return null;
             }
         }
@@ -62,8 +64,9 @@ namespace Anden_SemesterProjekt.Client.Services
             {
                 return await _httpClient.GetFromJsonAsync<List<Ydelse>>("api/varer/Ydelser"); //Dobbelttjek - evt try-catch
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return null;
             }
         }
