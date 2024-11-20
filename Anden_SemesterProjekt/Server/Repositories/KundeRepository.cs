@@ -56,7 +56,10 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     return false;
                 }
 
-                _context.Kunder.Remove(kunde);
+                kunde.ErAktiv = false;
+
+                UpdateKunde(kunde);
+
                 _context.SaveChanges();
                 return true;
             }
