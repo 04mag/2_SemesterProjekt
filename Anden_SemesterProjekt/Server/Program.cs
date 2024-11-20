@@ -25,6 +25,8 @@ namespace Anden_SemesterProjekt
 
             builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();
+            builder.Services.AddSingleton<ScooterRepository, ScooterRepository>();
+            builder.Services.AddScope
 
             var app = builder.Build();
 
