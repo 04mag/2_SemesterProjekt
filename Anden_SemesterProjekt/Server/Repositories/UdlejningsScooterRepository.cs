@@ -37,7 +37,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<int> UpdateUdlejningsScooterAsync(UdlejningsScooter udlejningsScooter)
         {
             // Henter scooteren fra databasen og gemmer den i existingScooter
-            Scooter? existingScooter = await _context.Scootere.FindAsync(udlejningsScooter.ScooterId); 
+            var existingScooter = await _context.Scootere.FindAsync(udlejningsScooter.ScooterId); 
             if (existingScooter == null)
             {
                 throw new ArgumentException("Scooteren findes ikke.");
@@ -45,11 +45,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
             // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
             _context.Entry(existingScooter).CurrentValues.SetValues(udlejningsScooter);
             foreach (var udlejning in udlejningsScooter.Udlejninger)
-            {
-                existingScooter.Udlejninger.Add(udlejning);
-
-            }
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             return udlejningsScooter.ScooterId; 
         }
 
