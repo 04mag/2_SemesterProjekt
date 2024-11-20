@@ -11,7 +11,5 @@ namespace Anden_SemesterProjekt.Client.Services
         Task<HttpResponseMessage> PutKunde(Kunde kunde);
         Task<HttpResponseMessage> DeleteKunde(int id);
         Task<By?> GetBy(string postnummer);
-        Task<TlfNummer?> PostTlfNummer(TlfNummer tlfNummer);
-        Task<HttpResponseMessage> DeleteTlfNummer(int id);
     }
 }

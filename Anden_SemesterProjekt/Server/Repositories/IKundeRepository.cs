@@ -52,9 +52,5 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <param name="postnummer"></param>
         /// <returns>Retunerer By Object fra postnummer. Null hvis ikke fundet.</returns>
         public By? GetBy(string postnummer);
-
-        public bool RemoveTlfNummer(int id);
-
-        public int? AddTlfNummer(TlfNummer tlfNummer);
     }
 }

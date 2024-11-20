@@ -122,35 +122,5 @@ namespace Anden_SemesterProjekt.Server.Controllers
                 return NotFound();
             }
         }
-
-        [HttpPost("tlf")]
-        public IActionResult PostTlf(TlfNummer tlf)
-        {
-            int? id = _kundeService.AddTlfNummer(tlf);
-
-            if (id == null)
-            {
-                return Conflict();
-            }
-            else
-            {
-                return CreatedAtAction(nameof(GetKunde), new { id = id }, tlf);
-            }
-        }
-
-        [HttpDelete("tlf/{id}")]
-        public IActionResult DeleteTlf(int id)
-        {
-            bool deleted = _kundeService.RemoveTlfNummer(id);
-
-            if (deleted)
-            {
-                return Ok();
-            }
-            else
-            {
-                return NotFound();
-            }
-        }
     }
 }
