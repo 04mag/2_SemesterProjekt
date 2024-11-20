@@ -23,5 +23,9 @@ namespace Anden_SemesterProjekt.Shared.Models
 
         public List<VareLinje> VareLinjer { get; set; }
 
+        public Vare()
+        {
+           
+        }
     }
 }

@@ -78,9 +78,8 @@ namespace Anden_SemesterProjekt.Server.Services
             return _vareRepository.DeleteVare(id);
         }
 
-        List<Vare>? IVareService.ReadAktiveYdelser()
-        {
-            throw new NotImplementedException();
-        }
+
+       
+
     }
 }

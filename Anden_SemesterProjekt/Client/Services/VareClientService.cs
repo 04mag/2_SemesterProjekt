@@ -38,9 +38,10 @@ namespace Anden_SemesterProjekt.Client.Services
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
+                throw new Exception(e.Message);
             }
         }
+        
 
         //Sender en GET-anmodning til api/varer for at hente en liste over alle aktive varer.
         public async Task<List<Vare>?> GetAktiveVarer()
@@ -52,12 +53,13 @@ namespace Anden_SemesterProjekt.Client.Services
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
+                throw new Exception(e. Message);
             }
         }
 
 
         //Sender en GET-anmodning til api/varer for at hente en liste over alle aktive ydelser.
+        //Har tilrettet nedstående fra Vare til Ydelse. 20/11/2024-20.30
         public async Task<List<Ydelse>?> GetAktiveYdelser()
         {
             try
@@ -67,9 +69,10 @@ namespace Anden_SemesterProjekt.Client.Services
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return null;
+                throw new Exception(e.Message);
             }
         }
+        
 
         //Henter en enkelt vare baseret på Id.
         public async Task<Vare?> GetVare(int id)
@@ -85,25 +88,38 @@ namespace Anden_SemesterProjekt.Client.Services
         }
 
         //Sender en PUT-anmodning for at opdatere en eksisterene vare.
-        public async Task<bool> PutVare(Vare vare)
+        public async Task<HttpResponseMessage> PutVare(Vare vare)
         {
-            var response = await _httpClient.PutAsJsonAsync("api/varer", vare);
+            
 
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return true;
+                var response = await _httpClient.PutAsJsonAsync("api/varer", vare);
+                return response;
             }
-            else
+            catch (Exception e)
             {
-                return false;
+                Console.WriteLine(e.Message);
+                throw new Exception(e.Message);
             }
+            
         }
 
         //Sender en DELETE-anmodning for at slette en eksisterende vare.
-        public async Task<bool> DeleteVare(int id)
+        public async Task<HttpResponseMessage> DeleteVare(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/varer/{id}");
-            return response.IsSuccessStatusCode;
+            try
+            {
+                var response = await _httpClient.DeleteAsync($"api/varer/{id}");
+                return response;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw new Exception(e.Message);
+            }
+           
+            
         }
     }
 }

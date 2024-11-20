@@ -60,10 +60,8 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns> Returnerer en liste af aktive ydelser og returnerer Null hvis ikke findes </returns>
         public List<Ydelse>? ReadAktiveYdelser()
         {
-            return _context.Varer
-                .Where(v => v.ErAktiv && v is Ydelse) //v is Ydelse sikrer at kun objekter af typen Ydelse bliver returneret
-                .Select(v => (Ydelse)v) //foretager en sikker cast fra Vare til Ydelse sp returntypen kan være List<Ydelse>
-                .ToList();
+            return _context.Varer.OfType<Ydelse>().Where(v => v.ErAktiv).ToList();
+                
         }
 
 

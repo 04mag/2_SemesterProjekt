@@ -7,9 +7,11 @@ namespace Anden_SemesterProjekt.Client.Services
         Task<Vare?> PostVare(Vare vare);
         Task<List<Vare>?> GetAktiveVarerOgYdelser();
         Task<List<Vare>?> GetAktiveVarer();
-        Task<List<Vare>?> GetAktiveYdelser();
+        Task<List<Ydelse>?> GetAktiveYdelser();
         Task<Vare?> GetVare(int id);
-        Task<HttpResponseMessage> PutKunde(Vare vare);
-        Task<HttpResponseMessage> DeleteKunde(int id);
+        Task<HttpResponseMessage> PutVare(Vare vare);
+        Task<HttpResponseMessage> DeleteVare(int id);
+
+
     }
 }

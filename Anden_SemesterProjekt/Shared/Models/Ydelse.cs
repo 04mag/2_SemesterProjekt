@@ -9,5 +9,10 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class Ydelse : Vare
     {
         public double AntalTimer { get; set; }
+
+       public Ydelse()
+        {
+            
+        }
     }
 }

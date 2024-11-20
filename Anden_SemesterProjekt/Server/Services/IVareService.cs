@@ -27,7 +27,7 @@ namespace Anden_SemesterProjekt.Server.Services
         /// Finder alle aktive ydelser i databasen
         /// </summary>
         /// <returns> Returnerer en liste af ydelser. Null hvis ingen ydelser bliver fundet </returns>
-        public List<Vare>? ReadAktiveYdelser();
+        public List<Ydelse>? ReadAktiveYdelser();
 
         /// <summary>
         /// Finder en vare eller ydelse i databasen udfra Id
