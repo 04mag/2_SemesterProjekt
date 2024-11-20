@@ -4,6 +4,7 @@ using Anden_SemesterProjekt.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    partial class SLContextModelSnapshot : ModelSnapshot
+    [Migration("20241119094536_ChangeToSideLengthInAdresse")]
+    partial class ChangeToSideLengthInAdresse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,7 +145,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MekanikerId")
+                    b.Property<int>("MekanikerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Navn")
@@ -657,7 +660,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
-                        .HasForeignKey("MekanikerId");
+                        .HasForeignKey("MekanikerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TilknyttetMekaniker");
                 });

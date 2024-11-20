@@ -20,6 +20,11 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         [Parameter]
         public EventCallback OnKundeAdded { get; set; }
 
+        protected override async Task OnInitializedAsync()
+        {
+            Mekanikere = await AnsatService.GetMekanikere();
+        }
+
         protected override void OnInitialized()
         {
             editContext = new EditContext(kundeModel);
@@ -29,11 +34,10 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         {
             isSubmitting = true;
 
-            bool check = await CheckPostnummer();
+            bool checkPostnummer = await CheckPostnummer();
 
-            if (check)
+            if (checkPostnummer)
             {
-                kundeModel.MekanikerId = 1;
 
                 var result = await KundeService.PostKunde(kundeModel);
 
@@ -41,6 +45,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
                 {
                     await OnKundeAdded.InvokeAsync();
                     kundeModel = new Kunde();
+                    Mekaniker = null;
                 }
             }
 
@@ -49,7 +54,11 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
         private async Task HandleInvalidSubmit()
         {
+            isSubmitting = true;
+
             await CheckPostnummer();
+
+            isSubmitting = false;
         }
 
         private async Task<bool> CheckPostnummer()
@@ -78,6 +87,24 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         private void OnTlfNummerInputRemove(TlfNummer tlfNummer)
         {
             kundeModel.TlfNumre.Remove(tlfNummer);
+        }
+
+        //mekaniker select
+        [Inject]
+        public IAnsatClientService AnsatService { get; set; }
+        public List<Mekaniker>? Mekanikere { get; set; } = new List<Mekaniker>();
+        public Mekaniker? Mekaniker { get; set; } = null;
+        private bool mekanikerSelectOpen = false;
+        private string addMekanikerButtonText = "Tilføj Mekaniker";
+
+        private void OnMekanikerSelected(Mekaniker mekaniker)
+        {
+            if (mekaniker != null)
+            {
+                Mekaniker = mekaniker;
+                kundeModel.MekanikerId = mekaniker.MekanikerId;
+            }
+            mekanikerSelectOpen = false;
         }
     }
 }

@@ -77,7 +77,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 var result = _context.Kunder
                     .Include(k => k.Scootere).ThenInclude(s => s.Mærke)
                     .Include(k => k.TlfNumre)
-                    .Include(k => k.TilknyttetMekaniker)
+                    .Include(k => k.TilknyttetMekaniker).ThenInclude(m => m.Mærker)
                     .Include(k => k.Ordrer)
                     .Include(k => k.Adresse).ThenInclude(a => a.By).Where(k => k.KundeId == id).FirstOrDefault();
 
@@ -169,15 +169,31 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns>Om opdatering var successfuld som bool.</returns>
         public bool UpdateKunde(Kunde kunde)
         {
-            var result = _context.Kunder.Find(kunde.KundeId);
-
-            if (result == null)
+            var existingKunde = _context.Kunder.Find(kunde.KundeId);
+            if (existingKunde == null)
             {
                 return false;
             }
             else
             {
-                _context.Update(kunde);
+                //Sletter tlfNumre fra database som ikke længere findes i kunde objektet
+                //Finder Id på alle kundens tlfnumre
+                var allValidIds = kunde.TlfNumre.Select(t => t.TlfNummerId).ToList();
+                //Finder alle tlfnumre som ikke findes i kunde objektet
+                var missingRows = _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToList();
+                
+                _context.Entry(existingKunde).CurrentValues.SetValues(kunde);
+
+                foreach (var nummer in kunde.TlfNumre)
+                {
+                    if (nummer.TlfNummerId == 0)
+                    {
+                        existingKunde.TlfNumre.Add(nummer);
+                    }
+                }
+                
+                existingKunde.TlfNumre = existingKunde.TlfNumre.Except(missingRows).ToList();
+
                 _context.SaveChanges();
                 return true;
             }
