@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
-    [JsonPolymorphic(TypeDiscriminatorPropertyName = "ScooterType")]
-    [JsonDerivedType(typeof(UdlejningsScooter), "UdlejningsScooter")]
+ 
     public class UdlejningsScooter : Scooter
     { 
        public bool ErTilgængelig { get; set; }

@@ -8,8 +8,7 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
-    [JsonPolymorphic(TypeDiscriminatorPropertyName = "ScooterType")]
-    [JsonDerivedType(typeof(KundeScooter), "KundeScooter")]
+  
     public class KundeScooter : Scooter
     {
         public int KundeId { get; set; }
