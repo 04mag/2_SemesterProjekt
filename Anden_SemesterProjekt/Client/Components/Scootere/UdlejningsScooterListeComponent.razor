@@ -1,4 +1,6 @@
-﻿<h3>Udlejningsscooter liste</h3>
+﻿
+
+<h3>Udlejningsscooter liste</h3>
 
 @if (udlejningsScootere.Count < 1)
 {
@@ -36,8 +38,8 @@
 
 @if (detailsModal)
 {
-    <div class="modal">
-        <div class="modal-content">
+    <div class="app.modal">
+        <div class="app.modal-content">
             <span class="close-button" @onclick="CloseModal">&times;</span>
             <h3>Scooter detaljer</h3>
             <h4>Id: @valgtUdlejningsScooter?.ScooterId</h4>
@@ -51,8 +53,8 @@
 @if (editModal)
 {
 
-    <div class="modal">
-        <div class="modal-content">
+    <div class="app.modal">
+        <div class="app.modal-content">
             <span class="close-button" @onclick="CloseEditModal">&times;</span>
             <h3>Mærke:</h3>
             <select @bind="redigeretScooter.MærkeId">
@@ -76,3 +78,4 @@
         </div>
     </div>
 }
+<NyUdlejningsScooterComponent OnChange="@HandleChildChanged" />

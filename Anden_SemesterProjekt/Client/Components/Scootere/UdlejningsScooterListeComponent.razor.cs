@@ -14,7 +14,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
         private UdlejningsScooter valgtUdlejningsScooter = new UdlejningsScooter();
         private UdlejningsScooter redigeretScooter;
-        private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
+        private List<UdlejningsScooter?> udlejningsScootere = new List<UdlejningsScooter>();
         private List<Mærke> mærker = new List<Mærke>();
         private int? nyScooterMærkeId = new int();
         private int? valgtScooterMærkeId = new int();
@@ -131,6 +131,11 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                     scooter.Mærke = mærker.FirstOrDefault(m => m.MærkeId == scooter.MærkeId);
                 }
             }
+        }
+        private async Task HandleChildChanged()
+        {
+            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+            StateHasChanged();
         }
 
     }

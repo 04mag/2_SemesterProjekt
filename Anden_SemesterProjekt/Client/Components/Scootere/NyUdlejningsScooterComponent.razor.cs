@@ -19,6 +19,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private bool addModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+        [Parameter] public EventCallback OnScooterAdded { get; set; }
         //protected override async Task OnInitializedAsync()
         //{
         //    var mærkerResult = await MærkeService.GetMærker();
@@ -52,6 +53,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 if (response != null && response.IsSuccessStatusCode)
                 {
                     // Tving UI-opdatering
+                    await OnScooterAdded.InvokeAsync();
                     StateHasChanged();
                     nyUdlejningsScooter = new UdlejningsScooter();
                     nyScooterMærkeId = null;
@@ -84,10 +86,11 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
             addModal = false;
         }
 
-        private async Task AddScooter()
+        private async Task CloseModal()
         {
-            await HandleValidSubmit();
+            HandleValidSubmit();
             addModal = false;
+            await OnScooterAdded.InvokeAsync();
         }
     }
 }

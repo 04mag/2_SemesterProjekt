@@ -1,14 +1,22 @@
-﻿//using Anden_SemesterProjekt.Shared.Models;
-//using System.Net.Http.Json;
-//using Anden_SemesterProjekt.Client.Services;
-//using Microsoft.AspNetCore.Components;
-//using System.Text.Json;
-//using Microsoft.JSInterop;
+﻿using Anden_SemesterProjekt.Shared.Models;
+using System.Net.Http.Json;
+using Anden_SemesterProjekt.Client.Services;
+using Microsoft.AspNetCore.Components;
+using System.Text.Json;
+using Microsoft.JSInterop;
 
-//namespace Anden_SemesterProjekt.Client.Pages
-//{
-//    public partial class ScooterLager
-//    {
+
+
+namespace Anden_SemesterProjekt.Client.Pages
+{
+    public partial class ScooterLager
+    {
+        private async Task onScooterSubmitTask()
+        {
+
+        }
+    }
+}
 //        [Inject] private IJSRuntime JS { get; set; } // JavaScript runtime
 
 //        private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
