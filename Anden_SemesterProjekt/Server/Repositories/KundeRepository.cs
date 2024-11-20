@@ -176,12 +176,24 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
-                _context.Entry(existingKunde).State = EntityState.Detached;
+                //Sletter tlfNumre fra database som ikke længere findes i kunde objektet
+                //Finder Id på alle kundens tlfnumre
+                var allValidIds = kunde.TlfNumre.Select(t => t.TlfNummerId).ToList();
+                //Finder alle tlfnumre som ikke findes i kunde objektet
+                var missingRows = _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToList();
+                
+                _context.Entry(existingKunde).CurrentValues.SetValues(kunde);
 
-                kunde.TilknyttetMekaniker = null;
-                kunde.Adresse.By = null;
+                foreach (var nummer in kunde.TlfNumre)
+                {
+                    if (nummer.TlfNummerId == 0)
+                    {
+                        existingKunde.TlfNumre.Add(nummer);
+                    }
+                }
+                
+                existingKunde.TlfNumre = existingKunde.TlfNumre.Except(missingRows).ToList();
 
-                _context.Update(kunde);
                 _context.SaveChanges();
                 return true;
             }

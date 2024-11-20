@@ -26,7 +26,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [ForeignKey("TilknyttetMekaniker")]
         public int? MekanikerId { get; set; } = null;
         public Mekaniker? TilknyttetMekaniker { get; set; } = null;
-        public List<KundeScooter>? Scootere { get; set; } = null;
-        public List<Ordre>? Ordrer { get; set; } = null;
+        public List<KundeScooter>? Scootere { get; set; } = new List<KundeScooter>();
+        public List<Ordre>? Ordrer { get; set; } = new List<Ordre>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Anden_SemesterProjekt.Client.Services;
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
 
 namespace Anden_SemesterProjekt.Client.Pages.Kunder
@@ -15,14 +16,24 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
         [Inject]
         private IJSRuntime JS { get; set; }
 
+        private async Task UpdateKunder()
+        {
+            var result = await KundeService.GetKunder();
+
+            if (result != null)
+            {
+                kunder = result.OrderBy(x => x.Navn).ToList();
+            }
+        }
+
         protected override async Task OnInitializedAsync()
         {
-            kunder = await KundeService.GetKunder();
+            await UpdateKunder();
         }
 
         private async Task OnKundeAddedHandler()
         {
-            kunder = await KundeService.GetKunder();
+            await UpdateKunder();
         }
 
         private async Task OnSelectKunde()
@@ -32,7 +43,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
 
         private async Task OnEditKunde(Kunde kunde)
         {
-
+            NavigationManager.NavigateTo($"/kunder/edit/{kunde.KundeId}");
         }
 
         private async Task OnDeleteKunde(Kunde kunde)
@@ -45,7 +56,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
 
                 if (result.IsSuccessStatusCode)
                 {
-                    kunder = await KundeService.GetKunder();
+                    await UpdateKunder();
                 }
                 else
                 {
