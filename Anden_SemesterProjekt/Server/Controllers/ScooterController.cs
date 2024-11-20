@@ -20,7 +20,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var scootere = await _service.GetAllScootereAsync();
+            var scootere = await _service.GetAllScootersAsync();
             if (scootere == null || scootere.Count == 0)
             {
                 return NotFound("Ingen scootere fundet.");
