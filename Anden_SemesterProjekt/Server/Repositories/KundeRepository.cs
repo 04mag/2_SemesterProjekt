@@ -49,6 +49,13 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
+                bool aktiveOrdrer = _context.Ordrer.Any(o => o.KundeId == id && o.ErAfsluttet == false);
+
+                if (aktiveOrdrer)
+                {
+                    return false;
+                }
+
                 _context.Kunder.Remove(kunde);
                 _context.SaveChanges();
                 return true;
