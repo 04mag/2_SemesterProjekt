@@ -120,6 +120,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.TilknyttetMekaniker)
                     .Include(k => k.Ordrer)
                     .Include(k => k.Adresse).ThenInclude(a => a.By)
+                    .Where(k => k.ErAktiv == true)
                     .ToList();
 
                 if (result.Count == 0)
@@ -155,6 +156,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.Ordrer)
                     .Where(k => k.TlfNumre.Any(t => t.TelefonNummer.Contains(tlfNummer, StringComparison.OrdinalIgnoreCase)))
                     .Where(k => k.Scootere.Any(s => s.Mærke.ScooterMærke.Contains(mærke, StringComparison.OrdinalIgnoreCase)))
+                    .Where(k => k.ErAktiv == true)
                     .ToList();
 
                 if (result.Count == 0)
