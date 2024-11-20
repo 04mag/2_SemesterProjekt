@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Anden_SemesterProjekt.Client.Services
 {
-    public class VareClientService
+    public class VareClientService : IVareClientService
     {
         private readonly HttpClient _httpClient;
         public VareClientService(HttpClient httpClient)

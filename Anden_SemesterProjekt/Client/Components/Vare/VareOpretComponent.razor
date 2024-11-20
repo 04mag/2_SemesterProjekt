@@ -1,0 +1,69 @@
+﻿using Anden_SemesterProjekt.Shared.Models;
+using Microsoft.AspNetCore.Components;
+
+@page "/opret-vare"
+@inject IVareClientService VareService
+@inject NavigationManager Navigation
+
+<h3>Opret Vare/Ydelse</h3>
+
+<div class="form-container">
+    <EditForm Model="NyVare" OnValidSubmit="HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="form-group">
+            <label for="navn">Navn:</label>
+            <InputText id="navn" @bind-Value="NyVare.Navn" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="pris">Pris:</label>
+            <InputNumber id="pris" @bind-Value="NyVare.Pris" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label for="erAktiv">Er Aktiv:</label>
+            <InputCheckbox id="erAktiv" @bind-Value="NyVare.ErAktiv" />
+        </div>
+
+        <div class="form-group">
+            <label for="type">Type:</label>
+            <select id="type" @bind="NyVare.Type" class="form-control">
+                <option value="Vare">Vare</option>
+                <option value="Ydelse">Ydelse</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Opret</button>
+    </EditForm>
+
+    @if (StatusMessage != null)
+    {
+        <div class="alert alert-info">@StatusMessage</div>
+    }
+</div>
+
+@code {
+    private Vare NyVare = new Vare
+        {
+            ErAktiv = true // Default til aktiv
+        };
+
+    private string? StatusMessage;
+
+    private async Task HandleValidSubmit()
+    {
+        var result = await VareService.PostVare(NyVare);
+
+        if (result != null)
+        {
+            StatusMessage = $"Vare/Ydelse '{result.Navn}' blev oprettet med ID {result.Id}.";
+            Navigation.NavigateTo("/varer"); // Naviger til en listevisning
+        }
+        else
+        {
+            StatusMessage = "Der opstod en fejl under oprettelsen af varen/ydelsen.";
+        }
+    }
+}
