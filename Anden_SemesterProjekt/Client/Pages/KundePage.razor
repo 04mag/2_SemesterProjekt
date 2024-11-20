@@ -4,4 +4,9 @@
 
 <h3>Kunder</h3>
 
-<KundeCreateComponent />
+<KundeCreateComponent OnKundeAdded="OnKundeAddedHandler"/>
+
+@if(kunder != null)
+{
+    <KundeListComponent Kunder="kunder" />
+}

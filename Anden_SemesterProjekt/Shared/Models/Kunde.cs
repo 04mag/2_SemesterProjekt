@@ -15,8 +15,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int KundeId { get; set; }
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Navn skal være mellem 2 og 50 karaktere langt.")]
         public string Navn { get; set; } = string.Empty;
-        [ForeignKey("Adresse")]
-        public int AdresseId { get; set; }
         [Required]
         [ValidateComplexType]
         public Adresse Adresse { get; set; } = new Adresse();

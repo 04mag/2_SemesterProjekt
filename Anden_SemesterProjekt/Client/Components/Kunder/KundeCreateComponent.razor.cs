@@ -17,6 +17,9 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         [Inject]
         public IKundeClientService KundeService { get; set; }
 
+        [Parameter]
+        public EventCallback OnKundeAdded { get; set; }
+
         protected override void OnInitialized()
         {
             editContext = new EditContext(kundeModel);
@@ -32,15 +35,11 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
             {
                 kundeModel.MekanikerId = 1;
 
-                Console.WriteLine("Making post call");
-
                 var result = await KundeService.PostKunde(kundeModel);
-
-                Console.WriteLine($"After post call.");
 
                 if (result != null)
                 {
-                    Console.WriteLine($"ID: {result.KundeId}");
+                    await OnKundeAdded.InvokeAsync();
                     kundeModel = new Kunde();
                 }
             }

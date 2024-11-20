@@ -48,6 +48,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
+                    b.Property<int>("KundeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Postnummer")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -57,6 +60,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasColumnType("nvarchar(2)");
 
                     b.HasKey("AdresseId");
+
+                    b.HasIndex("KundeId")
+                        .IsUnique();
 
                     b.HasIndex("Postnummer");
 
@@ -132,9 +138,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KundeId"));
 
-                    b.Property<int>("AdresseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -148,9 +151,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("KundeId");
-
-                    b.HasIndex("AdresseId")
-                        .IsUnique();
 
                     b.HasIndex("MekanikerId");
 
@@ -636,6 +636,12 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
                 {
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
+                        .WithOne("Adresse")
+                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Adresse", "KundeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
                         .WithMany("Adresser")
                         .HasForeignKey("Postnummer")
@@ -643,23 +649,17 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("By");
+
+                    b.Navigation("Kunde");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Adresse", "Adresse")
-                        .WithOne("Kunde")
-                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Kunde", "AdresseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
                         .HasForeignKey("MekanikerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Adresse");
 
                     b.Navigation("TilknyttetMekaniker");
                 });
@@ -801,11 +801,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
-                {
-                    b.Navigation("Kunde");
-                });
-
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
                 {
                     b.Navigation("Adresser");
@@ -813,6 +808,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
+                    b.Navigation("Adresse")
+                        .IsRequired();
+
                     b.Navigation("Ordrer");
 
                     b.Navigation("Scootere");

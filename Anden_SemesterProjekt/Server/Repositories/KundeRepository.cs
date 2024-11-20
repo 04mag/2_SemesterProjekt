@@ -72,7 +72,28 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns>Retunerer kunde object. Null hvis ikke fundet.</returns>
         public Kunde? ReadKunde(int id)
         {
-            return _context.Kunder.Find(id);
+            try
+            {
+                var result = _context.Kunder
+                    .Include(k => k.Scootere).ThenInclude(s => s.Mærke)
+                    .Include(k => k.TlfNumre)
+                    .Include(k => k.TilknyttetMekaniker)
+                    .Include(k => k.Ordrer)
+                    .Include(k => k.Adresse).ThenInclude(a => a.By).Where(k => k.KundeId == id).FirstOrDefault();
+
+                if (result == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
