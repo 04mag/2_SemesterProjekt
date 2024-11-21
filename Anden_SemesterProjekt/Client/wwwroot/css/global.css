@@ -14,7 +14,7 @@
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* Centrer modal */
-    padding: 10px;
+    padding: 20px;
     border: 1px solid #888;
     width: 30%; /* Størrelsen på modal */
     border-radius: 8px;
@@ -27,11 +27,9 @@
     }
 
 .close-button {
-    position: absolute;
-    right: 10px;
-    top: -10px;
-    font-size: 50px;
     color: #aaa;
+    float: right;
+    font-size: 28px;
     font-weight: bold;
     cursor: pointer;
 }

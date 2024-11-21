@@ -1,5 +1,6 @@
 using Anden_SemesterProjekt.Client;
 using Anden_SemesterProjekt.Client.Services;
+using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -22,7 +23,7 @@ namespace Anden_SemesterProjekt.Client
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
-            builder.Services.AddHttpClient<IUdlejningsScooterClientService, UdlejningsScooterClientService>(client =>
+            builder.Services.AddHttpClient<IScooterClientService, ScooterClientService>(client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
