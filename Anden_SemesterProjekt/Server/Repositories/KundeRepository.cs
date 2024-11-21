@@ -49,7 +49,17 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
-                _context.Kunder.Remove(kunde);
+                bool aktiveOrdrer = _context.Ordrer.Any(o => o.KundeId == id && o.ErAfsluttet == false);
+
+                if (aktiveOrdrer)
+                {
+                    return false;
+                }
+
+                kunde.ErAktiv = false;
+
+                UpdateKunde(kunde);
+
                 _context.SaveChanges();
                 return true;
             }
@@ -110,6 +120,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.TilknyttetMekaniker)
                     .Include(k => k.Ordrer)
                     .Include(k => k.Adresse).ThenInclude(a => a.By)
+                    .Where(k => k.ErAktiv == true)
                     .ToList();
 
                 if (result.Count == 0)
@@ -145,6 +156,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.Ordrer)
                     .Where(k => k.TlfNumre.Any(t => t.TelefonNummer.Contains(tlfNummer, StringComparison.OrdinalIgnoreCase)))
                     .Where(k => k.Scootere.Any(s => s.Mærke.ScooterMærke.Contains(mærke, StringComparison.OrdinalIgnoreCase)))
+                    .Where(k => k.ErAktiv == true)
                     .ToList();
 
                 if (result.Count == 0)

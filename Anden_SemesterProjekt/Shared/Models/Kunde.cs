@@ -28,5 +28,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public Mekaniker? TilknyttetMekaniker { get; set; } = null;
         public List<KundeScooter>? Scootere { get; set; } = new List<KundeScooter>();
         public List<Ordre>? Ordrer { get; set; } = new List<Ordre>();
+        public bool ErAktiv { get; set; } = true;
     }
 }

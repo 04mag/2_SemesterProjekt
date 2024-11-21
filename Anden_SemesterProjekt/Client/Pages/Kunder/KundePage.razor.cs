@@ -36,12 +36,12 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
             await UpdateKunder();
         }
 
-        private async Task OnSelectKunde()
+        private void OnSelectKunde(Kunde kunde)
         {
-
+            NavigationManager.NavigateTo($"/kunder/{kunde.KundeId}");
         }
 
-        private async Task OnEditKunde(Kunde kunde)
+        private void OnEditKunde(Kunde kunde)
         {
             NavigationManager.NavigateTo($"/kunder/edit/{kunde.KundeId}");
         }
@@ -60,7 +60,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
                 }
                 else
                 {
-                    await JS.InvokeVoidAsync("alert", "Der skete en fejl under sletning af kunden.");
+                    await JS.InvokeVoidAsync("alert", "Der skete en fejl under sletning af kunden. Tjek evt. om kunden har ordrer som ikke er afsluttet.");
                 }
             }
         }

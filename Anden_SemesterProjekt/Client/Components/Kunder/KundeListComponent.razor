@@ -23,7 +23,7 @@
             {
                 @foreach (var kunde in FilteredKunder)
                 {
-                    <KundeRenderComponent Kunde="kunde" OnEditKunde="OnEditKunde" OnDeleteKunde="OnDeleteKunde" OnSelectKunde="OnSelectKunde" />
+                    <KundeRenderComponent KundeModel="kunde" OnEditKunde="OnEditKunde" OnDeleteKunde="OnDeleteKunde" OnSelectKunde="OnSelectKunde" />
                 }
             }
         </div>
