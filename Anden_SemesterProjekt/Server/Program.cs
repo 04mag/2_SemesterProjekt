@@ -28,12 +28,7 @@ namespace Anden_SemesterProjekt
 
             builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();
-            builder.Services.AddControllers()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.Converters.Add(new ScooterJsonConverter());
-                });
-
+            
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
