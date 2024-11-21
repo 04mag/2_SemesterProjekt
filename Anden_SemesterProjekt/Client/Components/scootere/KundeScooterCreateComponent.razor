@@ -1,0 +1,57 @@
+﻿@page "/create-scooter"
+
+<h3>Opret ny Scooter</h3>
+
+<form @onsubmit="HandleCreateScooter">
+    <div>
+        <label for="stelnummer">Stelnummer:</label>
+        <input id="stelnummer" @bind="newScooter.Stelnummer" />
+    </div>
+    <div>
+        <label for="registreringsnummer">Registreringsnummer:</label>
+        <input id="registreringsnummer" @bind="newScooter.Registreringsnummer" />
+    </div>
+    <div>
+        <label for="mærke">Mærke ID:</label>
+        <input id="mærke" type="number" @bind="newScooter.MærkeId" />
+    </div>
+    <button type="submit">Opret Scooter</button>
+</form>
+
+@if (successMessage != null)
+{
+    <p style="color: green;">@successMessage</p>
+}
+
+@if (errorMessage != null)
+{
+    <p style="color: red;">@errorMessage</p>
+}
+
+@code {
+    [Parameter]
+    public EventCallback<Scooter> OnScooterCreated { get; set; } // Event til parent component
+
+    private Scooter newScooter = new Scooter();
+    private string? successMessage;
+    private string? errorMessage;
+
+    private async Task HandleCreateScooter()
+    {
+        try
+        {
+            // Send scooter til pareant component
+            await OnScooterCreated.InvokeAsync(newScooter);
+
+            successMessage = "Scooteren blev oprettet og sendt til kunden!";
+            errorMessage = null;
+
+            newScooter = new Scooter(); // Clear the form
+        }
+        catch (Exception ex)
+        {
+            successMessage = null;
+            errorMessage = "Der opstod en fejl: " + ex.Message;
+        }
+    }
+}
