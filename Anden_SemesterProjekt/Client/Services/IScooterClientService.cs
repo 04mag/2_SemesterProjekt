@@ -7,8 +7,8 @@ namespace Anden_SemesterProjekt.Client.Services
         Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync();
         Task<List<KundeScooter>> GetAllKundeScootereAsync();
         Task<Scooter> GetScooter(int id);
-        Task<int> CreateUdlejningsScooter(UdlejningsScooter scooter);
-        Task<int> CreateKundeScooter(KundeScooter scooter);
+        Task<int> CreateScooter(Scooter scooter);
+        
         Task<int> UpdateScooter(Scooter scooter);
         Task<int> DeleteScooter(int id);
     }

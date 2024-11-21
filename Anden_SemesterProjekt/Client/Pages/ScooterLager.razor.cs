@@ -64,7 +64,7 @@ namespace Anden_SemesterProjekt.Client.Pages
 
 
                 // Kald API for at gemme
-                var response = await ScooterService.CreateUdlejningsScooter(nyUdlejningsScooter);
+                var response = await ScooterService.CreateScooter(nyUdlejningsScooter);
 
                 udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
                 await HentMærker();

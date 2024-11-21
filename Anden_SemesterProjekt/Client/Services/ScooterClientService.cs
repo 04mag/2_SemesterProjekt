@@ -32,16 +32,24 @@ namespace Anden_SemesterProjekt.Client.Services
             return await _httpClient.GetFromJsonAsync<Scooter>($"api/Scootere/{id}");
         }
 
-        public async Task<int> CreateUdlejningsScooter(UdlejningsScooter scooter)
+        public async Task<int> CreateScooter(Scooter scooter)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/Scootere/UdlejningsScooter", scooter);
-            return await response.Content.ReadFromJsonAsync<int>();
+            if (scooter is UdlejningsScooter)
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/Scootere/UdlejningsScooter", scooter);
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+            else if (scooter is KundeScooter)
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/Scootere/KundeScooter", scooter);
+                return await response.Content.ReadFromJsonAsync<int>();
+            }
+            else
+            {
+                return 0;
+            }
         }
-        public async Task<int> CreateKundeScooter(KundeScooter scooter)
-        {
-            var response = await _httpClient.PostAsJsonAsync("api/Scootere/KundeScooter", scooter);
-            return await response.Content.ReadFromJsonAsync<int>();
-        }
+       
 
         public async Task<int> UpdateScooter(Scooter scooter)
         {

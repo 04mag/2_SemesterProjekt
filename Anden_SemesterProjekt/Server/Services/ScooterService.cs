@@ -28,7 +28,11 @@ namespace Anden_SemesterProjekt.Server.Services
 
         public async Task<int> AddScooterAsync(Scooter scooter) 
         {
-            return await _scooterRepository.CreateScooterAsync(scooter);
+            if (scooter == KundeScooter)
+            {
+
+            }
+                return await _scooterRepository.CreateScooterAsync(scooter);
         }
 
         public async Task<int> UpdateScooterAsync(Scooter scooter) 
