@@ -24,10 +24,9 @@ namespace Anden_SemesterProjekt.Server.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Scooter>().HasDiscriminator<string>("ScooterType").HasValue<KundeScooter>("KundeScooter").HasValue<UdlejningsScooter>("UdlejningsScooter");
+            modelBuilder.Entity<KundeScooter>().ToTable("KundeScootere");
+            modelBuilder.Entity<UdlejningsScooter>().ToTable("UdlejningsScootere");
 
-            modelBuilder.Entity<Scooter>().ToTable("Scootere");
-            
 
             // Oprette separate tabeller for hver Type.
 
