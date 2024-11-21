@@ -11,27 +11,22 @@ namespace Anden_SemesterProjekt.Client.Services
     public class ScooterClientService : IScooterClientService
     {
         private readonly HttpClient _httpClient;
-
         public ScooterClientService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
-
         public async Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync()
         {
             return await _httpClient.GetFromJsonAsync<List<UdlejningsScooter>>("api/Scootere/UdlejningsScootere");
         }
-
         public async Task<List<KundeScooter>> GetAllKundeScootereAsync()
         {
             return await _httpClient.GetFromJsonAsync<List<KundeScooter>>("api/Scootere/KundeScootere");
         }
-
         public async Task<Scooter> GetScooter(int id)
         {
             return await _httpClient.GetFromJsonAsync<Scooter>($"api/Scootere/{id}");
         }
-
         public async Task<int> CreateScooter(Scooter scooter)
         {
             if (scooter is UdlejningsScooter)
@@ -49,8 +44,7 @@ namespace Anden_SemesterProjekt.Client.Services
                 return 0;
             }
         }
-       
-
+        
         public async Task<int> UpdateScooter(Scooter scooter)
         {
             var response = await _httpClient.PutAsJsonAsync("api/Scooter/", scooter);

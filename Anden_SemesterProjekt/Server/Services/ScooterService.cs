@@ -28,11 +28,21 @@ namespace Anden_SemesterProjekt.Server.Services
 
         public async Task<int> AddScooterAsync(Scooter scooter) 
         {
-            if (scooter == KundeScooter)
+            if (scooter is UdlejningsScooter)
             {
+                var udlejningsScooter = new UdlejningsScooter();
+
+                udlejningsScooter = (UdlejningsScooter)scooter;
+                udlejningsScooter.ErTilgængelig = true;
 
             }
-                return await _scooterRepository.CreateScooterAsync(scooter);
+            else if (scooter is KundeScooter)
+            {
+                var kundeScooter = new KundeScooter();
+                kundeScooter = (KundeScooter)scooter;
+            }
+
+            return await _scooterRepository.CreateScooterAsync(scooter);
         }
 
         public async Task<int> UpdateScooterAsync(Scooter scooter) 
@@ -40,7 +50,6 @@ namespace Anden_SemesterProjekt.Server.Services
             return await _scooterRepository.UpdateScooterAsync(scooter);
         }
         
-
         public async Task<int> DeleteScooterAsync(int id)
         {
             return await _scooterRepository.DeleteScooterAsync(id);
