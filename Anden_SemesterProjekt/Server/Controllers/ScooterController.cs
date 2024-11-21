@@ -70,7 +70,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
             var addedScooter = await _scooterService.AddScooterAsync(scooter);
             return Ok(addedScooter);
         }
-
+        //
         [HttpPut]
         public async Task<ActionResult> Put(Scooter scooter)
         {
