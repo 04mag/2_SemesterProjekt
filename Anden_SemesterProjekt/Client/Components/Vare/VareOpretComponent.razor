@@ -1,70 +1,101 @@
-﻿@* using Anden_SemesterProjekt.Shared.Models;
-using Microsoft.AspNetCore.Components;
+﻿@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
 
-@page "/opret-vare"
-@inject IVareClientService VareService
-@inject NavigationManager Navigation
+<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+    <ObjectGraphDataAnnotationsValidator />
+    <div class="mb-3">
+        <h3>Opret ny vare/ydelse</h3>
+    </div>
 
-<h3>Opret Vare/Ydelse</h3>
+    <!-- Varenavn -->
+    <div class="col-12 mb-3">
+        <label for="Varenavn" class="form-label">Varenavn</label>
+        <InputText id="Varenavn" class="form-control" @bind-Value="vareModel.Varenavn" />
+        <ValidationMessage For="@(() => vareModel.Varenavn)" />
+    </div>
 
-<div class="form-container">
-    <EditForm Model="NyVare" OnValidSubmit="HandleValidSubmit">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
+    <!-- Beskrivelse -->
+    <div class="col-12 mb-3">
+        <label for="Beskrivelse" class="form-label">Beskrivelse</label>
+        <InputTextArea id="Beskrivelse" class="form-control" @bind-Value="vareModel.Beskrivelse" />
+        <ValidationMessage For="@(() => vareModel.Beskrivelse)" />
+    </div>
 
-        <div class="form-group">
-            <label for="navn">Navn:</label>
-            <InputText id="navn" @bind-Value="NyVare.Navn" class="form-control" />
-        </div>
+    <!-- Pris -->
+    <div class="col-md-6 mb-3">
+        <label for="Pris" class="form-label">Pris (DKK)</label>
+        <InputNumber id="Pris" class="form-control" @bind-Value="vareModel.Pris" />
+        <ValidationMessage For="@(() => vareModel.Pris)" />
+    </div>
 
-        <div class="form-group">
-            <label for="pris">Pris:</label>
-            <InputNumber id="pris" @bind-Value="NyVare.Pris" class="form-control" />
-        </div>
+    <!-- Aktiv status -->
+    <div class="col-md-6 mb-3">
+        <label for="Aktiv" class="form-label">Aktiv</label>
+        <InputCheckbox id="Aktiv" class="form-check-input" @bind-Value="vareModel.Aktiv" />
+        <ValidationMessage For="@(() => vareModel.Aktiv)" />
+    </div>
 
-        <div class="form-group">
-            <label for="erAktiv">Er Aktiv:</label>
-            <InputCheckbox id="erAktiv" @bind-Value="NyVare.ErAktiv" />
-        </div>
-
-        <div class="form-group">
-            <label for="type">Type:</label>
-            <select id="type" @bind="NyVare.Type" class="form-control">
-                <option value="Vare">Vare</option>
-                <option value="Ydelse">Ydelse</option>
-            </select>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Opret</button>
-    </EditForm>
-
-    @if (StatusMessage != null)
-    {
-        <div class="alert alert-info">@StatusMessage</div>
-    }
-</div>
+    <!-- Submit-knap -->
+    <div class="col-12 mb-3">
+        <button disabled="@isSubmitting" type="submit" class="btn btn-primary">Opret vare</button>
+    </div>
+</EditForm>
 
 @code {
-    private Vare NyVare = new Vare
-        {
-            ErAktiv = true // Default til aktiv
-        };
+    private Vare vareModel = new Vare();
+    private EditContext editContext;
+    private bool isSubmitting = false;
 
-    private string? StatusMessage;
+    [Inject]
+    public IVareClientService VareService {get; set;}
+
+    protected override void OnInitialized() 
+    {
+        editContext = new EditContext(vareModel);
+    }
+
 
     private async Task HandleValidSubmit()
     {
-        var result = await VareService.PostVare(NyVare);
+        isSubmitting = true;
 
-        if (result != null)
+        try
         {
-            StatusMessage = $"Vare/Ydelse '{result.Navn}' blev oprettet med ID {result.Id}.";
-            Navigation.NavigateTo("/varer"); // Naviger til en listevisning
+            var result = await VareService.PostVare(vareModel);
+
+            if (result != null)
+            {
+                Console.WriteLine($"Vare oprettet med ID: {result.Id}");
+                vareModel = new Vare(); //Nulstiller model 
+                editContext = new EditContext(vareModel); //Opdaterer kontekst
+            }
+            else
+            {
+                Console.WriteLine("Fejl: Varen blev ikke oprettet.");
+            }
         }
-        else
+
+        catch (Exception e) 
         {
-            StatusMessage = "Der opstod en fejl under oprettelsen af varen/ydelsen.";
+            Console.WriteLine($"Fejl: {e.Message}");
+        }
+        
+        finally
+        {
+            isSubmitting = false;
         }
     }
-}
- *@
+
+    private void HandleInvalidSubmit()
+    {
+        Console.WriteLine("Formularen indeholder fejl.");
+    }
+}   
+            
+        }
+        
+
+
+
