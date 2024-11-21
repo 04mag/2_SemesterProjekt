@@ -9,8 +9,8 @@ namespace Anden_SemesterProjekt.Shared.Models
 {
  
     public class UdlejningsScooter : Scooter
-    { 
-       public bool ErTilgængelig { get; set; }
+    {
+        public bool ErTilgængelig { get; set; } = true;
       
        [JsonIgnore] public List<Udlejning>? Udlejninger { get; set; }
 

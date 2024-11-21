@@ -39,11 +39,11 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<List<UdlejningsScooter>> ReadUdlejningsScootereAsync()
         {
-            return await _context.Scootere.OfType<UdlejningsScooter>().ToListAsync();
+            return await _context.Scootere.OfType<UdlejningsScooter>().Include(s=>s.Mærke).ToListAsync();
         }
-        public async Task<List<KundeScooter>> ReadKundeScootereAsync()
+        public async Task<List<KundeScooter>> ReadKundeScootereAsync(int kundeId)
         {
-            return await _context.Scootere.OfType<KundeScooter>().ToListAsync();
+            return await _context.Scootere.OfType<KundeScooter>().Include(s=>s.Mærke).ToListAsync();
         }
 
         public async Task<int> UpdateScooterAsync(Scooter scooter)

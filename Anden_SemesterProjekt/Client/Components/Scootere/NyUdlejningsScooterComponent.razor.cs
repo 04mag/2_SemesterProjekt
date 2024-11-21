@@ -44,7 +44,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 // Tildel data til nyUdlejningsScooter
                 nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
                 nyUdlejningsScooter.ErAktiv = true;
-                nyUdlejningsScooter.ErTilgængelig = true;
+                
 
 
                 // Kald API for at gemme

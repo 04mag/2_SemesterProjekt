@@ -18,7 +18,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         [HttpGet("UdlejningsScootere")]
         public async Task<IActionResult> GetAllUdlejningsScootereAsync()
         {
-            var scootere = await _scooterService.GetAllUdlejningsScootereAsync();
+            var scootere = await _scooterService.ReadUdlejningsScootere();
 
             // Filtrér scootere baseret på typen, hvis nødvendigt
 
@@ -26,9 +26,9 @@ namespace Anden_SemesterProjekt.Server.Controllers
             return Ok(scootere);
         }
         [HttpGet("KundeScootere")]
-        public async Task<IActionResult> GetAllKundeScootereAsync()
+        public async Task<IActionResult> GetAllKundeScootereAsync(int kundeId)
         {
-            var scootere = await _scooterService.GetAllKundeScootereAsync();
+            var scootere = await _scooterService.ReadKundeScootereAsync(kundeId);
 
             // Filtrér scootere baseret på typen, hvis nødvendigt
 
@@ -38,9 +38,9 @@ namespace Anden_SemesterProjekt.Server.Controllers
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            var scooter = await _scooterService.GetScooterAsync(id);
+            var scooter = await _scooterService.ReadScooterAsync(id);
             if (scooter == null)
             {
                 return NotFound($"Ingen scooter fundet med ID {id}.");
@@ -72,7 +72,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Scooter scooter)
+        public async Task<ActionResult> Put(Scooter scooter)
         {
             if (scooter == null)
             {
@@ -83,7 +83,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var deletedId = await _scooterService.DeleteScooterAsync(id);
             if (deletedId == 0)

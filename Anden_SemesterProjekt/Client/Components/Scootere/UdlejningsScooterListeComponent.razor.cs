@@ -136,6 +136,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private async Task HandleChildChanged()
         {
             UdlejningsScootere = await UdlejningsScooterService.GetAllUdlejningsScootereAsync();
+
             StateHasChanged();
         }
 

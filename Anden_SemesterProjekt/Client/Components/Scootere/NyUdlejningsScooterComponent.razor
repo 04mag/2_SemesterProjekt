@@ -1,6 +1,5 @@
 ﻿
-<button type="button" @onclick="@ShowAddModal">Ny scooter</button>
-
+<button class="btn btn-primary" type="button" @onclick="@ShowAddModal">Ny scooter</button>
 
 @if (addModal)
  {
@@ -15,7 +14,7 @@
                      <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer"/>
                      <label for="mærke">Mærke:</label>
                      <select @bind="nyScooterMærkeId">
-                         <option value=""> Vælg et mærke...</option>
+                         <option value="0"> Vælg et mærke...</option>
                          @foreach (var mærke in mærker)
                          {
                              <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
