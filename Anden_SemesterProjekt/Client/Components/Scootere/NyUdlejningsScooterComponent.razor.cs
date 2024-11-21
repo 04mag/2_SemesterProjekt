@@ -53,7 +53,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 if (response != null && response.IsSuccessStatusCode)
                 {
                     // Tving UI-opdatering
-                    await OnScooterAdded.InvokeAsync();
+                    await OnScooterAdded.InvokeAsync(); // Kalder parent component's HandleChildChanged metode
                     StateHasChanged();
                     nyUdlejningsScooter = new UdlejningsScooter();
                     nyScooterMærkeId = null;

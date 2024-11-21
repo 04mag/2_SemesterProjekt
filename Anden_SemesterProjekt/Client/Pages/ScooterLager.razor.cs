@@ -14,22 +14,16 @@ namespace Anden_SemesterProjekt.Client.Pages
 
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
 
-        private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
+        private List<UdlejningsScooter>? udlejningsScootere = new List<UdlejningsScooter>();
 
         // Denne metode bliver kaldt fra NyUdlejningsScooterComponent når en scooter er tilføjet
-        private void HandleChildChanged()
+        private async Task HandleChildChanged()
         {
             // Opdater listen af udlejningsscootere efter ny scooter er tilføjet
-            LoadUdlejningsScootere();
+            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+            StateHasChanged();
         }
 
         // Simulerer at hente data fra en service eller API
-        private void LoadUdlejningsScootere()
-        {
-            // Her opdaterer du din liste med scootere
-            // Du kan kalde en API eller en service for at hente nyeste liste
-            udlejningsScootere = UdlejningsScooterService.GetUdlejningsScootere().Result.ToList();
-            StateHasChanged();
-        }
     }
 }
