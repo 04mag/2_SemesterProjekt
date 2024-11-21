@@ -11,7 +11,7 @@ namespace Anden_SemesterProjekt.Client.Pages
 {
     public partial class ScooterLager
     {
-
+        // Dependency Injection af service
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
 
         private List<UdlejningsScooter>? udlejningsScootere = new List<UdlejningsScooter>();
