@@ -14,7 +14,6 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
         private UdlejningsScooter valgtUdlejningsScooter = new UdlejningsScooter();
         private UdlejningsScooter redigeretScooter;
-        private List<UdlejningsScooter?> udlejningsScootere = new List<UdlejningsScooter>();
         private List<Mærke> mærker = new List<Mærke>();
         private int? nyScooterMærkeId = new int();
         private int? valgtScooterMærkeId = new int();
@@ -22,6 +21,8 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private bool editModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+        [Parameter] public List<UdlejningsScooter> UdlejningsScootere { get; set; }
+
         protected override async Task OnInitializedAsync()
         {
             var mærkerResult = await MærkeService.GetMærker();
@@ -35,7 +36,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
 
             if (udlejningsScootereResult != null)
             {
-                udlejningsScootere = udlejningsScootereResult;
+                UdlejningsScootere = udlejningsScootereResult;
             }
 
             // Tildel mærker til scootere. Denne kode er nødvendig, da scootere ikke har mærke-navne-objekter,
@@ -44,7 +45,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         
         private void ScooterDetaljer(UdlejningsScooter scooter)
         {
-            foreach (var s in udlejningsScootere)
+            foreach (var s in UdlejningsScootere)
             {
                 if (s.ScooterId == scooter.ScooterId)
                 {
@@ -95,7 +96,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Scooteren er opdateret.");
                 detailsModal = false;
-                udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+                UdlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
                 HentMærker();
                 detailsModal = true;
                 editModal = false;
@@ -111,7 +112,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 var response = await UdlejningsScooterService.DeleteUdlejningsScooter(scooter.ScooterId);
                 if (response.IsSuccessStatusCode)
                 {
-                    udlejningsScootere.Remove(scooter);
+                    UdlejningsScootere.Remove(scooter);
                     await HentMærker();
                     editModal = false;
                     detailsModal = false;
@@ -124,7 +125,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         }
         private async Task HentMærker()
         {
-            foreach (var scooter in udlejningsScootere)
+            foreach (var scooter in UdlejningsScootere)
             {
                 if (scooter.Mærke == null)
                 {
@@ -134,7 +135,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         }
         private async Task HandleChildChanged()
         {
-            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+            UdlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
             StateHasChanged();
         }
 

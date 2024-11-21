@@ -2,12 +2,12 @@
 
 <h3>Udlejningsscooter liste</h3>
 
-@if (udlejningsScootere.Count < 1)
+@if (UdlejningsScootere.Count < 1)
 {
     <h5>Indlæser. Vent venligst...</h5>
 }
 
-@if (udlejningsScootere.Count > 0)
+@if (UdlejningsScootere.Count > 0)
 {
    
 
@@ -22,7 +22,7 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var scooter in udlejningsScootere.Where(s => s.ErAktiv == true))
+        @foreach (var scooter in UdlejningsScootere.Where(s => s.ErAktiv == true))
         {
             <tr @onclick="() => ScooterDetaljer(scooter)">
            
@@ -38,8 +38,8 @@
 
 @if (detailsModal)
 {
-    <div class="app.modal">
-        <div class="app.modal-content">
+    <div class="amodal">
+        <div class="amodal-content">
             <span class="close-button" @onclick="CloseModal">&times;</span>
             <h3>Scooter detaljer</h3>
             <h4>Id: @valgtUdlejningsScooter?.ScooterId</h4>
@@ -53,8 +53,8 @@
 @if (editModal)
 {
 
-    <div class="app.modal">
-        <div class="app.modal-content">
+    <div class="modal">
+        <div class="modal-content">
             <span class="close-button" @onclick="CloseEditModal">&times;</span>
             <h3>Mærke:</h3>
             <select @bind="redigeretScooter.MærkeId">
@@ -78,4 +78,3 @@
         </div>
     </div>
 }
-<NyUdlejningsScooterComponent OnChange="@HandleChildChanged" />

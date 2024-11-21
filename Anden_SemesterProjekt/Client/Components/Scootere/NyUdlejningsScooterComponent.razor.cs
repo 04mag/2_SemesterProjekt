@@ -20,15 +20,15 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         [Inject] public IMærkeClientService MærkeService { get; set; }
         [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
         [Parameter] public EventCallback OnScooterAdded { get; set; }
-        //protected override async Task OnInitializedAsync()
-        //{
-        //    var mærkerResult = await MærkeService.GetMærker();
+        protected override async Task OnInitializedAsync()
+        {
+            var mærkerResult = await MærkeService.GetMærker();
 
-        //    if (mærkerResult != null)
-        //    {
-        //        mærker = mærkerResult;
-        //    }
-        //}
+            if (mærkerResult != null)
+            {
+                mærker = mærkerResult;
+            }
+        }
         private async Task HandleValidSubmit()
         {
             try
@@ -57,6 +57,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                     StateHasChanged();
                     nyUdlejningsScooter = new UdlejningsScooter();
                     nyScooterMærkeId = null;
+                    addModal = false;
                     await JS.InvokeVoidAsync("alert", "Scooteren blev oprettet.");
                 }
                 else
@@ -86,11 +87,6 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
             addModal = false;
         }
 
-        private async Task CloseModal()
-        {
-            HandleValidSubmit();
-            addModal = false;
-            await OnScooterAdded.InvokeAsync();
-        }
+     
     }
 }

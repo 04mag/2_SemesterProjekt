@@ -1,4 +1,4 @@
-﻿/* ScooterLager.razor.css */
+﻿/*global.css*/
 .modal {
     display: block; /* Hidden som standard */
     position: fixed;
@@ -19,7 +19,12 @@
     width: 30%; /* Størrelsen på modal */
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    position: relative
 }
+
+    .modal-content > * {
+        pointer-events: auto; /* Gør, at kun modale indholdselementer er klikbare */
+    }
 
 .close-button {
     position: absolute;
@@ -31,17 +36,10 @@
     cursor: pointer;
 }
 
-.close-button:hover
- {
-    color: black;
-    text-decoration: none;
-}
-.modal-content {
-    position: relative; /* Sørger for, at absolut positionerede elementer er relativt til .modal-content */
-}
-.modal-content > * {
-    pointer-events: auto; /* Gør, at kun modale indholdselementer er klikbare */
-}
+    .close-button:hover {
+        color: black;
+        text-decoration: none;
+    }
 
 .delete-button {
     width: 100px;
@@ -69,27 +67,21 @@ tbody tr {
 
 
 
-
-
 /* Standard liste stil */
 .liste {
     list-style-type: none; /* Fjern standard punkttegn */
     padding: 0;
 }
 
-.liste li {
-    padding: 10px; /* Giver lidt plads rundt om hver listeitem */
-    background-color: #f9f9f9; /* Lys baggrundsfarve */
-    border: 1px solid #ddd; /* Grå kantlinje */
-    transition: background-color 0.3s ease; /* Tilføjer en glidende effekt til baggrundsfarven */
-}
+    .liste li {
+        padding: 10px; /* Giver lidt plads rundt om hver listeitem */
+        background-color: #f9f9f9; /* Lys baggrundsfarve */
+        border: 1px solid #ddd; /* Grå kantlinje */
+        transition: background-color 0.3s ease; /* Tilføjer en glidende effekt til baggrundsfarven */
+    }
 
-/* Markér listeitem når musen hover henover */
-.liste li:hover {
-    background-color: #e0e0e0; /* En mørkere farve når man hover */
-    cursor: pointer; /* Ændrer musemarkøren til en hånd for at indikere klik */
-}
-
-
-
-
+        /* Markér listeitem når musen hover henover */
+        .liste li:hover {
+            background-color: #e0e0e0; /* En mørkere farve når man hover */
+            cursor: pointer; /* Ændrer musemarkøren til en hånd for at indikere klik */
+        }
