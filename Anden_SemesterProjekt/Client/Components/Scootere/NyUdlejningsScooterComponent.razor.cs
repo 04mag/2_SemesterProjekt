@@ -18,7 +18,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private int? valgtScooterMærkeId = new int();
         private bool addModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
-        [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+        [Inject] public IScooterClientService UdlejningsScooterService { get; set; }
         [Parameter] public EventCallback OnScooterAdded { get; set; }
         protected override async Task OnInitializedAsync()
         {
@@ -48,9 +48,9 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
 
 
                 // Kald API for at gemme
-                var response = await UdlejningsScooterService.AddUdlejningsScooter(nyUdlejningsScooter);
+                var response = await UdlejningsScooterService.CreateScooter(nyUdlejningsScooter);
 
-                if (response != null && response.IsSuccessStatusCode)
+                if (response != null)
                 {
                     // Tving UI-opdatering
                     await OnScooterAdded.InvokeAsync(); // Kalder parent component's HandleChildChanged metode

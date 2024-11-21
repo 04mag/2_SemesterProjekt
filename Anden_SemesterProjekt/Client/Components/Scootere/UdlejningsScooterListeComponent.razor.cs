@@ -20,7 +20,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private bool detailsModal = false;
         private bool editModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
-        [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+        [Inject] public IScooterClientService UdlejningsScooterService { get; set; }
         [Parameter] public List<UdlejningsScooter> UdlejningsScootere { get; set; }
 
         protected override async Task OnInitializedAsync()
@@ -32,7 +32,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 mærker = mærkerResult;
             }
 
-            var udlejningsScootereResult = await UdlejningsScooterService.GetUdlejningsScootere();
+            var udlejningsScootereResult = await UdlejningsScooterService.GetAllUdlejningsScootereAsync();
 
             if (udlejningsScootereResult != null)
             {
@@ -91,12 +91,12 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         private async Task UpdateScooter()
         {
             valgtUdlejningsScooter.MærkeId = valgtScooterMærkeId.Value;
-            var response = await UdlejningsScooterService.UpdateUdlejningsScooter(redigeretScooter);
-            if (response.IsSuccessStatusCode)
+            var response = await UdlejningsScooterService.UpdateScooter(redigeretScooter);
+            if (response != null)
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Scooteren er opdateret.");
                 detailsModal = false;
-                UdlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+                UdlejningsScootere = await UdlejningsScooterService.GetAllUdlejningsScootereAsync();
                 HentMærker();
                 detailsModal = true;
                 editModal = false;
@@ -109,8 +109,8 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
             var confirmDelete = await JS.InvokeAsync<bool>("confirm", "Er du sikker på, at du vil slette denne scooter?");
             if (confirmDelete)
             {
-                var response = await UdlejningsScooterService.DeleteUdlejningsScooter(scooter.ScooterId);
-                if (response.IsSuccessStatusCode)
+                var response = await UdlejningsScooterService.DeleteScooter(scooter.ScooterId);
+                if (response != null)
                 {
                     UdlejningsScootere.Remove(scooter);
                     await HentMærker();
@@ -135,7 +135,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         }
         private async Task HandleChildChanged()
         {
-            UdlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+            UdlejningsScootere = await UdlejningsScooterService.GetAllUdlejningsScootereAsync();
             StateHasChanged();
         }
 

@@ -12,7 +12,7 @@ namespace Anden_SemesterProjekt.Client.Pages
     public partial class ScooterLager
     {
         // Dependency Injection af service
-        [Inject] public IUdlejningsScooterClientService UdlejningsScooterService { get; set; }
+        [Inject] public IScooterClientService UdlejningsScooterService { get; set; }
 
         private List<UdlejningsScooter>? udlejningsScootere = new List<UdlejningsScooter>();
 
@@ -20,7 +20,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         private async Task HandleChildChanged()
         {
             // Opdater listen af udlejningsscootere efter ny scooter er tilføjet
-            udlejningsScootere = await UdlejningsScooterService.GetUdlejningsScootere();
+            udlejningsScootere = await UdlejningsScooterService.GetAllUdlejningsScootereAsync();
             StateHasChanged();
         }
 
