@@ -9,15 +9,15 @@
                     <div class="col-md-6 align-content-center">
                         @if (OnDeleteKunde.HasDelegate)
                         {
-                            <button class="btn btn-danger m-1 float-end" @onclick="async() => await OnDeleteKunde.InvokeAsync(KundeModel)">Slet</button>
+                            <button class="btn btn-danger m-1 float-end" @onclick="async () => await OnDeleteKunde.InvokeAsync(KundeModel)">Slet</button>
                         }
                         @if (OnEditKunde.HasDelegate)
                         {
-                            <button class="btn btn-warning m-1 float-end" @onclick="async() => await OnEditKunde.InvokeAsync(KundeModel)">Rediger</button>
+                            <button class="btn btn-warning m-1 float-end" @onclick="async () => await OnEditKunde.InvokeAsync(KundeModel)">Rediger</button>
                         }
                         @if (OnSelectKunde.HasDelegate)
                         {
-                            <button class="btn btn-primary m-1 float-end" @onclick="async() => await OnSelectKunde.InvokeAsync(KundeModel)">Vælg</button>
+                            <button class="btn btn-primary m-1 float-end" @onclick="async () => await OnSelectKunde.InvokeAsync(KundeModel)">Vælg</button>
                         }
                     </div>
                 </div>
