@@ -6,19 +6,29 @@ namespace Anden_SemesterProjekt.Server.Controllers
 {
     [Route("api/scootere")]
     [ApiController]
-    public class ScooterController<T> :ControllerBase where T : Scooter
+    public class ScooterController :ControllerBase
     {
-        private readonly IScooterService<T> _scooterService;
+        private readonly IScooterService _scooterService;
 
-        public ScooterController(IScooterService<T> scooterService)
+        public ScooterController(IScooterService scooterService)
         {
             _scooterService = scooterService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetScootere()
+        [HttpGet("UdlejningsScootere")]
+        public async Task<IActionResult> GetAllUdlejningsScootereAsync()
         {
-            var scootere = await _scooterService.GetAllScootereAsync();
+            var scootere = await _scooterService.GetAllUdlejningsScootereAsync();
+
+            // Filtrér scootere baseret på typen, hvis nødvendigt
+
+
+            return Ok(scootere);
+        }
+        [HttpGet("KundeScootere")]
+        public async Task<IActionResult> GetAllKundeScootereAsync()
+        {
+            var scootere = await _scooterService.GetAllKundeScootereAsync();
 
             // Filtrér scootere baseret på typen, hvis nødvendigt
 
@@ -33,27 +43,36 @@ namespace Anden_SemesterProjekt.Server.Controllers
             var scooter = await _scooterService.GetScooterAsync(id);
             if (scooter == null)
             {
-                return NotFound($"Ingen udlejnings-scooter fundet med ID {id}.");
+                return NotFound($"Ingen scooter fundet med ID {id}.");
             }
 
             return Ok(scooter);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Post(T scooter) 
+        [HttpPost("UdlejningsScooter")]
+        public async Task<ActionResult> Post(UdlejningsScooter scooter) 
+        {
+            if (scooter == null)
+            {
+                return BadRequest("Scooter data mangler.");
+            }
+            var addedScooter =  await _scooterService.AddScooterAsync(scooter);
+            return Ok(addedScooter);
+        }
+        [HttpPost("KundeScooter")]
+        public async Task<ActionResult> Post(KundeScooter scooter)
         {
             if (scooter == null)
             {
                 return BadRequest("Scooter data mangler.");
             }
 
-         
-            await _scooterService.AddScooterAsync(scooter);
-            return Ok();
+            var addedScooter = await _scooterService.AddScooterAsync(scooter);
+            return Ok(addedScooter);
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(T scooter)
+        public async Task<IActionResult> Put(Scooter scooter)
         {
             if (scooter == null)
             {

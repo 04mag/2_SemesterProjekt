@@ -23,8 +23,8 @@ namespace Anden_SemesterProjekt
             builder.Services.AddScoped<IMærkeRepository, MærkeRepository>();
             builder.Services.AddScoped<IMærkeService, MærkeService>();
 
-            builder.Services.AddScoped(typeof(IScooterRepository<>), typeof(ScooterRepository<>));
-            builder.Services.AddScoped(typeof(IScooterService<>), typeof(ScooterService<>));
+            builder.Services.AddScoped<IScooterRepository,ScooterRepository>();
+            builder.Services.AddScoped<IScooterService, ScooterService>();
 
             builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();

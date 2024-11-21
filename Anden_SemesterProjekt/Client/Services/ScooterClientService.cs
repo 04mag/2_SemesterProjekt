@@ -8,120 +8,51 @@ using Anden_SemesterProjekt.Shared.Models;
 
 namespace Anden_SemesterProjekt.Client.Services
 {
-    public class ScooterClientService <T> : IScooterClientService<T> where T : Scooter
+    public class ScooterClientService : IScooterClientService
     {
         private readonly HttpClient _httpClient;
-      
 
         public ScooterClientService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
-        public async Task<T?> GetScooter(int id)
+        public async Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync()
         {
-            try
-            {
-                return await _httpClient.GetFromJsonAsync<T>($"api/scootere/{id}");
-            }
-            catch
-            {
-                throw new Exception( "Error in client service");
-            }
+            return await _httpClient.GetFromJsonAsync<List<UdlejningsScooter>>("api/Scootere/UdlejningsScootere");
         }
 
-        public async Task<List<T>> GetScootere() 
+        public async Task<List<KundeScooter>> GetAllKundeScootereAsync()
         {
-            var scooterJson = await _httpClient.GetStringAsync("api/scooter");
-
-            // First, deserialize the list of base class Scooter
-            var scooters = JsonSerializer.Deserialize<List<T>>(scooterJson);
-
-            if (scooters == null)
-            {
-                throw new Exception("Failed to deserialize scooters.");
-            }
-
-            // Iterate through each scooter, check its type, and deserialize accordingly
-            List<T> deserializedScooters = new List<T>();
-
-            foreach (var scooter in scooters)
-            {
-                if (scooter.ScooterType == "KundeScooter")
-                {
-                    // Deserialize to KundeScooter
-                    var kundeScooter = JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(scooter));
-                    if (kundeScooter != null)
-                    {
-                        deserializedScooters.Add(kundeScooter);
-                    }
-                }
-                else if (scooter.ScooterType == "UdlejningsScooter")
-                {
-                    // Deserialize to UdlejningsScooter
-                    var udlejningsScooter = JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(scooter));
-                    if (udlejningsScooter != null)
-                    {
-                        deserializedScooters.Add(udlejningsScooter);
-                    }
-                }
-                else
-                {
-                    throw new Exception($"Unknown scooter type: {scooter.ScooterType}");
-                }
-            }
-
-            return deserializedScooters;
+            return await _httpClient.GetFromJsonAsync<List<KundeScooter>>("api/Scootere/KundeScootere");
         }
 
-        public async Task<HttpResponseMessage> AddScooterAsync(T scooter) 
+        public async Task<Scooter> GetScooter(int id)
         {
-            try
-            {
-                // Sørger for korrekt serialisering af polymorf JSON
-                var options = new JsonSerializerOptions
-                {
-                    Converters = { new ScooterJsonConverter() }
-                };
-                var response = await _httpClient.PostAsJsonAsync("api/scootere", scooter, options);
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception($"Fejl ved oprettelse af scooter: {response.ReasonPhrase}");
-                }
-
-                return response;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Fejl ved oprettelse af scooter: {ex.Message}");
-            }
+            return await _httpClient.GetFromJsonAsync<Scooter>($"api/Scootere/{id}");
         }
 
-
-        public async Task<HttpResponseMessage> DeleteScooter(int id)
+        public async Task<int> CreateUdlejningsScooter(UdlejningsScooter scooter)
         {
-            try
-            {
-                var response = await _httpClient.DeleteAsync($"api/scootere/{id}");
-                return response;
-            }
-            catch
-            {
-                throw new Exception("Fejl ved sletning af scooter.");
-            }
+            var response = await _httpClient.PostAsJsonAsync("api/Scootere/UdlejningsScooter", scooter);
+            return await response.Content.ReadFromJsonAsync<int>();
+        }
+        public async Task<int> CreateKundeScooter(KundeScooter scooter)
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/Scootere/KundeScooter", scooter);
+            return await response.Content.ReadFromJsonAsync<int>();
         }
 
-        public async Task<HttpResponseMessage> UpdateScooter(Scooter scooter)
+        public async Task<int> UpdateScooter(Scooter scooter)
         {
-            try
-            {
-                var response = await _httpClient.PutAsJsonAsync("api/scootere", scooter);
-                return response;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Fejl ved opdatering af scooter: " + ex.Message);
-            }
+            var response = await _httpClient.PutAsJsonAsync("api/Scooter/", scooter);
+            return await response.Content.ReadFromJsonAsync<int>();
+        }
+
+        public async Task<int> DeleteScooter(int id)
+        {
+            var response = await _httpClient.DeleteAsync($"api/Scooter/{id}");
+            return await response.Content.ReadFromJsonAsync<int>();
         }
     }
 }

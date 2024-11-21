@@ -14,9 +14,5 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int KundeId { get; set; }
         public Kunde Kunde { get; set; }
 
-        public KundeScooter()
-        {
-            ScooterType = "KundeScooter";
-        }
     }
 }

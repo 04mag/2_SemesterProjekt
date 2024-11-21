@@ -5,30 +5,25 @@
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class enumremoved : Migration
+    public partial class typeremoved : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
+            migrationBuilder.DropColumn(
                 name: "ScooterType",
-                table: "Scootere",
-                type: "nvarchar(max)",
-                nullable: false,
-                oldClrType: typeof(int),
-                oldType: "int");
+                table: "Scootere");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
+            migrationBuilder.AddColumn<string>(
                 name: "ScooterType",
                 table: "Scootere",
-                type: "int",
+                type: "nvarchar(max)",
                 nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                defaultValue: "");
         }
     }
 }

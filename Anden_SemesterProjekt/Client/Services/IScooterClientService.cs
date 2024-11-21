@@ -2,13 +2,15 @@
 
 namespace Anden_SemesterProjekt.Client.Services
 {
-    public interface IScooterClientService <T> where T : Scooter
+    public interface IScooterClientService 
     {
-        public Task<T?> GetScooter(int id);
-        public Task<List<T>> GetScootere();
-        public Task<HttpResponseMessage> AddScooterAsync(T Scooter);
-        public Task<HttpResponseMessage> DeleteScooter(int id); 
-        public Task<HttpResponseMessage> UpdateScooter(Scooter Scooter); 
+        Task<List<UdlejningsScooter>> GetAllUdlejningsScootereAsync();
+        Task<List<KundeScooter>> GetAllKundeScootereAsync();
+        Task<Scooter> GetScooter(int id);
+        Task<int> CreateUdlejningsScooter(UdlejningsScooter scooter);
+        Task<int> CreateKundeScooter(KundeScooter scooter);
+        Task<int> UpdateScooter(Scooter scooter);
+        Task<int> DeleteScooter(int id);
     }
 }
  

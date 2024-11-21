@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class @enum : Migration
+    public partial class jan : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -125,7 +125,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     Registreringsnummer = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MærkeId = table.Column<int>(type: "int", nullable: false),
                     ErAktiv = table.Column<bool>(type: "bit", nullable: false),
-                    ScooterType = table.Column<int>(type: "int", nullable: false)
+                    ScooterType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

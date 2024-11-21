@@ -21,7 +21,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         private bool detailsModal = false;
         private bool editModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
-        [Inject] public IScooterClientService<UdlejningsScooter> ScooterService { get; set; }
+        [Inject] public IScooterClientService ScooterService { get; set; }
         protected override async Task OnInitializedAsync()
         {
             var mærkerResult = await MærkeService.GetMærker();
@@ -31,7 +31,7 @@ namespace Anden_SemesterProjekt.Client.Pages
                 mærker = mærkerResult;
             }
 
-            var udlejningsScootereResult = await ScooterService.GetScootere();
+            var udlejningsScootereResult = await ScooterService.GetAllUdlejningsScootereAsync();
 
             if (udlejningsScootereResult != null)
             {
@@ -61,26 +61,18 @@ namespace Anden_SemesterProjekt.Client.Pages
                 nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
                 nyUdlejningsScooter.ErAktiv = true;
                 nyUdlejningsScooter.ErTilgængelig = true;
-                nyUdlejningsScooter.ScooterType = "UdlejningsScooter";
 
 
                 // Kald API for at gemme
-                var response = await ScooterService.AddScooterAsync(nyUdlejningsScooter);
+                var response = await ScooterService.CreateUdlejningsScooter(nyUdlejningsScooter);
 
-                if (response != null)
-                {
-                    udlejningsScootere = await ScooterService.GetScootere();
-                    await HentMærker();
+                udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
+                await HentMærker();
 
-                    // Tving UI-opdatering
-                    StateHasChanged();
-                    nyUdlejningsScooter = new UdlejningsScooter();
-                    nyScooterMærkeId = null;
-                }
-                else
-                {
-                    throw new InvalidOperationException("API oprettelsen mislykkedes.");
-                }
+                // Tving UI-opdatering
+                StateHasChanged();
+                nyUdlejningsScooter = new UdlejningsScooter();
+                nyScooterMærkeId = null;
 
             }
             catch (Exception ex)
@@ -136,11 +128,11 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             valgtUdlejningsScooter.MærkeId = valgtScooterMærkeId.Value;
             var response = await ScooterService.UpdateScooter(redigeretScooter);
-            if (response.IsSuccessStatusCode)
+            if (response > 0)
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Scooteren er opdateret.");
                 detailsModal = false;
-                udlejningsScootere = await ScooterService.GetScootere();
+                udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
                 HentMærker();
                 detailsModal = true;
                 editModal = false;
@@ -154,7 +146,7 @@ namespace Anden_SemesterProjekt.Client.Pages
             if (confirmDelete)
             {
                 var response = await ScooterService.DeleteScooter(scooter.ScooterId);
-                if (response.IsSuccessStatusCode)
+                if (response > 0)
                 {
                     udlejningsScootere.Remove(scooter);
                     await HentMærker();

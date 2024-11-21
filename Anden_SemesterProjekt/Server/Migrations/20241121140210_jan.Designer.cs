@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241120180505_enumremoved")]
-    partial class enumremoved
+    [Migration("20241121140210_jan")]
+    partial class jan
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

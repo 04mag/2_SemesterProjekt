@@ -11,9 +11,9 @@ namespace Anden_SemesterProjekt.Shared.Models
 {
 
     // Dette er en attribut som bruges til at identificere hvilken Type af objekt der er tale om, så man kan deserialisere det korrekt.
-    [JsonPolymorphic(TypeDiscriminatorPropertyName = "ScooterType")]
-    [JsonDerivedType(typeof(KundeScooter), "KundeScooter")]
-    [JsonDerivedType(typeof(UdlejningsScooter ), "UdlejningsScooter")]
+    //[JsonPolymorphic(TypeDiscriminatorPropertyName = "ScooterType")]
+   //[JsonDerivedType(typeof(KundeScooter), "KundeScooter")]
+   //[JsonDerivedType(typeof(UdlejningsScooter), "UdlejningsScooter")]
     public abstract class Scooter
     {
         public int ScooterId { get; set; }
@@ -26,7 +26,6 @@ namespace Anden_SemesterProjekt.Shared.Models
 
         [JsonIgnore] public Mærke? Mærke { get; set; }
         public bool ErAktiv { get; set; }
-        public  string ScooterType {get;set; }
        
     }
 }

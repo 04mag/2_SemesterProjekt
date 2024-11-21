@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241120173109_enum")]
-    partial class @enum
+    [Migration("20241121163159_typeremoved")]
+    partial class typeremoved
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -343,9 +343,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Registreringsnummer")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ScooterType")
-                        .HasColumnType("int");
 
                     b.Property<string>("Stelnummer")
                         .IsRequired()

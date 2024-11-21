@@ -14,9 +14,5 @@ namespace Anden_SemesterProjekt.Shared.Models
       
        [JsonIgnore] public List<Udlejning>? Udlejninger { get; set; }
 
-       public UdlejningsScooter()
-       {
-            ScooterType = "UdlejningsScooter";
-        }
     }
 }
