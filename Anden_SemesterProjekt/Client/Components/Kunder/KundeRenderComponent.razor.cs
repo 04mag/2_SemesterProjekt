@@ -6,7 +6,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
     public partial class KundeRenderComponent
     {
         [Parameter, EditorRequired]
-        public Kunde? Kunde { get; set; }
+        public Kunde? KundeModel { get; set; }
 
         [Parameter]
         public EventCallback<Kunde> OnEditKunde { get; set; }
@@ -14,5 +14,6 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         public EventCallback<Kunde> OnDeleteKunde { get; set; }
         [Parameter]
         public EventCallback<Kunde> OnSelectKunde { get; set; }
+
     }
 }
