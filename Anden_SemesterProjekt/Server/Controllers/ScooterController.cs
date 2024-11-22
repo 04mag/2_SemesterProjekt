@@ -71,8 +71,18 @@ namespace Anden_SemesterProjekt.Server.Controllers
             return Ok(addedScooter);
         }
         //
-        [HttpPut]
-        public async Task<ActionResult> Put(Scooter scooter)
+        [HttpPut("UdlejningsScooter")]
+        public async Task<ActionResult> Put(UdlejningsScooter scooter)
+        {
+            if (scooter == null)
+            {
+                return BadRequest("Scooter data mangler.");
+            }
+            var updatedScooter = await _scooterService.UpdateScooterAsync(scooter);
+            return Ok(updatedScooter);
+        }
+        [HttpPut("KundeScooter")]
+        public async Task<ActionResult> Put(KundeScooter scooter)
         {
             if (scooter == null)
             {

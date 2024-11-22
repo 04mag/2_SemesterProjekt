@@ -52,7 +52,7 @@
 }
 @if (editModal)
 {
-
+    <EditForm Model="redigeretScooter" OnValidSubmit="@UpdateScooter">
     <div class="modal">
         <div class="modal-content">
             <span class="close-button" @onclick="CloseEditModal">&times;</span>
@@ -72,9 +72,10 @@
             <h3>Registreringsnummer</h3>
             <InputText id="registreringsnummer" @bind-Value="redigeretScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer" />
             <p></p>
-            <button class="btn btn-primary" @onclick="UpdateScooter">Gem</button>
+            <button class="btn btn-primary" type="submit">Gem</button>
             <p></p>
             <button class="btn btn-danger btn-sm delete-button" @onclick="() =>DeleteScooter(valgtUdlejningsScooter)">Slet</button>
         </div>
     </div>
+    </EditForm>
 }

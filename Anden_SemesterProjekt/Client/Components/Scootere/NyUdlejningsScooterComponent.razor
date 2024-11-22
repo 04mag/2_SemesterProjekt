@@ -3,16 +3,17 @@
 
 @if (addModal)
  {
-     
-         
+     <EditForm Model="nyUdlejningsScooter" OnValidSubmit="HandleValidSubmit" >
+         <DataAnnotationsValidator/> 
+
          <div class="modal">
              <div class="modal-content">
                  <span class="close-button" @onclick="@CloseAddModal">&times;</span>
                  <div class="col-12 mb-3">
                      <h3>Tilføj ny scooter</h3>
-                     <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="form-control" placeholder="Stelnummer"/>
-                     <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer"/>
-                     <label for="mærke">Mærke:</label>
+                     <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="mb-2 form-control" placeholder="Stelnummer"/>
+                     <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="mb-2 form-control" placeholder="Registreringsnummer"/>
+                     <label class ="form-label"for="mærke">Mærke:</label>
                      <select @bind="nyScooterMærkeId">
                          <option value="0"> Vælg et mærke...</option>
                          @foreach (var mærke in mærker)
@@ -23,7 +24,8 @@
                      </select>
 
                  </div>
-                 <button type="button" @onclick="@HandleValidSubmit">Tilføj scooter</button>
+                 <button class="btn-primary" type="submit">Tilføj scooter</button>
              </div>
          </div>
+     </EditForm>
  }
