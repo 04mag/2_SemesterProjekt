@@ -1,19 +1,8 @@
-﻿@using System.ComponentModel.DataAnnotations
-@using Microsoft.AspNetCore.Components.Forms
-@using Anden_SemesterProjekt.Client.Services
-@using Anden_SemesterProjekt.Shared.Models
-
+﻿
 <EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
-    <ObjectGraphDataAnnotationsValidator />
+    <DataAnnotationsValidator />
     <div class="mb-3">
         <h3>Opret ny vare/ydelse</h3>
-    </div>
-
-    <!-- Varenavn -->
-    <div class="col-12 mb-3">
-        <label for="Varenavn" class="form-label">Varenavn</label>
-        <InputText id="Varenavn" class="form-control" @bind-Value="vareModel.Varenavn" />
-        <ValidationMessage For="@(() => vareModel.Varenavn)" />
     </div>
 
     <!-- Beskrivelse -->
@@ -33,15 +22,18 @@
     <!-- Aktiv status -->
     <div class="col-md-6 mb-3">
         <label for="Aktiv" class="form-label">Aktiv</label>
-        <InputCheckbox id="Aktiv" class="form-check-input" @bind-Value="vareModel.Aktiv" />
-        <ValidationMessage For="@(() => vareModel.Aktiv)" />
+        <InputCheckbox id="Aktiv" class="form-check-input" @bind-Value="vareModel.ErAktiv" />
+        <ValidationMessage For="@(() => vareModel.ErAktiv)" />
     </div>
 
     <!-- Submit-knap -->
     <div class="col-12 mb-3">
         <button disabled="@isSubmitting" type="submit" class="btn btn-primary">Opret vare</button>
     </div>
+
 </EditForm>
+
+
 
 
             

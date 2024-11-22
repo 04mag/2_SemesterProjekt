@@ -49,9 +49,14 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns> Returnerer en liste af aktive varer og returnerer Null hvis ikke findes </returns>
         public List<Vare>? ReadAktiveVarer()
         {
-            return _context.Varer
+            var vare =  _context.Varer
             .Where(v => v.ErAktiv && v.GetType() == typeof(Vare)) //v.GetType() == typeof(Vare) sikrer at kun objekter af typen Vare bliver returneret
             .ToList();
+            if (vare.Count == 0)
+            {
+                return null;
+            }
+            return vare;
         }
 
         /// <summary>

@@ -13,20 +13,39 @@ namespace Anden_SemesterProjekt.Client.Services
             _httpClient = httpClient;
         }
 
-        //Sender en POST-anmodning til api/varer og opretter en ny vare i databasen
+        //Sender en POST-anmodning til api/varer og api/varer/ydelse og opretter en ny vare i databasen
         public async Task<Vare?> PostVare(Vare vare)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/varer", vare);
+            if (vare is Ydelse)
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/varer/ydelse", vare);
 
-            if (response.IsSuccessStatusCode)
-            {
-                return await response.Content.ReadFromJsonAsync<Vare>();
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<Vare>();
+                }
+                else
+                {
+                    return null;
+                }
             }
-            else
+            if (vare is Vare)
             {
-                return null;
+                var response = await _httpClient.PostAsJsonAsync("api/varer", vare);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<Vare>();
+                }
+                else
+                {
+                    return null;
+                }
             }
+
+            return null; 
         }
+
 
         //Sender en GET-anmodning til api/varer for at hente en liste over alle aktive varer og ydelser.
         public async Task<List<Vare>?> GetAktiveVarerOgYdelser()

@@ -33,6 +33,21 @@ namespace Anden_SemesterProjekt.Server.Controllers
             }
         }
 
+        [HttpPost("Ydelse")]
+        public IActionResult PostVare(Ydelse vare)
+        {
+            int id = _vareService.CreateVare(vare);
+
+            if (vare == null) //Kan denne være Null med ApiController?
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return CreatedAtAction(nameof(GetVare), new { id = id }, vare);
+            }
+        }
+
         [HttpGet("VarerOgYdelser")]
         public IActionResult GetAktiveVarerOgYdelser()
         {
