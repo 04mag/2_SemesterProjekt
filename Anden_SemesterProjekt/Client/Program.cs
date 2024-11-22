@@ -15,10 +15,12 @@ namespace Anden_SemesterProjekt.Client
             builder.RootComponents.Add<HeadOutlet>("head::after");
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+
             builder.Services.AddHttpClient<IAnsatClientService, AnsatClientService>(client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
+
             builder.Services.AddHttpClient<IMærkeClientService, MærkeClientService>(client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
@@ -27,7 +29,18 @@ namespace Anden_SemesterProjekt.Client
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
+
             builder.Services.AddHttpClient<IKundeClientService, KundeClientService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+            });
+
+            builder.Services.AddHttpClient<IUdlejningClientService, UdlejningClientService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+            });
+
+            builder.Services.AddHttpClient<IOrdreClientService, OrdreClientService>(client =>
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
