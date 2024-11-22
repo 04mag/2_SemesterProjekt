@@ -11,10 +11,26 @@
         <label for="registreringsnummer">Registreringsnummer:</label>
         <input id="registreringsnummer" @bind="newScooter.Registreringsnummer" />
     </div>
-    <div>
-        <label for="mærke">Mærke ID:</label>
-        <input id="mærke" type="number" @bind="newScooter.MærkeId" />
+
+    <!-- Dropdown for Mærker -->
+    <div class="row p-3 mb-5 border border-primary rounded">
+        <div class="col-md-4 mb-3">
+            <h3>Vælg Mærke</h3>
+        </div>
+        <div class="col-md-4 mb-3">
+            <select class="form-control form-select" @bind="newScooter.MærkeId">
+                <option value="0">-- Vælg Mærke --</option>
+                @if (Mærker != null)
+                {
+                    @foreach (var mærke in Mærker)
+                    {
+                        <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
+                    }
+                }
+            </select>
+        </div>
     </div>
+
     <button type="submit">Opret Scooter</button>
 </form>
 
@@ -29,18 +45,29 @@
 }
 
 @code {
-    [Parameter]
-    public EventCallback<Scooter> OnScooterCreated { get; set; } // Eventcallbasck til parent component
-
     private Scooter newScooter = new Scooter();
+    private List<Mærke> Mærker = new List<Mærke>(); // Liste til at gemme mærker
     private string? successMessage;
     private string? errorMessage;
+
+    [Inject]
+    private MærkeClientService MærkeClientService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Hent mærker fra API
+        Mærker = await MærkeClientService.GetMærker();
+        if (Mærker == null || Mærker.Count == 0)
+        {
+            errorMessage = "Kunne ikke hente mærker.";
+        }
+    }
 
     private async Task HandleCreateScooter()
     {
         try
         {
-            // Send scooter til pareant component
+            // Send scooter til parent component
             await OnScooterCreated.InvokeAsync(newScooter);
 
             successMessage = "Scooteren blev oprettet og sendt til kunden!";
