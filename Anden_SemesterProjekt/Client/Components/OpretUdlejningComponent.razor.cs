@@ -11,11 +11,11 @@ namespace Anden_SemesterProjekt.Client.Components
         List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
         List<Kunde> kunder = new List<Kunde>();
        [Inject] IUdlejningClientService UdlejningClientService { get; }
-       [Inject] IUdlejningsScooterClientService UdlejningsScooterClientService { get; }
+       [Inject] IScooterClientService UdlejningsScooterClientService { get; }
 
         public async Task OnInitializedAsync()
         {
-            udlejningsScootere = await UdlejningsScooterClientService.GetUdlejningsScootere();
+            udlejningsScootere = await UdlejningsScooterClientService.GetAllUdlejningsScootereAsync();
 
         }
         public async Task OpretUdlejning()
