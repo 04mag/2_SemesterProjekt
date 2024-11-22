@@ -24,7 +24,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [Required(ErrorMessage = "Mærke er påkrævet.")]
         public int MærkeId { get; set; }
 
-        [JsonIgnore] public Mærke? Mærke { get; set; }
+        public Mærke? Mærke { get; set; }
         public bool ErAktiv { get; set; }
        
     }

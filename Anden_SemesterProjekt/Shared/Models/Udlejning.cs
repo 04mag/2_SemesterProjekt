@@ -13,8 +13,8 @@ namespace Anden_SemesterProjekt.Shared.Models
         public UdlejningsScooter UdlejningsScooter { get; set; }
         public int OrdreId { get; set; }
         public Ordre Ordre { get; set; }
-        public DateTime StartDato { get; set; }
-        public DateTime SlutDato { get; set; }
+        public DateTime StartDato { get; set; } = DateTime.Now;
+        public DateTime SlutDato { get; set; } = DateTime.Now.AddDays(1);
         public double AntalKmKørt { get; set; }
         public bool SelvrisikoUdløst { get; set; }
         public double LejePrDag { get; set; } = 200;

@@ -1,24 +1,16 @@
-﻿@page "/Udlejning"
-<h3>OpretUdlejning</h3>
+﻿<h3>OpretUdlejning</h3>
 
 <EditForm Model="nyUdlejning" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div>
-        <label for="kunde">Kunde:</label>
-        <select @bind="nyUdlejning.Ordre.KundeId">
-        <option value =""> Vælg en kunde...</option>
-        @foreach (var kunde in kunder)
-            {
-                <option value="@kunde.KundeId">@kunde.Navn</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
-            }
-        </select>
+       
         <label for="scooter">Scooter:</label>
         <select @bind="nyUdlejning.UdlejningsScooterId">
         <option value =""> Vælg en scooter...</option>
             @foreach (var udlejningsScooter in udlejningsScootere)
             {
-                <option value="@udlejningsScooter.ScooterId">@udlejningsScooter.Registreringsnummer @udlejningsScooter.Mærke.ScooterMærke</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
+                <option value="@udlejningsScooter.ScooterId">@udlejningsScooter.Registreringsnummer</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
             }
         </select>
     <InputDate id="startDato" @bind-Value="nyUdlejning.StartDato" class="form-control" placeholder="Start dato" />
