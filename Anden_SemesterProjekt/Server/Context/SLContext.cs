@@ -26,6 +26,8 @@ namespace Anden_SemesterProjekt.Server.Context
         {
             modelBuilder.Entity<KundeScooter>().ToTable("KundeScootere");
             modelBuilder.Entity<UdlejningsScooter>().ToTable("UdlejningsScootere");
+            modelBuilder.Entity<Vare>().ToTable("Varer");
+            modelBuilder.Entity<Ydelse>().ToTable("Ydelser");
 
 
             // Oprette separate tabeller for hver Type.
