@@ -108,7 +108,7 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        //Sender en PUT-anmodning for at opdatere en eksisterene vare.
+        //Sender en PUT-anmodning for at opdatere en eksisterene vare eller ydelse. 
         public async Task<HttpResponseMessage> PutVare(Vare vare)
         {
             
