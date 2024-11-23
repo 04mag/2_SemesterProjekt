@@ -1,5 +1,7 @@
 ﻿using Anden_SemesterProjekt.Shared.Models;
+using Azure;
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 
@@ -110,18 +112,33 @@ namespace Anden_SemesterProjekt.Client.Services
         public async Task<HttpResponseMessage> PutVare(Vare vare)
         {
             
+            if (vare is Ydelse)
+            {
+                var response = await _httpClient.PutAsJsonAsync("api/varer/ydelse", vare);
 
-            try
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
+            if (vare is Vare)
             {
                 var response = await _httpClient.PutAsJsonAsync("api/varer", vare);
-                return response;
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
+                }
+                else
+                {
+                    return null;
+                }
             }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw new Exception(e.Message);
-            }
-            
+            return null;
         }
 
         //Sender en DELETE-anmodning for at slette en eksisterende vare.
@@ -142,3 +159,5 @@ namespace Anden_SemesterProjekt.Client.Services
         }
     }
 }
+
+

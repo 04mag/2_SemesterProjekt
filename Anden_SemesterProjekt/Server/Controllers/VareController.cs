@@ -108,7 +108,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPut]
-        public StatusCodeResult PutVare(Vare vare) //StatusCodeResult eller IActionResult?
+        public IActionResult PutVare(Vare vare) 
         {
             bool updated = _vareService.UpdateVare(vare);
             
@@ -122,8 +122,22 @@ namespace Anden_SemesterProjekt.Server.Controllers
             }
         }
 
+        [HttpPut("Ydelse")]
+        public IActionResult PutVare(Ydelse vare)
+        {
+            bool updated = _vareService.UpdateVare(vare);
+            if (updated)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
         [HttpDelete("{id}")]
-        public StatusCodeResult DeleteVare(int id)
+        public IActionResult DeleteVare(int id)
         {
             bool deleted = _vareService.DeleteVare(id);
             if (deleted)

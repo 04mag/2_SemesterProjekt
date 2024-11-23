@@ -51,7 +51,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             }
         }
 
-        private void HandleInvalidSubmit()
+        private void HandleInvalidSubmit() //Kaldes hvis formularen indeholder invalid data
         {
             Console.WriteLine("Formularen indeholder fejl.");
         }
