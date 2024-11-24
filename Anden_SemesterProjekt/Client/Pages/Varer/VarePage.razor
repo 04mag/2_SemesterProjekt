@@ -1,0 +1,35 @@
+﻿@using Anden_SemesterProjekt.Client.Components.Varer
+@inject NavigationManager NavigationManager 
+
+@page "/varer"
+
+<div class="row">
+    <div>
+        <h3>Vare oversigt</h3>
+    </div>
+</div>
+
+<!-- Style blot kopireret fra KundePage.razor indtil videre -->
+<div class="row mb-5 p-3 border border-primary rounded">
+
+    <!-- Komponent til at oprette en ny vare -->
+    <VareCreateComponent OnVareAdded="OnVareAddedHandler" />
+</div>
+
+<!-- Tjekker om varer er hentet -->
+@if (varer != null && varer.Any())
+{
+    <!-- Listekomponent, der viser varer og håndterer events -->
+    <VareListComponent 
+        Varer="varer" 
+        OnEditVare="OnEditKunde" 
+        OnDeleteVare="OnDeleteVare" 
+        OnSelectVare="OnSelectVare" />
+}
+else
+{
+    <div class="alert alert-info">
+        Ingen varer fundet. Tilføj en ny vare for at begynde.
+    </div>
+}
+
