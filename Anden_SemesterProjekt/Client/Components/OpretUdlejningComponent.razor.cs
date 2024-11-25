@@ -9,6 +9,7 @@ namespace Anden_SemesterProjekt.Client.Components
         Udlejning nyUdlejning = new Udlejning();
         UdlejningsScooter udlejningsScooter = new UdlejningsScooter();
         List<UdlejningsScooter>? udlejningsScootere = new List<UdlejningsScooter>();
+        private int SamletKmPris = new int();
         [Inject] private IUdlejningClientService UdlejningClientService { get; set; }
        [Inject] private IScooterClientService ScooterClientService { get; set; }
 
