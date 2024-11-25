@@ -118,9 +118,10 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     ScooterId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Stelnummer = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Stelnummer = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Registreringsnummer = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MærkeId = table.Column<int>(type: "int", nullable: false)
+                    MærkeId = table.Column<int>(type: "int", nullable: false),
+                    ErAktiv = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -131,24 +132,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         principalTable: "Mærker",
                         principalColumn: "MærkeId",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Ydelser",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    AntalTimer = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ydelser", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Ydelser_Varer_Id",
-                        column: x => x.Id,
-                        principalTable: "Varer",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,8 +214,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 columns: table => new
                 {
                     ScooterId = table.Column<int>(type: "int", nullable: false),
-                    ErTilgængelig = table.Column<bool>(type: "bit", nullable: false),
-                    ErAktiv = table.Column<bool>(type: "bit", nullable: false)
+                    ErTilgængelig = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -516,9 +498,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "VareLinjer");
-
-            migrationBuilder.DropTable(
-                name: "Ydelser");
 
             migrationBuilder.DropTable(
                 name: "By");
