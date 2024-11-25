@@ -8,11 +8,13 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
+
     public class KundeScooter : Scooter
     {
         public int KundeId { get; set; }
         [JsonIgnore]
         public Kunde Kunde { get; set; }
+
 
         public override string ToString()
         {

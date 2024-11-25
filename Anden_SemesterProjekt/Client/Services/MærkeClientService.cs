@@ -14,12 +14,26 @@ namespace Anden_SemesterProjekt.Client.Services
 
         public async Task<Mærke?> GetMærke(int id)
         {
-            return await _httpClient.GetFromJsonAsync<Mærke>($"api/mærke/{id}");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<Mærke>($"api/mærke/{id}");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<Mærke>?> GetMærker()
         {
-            return await _httpClient.GetFromJsonAsync<List<Mærke>>("api/mærke");
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<Mærke>>("api/mærke");
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<Mærke?> AddMærke(Mærke mærke)

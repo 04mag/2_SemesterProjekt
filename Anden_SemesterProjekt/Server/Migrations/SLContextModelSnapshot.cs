@@ -335,6 +335,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScooterId"));
 
+                    b.Property<bool>("ErAktiv")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MærkeId")
                         .HasColumnType("int");
 
@@ -343,7 +346,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Stelnummer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ScooterId");
 
@@ -443,9 +447,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Varer", (string)null);
-
-                    b.UseTptMappingStrategy();
+                    b.ToTable("Varer");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.VareLinje", b =>
@@ -618,23 +620,10 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasBaseType("Anden_SemesterProjekt.Shared.Models.Scooter");
 
-                    b.Property<bool>("ErAktiv")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("ErTilgængelig")
                         .HasColumnType("bit");
 
                     b.ToTable("UdlejningsScootere", (string)null);
-                });
-
-            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Ydelse", b =>
-                {
-                    b.HasBaseType("Anden_SemesterProjekt.Shared.Models.Vare");
-
-                    b.Property<double>("AntalTimer")
-                        .HasColumnType("float");
-
-                    b.ToTable("Ydelser", (string)null);
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
@@ -789,15 +778,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Scooter", null)
                         .WithOne()
                         .HasForeignKey("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", "ScooterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Ydelse", b =>
-                {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Vare", null)
-                        .WithOne()
-                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Ydelse", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
