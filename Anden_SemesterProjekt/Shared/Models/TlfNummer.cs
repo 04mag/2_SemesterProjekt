@@ -13,7 +13,7 @@ namespace Anden_SemesterProjekt.Shared.Models
     {
         public int TlfNummerId { get; set; }
         [Required]
-        [RegularExpression(@"([2-9])\d{7}", ErrorMessage = "Ugyldigt telefonnummer.")]
+        [RegularExpression(@"^([2-9])\d{7}$", ErrorMessage = "Ugyldigt telefonnummer.")]
         public string TelefonNummer { get; set; }
         public int KundeId { get; set; }
         [JsonIgnore]
