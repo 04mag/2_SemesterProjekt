@@ -142,9 +142,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Gadenavn = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Husnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
-                    Etage = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
-                    Side = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: true),
-                    Dørnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: true),
+                    Etage = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Side = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Dørnummer = table.Column<string>(type: "nvarchar(5)", maxLength: 5, nullable: false),
                     Postnummer = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     KundeId = table.Column<int>(type: "int", nullable: false)
                 },
