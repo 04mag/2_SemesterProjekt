@@ -16,6 +16,8 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
         [Inject]
         private IJSRuntime JS { get; set; }
 
+        private bool showAddKundeComponent = false;
+
         private async Task UpdateKunder()
         {
             var result = await KundeService.GetKunder();

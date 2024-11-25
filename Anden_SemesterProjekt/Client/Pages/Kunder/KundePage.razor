@@ -3,17 +3,28 @@
 
 @page "/kunder"
 
-<div class="row">
-    <div class="">
-        <h3>Kunder</h3>
-    </div>
-</div>
+<PageTitle>Kunder</PageTitle>
 
-<div class="row mb-5 p-3 border border-primary rounded">
-    <KundeCreateComponent OnKundeAdded="OnKundeAddedHandler" />
-</div>
+
 
 @if(kunder != null)
 {
     <KundeListComponent Kunder="kunder" OnEditKunde="OnEditKunde" OnDeleteKunde="OnDeleteKunde" OnSelectKunde="OnSelectKunde"/>
+}
+else
+{
+    <div class="row mb-5">
+        <div class="">
+            <h3>Kunder</h3>
+        </div>
+    </div>
+}
+
+<button type="button" class="mb-5 btn btn-primary" @onclick="() => showAddKundeComponent = !showAddKundeComponent">Opret ny kunde</button>
+
+@if (showAddKundeComponent)
+{
+    <div class="row mb-5 p-3 border border-primary rounded">
+        <KundeCreateComponent OnKundeAdded="OnKundeAddedHandler" />
+    </div>
 }
