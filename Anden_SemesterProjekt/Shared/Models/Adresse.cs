@@ -19,11 +19,11 @@ namespace Anden_SemesterProjekt.Shared.Models
         [StringLength(5, MinimumLength = 1, ErrorMessage = "Husnummer skal være mellem 1 og 5 karaktere langt!")]
         public string Husnummer { get; set; } = string.Empty;
         [StringLength(3, ErrorMessage = "Etage må maks være 3 karaktere langt.")]
-        public string? Etage { get; set; } = string.Empty;
+        public string Etage { get; set; } = string.Empty;
         [StringLength(3, ErrorMessage = "Side må maks være 3 karaktere langt.")]
-        public string? Side { get; set; } = string.Empty;
+        public string Side { get; set; } = string.Empty;
         [StringLength(5, ErrorMessage = "Dørnummer må maks være 5 karaktere langt.")]
-        public string? Dørnummer { get; set; } = string.Empty;
+        public string Dørnummer { get; set; } = string.Empty;
         [Required(ErrorMessage = "Postnummer skal udfyldes!")]
         [ForeignKey("By")]
         public string Postnummer { get; set; }

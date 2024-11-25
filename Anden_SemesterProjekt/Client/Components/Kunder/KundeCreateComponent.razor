@@ -46,7 +46,7 @@
         </div>
         <div class="col-md-6 mb-3">
             <label for="Postnummer" class="form-label">Postnummer</label>
-            <InputText id="Postnummer" class="form-control" @bind-Value="kundeModel.Adresse.Postnummer" />
+            <InputText id="Postnummer" class="form-control" @bind-Value="kundeModel.Adresse.Postnummer" @onfocusout="CheckPostnummer" />
             <label class="alert-danger">@postnummerErrorMessage</label>
         </div>
         <div class="col-md-6 mb-3">
@@ -57,7 +57,7 @@
 
     <TlfNummerCreateComponent OnInputSuccess="OnTlfNummerInputSuccess" />
 
-    @if (kundeModel.TlfNumre != null)
+    @if (kundeModel.TlfNumre != null && kundeModel.TlfNumre.Count > 0)
     {
         <div class="row mb-5 p-3 border border-primary rounded">
             <h4>Telefonnumre tilføjet</h4>
