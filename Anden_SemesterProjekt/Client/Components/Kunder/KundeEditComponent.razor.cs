@@ -33,6 +33,11 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
                 addMekanikerButtonText = "Skift Mekaniker";
                 Mekaniker = KundeModel.TilknyttetMekaniker;
             }
+
+            if (KundeModel.Adresse.By != null)
+            {
+                ByNavn = KundeModel.Adresse.By.ByNavn;
+            }
         }
 
         protected override async Task OnInitializedAsync()
@@ -49,6 +54,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
             if (checkPostnummer)
             {
                 KundeModel.TilknyttetMekaniker = null;
+                KundeModel.Adresse.By = null;
 
                 var result = await KundeService.PutKunde(KundeModel);
 
