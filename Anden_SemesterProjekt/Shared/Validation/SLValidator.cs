@@ -13,7 +13,7 @@ public class SLValidator
 
     public static bool EmailIsValid(string input)
     {
-        string pattern = @"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b";
+        string pattern = @"^([\w]+\.)?[\w]+@([\w]+\.)*[\w]+\.{1}\w{2,4}$";
 
         if (System.Text.RegularExpressions.Regex.IsMatch(input, pattern))
         {
@@ -24,7 +24,7 @@ public class SLValidator
 
     public static bool PhoneNumberIsValid(string input)
     {
-        string pattern = @"([2-9])\d{7}";
+        string pattern = @"^([2-9])\d{7}$";
 
         if (System.Text.RegularExpressions.Regex.IsMatch(input, pattern))
         {
