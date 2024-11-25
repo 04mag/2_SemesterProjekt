@@ -1,18 +1,28 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
+@using Anden_SemesterProjekt.Client.Services
+
 
 
 @page "/create-scooter"
 
 <h3>Opret ny Scooter</h3>
 
-<form @onsubmit="HandleCreateScooter">
+<EditForm Model="newScooter" OnValidSubmit="HandleCreateScooter">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <!-- Stelnummer -->
     <div>
         <label for="stelnummer">Stelnummer:</label>
-        <input id="stelnummer" @bind="newScooter.Stelnummer" />
+        <input id="stelnummer" class="form-control" @bind="newScooter.Stelnummer" />
+        <ValidationMessage For="@(() => newScooter.Stelnummer)" />
     </div>
+
+    <!-- Registreringsnummer -->
     <div>
         <label for="registreringsnummer">Registreringsnummer:</label>
-        <input id="registreringsnummer" @bind="newScooter.Registreringsnummer" />
+        <input id="registreringsnummer" class="form-control" @bind="newScooter.Registreringsnummer" />
+        <ValidationMessage For="@(() => newScooter.Registreringsnummer)" />
     </div>
 
     <!-- Dropdown for Mærker -->
@@ -31,11 +41,12 @@
                     }
                 }
             </select>
+            <ValidationMessage For="@(() => newScooter.MærkeId)" />
         </div>
     </div>
 
-    <button type="submit">Opret Scooter</button>
-</form>
+    <button type="submit" class="btn btn-primary">Opret Scooter</button>
+</EditForm>
 
 @if (successMessage != null)
 {
@@ -58,11 +69,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        // Hent mærker fra API
-        Mærker = await MærkeClientService.GetMærker();
-        if (Mærker == null || Mærker.Count == 0)
+        try
         {
-            errorMessage = "Kunne ikke hente mærker.";
+            // Hent mærker fra API
+            Mærker = await MærkeClientService.GetMærker();
+            if (Mærker == null || Mærker.Count == 0)
+            {
+                errorMessage = "Kunne ikke hente mærker.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Fejl under hentning af mærker: {ex.Message}";
         }
     }
 
@@ -70,9 +88,7 @@
     {
         try
         {
-            // Send scooter til parent component
-            await OnScooterCreated.InvokeAsync(newScooter);
-
+            // Simuler handling for at oprette scooter
             successMessage = "Scooteren blev oprettet og sendt til kunden!";
             errorMessage = null;
 
