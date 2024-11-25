@@ -188,13 +188,28 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
+                //Setter alle værdier på existingKunde til værdierne på kunde
+                _context.Entry(existingKunde).CurrentValues.SetValues(kunde);
+
+
+                //Opdaterer adresse
+                var existingAdresse = _context.Adresser.Find(kunde.Adresse.AdresseId);
+                if (existingAdresse == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    _context.Entry(existingAdresse).CurrentValues.SetValues(kunde.Adresse);
+                }
+
+
                 //Sletter tlfNumre fra database som ikke længere findes i kunde objektet
                 //Finder Id på alle kundens tlfnumre
                 var allValidIds = kunde.TlfNumre.Select(t => t.TlfNummerId).ToList();
                 //Finder alle tlfnumre som ikke findes i kunde objektet
                 var missingRows = _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToList();
                 
-                _context.Entry(existingKunde).CurrentValues.SetValues(kunde);
 
                 foreach (var nummer in kunde.TlfNumre)
                 {
