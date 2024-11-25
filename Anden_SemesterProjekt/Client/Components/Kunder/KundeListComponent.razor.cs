@@ -26,8 +26,6 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
         private int selectedMærkeId;
 
-        private List<Kunde> _filter;
-
         public List<Kunde> FilteredKunder
         {
             get
