@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public List<TlfNummer> TlfNumre { get; set; } = new List<TlfNummer>();
         [Required]
         //Regex til tjek af email. \b tjekker ord til ord, første om der kun er bogstaver, tal, punktum og bindestreg. Derefter om der er et @, og til sidst om der er et domæne.
-        [RegularExpression(@"\b[\w\.-]+@[\w\.-]+\.\w{2,4}\b", ErrorMessage = "Ugyldig emailadresse.")]
+        [RegularExpression(@"^([\w]+\.)?[\w]+@([\w]+\.)*[\w]+\.{1}\w{2,4}$", ErrorMessage = "Ugyldig emailadresse.")]
         public string Email { get; set; }
         [ForeignKey("TilknyttetMekaniker")]
         public int? MekanikerId { get; set; } = null;
