@@ -16,8 +16,6 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
         [Inject]
         private IJSRuntime JS { get; set; }
 
-        private bool showAddKundeComponent = false;
-
         private async Task UpdateKunder()
         {
             var result = await KundeService.GetKunder();
@@ -29,11 +27,6 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
         }
 
         protected override async Task OnInitializedAsync()
-        {
-            await UpdateKunder();
-        }
-
-        private async Task OnKundeAddedHandler()
         {
             await UpdateKunder();
         }
@@ -65,6 +58,11 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
                     await JS.InvokeVoidAsync("alert", "Der skete en fejl under sletning af kunden. Tjek evt. om kunden har ordrer som ikke er afsluttet.");
                 }
             }
+        }
+
+        private void NavigateToCreateKunde()
+        {
+            NavigationManager.NavigateTo("/kunder/opret");
         }
     }
 }
