@@ -2,11 +2,17 @@
 using Anden_SemesterProjekt.Client.Components;
 using Microsoft.AspNetCore.Components;
 using Anden_SemesterProjekt.Client.Services;
+using Microsoft.JSInterop;
+using System.Text;
 
 namespace Anden_SemesterProjekt.Client.Pages
 {
     public partial class OrdreOpretPage
     {
+        //Inject af JS
+        [Inject]
+        private IJSRuntime JS { get; set; }
+
         //Inject af NavigationManager
         [Inject]
         public NavigationManager NavigationManager { get; set; }
@@ -63,6 +69,16 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             KundeModel = kunde;
             showKundeSelect = false;
+        }
+
+        private async Task OnKundeRemoved()
+        {
+            var confirmRemove = await JS.InvokeAsync<bool>("confirm", "Er du sikker på, at du vil ændre kunden knyttet til ordren?\nDette vil åbne en ny ordre!");
+
+            if (confirmRemove)
+            {
+                NavigateToOpretOrdre();
+            }
         }
 
 
