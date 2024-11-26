@@ -3,18 +3,22 @@
 
 @page "/ordre/opret"
 
-<div class="row mb-3">
+<div class="row mb-3 p-3 border border-primary rounded">
     @if (KundeModel == null)
     {
-        <div class="col-md-12 mb-2">
+        <h4>Kunde:</h4>
+        <div class="col-md-12 mb-3">
             <button class="me-2 btn btn-primary" @onclick="NavigateToKundePage">Opret ny kunde</button>
             <button class="me-2 btn btn-primary" @onclick="() => showKundeSelect = !showKundeSelect">Vælg kunde</button>
         </div>
     }
     else
     {
-        <div class="col-md-12 mb-2">
+        <div class="col-md-6">
             <h4>Kunde: @KundeModel.Navn</h4>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary float-end" @onclick="NavigateToOpretOrdre">Ny ordre</button>
         </div>
     }
 

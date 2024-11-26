@@ -71,6 +71,11 @@ namespace Anden_SemesterProjekt.Client.Pages
         {
             NavigationManager.NavigateTo("/kunder/opret");
         }
+
+        private void NavigateToOpretOrdre()
+        {
+            NavigationManager.Refresh();
+        }
     }
 
 }
