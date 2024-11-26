@@ -19,13 +19,6 @@
         <ValidationMessage For="@(() => vareModel.Pris)" />
     </div>
 
-    <!-- Aktiv status -->
-    <div class="col-md-6 mb-3">
-        <label for="Aktiv" class="form-label">Aktiv</label>
-        <InputCheckbox id="Aktiv" class="form-check-input" @bind-Value="vareModel.ErAktiv" />
-        <ValidationMessage For="@(() => vareModel.ErAktiv)" />
-    </div>
-
     <!-- Submit-knap -->
     <div class="col-12 mb-3">
         <button disabled="@isSubmitting" type="submit" class="btn btn-primary">Opret vare</button>

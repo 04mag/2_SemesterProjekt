@@ -14,6 +14,9 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         [Inject]
         public IVareClientService VareService { get; set; }
 
+        [Parameter]
+        public EventCallback OnVareAdded { get; set; }
+
         protected override void OnInitialized()
         {
             editContext = new EditContext(vareModel);

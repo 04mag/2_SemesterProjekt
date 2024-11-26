@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
         {
             try
             {
-                var result = await VareService.GetAktiveVarerOgYdelser();
+                var result = await VareService.GetAktiveVarer();
 
                 if (result != null)
                 {
@@ -40,6 +40,8 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
 
             }
         }
+
+        //UpdateYdelse
 
         //Denne metode kaldes, når komponenten er loaded. For at hente listen over varer fra serveren.
         protected override async Task OnInitializedAsync()
