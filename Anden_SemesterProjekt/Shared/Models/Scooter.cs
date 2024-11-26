@@ -9,17 +9,14 @@ using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
 {
-
-    // Dette er en attribut som bruges til at identificere hvilken Type af objekt der er tale om, så man kan deserialisere det korrekt.
-    //[JsonPolymorphic(TypeDiscriminatorPropertyName = "ScooterType")]
-   //[JsonDerivedType(typeof(KundeScooter), "KundeScooter")]
-   //[JsonDerivedType(typeof(UdlejningsScooter), "UdlejningsScooter")]
     public abstract class Scooter
     {
         public int ScooterId { get; set; }
         [Required (ErrorMessage = "Stelnummer er påkrævet.")]
-        [StringLength(20, MinimumLength = 15, ErrorMessage = "Stelnummer skal være mellem 15 og 20 tegn.")]
+        [StringLength(17, MinimumLength = 17, ErrorMessage = "Stelnummeret skal være mellem 15 og 20 tegn.")]
         public string Stelnummer { get; set; }
+        [Required(ErrorMessage = "Registreringsnummer er påkrævet.")]
+        [StringLength(6, MinimumLength = 4, ErrorMessage = "Registreringsnummeret skal være mellem 4 og 6 tegn.")]
         public string? Registreringsnummer { get; set; }
         [Required(ErrorMessage = "Mærke er påkrævet.")]
         public int MærkeId { get; set; }
