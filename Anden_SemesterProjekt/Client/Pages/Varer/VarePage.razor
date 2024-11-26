@@ -5,17 +5,54 @@
 
 <div class="row">
     <div>
-        <h3>Vare oversigt</h3>
+        <h3>Vareoversigt</h3>
     </div>
 </div>
 
-<!-- Style blot kopireret fra KundePage.razor indtil videre -->
-<div class="row mb-5 p-3 border border-primary rounded">
+<!-- Søgefelt -->
+<div class="row mb-3">
+    <div class="col-12 col-md-6">
+        <input type="text"
+               class="form-control"
+               placeholder="Søg efter varer..."
+               @bind="searchTerm"
+               @oninput="FilterVarer" />
+    </div>
+</div>
+
+@* <!-- Style blot kopireret fra KundePage.razor indtil videre -->
+ <div 
 
     <!-- Komponent til at oprette en ny vare -->
     <VareOpretComponent />
-</div>
+</div>  *@
 
+@if (showAddVareComponent)
+{
+    <div class="row mb-5 p-3 border border-primary rounded">
+        <VareCreateComponent OnVareAdded="OnVareAddedHandler" />
+    </div>
+}
+
+@if (varer != null && filteredVarer.Any())
+{
+    <!-- Liste over varer -->
+    <div class="row">
+        @foreach (var vare in filteredVarer)
+        {
+            <!-- Bruger VareRenderComponent til at vise hver vare -->
+            <VareRenderComponent VareModel="vare" OnSelectVare="OnSelectVare" OnEditVare="OnEditVare" OnDeleteVare="OnDeleteVare" />
+        }
+    </div>
+}
+else
+{
+    <div class="row">
+        <div>
+            <p>Ingen varer fundet.</p>
+        </div>
+    </div>
+}
 
 
 

@@ -1,13 +1,12 @@
 ﻿
-@if (Varer != null)
+ @if (Varer != null)
 {
     @foreach (var vare in Varer)
     {
         <VareRenderComponent VareModel="vare" OnSelectVare="OnSelectVare" OnDeleteVare="OnDeleteVare" OnEditVare="OnEditVare" />
 
     }
-
-}
+} 
 
 
 

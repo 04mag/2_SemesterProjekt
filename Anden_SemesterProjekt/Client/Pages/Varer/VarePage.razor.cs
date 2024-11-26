@@ -3,12 +3,15 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.JSInterop;
 using Anden_SemesterProjekt.Shared.Models;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace Anden_SemesterProjekt.Client.Pages.Varer
 {
     public partial class VarePage
     {
         private List<Vare>? varer;
+
+        private List<Vare>? filteredVarer;
 
         //En service, som skal injectes til at hente og manipulere data fra serveren via api kaldet. 
         [Inject]
@@ -17,6 +20,11 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
         //En service, som skal injectes for at kunne bruge JavaScript interop i Blazor, feks. alert , confirm. 
         [Inject]
         private IJSRuntime JS { get; set; }
+
+        private bool showAddVareComponent = false;
+
+        //Brugerens søgeinput
+        private string searchTerm = ""; 
 
         private async Task UpdateVare()
         {
@@ -32,6 +40,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
                 {
                     varer = new List<Vare>();
                 }
+                FilterVarer();
             }
             //Hvis der opstår en exception under hentning af varer, så vises en alert med fejlbeskeden.
             catch (Exception e)
@@ -44,9 +53,11 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
         //UpdateYdelse
 
         //Denne metode kaldes, når komponenten er loaded. For at hente listen over varer fra serveren.
+        //FilterVarer sørger for, at den filtredede liste er initialiseret.
         protected override async Task OnInitializedAsync()
         {
             await UpdateVare();
+            FilterVarer(); 
         }
 
         //Denne metoder opdaterer listen over varer, når der er tilføjet en ny vare. Ved genkald af metoden "UpdateVare".
@@ -62,7 +73,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
         }
 
         //Denne metode navigerer brugeren til en redigere side, hvor brugeren kan redigere en specifik vare, baseret på varens ID.
-        private void OnEditKunde(Vare vare)
+        private void OnEditVare(Vare vare)
         {
             NavigationManager.NavigateTo($"/varer/edit/{vare.Id}");
         }
@@ -89,5 +100,18 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
                 }
             }
         }
+
+        private void FilterVarer()
+        {
+            if (string.IsNullOrWhiteSpace(searchTerm))
+            {
+                filteredVarer = varer; //Hvis søgefeltet er tomt, så vises alle varer.
+            }
+            else
+            {
+                //Filtrer varer baseret på beskrivelsen. 
+                filteredVarer = varer?.Where(v => v.Beskrivelse?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true).ToList();
+            }
+        } 
     }
 }
