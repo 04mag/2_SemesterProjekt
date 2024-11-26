@@ -69,7 +69,7 @@ namespace Anden_SemesterProjekt.Client.Pages
         //Navigationsmetoder
         private void NavigateToKundePage()
         {
-            NavigationManager.NavigateTo("/kunder");
+            NavigationManager.NavigateTo("/kunder/opret");
         }
     }
 
