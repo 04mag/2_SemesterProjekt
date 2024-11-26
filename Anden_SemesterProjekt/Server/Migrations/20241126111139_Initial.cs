@@ -135,6 +135,24 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Ydelser",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    AntalTimer = table.Column<double>(type: "float", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Ydelser", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Ydelser_Varer_Id",
+                        column: x => x.Id,
+                        principalTable: "Varer",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Adresser",
                 columns: table => new
                 {
@@ -238,9 +256,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     BetalingsDato = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ErBetalt = table.Column<bool>(type: "bit", nullable: false),
                     ErAfsluttet = table.Column<bool>(type: "bit", nullable: false),
-                    StartDato = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SlutDato = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UdlejningsScooterId = table.Column<int>(type: "int", nullable: true),
+                    StartDato = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    SlutDato = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MekanikerId = table.Column<int>(type: "int", nullable: true),
                     Bemærkninger = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -262,11 +279,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         column: x => x.MekanikerId,
                         principalTable: "Mekanikere",
                         principalColumn: "MekanikerId");
-                    table.ForeignKey(
-                        name: "FK_Ordrer_UdlejningsScootere_UdlejningsScooterId",
-                        column: x => x.UdlejningsScooterId,
-                        principalTable: "UdlejningsScootere",
-                        principalColumn: "ScooterId");
                 });
 
             migrationBuilder.CreateTable(
@@ -446,11 +458,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 column: "MekanikerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Ordrer_UdlejningsScooterId",
-                table: "Ordrer",
-                column: "UdlejningsScooterId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Scootere_MærkeId",
                 table: "Scootere",
                 column: "MærkeId");
@@ -463,7 +470,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Udlejninger_OrdreId",
                 table: "Udlejninger",
-                column: "OrdreId");
+                column: "OrdreId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Udlejninger_UdlejningsScooterId",
@@ -500,7 +508,13 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 name: "VareLinjer");
 
             migrationBuilder.DropTable(
+                name: "Ydelser");
+
+            migrationBuilder.DropTable(
                 name: "By");
+
+            migrationBuilder.DropTable(
+                name: "UdlejningsScootere");
 
             migrationBuilder.DropTable(
                 name: "Ordrer");
@@ -510,9 +524,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "KundeScootere");
-
-            migrationBuilder.DropTable(
-                name: "UdlejningsScootere");
 
             migrationBuilder.DropTable(
                 name: "Kunder");
