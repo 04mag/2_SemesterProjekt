@@ -17,10 +17,10 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime? BetalingsDato { get; set; }
         public bool ErBetalt { get; set; }
         public bool ErAfsluttet { get; set; }
-        public DateTime? StartDato { get; set; }
-        public DateTime? SlutDato { get; set; }
-        public int? UdlejningsScooterId { get; set; }
-        public UdlejningsScooter? UdlejningsScooter { get; set; }
+        public DateTime StartDato { get; set; } = DateTime.Now;
+        public DateTime SlutDato { get; set; } = DateTime.Now;
+        public int? UdlejningId { get; set; }
+        public Udlejning? Udlejning{ get; set; }
         public int? MekanikerId { get; set; }
         public Mekaniker? Mekaniker { get; set; }
         public string Bemærkninger { get; set; } = string.Empty;

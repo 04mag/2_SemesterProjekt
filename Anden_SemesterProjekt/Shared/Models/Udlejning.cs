@@ -18,11 +18,12 @@ namespace Anden_SemesterProjekt.Shared.Models
         public double AntalKmKørt { get; set; }
         public bool SelvrisikoUdløst { get; set; }
         public double LejePrDag { get; set; } = 200;
-        public double ForsikringPrDag { get; set; }
+        public double ForsikringPrDag { get; set; } = 100;
         public double PrisPrKm { get; set; } = 0.53;
         public double Selvrisiko { get; set; } = 1000;
         public Udlejning()
         {
+
         }
     }
 }
