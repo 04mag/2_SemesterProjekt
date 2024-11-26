@@ -19,7 +19,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public bool ErAfsluttet { get; set; }
         public DateTime StartDato { get; set; } = DateTime.Now;
         public DateTime SlutDato { get; set; } = DateTime.Now;
-        public int? UdlejningId { get; set; }
         public Udlejning? Udlejning{ get; set; }
         public int? MekanikerId { get; set; }
         public Mekaniker? Mekaniker { get; set; }

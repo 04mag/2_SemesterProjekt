@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Client.Components
         public async Task OpretUdlejning()
 
         {
-            nyUdlejning.UdlejningsScooterId = nyUdlejning.Ordre.UdlejningsScooterId.Value;
+            //nyUdlejning.UdlejningsScooterId = nyUdlejning.Ordre.UdlejningsScooterId.Value;
        
             nyUdlejning.OrdreId = nyUdlejning.Ordre.OrdreId;
             await UdlejningClientService.AddUdlejningAsync(nyUdlejning);
