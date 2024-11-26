@@ -1,58 +1,54 @@
 ﻿@using Anden_SemesterProjekt.Client.Components.Varer
-@inject NavigationManager NavigationManager 
+@inject NavigationManager NavigationManager
 
 @page "/varer"
 
-<div class="row">
-    <div>
-        <h3>Vareoversigt</h3>
-    </div>
-</div>
-
-<!-- Søgefelt -->
-<div class="row mb-3">
-    <div class="col-12 col-md-6">
-        <input type="text"
-               class="form-control"
-               placeholder="Søg efter varer..."
-               @bind="searchTerm"
-               @oninput="FilterVarer" />
-    </div>
-</div>
-
-@* <!-- Style blot kopireret fra KundePage.razor indtil videre -->
- <div 
-
-    <!-- Komponent til at oprette en ny vare -->
-    <VareOpretComponent />
-</div>  *@
-
-@if (showAddVareComponent)
-{
-    <div class="row mb-5 p-3 border border-primary rounded">
-        <VareCreateComponent OnVareAdded="OnVareAddedHandler" />
-    </div>
-}
-
-@if (varer != null && filteredVarer.Any())
-{
-    <!-- Liste over varer -->
+<div class="container">
+    <!-- Overskrift -->
     <div class="row">
-        @foreach (var vare in filteredVarer)
-        {
-            <!-- Bruger VareRenderComponent til at vise hver vare -->
-            <VareRenderComponent VareModel="vare" OnSelectVare="OnSelectVare" OnEditVare="OnEditVare" OnDeleteVare="OnDeleteVare" />
-        }
-    </div>
-}
-else
-{
-    <div class="row">
-        <div>
-            <p>Ingen varer fundet.</p>
+        <div class="col-12">
+            <h3 class="mb-4">Vareoversigt</h3>
         </div>
     </div>
-}
+
+    <!-- Søgefelt og Opdater-knap -->
+    <div class="row mb-3">
+        <!-- Søgefelt -->
+        <div class="col-12 col-md-6 mb-2 mb-md-0">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Søg efter varer..."
+                   @bind="searchTerm"
+                   @oninput="FilterVarer" />
+        </div>
+
+        <!-- Opdater Liste-knap -->
+        <div class="col-12 col-md-6">
+            <button class="btn btn-secondary w-100" @onclick="OpdaterListe">Opdater Liste</button>
+        </div>
+    </div>
+
+    <!-- Liste over varer -->
+    @if (varer != null && filteredVarer.Any())
+    {
+        <div class="row">
+            @foreach (var vare in filteredVarer)
+            {
+                <!-- Bruger VareRenderComponent til at vise hver vare -->
+                <VareRenderComponent VareModel="vare" OnSelectVare="OnSelectVare" OnEditVare="OnEditVare" OnDeleteVare="OnDeleteVare" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Ingen varer fundet. Klik på "Opdater Liste" for at hente varer.
+        </div>
+    }
+</div>
+
+ 
+
 
 
 

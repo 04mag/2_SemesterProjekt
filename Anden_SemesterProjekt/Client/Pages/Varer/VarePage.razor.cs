@@ -50,8 +50,6 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
             }
         }
 
-        //UpdateYdelse
-
         //Denne metode kaldes, når komponenten er loaded. For at hente listen over varer fra serveren.
         //FilterVarer sørger for, at den filtredede liste er initialiseret.
         protected override async Task OnInitializedAsync()
@@ -112,6 +110,10 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
                 //Filtrer varer baseret på beskrivelsen. 
                 filteredVarer = varer?.Where(v => v.Beskrivelse?.Contains(searchTerm, StringComparison.OrdinalIgnoreCase) == true).ToList();
             }
-        } 
+        }
+        private async Task OpdaterListe()
+        {
+            await UpdateVare();
+        }
     }
 }
