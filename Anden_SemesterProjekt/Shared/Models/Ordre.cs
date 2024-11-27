@@ -19,8 +19,9 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime? BetalingsDato { get; set; }
         public bool ErBetalt { get; set; }
         public bool ErAfsluttet { get; set; }
+        [OrdreStartDatoCheck]
         public DateTime StartDato { get; set; } = DateTime.Now;
-        [SlutDatoCheck]
+        [OrdreSlutDatoCheck]
         public DateTime SlutDato { get; set; } = DateTime.Now;
         public Udlejning? Udlejning{ get; set; }
         public int? MekanikerId { get; set; }
