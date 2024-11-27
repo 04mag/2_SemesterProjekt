@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Anden_SemesterProjekt.Shared.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +20,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public bool ErBetalt { get; set; }
         public bool ErAfsluttet { get; set; }
         public DateTime StartDato { get; set; } = DateTime.Now;
+        [SlutDatoCheck]
         public DateTime SlutDato { get; set; } = DateTime.Now;
         public Udlejning? Udlejning{ get; set; }
         public int? MekanikerId { get; set; }
