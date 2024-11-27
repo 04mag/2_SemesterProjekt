@@ -1,6 +1,32 @@
 ﻿@using Anden_SemesterProjekt.Client.Components
+@using Anden_SemesterProjekt.Client.Components.Kunder
+
 @page "/ordre/opret"
-<h3>OrdreOpretPage</h3>
 
+<div class="row mb-3 p-3 border border-primary rounded">
+    @if (KundeModel == null)
+    {
+        <h4>Kunde:</h4>
+        <div class="col-md-12 mb-3">
+            <button class="me-2 btn btn-primary" @onclick="NavigateToKundePage">Opret ny kunde</button>
+            <button class="me-2 btn btn-primary" @onclick="() => showKundeSelect = !showKundeSelect">Vælg kunde</button>
+        </div>
+    }
+    else
+    {
+        <div class="col-12">
+            <h4>Valgt kunde:</h4>
+            <KundeRenderComponent KundeModel="KundeModel" OnEditKunde="OnKundeRemoved"/>
+        </div>
+    }
 
-<OpretUdlejningComponent/>
+    <div class="col-12 mb-2">
+        @if (showKundeSelect)
+        {
+            <KundeListComponent Kunder="Kunder" OnSelectKunde="OnKundeSelected" />
+        }
+    </div>
+</div>
+
+<OpretUdlejningComponent />
+
