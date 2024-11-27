@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
@@ -14,6 +15,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public string Beskrivelse { get; set; }
         public double Pris { get; set; }
         public bool ErAktiv { get; set; }
+        [JsonIgnore]
         public List<VareLinje> VareLinjer { get; set; }
     }
 }

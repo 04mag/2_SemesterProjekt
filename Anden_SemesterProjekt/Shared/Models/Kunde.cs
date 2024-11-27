@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
@@ -28,6 +29,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int? MekanikerId { get; set; } = null;
         public Mekaniker? TilknyttetMekaniker { get; set; } = null;
         public List<KundeScooter>? Scootere { get; set; } = new List<KundeScooter>();
+        [JsonIgnore]
         public List<Ordre>? Ordrer { get; set; } = new List<Ordre>();
         public bool ErAktiv { get; set; } = true;
     }
