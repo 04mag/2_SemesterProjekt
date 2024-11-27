@@ -38,7 +38,13 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<List<Ordre>> ReadOrdrerAsync()
         {
-            return await _context.Ordrer.ToListAsync();
+            return await _context.Ordrer
+                .Include(o => o.Kunde)
+                .Include(o => o.KundeScooter)
+                .Include(o => o.Mekaniker)
+                .Include(o => o.VareLinjer)
+                .Include(o => o.Udlejning)
+                .ToListAsync();
         }
 
         public async Task<int> CreateOrdreAsync(Ordre ordre)
