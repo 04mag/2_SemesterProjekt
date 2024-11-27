@@ -58,7 +58,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
             
             if (OrdreModel != null)
             {
-                var response = await OrdreService.AddOrdre(OrdreModel);
+                var response = await OrdreService.UpdateOrdre(OrdreModel);
 
                 if (response.IsSuccessStatusCode)
                 {

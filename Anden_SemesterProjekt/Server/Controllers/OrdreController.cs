@@ -57,8 +57,8 @@ namespace Anden_SemesterProjekt.Server.Controllers
                 return BadRequest("Ordre data mangler.");
             }
 
-            var id = await _ordreService.UpdateOrdreAsync(ordre);
-            return Ok(id);
+            var rowsChanged = await _ordreService.UpdateOrdreAsync(ordre);
+            return Ok($"Rows changed: {rowsChanged}");
         }
 
         [HttpDelete("{id}")]

@@ -16,7 +16,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<Ordre?> ReadOrdreAsync(int id)
         {
             var result = await _context.Ordrer
-                .Include(o => o.Kunde)
+                .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
                 .Include(o => o.KundeScooter)
                 .Include(o => o.Mekaniker)
                 .Include(o => o.VareLinjer)
@@ -59,20 +59,15 @@ namespace Anden_SemesterProjekt.Server.Repositories
             var existingOrdre = await _context.Ordrer.FindAsync(ordre.OrdreId);
             if (existingOrdre == null)
             {
-                throw new ArgumentException("Scooteren findes ikke.");
+                return 0;
             }
             // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
 
             //Fjerne objects fra ordre, så de ikke bliver oprettet som nye i databasen
-            existingOrdre.Kunde = ordre.Kunde;
-            existingOrdre.KundeScooter = null;
-            existingOrdre.Mekaniker = null;
-            existingOrdre.VareLinjer = null;
             existingOrdre.Udlejning = ordre.Udlejning;
 
-            await _context.SaveChangesAsync();
-            return ordre.OrdreId;
+            return await _context.SaveChangesAsync();
         }
 
         public async Task<int> DeleteOrdreAsync(int id)

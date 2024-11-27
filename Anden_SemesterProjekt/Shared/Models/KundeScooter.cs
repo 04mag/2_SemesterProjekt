@@ -13,8 +13,7 @@ namespace Anden_SemesterProjekt.Shared.Models
     {
         public int KundeId { get; set; }
         [JsonIgnore]
-        public Kunde Kunde { get; set; }
-
+        public Kunde? Kunde { get; set; }
 
         public override string ToString()
         {
