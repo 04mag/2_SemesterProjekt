@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anden_SemesterProjekt.Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Anden_SemesterProjekt.Shared", "Anden_SemesterProjekt\Shared\Anden_SemesterProjekt.Shared.csproj", "{E11EA301-74F8-42D8-AF62-7DED9EE39760}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitConsoleApp", "NUnitConsoleApp\NUnitConsoleApp.csproj", "{FD575458-C75C-4A81-AB2E-C228A7505620}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitConsoleApp", "NUnitConsoleApp\NUnitConsoleApp.csproj", "{FD575458-C75C-4A81-AB2E-C228A7505620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NunitTestProject", "NunitTestProject\NunitTestProject.csproj", "{8185EBD9-1A37-4166-A05D-0502D6589EFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NunitTestProject", "NunitTestProject\NunitTestProject.csproj", "{8185EBD9-1A37-4166-A05D-0502D6589EFB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
