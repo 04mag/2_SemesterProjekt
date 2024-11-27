@@ -67,7 +67,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                 }
                 else
                 {
-                    await JS.InvokeVoidAsync("alert", "Ordren kunne ikke opdateres!"); 
+                    await JS.InvokeVoidAsync("alert", "Ordren kunne ikke opdateres!");
                 }
             }
             else

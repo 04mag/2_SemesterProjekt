@@ -56,13 +56,21 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<int> UpdateOrdreAsync(Ordre ordre)
         {
             // Henter scooteren fra databasen og gemmer den i existingScooter
-            var existingOrdre = await _context.Scootere.FindAsync(ordre.OrdreId);
+            var existingOrdre = await _context.Ordrer.FindAsync(ordre.OrdreId);
             if (existingOrdre == null)
             {
                 throw new ArgumentException("Scooteren findes ikke.");
             }
             // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
+
+            //Fjerne objects fra ordre, så de ikke bliver oprettet som nye i databasen
+            existingOrdre.Kunde = ordre.Kunde;
+            existingOrdre.KundeScooter = null;
+            existingOrdre.Mekaniker = null;
+            existingOrdre.VareLinjer = null;
+            existingOrdre.Udlejning = ordre.Udlejning;
+
             await _context.SaveChangesAsync();
             return ordre.OrdreId;
         }
