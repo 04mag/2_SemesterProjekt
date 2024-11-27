@@ -8,14 +8,32 @@ namespace Anden_SemesterProjekt.Server.Repositories
     {
         private readonly SLContext _context;
 
-        public OrdreRepository(SLContext context)
+        public OrdreRepository()
         {
-            _context = context;
+            _context = new SLContext();
         }
 
         public async Task<Ordre?> ReadOrdreAsync(int id)
         {
-            return await _context.Ordrer.FindAsync(id);
+            var result = await _context.Ordrer
+                .Include(o => o.Kunde)
+                .Include(o => o.KundeScooter)
+                .Include(o => o.Mekaniker)
+                .Include(o => o.VareLinjer)
+                .Include(o => o.Udlejning)
+                .FirstOrDefaultAsync(o => o.OrdreId == id);
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            if (result.OrdreId != id)
+            {
+                return null;
+            }
+
+            return result;
         }
 
         public async Task<List<Ordre>> ReadOrdrerAsync()
