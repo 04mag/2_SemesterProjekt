@@ -2,20 +2,30 @@
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
+using System.Text;
 
 namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 {
     public partial class OrdreEditPage
     {
-        [Parameter]
-        public int Id { get; set; }
-
         [Inject]
         public IOrdreClientService OrdreService { get; set; }
+
+        [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
+        private IJSRuntime JS { get; set; }
+
+        [Parameter]
+        public int Id { get; set; }
 
         public Ordre? OrdreModel { get; set; } = new Ordre();
 
         public EditContext EditContext { get; set; }
+
+        private bool ordreAfsluttet = false;
 
         protected override void OnInitialized()
         {
@@ -37,6 +47,38 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                 Console.WriteLine("Ordre er ikke null!");
                 OrdreModel = ordreResult;
             }
+        }
+
+        public async Task OnValidSubmit()
+        {
+            if (OrdreModel != null && ordreAfsluttet)
+            {
+                OrdreModel.ErAfsluttet = true;
+            }
+            
+            if (OrdreModel != null)
+            {
+                var response = await OrdreService.AddOrdre(OrdreModel);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    await JS.InvokeVoidAsync("alert", "Ordren er blevet opdateret!");
+                    NavigationManager.NavigateTo("/ordrer");
+                }
+                else
+                {
+                    await JS.InvokeVoidAsync("alert", "Ordren kunne ikke opdateres!"); 
+                }
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("alert", "Ordren kunne ikke findes!");
+            }
+        }
+
+        public async Task OnInvalidSubmit()
+        {
+            
         }
     }
 }

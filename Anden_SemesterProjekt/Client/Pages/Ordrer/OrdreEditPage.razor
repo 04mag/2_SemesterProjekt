@@ -27,7 +27,8 @@ else
         </div>
     </div>
 
-    <EditForm class="row p-3 mb-5 border border-primary rounded" EditContext="EditContext">
+    <EditForm class="row p-3 mb-5 border border-primary rounded" EditContext="EditContext" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
+        <DataAnnotationsValidator />
         <div class="col-md-6 mb-3">
             <label for="Bemærkninger" class="form-label">Bemærkninger</label>
             <InputTextArea id="Bemærkninger" class="form-control" @bind-Value="OrdreModel.Bemærkninger" />
@@ -36,6 +37,7 @@ else
         <div class="col-md-6 mb-3">
             <label for="SlutDato" class="form-label">Slut dato</label>
             <InputDate id="Dato" class="form-control" @bind-Value="OrdreModel.SlutDato" />
+            <ValidationMessage For="@(() => OrdreModel.SlutDato)" />
         </div>
         @if (OrdreModel.Udlejning != null)
         {
@@ -55,8 +57,16 @@ else
             <h4>Betaling</h4>
         </div>
         <div class="col-12 mb-3">
-            <label for="ErBetalt">Regning er betalt?</label>
+            <label for="ErBetalt">Ordre er betalt?</label>
             <InputCheckbox id="ErBetalt" @bind-Value="OrdreModel.ErBetalt" />
+        </div>
+
+        <div class="col-12">
+            <h4>Afslut ordre</h4>
+        </div>
+        <div class="col-12 mb-3">
+            <label for="ErAfsluttet">Skal ordren markeres som afsluttet?</label>
+            <InputCheckbox id="ErAfsluttet" @bind-Value="ordreAfsluttet" />
         </div>
 
         <div class="col-12 mb-3">
