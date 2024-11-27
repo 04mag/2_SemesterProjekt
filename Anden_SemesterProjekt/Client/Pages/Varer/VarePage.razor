@@ -1,9 +1,14 @@
 ﻿@using Anden_SemesterProjekt.Client.Components.Varer
+@using Anden_SemesterProjekt.Shared.Models
+@using Anden_SemesterProjekt.Client.Services
 @inject NavigationManager NavigationManager
-
+@inject HttpClient Http
 @page "/varer"
 
-<div class="container">
+<VareListComponent Varer="@varer"  />
+<VareOpretComponent OnVareAdded="@OnVareAddedHandler" /> 
+
+@* <div class="container">
     <!-- Overskrift -->
     <div class="row">
         <div class="col-12">
@@ -46,7 +51,7 @@
         </div>
     }
 </div>
-
+ *@
 
 
 

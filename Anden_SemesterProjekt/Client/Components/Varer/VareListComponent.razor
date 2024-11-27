@@ -1,12 +1,75 @@
 ﻿
- @if (Varer != null)
+<h3>Varer</h3>
+
+@if (Varer.Count < 1)
+{
+    <h5>Indlæser. Vent venligst...</h5>
+}
+
+@if (Varer.Count > 0)
+{
+    <table class="table table-sm">
+        <thead>
+            <tr>
+                <th>Navn</th>
+                <th>Pris</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vare in Varer.Where(v => v.ErAktiv == true))
+            {
+                <tr @onclick="() => VareBeskrivelse(vare)">
+                    <td>@vare.Beskrivelse</td>
+                    <td>@vare.Pris</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (detailsModal) 
+{
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close-button" @onclick="CloseModal">&times;</span>
+            <h3>Vare detaljer</h3>
+            <h4>Id: @valgtVare?.Id</h4>
+            <h4>Navn</h4> <p>@valgtVare?.Beskrivelse</p>
+            <h4>Pris</h4> <p>@valgtVare?.Pris</p>
+            <button class="btn btn-primary" @onclick="() => RedigerVare(valgtVare)">Rediger</button>
+        </div>
+    </div>
+}
+
+@if (editModal)
+{
+    <EditForm Model="redigeretVare" OnValidSubmit="@UpdateVare">
+        <div class="modal">
+            <div class="modal-content">
+                <span class="close-button" @onclick="CloseEditModal">&times;</span>
+                <h3>Navn:</h3>
+                <input type="text" @bind="redigeretVare.Beskrivelse" />
+                <h3>Pris:</h3>
+                <input type="number" @bind="redigeretVare.Pris" />
+                <button class="btn btn-primary" type="submit">Gem</button>
+                <p></p>
+                <button class="btn btn-primary" type="submit">Gem</button>
+                <p></p>
+                <button class="btn btn-danger btn-sm delete-button" @onclick="() =>DeleteVare(valgtVare)">Slet</button>
+
+            </div>
+        </div>
+    </EditForm>
+}
+
+@*  @if (Varer != null)
 {
     @foreach (var vare in Varer)
     {
         <VareRenderComponent VareModel="vare" OnSelectVare="OnSelectVare" OnDeleteVare="OnDeleteVare" OnEditVare="OnEditVare" />
 
     }
-} 
+}  *@
 
 
 

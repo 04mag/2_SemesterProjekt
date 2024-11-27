@@ -2,20 +2,28 @@
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components;
 using Anden_SemesterProjekt.Shared.Models;
+using System.Net.Http.Json;
+using System.Text.Json;
+using Microsoft.JSInterop;
 
 namespace Anden_SemesterProjekt.Client.Components.Varer
 {
     public partial class VareOpretComponent
     {
-    private Vare? vareModel = new Vare();
+    private Vare vareModel = new Vare();
         private EditContext editContext;
         private bool isSubmitting = false;
+        private bool addModal = false;
+
 
         [Inject]
         public IVareClientService VareService { get; set; }
 
         [Parameter]
         public EventCallback OnVareAdded { get; set; }
+
+        [Inject] private IJSRuntime JS { get; set; }
+
 
         protected override void OnInitialized()
         {
@@ -36,6 +44,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
                     Console.WriteLine($"Vare oprettet med ID: {result.Id}"); //Udskriver ID på den oprettede vare - succesmeddelelse
                     vareModel = new Vare(); //Nulstiller modellen, så formularen bliver tom
                     editContext = new EditContext(vareModel); //Opretter en ny EditContext til den nulstillede model
+                    await OnVareAdded.InvokeAsync();
                 }
                 else
                 {
@@ -57,6 +66,18 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         private void HandleInvalidSubmit() //Kaldes hvis formularen indeholder invalid data
         {
             Console.WriteLine("Formularen indeholder fejl.");
+        }
+
+        private async Task ShowAddModal()
+        {
+            addModal = true;
+            StateHasChanged();
+        }
+
+        private void CloseAddModal()
+        {
+            addModal = false;
+            StateHasChanged();
         }
     }
 }
