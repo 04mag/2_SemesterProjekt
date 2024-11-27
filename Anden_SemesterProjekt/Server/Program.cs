@@ -30,8 +30,8 @@ namespace Anden_SemesterProjekt
             //builder.Services.AddSingleton<IUdlejningRepository, UdlejningRepository>();
             //builder.Services.AddScoped<IUdlejningService, UdlejningService>();
 
-            //builder.Services.AddSingleton<IOrdreRepository, OrdreRepository>();
-            //builder.Services.AddScoped<IOrdreService, OrdreService>();
+            builder.Services.AddSingleton<IOrdreRepository, OrdreRepository>();
+            builder.Services.AddScoped<IOrdreService, OrdreService>();
 
             builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();
