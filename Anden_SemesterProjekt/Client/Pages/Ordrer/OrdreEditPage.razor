@@ -1,0 +1,65 @@
+﻿@page "/ordre/edit/{Id:int}"
+@using Anden_SemesterProjekt.Client.Components.Kunder
+
+@if (OrdreModel == null)
+{
+    <p>Ordre med ID: @Id blev ikke fundet</p>
+}
+else if (OrdreModel.ErAfsluttet == true)
+{
+    <p>Ordre med ID: @OrdreModel.OrdreId er allerede afsluttet og kan dermed ikke ændres.</p>
+}
+else
+{
+    <div class="row p-3 mb-5 border border-primary rounded">
+        <div class="col-md-6">
+            <h3>Rediger ordre med ID: @OrdreModel.OrdreId</h3>
+        </div>
+        <div class="col-md-6">
+            @if (OrdreModel.Kunde != null)
+            {
+                <h4 class="float-end">Kunde: @OrdreModel.Kunde.Navn</h4>
+            }
+        </div>
+    </div>
+
+    <EditForm class="row p-3 mb-5 border border-primary rounded">
+        <div class="col-12 mb-3">
+            <label for="Bemærkninger" class="form-label">Bemærkninger</label>
+            <InputText id="Bemærkninger" class="form-control" @bind-Value="OrdreModel.Bemærkninger" />
+            <ValidationMessage For="@(() => OrdreModel.Bemærkninger)" />
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="SlutDato" class="form-label">Slut dato</label>
+            <InputDate id="Dato" class="form-control" @bind-Value="OrdreModel.SlutDato" />
+        </div>
+        @if (OrdreModel.Udlejning != null)
+        {
+            <div class="col-12">
+                <h4>Udlejning</h4>
+            </div>
+            <div class="col-12 mb-3">
+                <label for="AntalKmKørt" class="form-label">Antal km kørt</label>
+                <InputNumber id="AntalKmKørt" class="form-control" @bind-Value="OrdreModel.Udlejning.AntalKmKørt" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="SelvrisikoUdløst" class="form-control">Selvrisiko udløst?</label>
+                <InputCheckbox id="SelvrisikoUdløst" class="form-control" @bind-Value="OrdreModel.Udlejning.SelvrisikoUdløst" />
+            </div>
+        }
+        @if (OrdreModel.ErBetalt == false)
+        {
+            <div class="col-12">
+                <h4>Betaling</h4>
+            </div>
+            <div class="col-12 mb-3">
+                <label for="ErBetalt" class="form-control">Regning er betalt?</label>
+                <InputCheckbox id="ErBetalt" class="form-control" @bind-Value="OrdreModel.ErBetalt" />
+            </div>
+        }
+
+        <div class="col-12 mb-3">
+            <button type="submit" class="btn btn-primary">Gem</button>
+        </div>
+    </EditForm>
+}
