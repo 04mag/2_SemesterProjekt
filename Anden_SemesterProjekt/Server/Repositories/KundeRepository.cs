@@ -49,7 +49,17 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
-                _context.Kunder.Remove(kunde);
+                bool aktiveOrdrer = _context.Ordrer.Any(o => o.KundeId == id && o.ErAfsluttet == false);
+
+                if (aktiveOrdrer)
+                {
+                    return false;
+                }
+
+                kunde.ErAktiv = false;
+
+                UpdateKunde(kunde);
+
                 _context.SaveChanges();
                 return true;
             }
@@ -72,7 +82,28 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns>Retunerer kunde object. Null hvis ikke fundet.</returns>
         public Kunde? ReadKunde(int id)
         {
-            return _context.Kunder.Find(id);
+            try
+            {
+                var result = _context.Kunder
+                    .Include(k => k.Scootere).ThenInclude(s => s.Mærke)
+                    .Include(k => k.TlfNumre)
+                    .Include(k => k.TilknyttetMekaniker).ThenInclude(m => m.Mærker)
+                    .Include(k => k.Ordrer)
+                    .Include(k => k.Adresse).ThenInclude(a => a.By).Where(k => k.KundeId == id).FirstOrDefault();
+
+                if (result == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return result;
+                }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
@@ -89,6 +120,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.TilknyttetMekaniker)
                     .Include(k => k.Ordrer)
                     .Include(k => k.Adresse).ThenInclude(a => a.By)
+                    .Where(k => k.ErAktiv == true)
                     .ToList();
 
                 if (result.Count == 0)
@@ -124,6 +156,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.Ordrer)
                     .Where(k => k.TlfNumre.Any(t => t.TelefonNummer.Contains(tlfNummer, StringComparison.OrdinalIgnoreCase)))
                     .Where(k => k.Scootere.Any(s => s.Mærke.ScooterMærke.Contains(mærke, StringComparison.OrdinalIgnoreCase)))
+                    .Where(k => k.ErAktiv == true)
                     .ToList();
 
                 if (result.Count == 0)
@@ -148,15 +181,46 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// <returns>Om opdatering var successfuld som bool.</returns>
         public bool UpdateKunde(Kunde kunde)
         {
-            var result = _context.Kunder.Find(kunde.KundeId);
-
-            if (result == null)
+            var existingKunde = _context.Kunder.Find(kunde.KundeId);
+            if (existingKunde == null)
             {
                 return false;
             }
             else
             {
-                _context.Update(kunde);
+                //Setter alle værdier på existingKunde til værdierne på kunde
+                _context.Entry(existingKunde).CurrentValues.SetValues(kunde);
+
+
+                //Opdaterer adresse
+                var existingAdresse = _context.Adresser.Find(kunde.Adresse.AdresseId);
+                if (existingAdresse == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    _context.Entry(existingAdresse).CurrentValues.SetValues(kunde.Adresse);
+                }
+
+
+                //Sletter tlfNumre fra database som ikke længere findes i kunde objektet
+                //Finder Id på alle kundens tlfnumre
+                var allValidIds = kunde.TlfNumre.Select(t => t.TlfNummerId).ToList();
+                //Finder alle tlfnumre som ikke findes i kunde objektet
+                var missingRows = _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToList();
+                
+
+                foreach (var nummer in kunde.TlfNumre)
+                {
+                    if (nummer.TlfNummerId == 0)
+                    {
+                        existingKunde.TlfNumre.Add(nummer);
+                    }
+                }
+                
+                existingKunde.TlfNumre = existingKunde.TlfNumre.Except(missingRows).ToList();
+
                 _context.SaveChanges();
                 return true;
             }

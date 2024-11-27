@@ -31,10 +31,12 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"));
 
                     b.Property<string>("Dørnummer")
+                        .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("Etage")
+                        .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
 
@@ -48,15 +50,22 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
+                    b.Property<int>("KundeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Postnummer")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Side")
-                        .HasMaxLength(2)
-                        .HasColumnType("nvarchar(2)");
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .HasColumnType("nvarchar(3)");
 
                     b.HasKey("AdresseId");
+
+                    b.HasIndex("KundeId")
+                        .IsUnique();
 
                     b.HasIndex("Postnummer");
 
@@ -132,14 +141,14 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KundeId"));
 
-                    b.Property<int>("AdresseId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MekanikerId")
+                    b.Property<bool>("ErAktiv")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("MekanikerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Navn")
@@ -148,9 +157,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("KundeId");
-
-                    b.HasIndex("AdresseId")
-                        .IsUnique();
 
                     b.HasIndex("MekanikerId");
 
@@ -332,6 +338,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScooterId"));
 
+                    b.Property<bool>("ErAktiv")
+                        .HasColumnType("bit");
+
                     b.Property<int>("MærkeId")
                         .HasColumnType("int");
 
@@ -340,7 +349,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Stelnummer")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("ScooterId");
 
@@ -616,9 +626,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasBaseType("Anden_SemesterProjekt.Shared.Models.Scooter");
 
-                    b.Property<bool>("ErAktiv")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("ErTilgængelig")
                         .HasColumnType("bit");
 
@@ -637,6 +644,12 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
                 {
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
+                        .WithOne("Adresse")
+                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Adresse", "KundeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
                         .WithMany("Adresser")
                         .HasForeignKey("Postnummer")
@@ -644,23 +657,15 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("By");
+
+                    b.Navigation("Kunde");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Adresse", "Adresse")
-                        .WithOne("Kunde")
-                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Kunde", "AdresseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
-                        .HasForeignKey("MekanikerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Adresse");
+                        .HasForeignKey("MekanikerId");
 
                     b.Navigation("TilknyttetMekaniker");
                 });
@@ -802,11 +807,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
-                {
-                    b.Navigation("Kunde");
-                });
-
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
                 {
                     b.Navigation("Adresser");
@@ -814,6 +814,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
+                    b.Navigation("Adresse")
+                        .IsRequired();
+
                     b.Navigation("Ordrer");
 
                     b.Navigation("Scootere");

@@ -29,7 +29,11 @@ namespace Anden_SemesterProjekt.Server.Context
             modelBuilder.Entity<Vare>().ToTable("Varer");
             modelBuilder.Entity<Ydelse>().ToTable("Ydelser");
 
-           
+
+            // Oprette separate tabeller for hver Type.
+
+
+
             modelBuilder.Entity<Mærke>().HasData(
                 new Mærke { MærkeId = 1, ScooterMærke = "Aprilla" },
                 new Mærke { MærkeId = 2, ScooterMærke = "Derbi" },

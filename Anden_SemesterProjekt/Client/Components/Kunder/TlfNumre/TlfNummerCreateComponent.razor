@@ -1,6 +1,6 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
 
-<EditForm EditContext="editContext" class="col-12 p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
     
     <div class="col-md-12 mb-3">
         <label for="TelefonNummer">Telefonnummer (+45)</label>
@@ -29,10 +29,10 @@
         editContext = new EditContext(tlfNummerModel);
     }
 
-    private void HandleValidSubmit()
+    private async void HandleValidSubmit()
     {
         isSubmitting = true;
-        OnInputSuccess.InvokeAsync(tlfNummerModel);
+        await OnInputSuccess.InvokeAsync(tlfNummerModel);
         tlfNummerModel = new TlfNummer();
         isSubmitting = false;
     }
