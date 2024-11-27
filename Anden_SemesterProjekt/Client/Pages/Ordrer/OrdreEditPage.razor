@@ -1,7 +1,7 @@
 ﻿@page "/ordre/edit/{Id:int}"
 @using Anden_SemesterProjekt.Client.Components.Kunder
 
-@if (OrdreModel == null)
+@if (OrdreModel == null || OrdreModel.OrdreId == 0)
 {
     <p>Ordre med ID: @Id blev ikke fundet</p>
 }
@@ -23,7 +23,7 @@ else
         </div>
     </div>
 
-    <EditForm class="row p-3 mb-5 border border-primary rounded">
+    <EditForm class="row p-3 mb-5 border border-primary rounded" EditContext="EditContext">
         <div class="col-12 mb-3">
             <label for="Bemærkninger" class="form-label">Bemærkninger</label>
             <InputText id="Bemærkninger" class="form-control" @bind-Value="OrdreModel.Bemærkninger" />
@@ -47,16 +47,13 @@ else
                 <InputCheckbox id="SelvrisikoUdløst" class="form-control" @bind-Value="OrdreModel.Udlejning.SelvrisikoUdløst" />
             </div>
         }
-        @if (OrdreModel.ErBetalt == false)
-        {
-            <div class="col-12">
-                <h4>Betaling</h4>
-            </div>
-            <div class="col-12 mb-3">
-                <label for="ErBetalt" class="form-control">Regning er betalt?</label>
-                <InputCheckbox id="ErBetalt" class="form-control" @bind-Value="OrdreModel.ErBetalt" />
-            </div>
-        }
+        <div class="col-12">
+            <h4>Betaling</h4>
+        </div>
+        <div class="col-12 mb-3">
+            <label for="ErBetalt">Regning er betalt?</label>
+            <InputCheckbox id="ErBetalt" @bind-Value="OrdreModel.ErBetalt" />
+        </div>
 
         <div class="col-12 mb-3">
             <button type="submit" class="btn btn-primary">Gem</button>

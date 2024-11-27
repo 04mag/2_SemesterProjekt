@@ -1,6 +1,7 @@
 ﻿using Anden_SemesterProjekt.Client.Services;
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 {
@@ -12,12 +13,19 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
         [Inject]
         public IOrdreClientService OrdreService { get; set; }
 
-        public Ordre? OrdreModel { get; set; }
+        public Ordre? OrdreModel { get; set; } = new Ordre();
+
+        public EditContext EditContext { get; set; }
+
+        protected override void OnInitialized()
+        {
+            EditContext = new EditContext(OrdreModel);
+        }
 
         protected override async Task OnInitializedAsync()
         {
             Console.WriteLine("Ordre indhentes!");
-            Ordre? ordreResult = await OrdreService.GetOrdre(Id);
+            var ordreResult = await OrdreService.GetOrdre(Id);
             
             if (ordreResult == null)
             {
