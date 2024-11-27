@@ -16,7 +16,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<Ordre>($"api/Ordre/{id}");
+                return await _httpClient.GetFromJsonAsync<Ordre>($"api/ordre/{id}");
             }
             catch
             {
@@ -28,7 +28,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<Ordre>>("api/Ordre");
+                return await _httpClient.GetFromJsonAsync<List<Ordre>>("api/ordre");
             }
             catch
             {
@@ -40,7 +40,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.PostAsJsonAsync("api/Ordre", ordre);
+                return await _httpClient.PostAsJsonAsync("api/ordre", ordre);
             }
             catch
             {
@@ -52,7 +52,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.DeleteAsync($"api/Ordre/{id}");
+                return await _httpClient.DeleteAsync($"api/ordre/{id}");
             }
             catch
             {
@@ -64,7 +64,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.PutAsJsonAsync("api/Ordre", ordre);
+                return await _httpClient.PutAsJsonAsync("api/ordre", ordre);
             }
             catch
             {
