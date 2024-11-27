@@ -1,7 +1,11 @@
 ﻿@page "/ordre/edit/{Id:int}"
 @using Anden_SemesterProjekt.Client.Components.Kunder
 
-@if (OrdreModel == null || OrdreModel.OrdreId == 0)
+@if (OrdreModel != null && OrdreModel.OrdreId == 0)
+{
+    <p>Ordre indlæses...</p>
+}
+else if (OrdreModel == null)
 {
     <p>Ordre med ID: @Id blev ikke fundet</p>
 }
@@ -24,9 +28,9 @@ else
     </div>
 
     <EditForm class="row p-3 mb-5 border border-primary rounded" EditContext="EditContext">
-        <div class="col-12 mb-3">
+        <div class="col-md-6 mb-3">
             <label for="Bemærkninger" class="form-label">Bemærkninger</label>
-            <InputText id="Bemærkninger" class="form-control" @bind-Value="OrdreModel.Bemærkninger" />
+            <InputTextArea id="Bemærkninger" class="form-control" @bind-Value="OrdreModel.Bemærkninger" />
             <ValidationMessage For="@(() => OrdreModel.Bemærkninger)" />
         </div>
         <div class="col-md-6 mb-3">
@@ -38,13 +42,13 @@ else
             <div class="col-12">
                 <h4>Udlejning</h4>
             </div>
-            <div class="col-12 mb-3">
+            <div class="col-md-6 mb-3">
                 <label for="AntalKmKørt" class="form-label">Antal km kørt</label>
                 <InputNumber id="AntalKmKørt" class="form-control" @bind-Value="OrdreModel.Udlejning.AntalKmKørt" />
             </div>
             <div class="col-md-6 mb-3">
-                <label for="SelvrisikoUdløst" class="form-control">Selvrisiko udløst?</label>
-                <InputCheckbox id="SelvrisikoUdløst" class="form-control" @bind-Value="OrdreModel.Udlejning.SelvrisikoUdløst" />
+                <label for="SelvrisikoUdløst">Selvrisiko udløst?</label>
+                <InputCheckbox id="SelvrisikoUdløst" @bind-Value="OrdreModel.Udlejning.SelvrisikoUdløst" />
             </div>
         }
         <div class="col-12">
