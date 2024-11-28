@@ -39,11 +39,23 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<List<Ordre>> ReadOrdrerAsync()
         {
             return await _context.Ordrer
-                .Include(o => o.Kunde)
+                .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
                 .Include(o => o.KundeScooter)
                 .Include(o => o.Mekaniker)
                 .Include(o => o.VareLinjer)
-                .Include(o => o.Udlejning)
+                .Include(o => o.Udlejning).ThenInclude(u => u.UdlejningsScooter)
+                .ToListAsync();
+        }
+
+        public async Task<List<Ordre>> ReadOrdrerAsync(int kundeId)
+        {
+            return await _context.Ordrer
+                .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
+                .Include(o => o.KundeScooter)
+                .Include(o => o.Mekaniker)
+                .Include(o => o.VareLinjer)
+                .Include(o => o.Udlejning).ThenInclude(u => u.UdlejningsScooter)
+                .Where(o => o.KundeId == kundeId)
                 .ToListAsync();
         }
 

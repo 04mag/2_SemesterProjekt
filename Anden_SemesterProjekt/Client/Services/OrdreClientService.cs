@@ -36,6 +36,18 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
+        public async Task<List<Ordre>?> GetOrdrer(int kundeId)
+        {
+            try
+            {
+                return await _httpClient.GetFromJsonAsync<List<Ordre>>($"api/ordre/kunde/{kundeId}");
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public async Task<HttpResponseMessage> AddOrdre(Ordre ordre)
         {
             try

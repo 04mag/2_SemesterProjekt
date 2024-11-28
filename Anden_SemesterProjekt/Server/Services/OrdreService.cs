@@ -22,6 +22,11 @@ namespace Anden_SemesterProjekt.Server.Services
             return await _ordreRepository.ReadOrdrerAsync();
         }
 
+        public async Task<List<Ordre>> GetOrdrerAsync(int kundeId)
+        {
+            return await _ordreRepository.ReadOrdrerAsync(kundeId);
+        }
+
         public async Task<int> AddOrdreAsync(Ordre ordre)
         {
             return await _ordreRepository.CreateOrdreAsync(ordre);
