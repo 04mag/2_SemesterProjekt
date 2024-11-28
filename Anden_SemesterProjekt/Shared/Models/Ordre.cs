@@ -26,5 +26,26 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int? MekanikerId { get; set; }
         public Mekaniker? Mekaniker { get; set; }
         public string Bemærkninger { get; set; } = string.Empty;
+
+        public string GetStatus()
+        {
+            if (ErAfsluttet && ErBetalt)
+            {
+                return "Kvittering";
+            }
+            else if (ErAfsluttet && !ErBetalt)
+            {
+                return "Faktura";
+            }
+            else
+            {
+                return "Uafsluttet";
+            }
+        }
+
+        public string IdToString()
+        {
+            return OrdreId.ToString();
+        }
     }
 }
