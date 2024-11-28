@@ -1,0 +1,62 @@
+﻿
+<!--Style kopieret fra Mathias, indtil videre-->
+<div class="col-12 mb-2 p-3">
+    <div>
+        <div class="card">
+            <!-- Header med vareoplysninger og handlinger -->
+            <div class="card-header">
+                <div class="row p-3">
+                    <div class="col-md-6 align-content-center">
+                        <h5 class="card-title">(@VareModel?.Id) @VareModel?.Beskrivelse</h5>
+                    </div>
+                    <div class="col-md-6 align-content-center">
+                        @if (OnDeleteVare.HasDelegate)
+                        {
+                            <button class="btn btn-danger m-1 float-end" @onclick="async () => await OnDeleteVare.InvokeAsync(VareModel)">Slet</button>
+                        }
+                        @if (OnEditVare.HasDelegate)
+                        {
+                            <button class="btn btn-warning m-1 float-end" @onclick="async () => await OnEditVare.InvokeAsync(VareModel)">Rediger</button>
+                        }
+                        @if (OnSelectVare.HasDelegate)
+                        {
+                            <button class="btn btn-primary m-1 float-end" @onclick="async () => await OnSelectVare.InvokeAsync(VareModel)">Vælg</button>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Varedetaljer i body -->
+            <div class="card-body">
+                <div class="row p-3 mb-3">
+                    <div class="col-md-6 mb-3">
+                        <label>Pris:</label>
+                        <p class="card-text">@VareModel?.Pris.ToString("C")</p>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label>Status:</label>
+                         <p class="card-text">
+                            @if (VareModel?.ErAktiv == true)
+                            {
+                                <span class="text-success">Aktiv</span>
+                            }
+                            else
+                            {
+                                <span class="text-danger">Inaktiv</span>
+                            }
+                        </p> 
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+             <div class="card-footer">
+                <div class="p-3">
+                    <p>Status: @VareModel?.ErAktiv ? "Aktiv" : "Inaktiv"</p>
+                </div>
+            </div> 
+        </div>
+    </div>
+</div>
+
+

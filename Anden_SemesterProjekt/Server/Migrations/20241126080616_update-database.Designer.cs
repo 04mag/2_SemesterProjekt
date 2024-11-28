@@ -4,6 +4,7 @@ using Anden_SemesterProjekt.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    partial class SLContextModelSnapshot : ModelSnapshot
+    [Migration("20241126080616_update-database")]
+    partial class updatedatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,12 +34,10 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdresseId"));
 
                     b.Property<string>("Dørnummer")
-                        .IsRequired()
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
                     b.Property<string>("Etage")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
 
@@ -50,22 +51,15 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasMaxLength(5)
                         .HasColumnType("nvarchar(5)");
 
-                    b.Property<int>("KundeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Postnummer")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Side")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)");
 
                     b.HasKey("AdresseId");
-
-                    b.HasIndex("KundeId")
-                        .IsUnique();
 
                     b.HasIndex("Postnummer");
 
@@ -141,14 +135,14 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("KundeId"));
 
+                    b.Property<int>("AdresseId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("ErAktiv")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("MekanikerId")
+                    b.Property<int>("MekanikerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Navn")
@@ -157,6 +151,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("KundeId");
+
+                    b.HasIndex("AdresseId")
+                        .IsUnique();
 
                     b.HasIndex("MekanikerId");
 
@@ -308,11 +305,14 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<int?>("MekanikerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SlutDato")
+                    b.Property<DateTime?>("SlutDato")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("StartDato")
+                    b.Property<DateTime?>("StartDato")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("UdlejningsScooterId")
+                        .HasColumnType("int");
 
                     b.HasKey("OrdreId");
 
@@ -321,6 +321,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("KundeScooterId");
 
                     b.HasIndex("MekanikerId");
+
+                    b.HasIndex("UdlejningsScooterId");
 
                     b.ToTable("Ordrer");
                 });
@@ -333,9 +335,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ScooterId"));
 
-                    b.Property<bool>("ErAktiv")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MærkeId")
                         .HasColumnType("int");
 
@@ -344,8 +343,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Stelnummer")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ScooterId");
 
@@ -418,8 +416,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("UdlejningId");
 
-                    b.HasIndex("OrdreId")
-                        .IsUnique();
+                    b.HasIndex("OrdreId");
 
                     b.HasIndex("UdlejningsScooterId");
 
@@ -622,6 +619,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasBaseType("Anden_SemesterProjekt.Shared.Models.Scooter");
 
+                    b.Property<bool>("ErAktiv")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("ErTilgængelig")
                         .HasColumnType("bit");
 
@@ -640,12 +640,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
                 {
-                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
-                        .WithOne("Adresse")
-                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Adresse", "KundeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.By", "By")
                         .WithMany("Adresser")
                         .HasForeignKey("Postnummer")
@@ -653,15 +647,23 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("By");
-
-                    b.Navigation("Kunde");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.Adresse", "Adresse")
+                        .WithOne("Kunde")
+                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Kunde", "AdresseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "TilknyttetMekaniker")
                         .WithMany()
-                        .HasForeignKey("MekanikerId");
+                        .HasForeignKey("MekanikerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Adresse");
 
                     b.Navigation("TilknyttetMekaniker");
                 });
@@ -680,11 +682,17 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .WithMany("Ordrer")
                         .HasForeignKey("MekanikerId");
 
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", "UdlejningsScooter")
+                        .WithMany()
+                        .HasForeignKey("UdlejningsScooterId");
+
                     b.Navigation("Kunde");
 
                     b.Navigation("KundeScooter");
 
                     b.Navigation("Mekaniker");
+
+                    b.Navigation("UdlejningsScooter");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
@@ -712,8 +720,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Udlejning", b =>
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Ordre", "Ordre")
-                        .WithOne("Udlejning")
-                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Udlejning", "OrdreId")
+                        .WithMany()
+                        .HasForeignKey("OrdreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -797,6 +805,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Adresse", b =>
+                {
+                    b.Navigation("Kunde");
+                });
+
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.By", b =>
                 {
                     b.Navigation("Adresser");
@@ -804,9 +817,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Kunde", b =>
                 {
-                    b.Navigation("Adresse")
-                        .IsRequired();
-
                     b.Navigation("Ordrer");
 
                     b.Navigation("Scootere");
@@ -826,8 +836,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Ordre", b =>
                 {
-                    b.Navigation("Udlejning");
-
                     b.Navigation("VareLinjer");
                 });
 

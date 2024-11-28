@@ -1,0 +1,37 @@
+﻿
+<EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <h3>Opret ny vare</h3>
+    </div>
+
+    <!-- Beskrivelse -->
+    <div class="col-12 mb-3">
+        <label for="Beskrivelse" class="form-label">Beskrivelse</label>
+        <InputTextArea id="Beskrivelse" class="form-control" @bind-Value="vareModel.Beskrivelse" />
+        <ValidationMessage For="@(() => vareModel.Beskrivelse)" />
+    </div>
+
+    <!-- Pris -->
+    <div class="col-md-6 mb-3">
+        <label for="Pris" class="form-label">Pris (DKK)</label>
+        <InputNumber id="Pris" class="form-control" @bind-Value="vareModel.Pris" />
+        <ValidationMessage For="@(() => vareModel.Pris)" />
+    </div>
+
+    <!-- Submit-knap -->
+    <div class="col-12 mb-3">
+        <button disabled="@isSubmitting" type="submit" class="btn btn-primary">Opret vare</button>
+    </div>
+
+</EditForm>
+
+
+
+
+            
+        
+        
+
+
+
