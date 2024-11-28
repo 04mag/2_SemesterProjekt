@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Shared.Models
        
         public bool ErAktiv { get; set; }
         [JsonIgnore]
-        public List<VareLinje> VareLinjer { get; set; }
+        public List<VareLinje>? VareLinjer { get; set; }
 
         public Vare()
         {

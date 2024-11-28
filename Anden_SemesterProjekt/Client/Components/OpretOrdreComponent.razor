@@ -1,0 +1,30 @@
+﻿@page "/sko"
+<div class="row">
+   @*  <div class="col-6"> *@
+        <label class="col 6"></label>
+   @*  </div> *@
+</div>
+<div class="row">
+<div class=" col-6 search-container">
+    <input type="text"
+           class="form-control"
+           placeholder="Søg varer ..."
+           @bind="søgeTekst"
+           @oninput="OnSearchTextChanged" />
+    @if (visForslag)
+    {
+        <ul class="liste">
+            @foreach (var vare in vareForslag)
+            {
+                <li @onclick="(() => vælgVare(vare))">
+                    @vare.Beskrivelse, @vare.Pris
+                </li>
+            }
+        </ul>
+    }
+</div>
+<div class="col-1">
+    <InputNumber id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal" />
+
+</div>
+</div>
