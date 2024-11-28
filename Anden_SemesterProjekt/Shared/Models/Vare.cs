@@ -20,9 +20,9 @@ namespace Anden_SemesterProjekt.Shared.Models
         
         public double Pris { get; set; }
        
-        public bool ErAktiv { get; set; }
+        public bool ErAktiv { get; set; } = true;
         [JsonIgnore]
-        public List<VareLinje>? VareLinjer { get; set; }
+        public List<VareLinje>? VareLinjer { get; set; } = new List<VareLinje>();
 
         public Vare()
         {
