@@ -16,22 +16,19 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
     public partial class VarePage
     {
         private List<Vare> varer = new List<Vare>();
-        private List<Vare>? filteredVarer;
+        
         private VareListComponent vareListComponent;
 
         //En service, som skal injectes til at hente og manipulere data fra serveren via api kaldet. 
         [Inject]
         public IVareClientService VareService { get; set; }
 
-        private async Task HandleChildChange()
-        {
-            varer = await VareService.GetAktiveVarer();
-            StateHasChanged();
-        }
+       
         //Denne metoder opdaterer listen over varer, når der er tilføjet en ny vare. Ved genkald af metoden "UpdateVare".
         private async Task OnVareAddedHandler()
         {
             varer = await VareService.GetAktiveVarer();
+            StateHasChanged();
         }
         protected override async Task OnInitializedAsync()
         {
@@ -39,36 +36,19 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
             {
                 // Hent varer fra tjenesten
                 varer = await VareService.GetAktiveVarer();
-                filteredVarer = varer ?? new List<Vare>(); // Undgå null
+                
+                
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Fejl ved hentning af varer: {ex.Message}");
                 varer = new List<Vare>();
-                filteredVarer = new List<Vare>();
+                
             }
         }
 
 
-        private string searchTerm = string.Empty;
-
-        private void FilterVarer(ChangeEventArgs e)
-        {
-            // Sikrer, at e.Value ikke er null
-            if (e.Value == null || varer == null)
-            {
-                filteredVarer = varer ?? new List<Vare>();
-                return;
-            }
-
-            // Konverter søgestreng til lowercase og håndter null
-            var searchTerm = e.Value.ToString()?.ToLower();
-
-            // Filtrér listen baseret på søgetekst
-            filteredVarer = varer
-                .Where(v => v.Beskrivelse != null && v.Beskrivelse.ToLower().Contains(searchTerm))
-                .ToList();
-        }
+        
 
     }
 }

@@ -5,27 +5,11 @@
 @inject HttpClient Http
 @page "/varer"
 
-<div class="container">
-    <!-- Overskrift og søgefelt -->
-    <div class="row align-items-center mb-4">
-        <!-- Vareoversigt -->
-        <div class="col-6">
-            <h3 class="mb-0">Vareoversigt</h3>
-        </div>
 
-        <!-- Søgefelt -->
-        <div class="col-6 text-end">
-            <input type="text"
-                   class="form-control"
-                   placeholder="Søg efter varer..."
-                   @bind="searchTerm"
-                   @oninput="FilterVarer" />
-        </div>
-    </div>
 
     <!-- Tabel med varer -->
-    <VareListComponent Varer="filteredVarer" />
-</div>
+    <VareListComponent Varer="@varer" />
+
 
 
 <VareOpretComponent OnVareAdded="@OnVareAddedHandler" /> 

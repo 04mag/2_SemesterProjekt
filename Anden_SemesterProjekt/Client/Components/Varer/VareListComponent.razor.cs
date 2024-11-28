@@ -19,6 +19,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private Vare valgtVare = new Vare();
         private Vare redigeretVare = new Vare();
+        private List<Vare>? filteredVarer = new List<Vare>();
 
         [Parameter]
         public EventCallback<Vare> OnSelectVare { get; set; }
@@ -35,17 +36,40 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         {
             try 
             { 
-                Varer = await VareClientService.GetAktiveVarer(); 
+                Varer = await VareClientService.GetAktiveVarer();
+                filteredVarer = Varer ?? new List<Vare>();
             }
             catch (Exception e)
             {
                 Console.WriteLine($"Fejl ved hentning af varer: {e.Message}");
+                Varer = new List<Vare>();
+                filteredVarer = new List<Vare>();
             }
             finally
             {
                 IsLoading = false; 
             }
             
+        }
+
+        private string searchTerm = string.Empty;
+
+        private void FilterVarer(ChangeEventArgs e)
+        {
+            // Sikrer, at e.Value ikke er null
+            if (e.Value == null || Varer == null)
+            {
+                filteredVarer = Varer ?? new List<Vare>();
+                return;
+            }
+
+            // Konverter søgestreng til lowercase og håndter null
+            var searchTerm = e.Value.ToString()?.ToLower();
+
+            // Filtrér listen baseret på søgetekst
+            Varer = Varer
+                .Where(v => v.Beskrivelse != null && v.Beskrivelse.ToLower().Contains(searchTerm))
+                .ToList();
         }
 
         private void VareBeskrivelse(Vare vare)
