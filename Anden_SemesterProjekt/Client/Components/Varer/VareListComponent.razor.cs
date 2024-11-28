@@ -9,13 +9,13 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 {
     public partial class VareListComponent
     {
+        [Parameter, EditorRequired]
+        public List<Vare>? Varer { get; set; } = new List<Vare>();
         [Inject] private IJSRuntime JS {  get; set; } //JavaScript runtime
         [Inject] public IVareClientService VareClientService { get; set; }
 
-        [Parameter, EditorRequired]
-        public List<Vare>? Varer { get; set; } = new List<Vare>();
-
-        public string searchString = ""; 
+        public string searchString = "";
+        public bool IsLoading { get; set; } = true; 
 
         private Vare valgtVare = new Vare();
         private Vare redigeretVare = new Vare();
@@ -27,12 +27,25 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         [Parameter]
         public EventCallback<Vare> OnDeleteVare { get; set; }
 
+        private int Id; 
         private bool detailsModal = false;
         private bool editModal = false;
 
         protected override async Task OnInitializedAsync()
         {
-            Varer = await VareClientService.GetAktiveVarer();
+            try 
+            { 
+                Varer = await VareClientService.GetAktiveVarer(); 
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Fejl ved hentning af varer: {e.Message}");
+            }
+            finally
+            {
+                IsLoading = false; 
+            }
+            
         }
 
         private void VareBeskrivelse(Vare vare)
@@ -52,6 +65,13 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
                 }
             }
         }
+
+        public void UpdateList(List<Vare> updatedVarer)
+        {
+            Varer = updatedVarer;
+            StateHasChanged();
+        }
+
         private void RedigerVare(Vare vare)
         {
             valgtVare = vare;

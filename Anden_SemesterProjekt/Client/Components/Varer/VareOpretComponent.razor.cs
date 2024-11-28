@@ -10,7 +10,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 {
     public partial class VareOpretComponent
     {
-    private Vare vareModel = new Vare();
+        private Vare vareModel = new Vare();
         private EditContext editContext;
         private bool isSubmitting = false;
         private bool addModal = false;
