@@ -1,0 +1,44 @@
+﻿@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
+
+@page "/ordre/{OrdreId:int}"
+
+<div class="row p-3">
+    <h2>Scooterland</h2>
+
+    <div class="col-md-6">
+        <span>Scootervej 47</span>
+        <span>8000 Aarhus C</span>
+        <span>Telefon: (+45)13354758</span>
+        <span>Email: mail@scooterland.dk</span>
+    </div>
+    <div class="col-md-6">
+        <div class="col-md-3 mb-3">
+            <span class="card-text">@OrdreModel.Kunde.Adresse</span>
+            <br />
+            <span class="card-text">@OrdreModel.Kunde.Adresse.Postnummer</span>
+            <span class="card-text">@OrdreModel.Kunde.Adresse.By.ByNavn</span>
+        </div>
+    </div>
+    
+</div>
+
+@code {
+    [Parameter]
+    public int OrdreId { get; set; }
+
+    [Inject]
+    public IOrdreClientService OrdreService { get; set; }
+
+    public Ordre OrdreModel { get; set; } = new Ordre();
+
+    override protected async Task OnInitializedAsync()
+    {
+        var ordreResult = await OrdreService.GetOrdre(OrdreId);
+
+        if (ordreResult != null)
+        {
+            OrdreModel = ordreResult;
+        }
+    }
+}
