@@ -7,23 +7,33 @@
     <h2>Scooterland</h2>
 
     <div class="col-md-6">
-        <span>Scootervej 47</span>
-        <span>8000 Aarhus C</span>
-        <span>Telefon: (+45)13354758</span>
-        <span>Email: mail@scooterland.dk</span>
-    </div>
-    <div class="col-md-6">
-        <div class="col-md-3 mb-3">
-            <span class="card-text">@OrdreModel.Kunde.Adresse</span>
+        <div>
+            <span>Scootervej 47</span>
             <br />
-            <span class="card-text">@OrdreModel.Kunde.Adresse.Postnummer</span>
-            <span class="card-text">@OrdreModel.Kunde.Adresse.By.ByNavn</span>
+            <span>8000 Aarhus C</span>
+            <br />
+            <span>Telefon: (+45)13354758</span>
+            <br />
+            <span>Email: mail@scooterland.dk</span>
         </div>
     </div>
-    
+    <div class="col-md-6">
+        @if (OrdreModel.Kunde != null && OrdreModel.Kunde.Adresse != null && OrdreModel.Kunde.Adresse.By != null)
+        {
+            <div class="float-end">
+                <span>@OrdreModel.Kunde.Navn</span>
+                <br />
+                <span>@OrdreModel.Kunde.Adresse</span>
+                <br />
+                <span>@OrdreModel.Kunde.Adresse.Postnummer</span>
+                <span>@OrdreModel.Kunde.Adresse.By.ByNavn</span>
+            </div>
+        }
+    </div>
 </div>
 
 @code {
+
     [Parameter]
     public int OrdreId { get; set; }
 
@@ -41,4 +51,5 @@
             OrdreModel = ordreResult;
         }
     }
+
 }
