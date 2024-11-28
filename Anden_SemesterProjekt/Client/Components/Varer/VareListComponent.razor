@@ -9,10 +9,10 @@
         <!-- Søgefelt -->
         <div class="col-6 text-end">
             <input type="text"
-                   class="form-control"
-                   placeholder="Søg efter varer..."
-                   @bind="searchTerm"
-                   @oninput="FilterVarer" />
+            class="form-control"
+            placeholder="Søg efter varer..."
+            @bind="searchTerm"
+            @oninput="FilterVarer" />
         </div>
     </div>
 </div>    
@@ -34,7 +34,7 @@
             <tbody>
                 @foreach (var vare in filteredVarer)
                 {
-                    <tr>
+                    <tr @onclick="() => VareBeskrivelse(vare)">
                         <td>@vare.Beskrivelse</td>
                         <td style="text-align: right;">@($"{vare.Pris:N2} kr")</td>
                     </tr>
@@ -43,14 +43,7 @@
         </table>
     }
 </div>
-
-
-
-
-
-
-
-@* @if (detailsModal) 
+@if (detailsModal) 
 {
     <div class="modal">
         <div class="modal-content">
@@ -78,11 +71,18 @@
                 <p></p>
                 <button class="btn btn-primary" type="submit">Gem</button>
                 <p></p>
-                <button class="btn btn-danger btn-sm delete-button" @onclick="() =>DeleteVare(valgtVare)">Slet</button>
+                
 
             </div>
         </div>
     </EditForm>
+ }
+
+
+
+
+
+@* 
 }
 <div class="row">
     @if (Varer != null && Varer.Any())
