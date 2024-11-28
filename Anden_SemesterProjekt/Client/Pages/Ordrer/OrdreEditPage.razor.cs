@@ -54,6 +54,11 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
             if (OrdreModel != null && ordreAfsluttet)
             {
                 OrdreModel.ErAfsluttet = true;
+
+                if (OrdreModel.Udlejning != null)
+                {
+                    OrdreModel.Udlejning.UdlejningsScooter!.ErTilgængelig = true;
+                }
             }
             
             if (OrdreModel != null)

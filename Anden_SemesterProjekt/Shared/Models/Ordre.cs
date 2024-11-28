@@ -19,7 +19,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime? BetalingsDato { get; set; }
         public bool ErBetalt { get; set; }
         public bool ErAfsluttet { get; set; }
-        [OrdreStartDatoCheck]
         public DateTime StartDato { get; set; } = DateTime.Now;
         [OrdreSlutDatoCheck]
         public DateTime SlutDato { get; set; } = DateTime.Now;

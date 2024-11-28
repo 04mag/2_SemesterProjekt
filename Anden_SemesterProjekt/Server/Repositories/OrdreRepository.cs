@@ -20,7 +20,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 .Include(o => o.KundeScooter)
                 .Include(o => o.Mekaniker)
                 .Include(o => o.VareLinjer)
-                .Include(o => o.Udlejning)
+                .Include(o => o.Udlejning).ThenInclude(u => u.UdlejningsScooter)
                 .FirstOrDefaultAsync(o => o.OrdreId == id);
 
             if (result == null)
@@ -61,11 +61,22 @@ namespace Anden_SemesterProjekt.Server.Repositories
             {
                 return 0;
             }
+
             // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
 
-            //Fjerne objects fra ordre, så de ikke bliver oprettet som nye i databasen
+            // Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre
             existingOrdre.Udlejning = ordre.Udlejning;
+            existingOrdre.Udlejning.UdlejningsScooter = ordre.Udlejning.UdlejningsScooter;
+
+            //Finder udlejningsscooter i _context
+            var existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
+            
+            if (existingScooter != null)
+            {
+                //detach scooter from context
+                _context.Entry(existingScooter).State = EntityState.Detached;
+            }
 
             return await _context.SaveChangesAsync();
         }
