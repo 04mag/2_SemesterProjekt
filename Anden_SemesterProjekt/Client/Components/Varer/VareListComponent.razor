@@ -26,23 +26,24 @@
     {
         <table class="table table-hover table-striped table-borderless vare-table">
             <thead class="thead-light">
-                <tr>
-                    <th style="text-align: left;">Beskrivelse</th>
-                    <th style="text-align: right;">Pris</th>
-                </tr>
+            <tr>
+                <th style="text-align: left;">Beskrivelse</th>
+                <th style="text-align: right;">Pris</th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var vare in filteredVarer)
-                {
-                    <tr @onclick="() => VareBeskrivelse(vare)">
-                        <td>@vare.Beskrivelse</td>
-                        <td style="text-align: right;">@($"{vare.Pris:N2} kr")</td>
-                    </tr>
-                }
+            @foreach (var vare in filteredVarer)
+            {
+                <tr @onclick="() => VareBeskrivelse(vare)">
+                    <td>@vare.Beskrivelse</td>
+                    <td style="text-align: right;">@($"{vare.Pris:N2} kr")</td>
+                </tr>
+            }
             </tbody>
         </table>
     }
-</div>
+        </div>
+    
 @if (detailsModal) 
 {
     <div class="modal">

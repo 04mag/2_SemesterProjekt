@@ -73,20 +73,20 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private void VareBeskrivelse(Vare vare)
         {
-            foreach (var s in Varer)
+            valgtVare = Varer.FirstOrDefault(v => v.Id == vare.Id);
+
+            // Hvis en scooter er fundet, vis modal
+            if (valgtVare != null)
             {
-                if (s.Id == vare.Id)
-                {
-                    valgtVare = vare;
-                    detailsModal = true;
-                    StateHasChanged();
-                }
-                else
-                {
-                    detailsModal = false;
-                    StateHasChanged();
-                }
+                detailsModal = true;
             }
+            else
+            {
+                detailsModal = false;
+            }
+
+            // Opdater brugergrænsefladen
+            StateHasChanged();
         }
 
         public void UpdateList(List<Vare> updatedVarer)
