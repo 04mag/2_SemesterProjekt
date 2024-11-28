@@ -108,6 +108,8 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             }
         }
 
+       
+
         private async Task DeleteVare(Vare vare)
         {
             var confirmDelete = await JS.InvokeAsync<bool>("confirm", "Er du sikker på at du vil slette denne vare?");

@@ -1,6 +1,7 @@
 ﻿.table-container {
-    max-height: 300px; /* Begræns højden til ca. 8 varer (juster efter behov) */
+    max-height: 300px; /* Begræns højden til ca. 8 varer  */
     overflow-y: scroll; /* Tilføj vertikal scrolling */
+    scrollbar-width: thin;
     border: 1px solid #ddd; /* Tilføj en kant for visuel struktur */
     padding: 10px; /* Giver lidt luft omkring tabellen */
     border-radius: 5px; /* Gør hjørnerne runde */
