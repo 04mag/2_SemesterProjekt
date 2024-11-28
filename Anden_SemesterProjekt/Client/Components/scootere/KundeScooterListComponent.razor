@@ -1,0 +1,65 @@
+﻿@inject IScooterClientService ScooterClientService
+
+<h3>Liste over KundeScootere</h3>
+
+@if (isLoading)
+{
+    <p>Indlæser kundescootere...</p>
+}
+else if (errorMessage != null)
+{
+    <p style="color: red;">@errorMessage</p>
+}
+else if (kundeScootere == null || !kundeScootere.Any())
+{
+    <p>Ingen kundescootere fundet.</p>
+}
+else
+{
+    <KundeScooterRenderComponent KundeScootere="kundeScootere"
+                                 OnDeleteScooter="DeleteScooter" />
+}
+
+@code {
+    private List<KundeScooter>? kundeScootere;
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Fetch customer scooters from the service
+            kundeScootere = await ScooterClientService.GetAllKundeScootereAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Der opstod en fejl: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task DeleteScooter(Scooter scooter)
+    {
+        try
+        {
+            // Delete the scooter via the service
+            var result = await ScooterClientService.DeleteScooter(scooter.ScooterId);
+            if (result > 0)
+            {
+                kundeScootere?.Remove((KundeScooter)scooter);
+            }
+            else
+            {
+                errorMessage = "Kunne ikke slette scooteren.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Der opstod en fejl under sletning: {ex.Message}";
+        }
+    }
+}
