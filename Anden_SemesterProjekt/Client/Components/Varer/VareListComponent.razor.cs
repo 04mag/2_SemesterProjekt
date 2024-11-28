@@ -31,7 +31,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         private int Id; 
         private bool detailsModal = false;
         private bool editModal = false;
-
+        private string searchTerm = string.Empty;
         protected override async Task OnInitializedAsync()
         {
             try 
@@ -49,28 +49,27 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             {
                 IsLoading = false; 
             }
-            
         }
-
-        private string searchTerm = string.Empty;
 
         private void FilterVarer(ChangeEventArgs e)
         {
-            // Sikrer, at e.Value ikke er null
-            if (e.Value == null || Varer == null)
+            searchTerm = e.Value.ToString();
+
+            if (string.IsNullOrEmpty(searchTerm))
             {
-                filteredVarer = Varer ?? new List<Vare>();
-                return;
+                filteredVarer = Varer; 
+            }   
+            else
+            {
+                // Filtrér listen baseret på søgetekst
+                filteredVarer = Varer
+                    .Where(v => v.Beskrivelse != null && v.Beskrivelse.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
             }
-
-            // Konverter søgestreng til lowercase og håndter null
-            var searchTerm = e.Value.ToString()?.ToLower();
-
-            // Filtrér listen baseret på søgetekst
-            Varer = Varer
-                .Where(v => v.Beskrivelse != null && v.Beskrivelse.ToLower().Contains(searchTerm))
-                .ToList();
         }
+        
+
+        
 
         private void VareBeskrivelse(Vare vare)
         {

@@ -15,7 +15,6 @@
                    @oninput="FilterVarer" />
         </div>
     </div>
-    <VareListComponent Varer="Varer" />
 </div>    
 
 <div class="table-container">
@@ -33,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var vare in Varer)
+                @foreach (var vare in filteredVarer)
                 {
                     <tr>
                         <td>@vare.Beskrivelse</td>
