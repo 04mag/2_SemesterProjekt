@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime StartDato { get; set; } = DateTime.Now;
         [OrdreSlutDatoCheck]
         public DateTime SlutDato { get; set; } = DateTime.Now;
-        public Udlejning? Udlejning{ get; set; }
+        public Udlejning? Udlejning { get; set; }
         public int? MekanikerId { get; set; }
         public Mekaniker? Mekaniker { get; set; }
         public string Bemærkninger { get; set; } = string.Empty;
@@ -47,5 +47,29 @@ namespace Anden_SemesterProjekt.Shared.Models
         {
             return OrdreId.ToString();
         }
+
+        public double GetTotalPris()
+        {
+            double totalPris = 0;
+            if (VareLinjer != null)
+            {
+                foreach (var vareLinje in VareLinjer)
+                {
+                    totalPris += vareLinje.GetTotalPris();
+                }
+            }
+            return totalPris;
+        }
+
+        public double GetTotalPrisMedMoms()
+        {
+            return GetTotalPris() * 1.25;
+        }
+
+        public double GetTotalMoms()
+        {
+            return GetTotalPris() * 0.25;
+        }
+
     }
 }

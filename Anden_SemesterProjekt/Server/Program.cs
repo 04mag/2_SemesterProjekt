@@ -1,3 +1,4 @@
+using Anden_SemesterProjekt.Client.Services;
 using Anden_SemesterProjekt.Server.Context;
 using Anden_SemesterProjekt.Server.Repositories;
 using Anden_SemesterProjekt.Server.Services;
@@ -35,7 +36,13 @@ namespace Anden_SemesterProjekt
 
             builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();
+
             
+            builder.Services.AddSingleton<IVareRepository, VareRepository>();
+            builder.Services.AddScoped<IVareService, VareService>();
+        
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

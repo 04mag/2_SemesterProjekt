@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241126111139_Initial")]
+    [Migration("20241129170851_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -439,7 +439,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<string>("Beskrivelse")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<bool>("ErAktiv")
                         .HasColumnType("bit");
@@ -462,7 +463,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VareLinjeId"));
 
-                    b.Property<int>("Antal")
+                    b.Property<int?>("Antal")
                         .HasColumnType("int");
 
                     b.Property<int>("OrdreId")
@@ -471,10 +472,16 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<double?>("Rabat")
                         .HasColumnType("float");
 
+                    b.Property<double>("VareBeskrivelse")
+                        .HasColumnType("float");
+
                     b.Property<int>("VareId")
                         .HasColumnType("int");
 
                     b.Property<double>("VarePris")
+                        .HasColumnType("float");
+
+                    b.Property<double>("YdelseAntalTimer")
                         .HasColumnType("float");
 
                     b.HasKey("VareLinjeId");

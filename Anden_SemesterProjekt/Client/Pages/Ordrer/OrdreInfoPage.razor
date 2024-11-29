@@ -1,0 +1,122 @@
+﻿@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
+@layout NoMenuLayout
+
+
+@page "/ordre/{OrdreId:int}"
+
+<div class="maxwidth">
+    <div class="row p-3">
+        <h2 class="mb-5">Scooterland</h2>
+        <div class="col-md-12">
+            @if (OrdreModel.Kunde != null && OrdreModel.Kunde.Adresse != null && OrdreModel.Kunde.Adresse.By != null)
+            {
+                <span>@OrdreModel.Kunde.Navn</span>
+                <br />
+                <span>@OrdreModel.Kunde.Adresse</span>
+                <br />
+                <span>@OrdreModel.Kunde.Adresse.Postnummer</span>
+                <span>@OrdreModel.Kunde.Adresse.By.ByNavn</span>
+            }
+        </div>
+    </div>
+
+    <div class="row p-3">
+        <table>
+            <tr>
+                <th>Vare Beskrivelse</th>
+                <th>Antal</th>
+                <th>Timer</th>
+                <th>Timer i alt</th>
+                <th>Pris pr. stk.</th>
+                <th>Pris i alt</th>
+            </tr>
+            @if (OrdreModel.VareLinjer != null)
+            {
+                @foreach (var vareLinje in OrdreModel.VareLinjer)
+                {
+                    <tr>
+                        @if (vareLinje.Vare != null)
+                        {
+                            <td>@vareLinje.Vare.Beskrivelse</td>
+                        }
+                        else
+                        {
+                            <td>Vare kunne ikke findes</td>
+                        }
+                        <td>@vareLinje.Antal</td>
+                        @if (vareLinje.YdelseAntalTimer == 0)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@vareLinje.YdelseAntalTimer</td>
+                        }
+                        <td>@vareLinje.GetTotalAntalTimer()</td>
+                        <td>@vareLinje.VarePris</td>
+                        <td>@vareLinje.GetTotalPris()</td>
+                    </tr>
+                }
+            }
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Moms (25%)</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@OrdreModel.GetTotalMoms()</td>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Pris i alt</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>@OrdreModel.GetTotalPris()</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="footer">
+        <p>Scootervej 47, 7100 Vejle - Telefon: (+45)13354758 - Email: mail@scooterland.dk</p>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public int OrdreId { get; set; }
+
+    [Inject]
+    public IOrdreClientService OrdreService { get; set; }
+
+    public Ordre OrdreModel { get; set; } = new Ordre();
+
+    override protected async Task OnInitializedAsync()
+    {
+        var ordreResult = await OrdreService.GetOrdre(OrdreId);
+
+        if (ordreResult != null)
+        {
+            OrdreModel = ordreResult;
+        }
+
+        //Indlæse varer og ydelser for ordre manuelt her for at omgå problemer med json og arv. Ellers fås antal timer ikke med på ydelser.
+    }
+
+}
