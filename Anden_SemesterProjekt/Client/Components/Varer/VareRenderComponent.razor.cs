@@ -18,6 +18,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         [Parameter]
         public EventCallback<Vare> OnVareCreated { get; set; }
         private Vare nyVare = new Vare();
+       
 
         //    private async Task OpretVare()
         //    {
