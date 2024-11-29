@@ -30,6 +30,19 @@ namespace Anden_SemesterProjekt.Shared.Models
             return totalPris;
         }
 
+        public double GetAntalTimer()
+        {
+            if (Vare is Ydelse ydelse)
+            {
+                return ydelse.AntalTimer;
+            }
+            return 0;
+        }
+
+        public double GetTotalAntalTimer()
+        {
+            return GetAntalTimer() * Antal;
+        }
 
     }
 }

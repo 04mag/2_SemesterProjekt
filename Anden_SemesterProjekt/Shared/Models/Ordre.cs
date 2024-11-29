@@ -70,5 +70,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         {
             return GetTotalPris() * 0.25;
         }
+
     }
 }

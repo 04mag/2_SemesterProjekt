@@ -24,27 +24,36 @@
     <div class="row p-3">
         <table>
             <tr>
-                <th>Timer</th>
                 <th>Vare Beskrivelse</th>
                 <th>Antal</th>
+                <th>Timer</th>
+                <th>Timer i alt</th>
                 <th>Pris pr. stk.</th>
                 <th>Pris i alt</th>
             </tr>
+            @if (OrdreModel.VareLinjer != null)
+            {
+                @foreach (var vareLinje in OrdreModel.VareLinjer)
+                {
+                    <tr>
+                        @if (vareLinje.Vare != null)
+                        {
+                            <td>@vareLinje.Vare.Beskrivelse</td>
+                        }
+                        else
+                        {
+                            <td>Vare kunne ikke findes</td>
+                        }
+                        <td>@vareLinje.Antal</td>
+                        <td>@vareLinje.GetAntalTimer()</td>
+                        <td>@vareLinje.GetTotalAntalTimer()</td>
+                        <td>@vareLinje.VarePris</td>
+                        <td>@vareLinje.GetTotalPris()</td>
+                    </tr>
+                }
+            }
             <tr>
-                <td>0,25</td>
-                <td>Dækskifte</td>
-                <td>4</td>
-                <td>150</td>
-                <td>600</td>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td>Olieskift</td>
-                <td>1</td>
-                <td>200</td>
-                <td>200</td>
-            </tr>
-            <tr>
+                <th></th>
                 <th></th>
                 <th></th>
                 <th></th>
@@ -52,6 +61,7 @@
                 <th>Moms (25%)</th>
             </tr>
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -98,6 +108,8 @@
         {
             OrdreModel = ordreResult;
         }
+
+        //Indlæse varer og ydelser for ordre manuelt her for at omgå problemer med json og arv. Ellers fås antal timer ikke med på ydelser.
     }
 
 }
