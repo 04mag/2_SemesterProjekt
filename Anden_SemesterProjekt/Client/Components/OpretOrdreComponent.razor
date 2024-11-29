@@ -2,9 +2,10 @@
 @using Anden_SemesterProjekt.Shared.Models
 
 <div class="row">
-    <label class="col-6"> </label>
-    @if (ordreVareLinje.Vare.Pris > 0)
+    <label class="col-6">Vælg produkt</label>
+    @if (ordreVareLinje.VarePris > 0)
     {<label class="col-1">Pris</label>
+                <label class="col-1 ps-4">Ændr pris</label>
      <label class="col-1">Antal</label>
     }
     
@@ -31,18 +32,43 @@
             </ul>
         }
     </div>
-    @if (ordreVareLinje.Vare !=  null)
+    @if (ordreVareLinje.VarePris > 0)
     {
-
-        <label class="col-1">@ordreVareLinje.Vare.Pris Kr</label>
+        @if (checkboxValue)
+        {
+            <InputNumber @bind-Value="@ordreVareLinje.VarePris" Kr class="col-1"  />
+        }
+        else
+        {
+            <InputNumber @bind-Value="@ordreVareLinje.VarePris" Kr class="col-1" disabled />
+        }
+        <InputCheckbox class="small-checkbox col-1"@bind-Value="checkboxValue" />
         <div class="col-1">
             <InputNumber id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal"/>
         </div>
+
         <div class="col-1">
-            @*      <button class="btn btn-primary" @onclick="TilføjVare">Tilføj</button> *@
-            </div>
-          
-       
+            <button class="btn btn-primary" @onclick="TilføjVare">Tilføj</button>
+        </div>
     }
   
+</div>
+<div class="border-primary mt-5">
+    @foreach (var vareLinje in ordreVareLinjer)
+    {
+        <div class="row">
+            <div class="col-6">
+                @vareLinje.Vare.Beskrivelse
+            </div>
+            <div class="col-1">
+                @vareLinje.Vare.Pris
+            </div>
+            <div class="col-1">
+                <InputNumber @bind-Value="@vareLinje.Antal" @oninput="() => FjernVareVedNul()" class="form-control" placeholder="Antal" />
+            </div>
+            <div class="col-1">
+                <button class="btn btn-danger" @onclick="() => FjernVare(vareLinje)">Fjern</button>
+            </div>
+        </div>
+    }
 </div>

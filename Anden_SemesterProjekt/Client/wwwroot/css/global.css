@@ -83,3 +83,8 @@ tbody tr {
             background-color: #e0e0e0; /* En mørkere farve når man hover */
             cursor: pointer; /* Ændrer musemarkøren til en hånd for at indikere klik */
         }
+
+.small-checkbox {
+    transform: scale(0.50); /* Gør checkboxen 50% af dens originale størrelse */
+    transform-origin: center; /* Sørger for, at skaleringspunktet er øverst til venstre */
+}

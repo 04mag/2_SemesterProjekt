@@ -21,8 +21,9 @@ namespace Anden_SemesterProjekt.Client.Components
         private string søgeTekst = string.Empty;
         private List<Vare> vareForslag = new List<Vare>();
         private bool visForslag = false;
-        private double? totalPris = 0;
-        
+        private double? ordreTotalPris = 0;
+        private bool checkboxValue { get; set; } = false;
+
 
         private bool addModal = false;
 
@@ -55,11 +56,60 @@ namespace Anden_SemesterProjekt.Client.Components
         }
         private void VælgVare(Vare vare)
         {
-            søgeTekst = $"{vare.Beskrivelse}, {vare.Pris:0.00} kr.";
+            søgeTekst = $"{vare.Beskrivelse}";
          ordreVare = vare;
             visForslag = false;
             ordreVareLinje.Vare = ordreVare;
+            ordreVareLinje.VarePris = vare.Pris;
             StateHasChanged();
+        }
+
+        private void FjernVare(VareLinje vare)
+        {
+            ordreVareLinjer.Remove(vare);
+            ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
+            StateHasChanged();
+
+            if (vare.Antal == 0)
+            {
+                ordreVareLinjer.Remove(vare);
+                StateHasChanged();
+            }
+        }
+
+        private void FjernVareVedNul()
+        {
+            ordreVareLinjer.RemoveAll(p => p.Antal <= 1);
+            ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
+            StateHasChanged();
+        }
+        private void TilføjVare()
+        {
+            if(!ordreVareLinjer.Any(o => o.Vare.Id == ordreVareLinje.Vare.Id))
+            {
+                ordreVareLinjer.Add(ordreVareLinje);
+                ordreVareLinje = new VareLinje();
+                ordreVare = new Vare();
+                ordreVareLinje.Vare = ordreVare;
+                ordreVareLinje.VarePris = ordreVare.Pris;
+                ordreVare = new Vare();
+                ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
+                søgeTekst = string.Empty;
+                StateHasChanged();
+            }
+            else
+            {
+                var o = ordreVareLinjer.Find(p => p.Vare.Id == ordreVareLinje.Vare.Id);
+                o.Antal += ordreVareLinje.Antal;
+                ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
+                ordreVareLinje = new VareLinje();
+                ordreVare = new Vare();
+                ordreVareLinje.Vare = ordreVare;
+                ordreVareLinje.VarePris = ordreVare.Pris;
+                ordreVare = new Vare();
+                søgeTekst = string.Empty;
+                StateHasChanged();
+            }
         }
 
         //private void InputChanged(ChangeEventArgs e)
@@ -71,7 +121,7 @@ namespace Anden_SemesterProjekt.Client.Components
         //private void BeregnTotalPris()
         //{
         //    totalPris = ordreVareLinje.Antal * ordreVareLinje.Vare.Pris;
-           
+
         //}
 
 
