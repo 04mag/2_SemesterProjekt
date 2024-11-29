@@ -24,7 +24,11 @@ namespace Anden_SemesterProjekt.Shared.Models
 
         public double GetTotalPris()
         {
-            double totalPris = VarePris * Antal;
+            if (Antal == null)
+            {
+                return 0;
+            }
+            double totalPris = VarePris * (int)Antal;
             if (Rabat != null)
             {
                 totalPris -= (double)Rabat;
@@ -32,18 +36,13 @@ namespace Anden_SemesterProjekt.Shared.Models
             return totalPris;
         }
 
-        public double GetAntalTimer()
-        {
-            if (Vare is Ydelse ydelse)
-            {
-                return ydelse.AntalTimer;
-            }
-            return 0;
-        }
-
         public double GetTotalAntalTimer()
         {
-            return GetAntalTimer() * Antal;
+            if (Antal == null)
+            {
+                return 0;
+            }
+            return YdelseAntalTimer * (int)Antal;
         }
 
     }
