@@ -1,4 +1,5 @@
-﻿@using Anden_SemesterProjekt.Shared.Models
+﻿@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
 @using System.Drawing
 <div class="col-12">
     <div style="background-color:@BackgroundColor" class="row border border-primary rounded mb-1 p-1 align-middle">
@@ -21,7 +22,15 @@
             <span>Status: @Ordre.GetStatus()</span>
         </div>
         <div class="col-md-1 p-1">
-            <button type="button" class="btn btn-primary float-end" @onclick="HandleClick">Vælg</button>
+            @if (Ordre.ErAfsluttet == false)
+            {
+                <button type="button" class="btn btn-primary float-end" @onclick="OnEditClicked">Rediger</button>
+            }
+            @if (Ordre.ErAfsluttet == true)
+            {
+                <button type="button" class="btn btn-primary float-end" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+            }
+            <button type="button" class="btn btn-primary float-end" @onclick="HandleClick">Mere Info</button>
         </div>
     </div>
 </div>
@@ -30,14 +39,63 @@
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
+    [Inject]
+    public IOrdreClientService OrdreService { get; set; }
+
     [Parameter, EditorRequired]
     public Ordre Ordre { get; set; } = new Ordre();
 
     [Parameter]
     public String BackgroundColor { get; set; } = "#ffffff";
 
+    private bool ordreModelErBetalt;
+
+    protected override void OnInitialized()
+    {
+        ordreModelErBetalt = Ordre.ErBetalt;
+    }
+
+    public string ErBetaltButtonText 
+    {
+        get 
+        {
+            if (ordreModelErBetalt)
+            {
+                return "Betalt";
+            }
+            else
+            {
+                return "Ikke betalt";
+            }
+        }
+    }
+
     private void HandleClick()
     {
         NavigationManager.NavigateTo($"/ordre/{Ordre.OrdreId}");
+    }
+
+    private void OnEditClicked()
+    {
+        NavigationManager.NavigateTo($"/ordre/edit/{Ordre.OrdreId}");
+    }
+
+    private async Task OnBetaltClicked()
+    {
+        Ordre.ErBetalt = !Ordre.ErBetalt;
+
+        if (Ordre != null)
+        {
+            var response = await OrdreService.UpdateOrdre(Ordre);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ordreModelErBetalt = Ordre.ErBetalt;
+            }
+            else
+            {
+                Ordre.ErBetalt = !Ordre.ErBetalt;
+            }
+        }
     }
 }
