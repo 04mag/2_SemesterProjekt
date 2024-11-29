@@ -1,35 +1,81 @@
 ﻿@using Anden_SemesterProjekt.Client.Services
 @using Anden_SemesterProjekt.Shared.Models
+@layout NoMenuLayout
+
 
 @page "/ordre/{OrdreId:int}"
 
 <div class="row p-3">
     <h2>Scooterland</h2>
-
-    <div class="col-md-6">
-        <div>
-            <span>Scootervej 47</span>
-            <br />
-            <span>8000 Aarhus C</span>
-            <br />
-            <span>Telefon: (+45)13354758</span>
-            <br />
-            <span>Email: mail@scooterland.dk</span>
-        </div>
-    </div>
-    <div class="col-md-6">
+    <div class="col-md-12">
         @if (OrdreModel.Kunde != null && OrdreModel.Kunde.Adresse != null && OrdreModel.Kunde.Adresse.By != null)
         {
-            <div class="float-end">
-                <span>@OrdreModel.Kunde.Navn</span>
-                <br />
-                <span>@OrdreModel.Kunde.Adresse</span>
-                <br />
-                <span>@OrdreModel.Kunde.Adresse.Postnummer</span>
-                <span>@OrdreModel.Kunde.Adresse.By.ByNavn</span>
-            </div>
+            <span>@OrdreModel.Kunde.Navn</span>
+            <br />
+            <span>@OrdreModel.Kunde.Adresse</span>
+            <br />
+            <span>@OrdreModel.Kunde.Adresse.Postnummer</span>
+            <span>@OrdreModel.Kunde.Adresse.By.ByNavn</span>
         }
     </div>
+</div>
+
+<div class="row p-3">
+    <table>
+        <tr>
+            <th>Timer</th>
+            <th>Vare Beskrivelse</th>
+            <th>Antal</th>
+            <th>Pris pr. stk.</th>
+            <th>Pris i alt</th>
+        </tr>
+        <tr>
+            <td>0,25</td>
+            <td>Dækskifte</td>
+            <td>4</td>
+            <td>150</td>
+            <td>600</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Olieskift</td>
+            <td>1</td>
+            <td>200</td>
+            <td>200</td>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Moms (25%)</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@OrdreModel.GetTotalMoms()</td>
+        </tr>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>Pris i alt</th>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>@OrdreModel.GetTotalPris()</td>
+        </tr>
+    </table>
+</div>
+
+<div class="footer">
+    <p>Scootervej 47, 7100 Vejle - Telefon: (+45)13354758 - Email: mail@scooterland.dk</p>
 </div>
 
 @code {
