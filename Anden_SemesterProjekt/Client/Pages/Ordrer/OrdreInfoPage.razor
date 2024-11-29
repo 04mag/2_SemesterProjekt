@@ -22,52 +22,61 @@
     </div>
 
     <div class="row p-3">
-        <table>
-            <tr>
-                <th>Vare Beskrivelse</th>
-                <th>Antal</th>
-                <th>Timer</th>
-                <th>Timer i alt</th>
-                <th>Pris pr. stk.</th>
-                <th>Pris i alt</th>
-            </tr>
-            @if (OrdreModel.VareLinjer != null)
-            {
-                @foreach (var vareLinje in OrdreModel.VareLinjer)
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Vare Beskrivelse</th>
+                    <th scope="col">Antal</th>
+                    <th scope="col">Timer</th>
+                    <th scope="col">Timer i alt</th>
+                    <th scope="col">Pris pr. stk.</th>
+                    <th scope="col">Rabat</th>
+                    <th scope="col">Pris i alt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (OrdreModel.VareLinjer != null)
                 {
-                    <tr>
-                        @if (vareLinje.Vare != null)
-                        {
-                            <td>@vareLinje.Vare.Beskrivelse</td>
-                        }
-                        else
-                        {
-                            <td>Vare kunne ikke findes</td>
-                        }
-                        <td>@vareLinje.Antal</td>
-                        @if (vareLinje.YdelseAntalTimer == 0)
-                        {
-                            <td></td>
-                        }
-                        else
-                        {
-                            <td>@vareLinje.YdelseAntalTimer</td>
-                        }
-                        <td>@vareLinje.GetTotalAntalTimer()</td>
-                        <td>@vareLinje.VarePris</td>
-                        <td>@vareLinje.GetTotalPris()</td>
-                    </tr>
+                    @foreach (var vareLinje in OrdreModel.VareLinjer)
+                    {
+                        <tr>
+                            <td>@vareLinje.VareBeskrivelse</td>
+                            <td>@vareLinje.Antal</td>
+                            @if (vareLinje.YdelseAntalTimer == 0)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@vareLinje.YdelseAntalTimer</td>
+                            }
+                            @if (vareLinje.GetTotalAntalTimer() == 0)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@vareLinje.GetTotalAntalTimer()</td>
+                            }
+                            <td>@vareLinje.VarePris</td>
+                            <td>@vareLinje.Rabat</td>
+                            <td>@vareLinje.GetTotalPris()</td>
+                        </tr>
+                    }
                 }
-            }
+            </tbody>
+            
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>Moms (25%)</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Moms (25%)</th>
             </tr>
             <tr>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -76,13 +85,17 @@
                 <td>@OrdreModel.GetTotalMoms()</td>
             </tr>
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>Pris i alt</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">Pris i alt</th>
             </tr>
             <tr>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
