@@ -4,6 +4,7 @@ using Anden_SemesterProjekt.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    partial class SLContextModelSnapshot : ModelSnapshot
+    [Migration("20241127184243_createvarer")]
+    partial class createvarer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -308,11 +311,14 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<int?>("MekanikerId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SlutDato")
+                    b.Property<DateTime?>("SlutDato")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("StartDato")
+                    b.Property<DateTime?>("StartDato")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("UdlejningsScooterId")
+                        .HasColumnType("int");
 
                     b.HasKey("OrdreId");
 
@@ -321,6 +327,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("KundeScooterId");
 
                     b.HasIndex("MekanikerId");
+
+                    b.HasIndex("UdlejningsScooterId");
 
                     b.ToTable("Ordrer");
                 });
@@ -418,8 +426,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.HasKey("UdlejningId");
 
-                    b.HasIndex("OrdreId")
-                        .IsUnique();
+                    b.HasIndex("OrdreId");
 
                     b.HasIndex("UdlejningsScooterId");
 
@@ -680,11 +687,17 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .WithMany("Ordrer")
                         .HasForeignKey("MekanikerId");
 
+                    b.HasOne("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", "UdlejningsScooter")
+                        .WithMany()
+                        .HasForeignKey("UdlejningsScooterId");
+
                     b.Navigation("Kunde");
 
                     b.Navigation("KundeScooter");
 
                     b.Navigation("Mekaniker");
+
+                    b.Navigation("UdlejningsScooter");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
@@ -712,8 +725,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Udlejning", b =>
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Ordre", "Ordre")
-                        .WithOne("Udlejning")
-                        .HasForeignKey("Anden_SemesterProjekt.Shared.Models.Udlejning", "OrdreId")
+                        .WithMany()
+                        .HasForeignKey("OrdreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -826,8 +839,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Ordre", b =>
                 {
-                    b.Navigation("Udlejning");
-
                     b.Navigation("VareLinjer");
                 });
 

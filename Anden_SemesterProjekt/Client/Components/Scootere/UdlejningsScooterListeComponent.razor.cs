@@ -45,21 +45,20 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         
         private void ScooterDetaljer(UdlejningsScooter scooter)
         {
-            foreach (var s in UdlejningsScootere)
+            valgtUdlejningsScooter = UdlejningsScootere.FirstOrDefault(s => s.ScooterId == scooter.ScooterId);
+
+            // Hvis en scooter er fundet, vis modal
+            if (valgtUdlejningsScooter != null)
             {
-                if (s.ScooterId == scooter.ScooterId)
-                {
-                    valgtUdlejningsScooter = scooter;
-                    detailsModal = true;
-                    StateHasChanged();
-                }
-                else
-                {
-                    detailsModal = false;
-                    StateHasChanged();
-                }
+                detailsModal = true;
             }
-            detailsModal = true;
+            else
+            {
+                detailsModal = false;
+            }
+
+            // Opdater brugergrænsefladen
+            StateHasChanged();
         }
         private void EditScooter(UdlejningsScooter scooter)
         {

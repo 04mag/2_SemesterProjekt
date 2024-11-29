@@ -1,0 +1,35 @@
+﻿<div class="col-12 mb-2 p-3">
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row p-3">
+                    <div class="col-md-6 align-content-center">
+                        <h5 class="card-title">(@VareModel.Id) @VareModel.Beskrivelse</h5>
+                    </div>
+                    <div class="col-md-6 align-content-center">
+                        @if (OnDeleteVare.HasDelegate)
+                        {
+                            <button class="btn btn-danger m-1 float-end" @onclick="async () => await OnDeleteVare.InvokeAsync(VareModel)">Slet</button>
+                        }
+                        @if (OnEditVare.HasDelegate)
+                        {
+                            <button class="btn btn-warning m-1 float-end" @onclick="async () => await OnEditVare.InvokeAsync(VareModel)">Rediger</button>
+                        }
+                        @if (OnSelectVare.HasDelegate)
+                        {
+                            <button class="btn btn-primary m-1 float-end" @onclick="async () => await OnSelectVare.InvokeAsync(VareModel)">Vælg</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        @VareModel.Beskrivelse
+    </div>
+    <div class="col-6 text-end">
+        @VareModel.Pris.ToString("C")
+    </div>
+</div>

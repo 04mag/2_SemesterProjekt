@@ -34,6 +34,10 @@ namespace Anden_SemesterProjekt.Client
             {
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
             });
+            builder.Services.AddHttpClient<IVareClientService, VareClientService>(client =>
+            {
+                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress);
+            });
 
             builder.Services.AddHttpClient<IUdlejningClientService, UdlejningClientService>(client =>
             {
