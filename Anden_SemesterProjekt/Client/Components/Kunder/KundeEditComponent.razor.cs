@@ -9,6 +9,9 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
     public partial class KundeEditComponent
     {
         [Inject]
+        public NavigationManager NavigationManager { get; set; }
+
+        [Inject]
         private IJSRuntime JS { get; set; }
 
         [Inject]
@@ -62,6 +65,8 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
                 {
                     isSubmitting = false;
                     await JS.InvokeVoidAsync("alert", "Nye kundeoplysninger blev gemt.");
+                    NavigationManager.NavigateTo("/kunder");
+
                 }
                 else
                 {
