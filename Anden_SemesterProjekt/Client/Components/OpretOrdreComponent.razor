@@ -1,8 +1,10 @@
 ﻿@page "/sko"
 <div class="row">
-   @*  <div class="col-6"> *@
-        <label class="col 6"></label>
-   @*  </div> *@
+    <label class="col-6"> </label>
+    <label class="col-1">Antal</label>
+    @*  <div class="col-6"> *@
+    <label class="col 6"></label>
+    @*  </div> *@
 </div>
 <div class="row">
 <div class=" col-6 search-container">
@@ -16,15 +18,17 @@
         <ul class="liste">
             @foreach (var vare in vareForslag)
             {
-                <li @onclick="(() => vælgVare(vare))">
-                    @vare.Beskrivelse, @vare.Pris
+                
+                <li @onclick="() => vælgVare(vare)">
+                    @vare.Beskrivelse - @vare.Pris
                 </li>
             }
         </ul>
     }
 </div>
-<div class="col-1">
-    <InputNumber id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal" />
+    <div class="col-1">
+        <InputNumber id="antal" @bind-Value="inputAntal" @oninput="@InputChanged" class="form-control" placeholder="Antal" />
 
-</div>
+    </div>
+    <label class="col-1">Totalpris - @totalPris </label>
 </div>

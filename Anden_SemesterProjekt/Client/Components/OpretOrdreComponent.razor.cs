@@ -20,6 +20,8 @@ namespace Anden_SemesterProjekt.Client.Components
         private string søgeTekst = string.Empty;
         private List<Vare> vareForslag = new List<Vare>();
         private bool visForslag = false;
+        private double? totalPris = 0;
+        private int inputAntal;
 
         private bool addModal = false;
 
@@ -55,8 +57,17 @@ namespace Anden_SemesterProjekt.Client.Components
             visForslag = false;
         }
 
+        private void InputChanged(ChangeEventArgs e)
+        {
+            ordreVareLinje.Antal = int.TryParse(e.Value.ToString(), out int result) ? result : 0;
+            BeregnTotalPris();
+        }
 
-
+        private void BeregnTotalPris()
+        {
+            totalPris = ordreVareLinje.Antal * ordreVareLinje.Vare.Pris;
+           
+        }
 
 
 
