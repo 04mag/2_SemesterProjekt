@@ -45,7 +45,14 @@
                             <td>Vare kunne ikke findes</td>
                         }
                         <td>@vareLinje.Antal</td>
-                        <td>@vareLinje.GetAntalTimer()</td>
+                        @if (vareLinje.YdelseAntalTimer == 0)
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>@vareLinje.YdelseAntalTimer</td>
+                        }
                         <td>@vareLinje.GetTotalAntalTimer()</td>
                         <td>@vareLinje.VarePris</td>
                         <td>@vareLinje.GetTotalPris()</td>

@@ -58,7 +58,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Beskrivelse = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Beskrivelse = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Pris = table.Column<double>(type: "float", nullable: false),
                     ErAktiv = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -323,9 +323,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrdreId = table.Column<int>(type: "int", nullable: false),
                     VareId = table.Column<int>(type: "int", nullable: false),
-                    Antal = table.Column<int>(type: "int", nullable: false),
+                    Antal = table.Column<int>(type: "int", nullable: true),
                     Rabat = table.Column<double>(type: "float", nullable: true),
-                    VarePris = table.Column<double>(type: "float", nullable: false)
+                    VarePris = table.Column<double>(type: "float", nullable: false),
+                    VareBeskrivelse = table.Column<double>(type: "float", nullable: false),
+                    YdelseAntalTimer = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>
                 {
