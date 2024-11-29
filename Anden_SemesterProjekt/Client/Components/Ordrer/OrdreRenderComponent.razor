@@ -12,25 +12,26 @@
                 <span>@Ordre.Kunde.Navn</span>
             </div>
         }
-        <div class="col-md-3 p-1">
+        <div class="col-md-2 p-1">
             <span>Start Dato: @Ordre.StartDato.ToShortDateString()</span>
         </div>
-        <div class="col-md-3 p-1">
+        <div class="col-md-2 p-1">
             <span>Slut Dato: @Ordre.SlutDato.ToShortDateString()</span>
         </div>
         <div class="col-md-2 p-1">
             <span>Status: @Ordre.GetStatus()</span>
         </div>
-        <div class="col-md-1 p-1">
+        <div class="col-md-3 p-1">
+            <button type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">Mere Info</button>
             @if (Ordre.ErAfsluttet == false)
             {
-                <button type="button" class="btn btn-primary float-end" @onclick="OnEditClicked">Rediger</button>
+                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
+                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
             }
             @if (Ordre.ErAfsluttet == true)
             {
-                <button type="button" class="btn btn-primary float-end" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
             }
-            <button type="button" class="btn btn-primary float-end" @onclick="HandleClick">Mere Info</button>
         </div>
     </div>
 </div>

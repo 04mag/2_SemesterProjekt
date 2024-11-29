@@ -51,6 +51,11 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 
         public async Task OnValidSubmit()
         {
+            if (OrdreModel != null && OrdreModel.Udlejning != null)
+            {
+                OrdreModel.Udlejning.SlutDato = OrdreModel.SlutDato;
+            }
+
             if (OrdreModel != null && ordreAfsluttet)
             {
                 OrdreModel.ErAfsluttet = true;
