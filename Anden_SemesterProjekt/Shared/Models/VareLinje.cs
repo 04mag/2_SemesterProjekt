@@ -19,7 +19,8 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int? Antal { get; set; }
         public double? Rabat { get; set; }
         public double VarePris { get; set; }
-
+        public double VareBeskrivelse { get; set; }
+        public double YdelseAntalTimer { get; set; } = 0;
     }
 }
 
