@@ -16,12 +16,13 @@ namespace Anden_SemesterProjekt.Client.Components
         public List<Vare> alleVarer = new List<Vare>();
         public KundeScooter ordreKundeScooter = new KundeScooter();
         public VareLinje ordreVareLinje = new VareLinje();
+        public Vare ordreVare = new Vare();
         public List<VareLinje> ordreVareLinjer = new List<VareLinje>();
         private string søgeTekst = string.Empty;
         private List<Vare> vareForslag = new List<Vare>();
         private bool visForslag = false;
         private double? totalPris = 0;
-        private int inputAntal;
+        
 
         private bool addModal = false;
 
@@ -32,6 +33,8 @@ namespace Anden_SemesterProjekt.Client.Components
         protected override async Task OnInitializedAsync()
         {
             alleVarer = await VareService.GetAktiveVarer();
+            ordreVareLinje = new VareLinje();
+            ordreVareLinje.Vare = ordreVare;
         }
 
         private void OnSearchTextChanged(ChangeEventArgs e)
@@ -50,24 +53,26 @@ namespace Anden_SemesterProjekt.Client.Components
                 visForslag = false;
             }
         }
-        private void vælgVare(Vare vare)
+        private void VælgVare(Vare vare)
         {
             søgeTekst = $"{vare.Beskrivelse}, {vare.Pris:0.00} kr.";
-            ordreVareLinje.Vare = vare;
+         ordreVare = vare;
             visForslag = false;
+            ordreVareLinje.Vare = ordreVare;
+            StateHasChanged();
         }
 
-        private void InputChanged(ChangeEventArgs e)
-        {
-            ordreVareLinje.Antal = int.TryParse(e.Value.ToString(), out int result) ? result : 0;
-            BeregnTotalPris();
-        }
+        //private void InputChanged(ChangeEventArgs e)
+        //{
+        //    ordreVareLinje.Antal = int.TryParse(e.Value.ToString(), out int result) ? result : 0;
+        //    BeregnTotalPris();
+        //}
 
-        private void BeregnTotalPris()
-        {
-            totalPris = ordreVareLinje.Antal * ordreVareLinje.Vare.Pris;
+        //private void BeregnTotalPris()
+        //{
+        //    totalPris = ordreVareLinje.Antal * ordreVareLinje.Vare.Pris;
            
-        }
+        //}
 
 
 
