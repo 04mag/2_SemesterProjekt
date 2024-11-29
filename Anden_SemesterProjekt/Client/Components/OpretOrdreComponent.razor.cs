@@ -8,73 +8,125 @@ namespace Anden_SemesterProjekt.Client.Components
 {
     public partial class OpretOrdreComponent
     {
-        [Inject] private IJSRuntime JS { get; set; } // JavaScript runtime
+        #region Data og Initialisering
         public Ordre nyOrdre = new Ordre();
-        [Parameter] public Kunde ordreKunde { get; set; }
-        public Mekaniker? ordreMekaniker = new Mekaniker();
-        public Udlejning? ordreUdlejning = new Udlejning();
-        public List<Vare> alleVarer = new List<Vare>();
-        public KundeScooter ordreKundeScooter = new KundeScooter();
-        public VareLinje ordreVareLinje = new VareLinje();
-        public Vare ordreVare = new Vare();
-        public List<VareLinje> ordreVareLinjer = new List<VareLinje>();
-        private string søgeTekst = string.Empty;
-        private List<Vare> vareForslag = new List<Vare>();
-        private bool visForslag = false;
+        private Mekaniker? ordreMekaniker = new Mekaniker();
+        private List<Mekaniker> alleMekanikere = new List<Mekaniker>();
+        private VareLinje ordreVareLinje = new VareLinje();
+        private Vare ordreVare = new Vare();
+        private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
+        private bool checkboxValue = false;
+        private bool kundeValgt = false;
         private double? ordreTotalPris = 0;
-        private bool checkboxValue { get; set; } = false;
+        private bool opretKundeModal = false;
 
+        // Søgning på varer og kunder
+        #region Søgning på varer og kunder
+        private string søgeTekstVarer = string.Empty;
+        private List<Vare> alleVarer = new List<Vare>();
+        private List<Vare> vareForslag = new List<Vare>();
+        private bool visVareForslag = false;
 
-        private bool addModal = false;
+        private string søgeTekstKunder = string.Empty;
+        private List<Kunde> alleKunder = new List<Kunde>();
+        private List<Kunde> kundeForslag = new List<Kunde>();
+        private bool visKundeForslag = false;
+        #endregion
+        // Søgning på varer og kunder
 
+        [Parameter] public Kunde ordreKunde { get; set; }
+        [Inject] public IAnsatClientService MekanikerService { get; set; }
         [Inject] public IVareClientService VareService { get; set; }
         [Inject] public IOrdreClientService OrdreService { get; set; }
+        [Inject] public IKundeClientService KundeService { get; set; }
         [Inject] public IScooterClientService ScooterService { get; set; }
-        //[Parameter] public EventCallback OnScooterAdded { get; set; }
+        [Inject] private IJSRuntime JS { get; set; } // JavaScript runtime
+        #endregion // Data og Initialisering
         protected override async Task OnInitializedAsync()
         {
             alleVarer = await VareService.GetAktiveVarer();
+            alleKunder = await KundeService.GetKunder();
             ordreVareLinje = new VareLinje();
             ordreVareLinje.Vare = ordreVare;
+            alleMekanikere = await MekanikerService.GetMekanikere();
+            if (ordreKunde != null)
+            { 
+                ordreMekaniker = ordreKunde.TilknyttetMekaniker;
+            }
         }
-
-        private void OnSearchTextChanged(ChangeEventArgs e)
+        #region VareSøgning
+        private void VareSøgefeltÆndret(ChangeEventArgs e)
         {
-            søgeTekst = e.Value.ToString();
-            if (!string.IsNullOrWhiteSpace(søgeTekst))
+            søgeTekstVarer = e.Value.ToString();
+            if (!string.IsNullOrWhiteSpace(søgeTekstVarer))
             {
                 vareForslag = alleVarer
-                    .Where(p => p.Beskrivelse.Contains(søgeTekst, StringComparison.OrdinalIgnoreCase))
-                    .Take(10) 
+                    .Where(p => p.Beskrivelse.Contains(søgeTekstVarer, StringComparison.OrdinalIgnoreCase))
+                    .Take(5) 
                     .ToList();
-                visForslag = vareForslag.Count > 0;
+                visVareForslag = vareForslag.Count > 0;
             }
             else
             {
-                visForslag = false;
+                visVareForslag = false;
             }
         }
         private void VælgVare(Vare vare)
         {
-            søgeTekst = $"{vare.Beskrivelse}";
-         ordreVare = vare;
-            visForslag = false;
+            søgeTekstVarer = $"{vare.Beskrivelse}";
+            ordreVare = vare;
+            visVareForslag = false;
             ordreVareLinje.Vare = ordreVare;
             ordreVareLinje.VarePris = vare.Pris;
             StateHasChanged();
         }
 
+        #endregion // VareSøgning
+        #region KundeSøgning
+        private void KundeSøgefeltÆndret(ChangeEventArgs e)
+        {
+            søgeTekstKunder = e.Value.ToString();
+            if (!string.IsNullOrWhiteSpace(søgeTekstKunder))
+            {
+                kundeForslag = alleKunder
+                    .Where(k => k.Navn.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase) || k.Email.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase))
+                    .Take(5)
+                    .ToList();
+                visKundeForslag = kundeForslag.Count > 0;
+            }
+            else
+            {
+                visKundeForslag = false;
+            }
+        }
+        private void VælgKunde(Kunde kunde)
+        {
+            søgeTekstKunder = $"{kunde.Navn}";
+            nyOrdre.Kunde = kunde;
+            nyOrdre.KundeId = kunde.KundeId;
+            visKundeForslag = false;
+            StateHasChanged();
+            kundeValgt = true;
+        }
+        #endregion // KundeSøgning
+        #region Vare håndtering
         private void FjernVare(VareLinje vare)
         {
             ordreVareLinjer.Remove(vare);
             ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
             StateHasChanged();
 
-            if (vare.Antal == 0)
-            {
                 ordreVareLinjer.Remove(vare);
                 StateHasChanged();
-            }
+        }
+
+        private void OpretKunde()
+        {
+            opretKundeModal = true;
+        }
+        private void LukOpretKundeModal()
+        {
+            opretKundeModal = false;
         }
 
         private void FjernVareVedNul()
@@ -94,38 +146,33 @@ namespace Anden_SemesterProjekt.Client.Components
                 ordreVareLinje.VarePris = ordreVare.Pris;
                 ordreVare = new Vare();
                 ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
-                søgeTekst = string.Empty;
+                søgeTekstVarer = string.Empty;
                 StateHasChanged();
             }
             else
             {
                 var o = ordreVareLinjer.Find(p => p.Vare.Id == ordreVareLinje.Vare.Id);
                 o.Antal += ordreVareLinje.Antal;
-                ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
-                ordreVareLinje = new VareLinje();
-                ordreVare = new Vare();
-                ordreVareLinje.Vare = ordreVare;
-                ordreVareLinje.VarePris = ordreVare.Pris;
-                ordreVare = new Vare();
-                søgeTekst = string.Empty;
+                ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris * p.Antal);
+                NulstilVareInput();
                 StateHasChanged();
             }
         }
+        #endregion // vare håndtering
+        public void OpretOrdre()
+        {
+            nyOrdre.VareLinjer = ordreVareLinjer;
+            nyOrdre.Mekaniker = ordreMekaniker;
+            nyOrdre.Kunde = ordreKunde;
+            nyOrdre.BetalingsDato = null;
+            nyOrdre.ErBetalt = checkboxValue;
+            nyOrdre.ErAfsluttet = false;
+            nyOrdre.StartDato = DateTime.Now;
 
-        //private void InputChanged(ChangeEventArgs e)
-        //{
-        //    ordreVareLinje.Antal = int.TryParse(e.Value.ToString(), out int result) ? result : 0;
-        //    BeregnTotalPris();
-        //}
+            
+            OrdreService.AddOrdre(nyOrdre);
 
-        //private void BeregnTotalPris()
-        //{
-        //    totalPris = ordreVareLinje.Antal * ordreVareLinje.Vare.Pris;
-
-        //}
-
-
-
+        }
         private async Task HandleValidSubmit()
         {
             try
@@ -142,7 +189,7 @@ namespace Anden_SemesterProjekt.Client.Components
                     StateHasChanged();
                     nyOrdre = new Ordre();
                   
-                    addModal = false;
+                  
                     await JS.InvokeVoidAsync("alert", "Ordre blev oprettet.");
                 }
                 else
@@ -156,16 +203,14 @@ namespace Anden_SemesterProjekt.Client.Components
                 var errorBox = await JS.InvokeAsync<string>("alert", ex.Message);
             }
         }
-        private async Task ShowAddModal()
+        private void NulstilVareInput()
         {
-            addModal = true;
-            StateHasChanged();
+            ordreVareLinje = new VareLinje();
+            ordreVare = new Vare();
+            ordreVareLinje.Vare = ordreVare;
+            ordreVareLinje.VarePris = ordreVare.Pris;
+            søgeTekstVarer = string.Empty;
         }
-        private void CloseAddModal()
-        {
-            addModal = false;
-        }
-
     }
 }
 
