@@ -1,4 +1,9 @@
-﻿@inject IScooterClientService ScooterClientService
+﻿using Anden_SemesterProjekt.Shared.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Anden_SemesterProjekt.Client.Services
+
+
+@inject IScooterClientService ScooterClientService
 
 <h3>Liste over KundeScootere</h3>
 
@@ -16,9 +21,8 @@ else if (kundeScootere == null || !kundeScootere.Any())
 }
 else
 {
-    <KundeScooterRenderComponent 
-        KundeScootere="kundeScootere" 
-        OnDeleteScooter="DeleteScooter" />
+    <KundeScooterRenderComponent KundeScootere="kundeScootere"
+                                 OnDeleteScooter="DeleteScooter" />
 }
 
 @code {
@@ -28,8 +32,16 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadKundeScootereAsync();
+    }
+
+    private async Task LoadKundeScootereAsync()
+    {
         try
         {
+            isLoading = true;
+            errorMessage = null;
+
             // Fetch customer scooters from the service
             kundeScootere = await ScooterClientService.GetAllKundeScootereAsync();
         }
@@ -43,24 +55,26 @@ else
         }
     }
 
-    private async Task DeleteScooter(Scooter scooter)
+    private void DeleteScooter(Scooter scooter)
     {
         try
         {
-            // Delete the scooter via the service
-            var result = await ScooterClientService.DeleteScooter(scooter.ScooterId);
-            if (result > 0)
+            errorMessage = null;
+
+            // Remove the scooter from the local list
+            var scooterToRemove = kundeScootere?.FirstOrDefault(s => s.ScooterId == scooter.ScooterId);
+            if (scooterToRemove != null)
             {
-                kundeScootere?.Remove((KundeScooter)scooter);
+                kundeScootere.Remove(scooterToRemove);
             }
             else
             {
-                errorMessage = "Kunne ikke slette scooteren.";
+                errorMessage = "Scooteren blev ikke fundet i listen.";
             }
         }
         catch (Exception ex)
         {
-            errorMessage = $"Der opstod en fejl under sletning: {ex.Message}";
+            errorMessage = $"Der opstod en fejl under sletning fra listen: {ex.Message}";
         }
     }
 }

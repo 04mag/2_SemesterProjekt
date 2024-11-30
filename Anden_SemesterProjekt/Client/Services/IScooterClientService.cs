@@ -6,6 +6,7 @@ namespace Anden_SemesterProjekt.Client.Services
 {
     public interface IScooterClientService
     {
+        Task<List<KundeScooter>> GetAllKundeScootereAsync();
         Task<List<Scooter>> GetAllScootersAsync();
         Task<Scooter?> GetScooterByIdAsync(int id);
         Task AddScooterAsync(Scooter scooter);

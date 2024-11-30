@@ -28,10 +28,10 @@
 
 @code {
     [Parameter, EditorRequired]
-    public List<Scooter> KundeScootere { get; set; } = new();
+    public List<KundeScooter> KundeScootere { get; set; } = new();
 
     [Parameter]
-    public EventCallback<Scooter> OnDeleteScooter { get; set; }
+    public EventCallback<KundeScooter> OnDeleteScooter { get; set; }
 }
 
 
