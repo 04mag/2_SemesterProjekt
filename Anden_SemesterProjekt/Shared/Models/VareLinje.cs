@@ -45,6 +45,21 @@ namespace Anden_SemesterProjekt.Shared.Models
             return YdelseAntalTimer * (int)Antal;
         }
 
+        public string GetTotalPrisString()
+        {
+            return GetTotalPris().ToString("0.00");
+        }
+
+        public string GetAntalTimerString()
+        {
+            return YdelseAntalTimer.ToString("0.00");
+        }
+
+        public string GetTotalAntalTimerString()
+        {
+            return GetTotalAntalTimer().ToString("0.00");
+        }
+
     }
 }
 

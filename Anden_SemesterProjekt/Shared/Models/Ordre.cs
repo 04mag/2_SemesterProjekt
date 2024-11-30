@@ -66,9 +66,19 @@ namespace Anden_SemesterProjekt.Shared.Models
             return GetTotalPris() * 1.25;
         }
 
+        public string GetTotalPrisMedMomsString()
+        {
+            return GetTotalPrisMedMoms().ToString("0.00");
+        }
+
         public double GetTotalMoms()
         {
             return GetTotalPris() * 0.25;
+        }
+
+        public string GetTotalMomsString()
+        {
+            return GetTotalMoms().ToString("0.00");
         }
 
     }

@@ -7,16 +7,26 @@
 
 <div class="maxwidth">
     <div class="row p-3">
-        <h2 class="mb-5">Scooterland</h2>
+        <h1 class="mb-5">Scooterland</h1>
+
+        @if (OrdreModel.Kunde != null)
+        {
+            <span class="fw-bold">@OrdreModel.Kunde.Navn</span>
+        }
         <div class="col-md-12">
             @if (OrdreModel.Kunde != null && OrdreModel.Kunde.Adresse != null && OrdreModel.Kunde.Adresse.By != null)
             {
-                <span>@OrdreModel.Kunde.Navn</span>
-                <br />
                 <span>@OrdreModel.Kunde.Adresse</span>
                 <br />
-                <span>@OrdreModel.Kunde.Adresse.Postnummer</span>
+                <span>@OrdreModel.Kunde.Adresse.Postnummer </span>
                 <span>@OrdreModel.Kunde.Adresse.By.ByNavn</span>
+                <br />
+                <span>@OrdreModel.Kunde.Email</span>
+                @foreach (var telefon in OrdreModel.Kunde.TlfNumre)
+                {
+                    <br />
+                    <span>(+45) @telefon.TelefonNummer</span>
+                }
             }
         </div>
     </div>
@@ -25,7 +35,58 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Vare Beskrivelse</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th scope="col">Vare</th>
+                    <th scope="col">Antal</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Pris pr. stk.</th>
+                    <th scope="col">Rabat</th>
+                    <th scope="col">Pris i alt</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (OrdreModel.VareLinjer != null)
+                {
+                    @foreach (var vareLinje in OrdreModel.VareLinjer)
+                    {
+                        if (vareLinje.YdelseAntalTimer == 0)
+                        {
+                            <tr>
+                                <td>@vareLinje.VareBeskrivelse</td>
+                                <td>@vareLinje.Antal</td>
+                                <td></td>
+                                <td></td>
+                                <td>@vareLinje.VarePris</td>
+                                <td>@vareLinje.Rabat</td>
+                                <td>@vareLinje.GetTotalPrisString()</td>
+                            </tr>
+                        }
+                    }
+                }
+                <tr>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th scope="col">Ydelse</th>
                     <th scope="col">Antal</th>
                     <th scope="col">Timer</th>
                     <th scope="col">Timer i alt</th>
@@ -39,74 +100,82 @@
                 {
                     @foreach (var vareLinje in OrdreModel.VareLinjer)
                     {
-                        <tr>
-                            <td>@vareLinje.VareBeskrivelse</td>
-                            <td>@vareLinje.Antal</td>
-                            @if (vareLinje.YdelseAntalTimer == 0)
-                            {
-                                <td></td>
-                            }
-                            else
-                            {
-                                <td>@vareLinje.YdelseAntalTimer</td>
-                            }
-                            @if (vareLinje.GetTotalAntalTimer() == 0)
-                            {
-                                <td></td>
-                            }
-                            else
-                            {
-                                <td>@vareLinje.GetTotalAntalTimer()</td>
-                            }
-                            <td>@vareLinje.VarePris</td>
-                            <td>@vareLinje.Rabat</td>
-                            <td>@vareLinje.GetTotalPris()</td>
-                        </tr>
+                        if (vareLinje.YdelseAntalTimer > 0)
+                        {
+                            <tr>
+                                <td>@vareLinje.VareBeskrivelse</td>
+                                <td>@vareLinje.Antal</td>
+                                <td>@vareLinje.GetAntalTimerString()</td>
+                                <td>@vareLinje.GetTotalAntalTimerString()</td>
+                                <td>@vareLinje.VarePris</td>
+                                <td>@vareLinje.Rabat</td>
+                                <td>@vareLinje.GetTotalPrisString()</td>
+                            </tr>
+                        }
                     }
                 }
+                <tr>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                    <td class="p-3"></td>
+                </tr>
             </tbody>
-            
-            <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col">Moms (25%)</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>@OrdreModel.GetTotalMoms()</td>
-            </tr>
-            <tr>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col"></th>
-                <th scope="col">Pris i alt</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>@OrdreModel.GetTotalPris()</td>
-            </tr>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="fw-bold">Moms (25%)</td>
+                    <td>@OrdreModel.GetTotalMomsString()</td>
+                </tr>
+            </tbody>
+            @* <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col" class="fw-bold">Moms (25%)</th>
+                    <th scope="col">@OrdreModel.GetTotalMomsString()</th>
+                </tr>
+            </thead> *@
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col">Pris totalt (DKK)</th>
+                    <th scope="col" class="text-decoration-underline">@OrdreModel.GetTotalPrisMedMomsString()</th>
+                </tr>
+            </thead>
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
         </table>
     </div>
 
     <div class="footer">
-        <p>Scootervej 47, 7100 Vejle - Telefon: (+45)13354758 - Email: mail@scooterland.dk</p>
+        <div class="row maxwidth align-items-center">
+            <span>Scootervej 47, 7100 Vejle &emsp; CVR: 273847383</span>
+            <span>Telefon: (+45)13354758 &emsp; Email: mail@scooterland.dk</span>
+        </div>
     </div>
 </div>
 

@@ -16,6 +16,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<Ordre?> ReadOrdreAsync(int id)
         {
             var result = await _context.Ordrer
+                .Include(o => o.Kunde).ThenInclude(k => k.TlfNumre)
                 .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
                 .Include(o => o.KundeScooter)
                 .Include(o => o.Mekaniker)
@@ -39,6 +40,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<List<Ordre>> ReadOrdrerAsync()
         {
             return await _context.Ordrer
+                .Include(o => o.Kunde).ThenInclude(k => k.TlfNumre)
                 .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
                 .Include(o => o.KundeScooter)
                 .Include(o => o.Mekaniker)
@@ -50,6 +52,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<List<Ordre>> ReadOrdrerAsync(int kundeId)
         {
             return await _context.Ordrer
+                .Include(o => o.Kunde).ThenInclude(k => k.TlfNumre)
                 .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
                 .Include(o => o.KundeScooter)
                 .Include(o => o.Mekaniker)
