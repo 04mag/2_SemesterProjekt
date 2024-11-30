@@ -19,8 +19,8 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private Vare valgtVare = new Vare();
         private Vare redigeretVare = new Vare();
-        private List<Vare>? filteredVarer = new List<Vare>();
-
+        [Parameter]
+        public List<Vare>? filteredVarer { get; set; } = new List<Vare>();
         [Parameter]
         public EventCallback<Vare> OnSelectVare { get; set; }
         [Parameter]
