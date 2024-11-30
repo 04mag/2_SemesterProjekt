@@ -1,57 +1,45 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
+@using Microsoft.AspNetCore.Components.Forms
 @using Anden_SemesterProjekt.Client.Services
 
-
-
-@page "/create-scooter"
-
-<h3>Opret ny Scooter</h3>
+<h3>Opret KundeScooter</h3>
 
 <EditForm Model="newScooter" OnValidSubmit="HandleCreateScooter">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <!-- Stelnummer -->
-    <div>
+    <div class="mb-3">
         <label for="stelnummer">Stelnummer:</label>
-        <input id="stelnummer" class="form-control" @bind="newScooter.Stelnummer" />
+        <InputText id="stelnummer" class="form-control" @bind-Value="newScooter.Stelnummer" />
         <ValidationMessage For="@(() => newScooter.Stelnummer)" />
     </div>
 
     <!-- Registreringsnummer -->
-    <div>
+    <div class="mb-3">
         <label for="registreringsnummer">Registreringsnummer:</label>
-        <input id="registreringsnummer" class="form-control" @bind="newScooter.Registreringsnummer" />
+        <InputText id="registreringsnummer" class="form-control" @bind-Value="newScooter.Registreringsnummer" />
         <ValidationMessage For="@(() => newScooter.Registreringsnummer)" />
     </div>
 
     <!-- Dropdown for Mærker -->
-    <div class="row p-3 mb-5 border border-primary rounded">
-        <div class="col-md-4 mb-3">
-            <h3>Vælg Mærke</h3>
-        </div>
-        <div class="col-md-4 mb-3">
-            <select class="form-control form-select" @bind="newScooter.MærkeId">
-                <option value="0">-- Vælg Mærke --</option>
-                @if (Mærker != null)
+    <div class="mb-3">
+        <label for="mærke">Vælg Mærke:</label>
+        <select id="mærke" class="form-control" @bind="newScooter.MærkeId">
+            <option value="0">-- Vælg Mærke --</option>
+            @if (Mærker != null)
+            {
+                @foreach (var mærke in Mærker)
                 {
-                    @foreach (var mærke in Mærker)
-                    {
-                        <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
-                    }
+                    <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
                 }
-            </select>
-            <ValidationMessage For="@(() => newScooter.MærkeId)" />
-        </div>
+            }
+        </select>
+        <ValidationMessage For="@(() => newScooter.MærkeId)" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Opret Scooter</button>
+    <button type="submit" class="btn btn-primary">Opret KundeScooter</button>
 </EditForm>
-
-@if (successMessage != null)
-{
-    <p style="color: green;">@successMessage</p>
-}
 
 @if (errorMessage != null)
 {
@@ -59,24 +47,21 @@
 }
 
 @code {
+    [Parameter, EditorRequired]
+    public EventCallback<KundeScooter> OnCreate { get; set; }
+
     private Scooter newScooter = new Scooter();
-    private List<Mærke> Mærker = new List<Mærke>(); // Liste til at gemme mærker
-    private string? successMessage;
+    private List<Mærke> Mærker = new();
     private string? errorMessage;
 
     [Inject]
-    private MærkeClientService MærkeClientService { get; set; }
+    private IMærkeClientService MærkeClientService { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
-            // Hent mærker fra API
             Mærker = await MærkeClientService.GetMærker();
-            if (Mærker == null || Mærker.Count == 0)
-            {
-                errorMessage = "Kunne ikke hente mærker.";
-            }
         }
         catch (Exception ex)
         {
@@ -88,16 +73,31 @@
     {
         try
         {
-            // Simuler handling for at oprette scooter
-            successMessage = "Scooteren blev oprettet og sendt til kunden!";
+            if (newScooter.MærkeId == 0)
+            {
+                errorMessage = "Du skal vælge et mærke.";
+                return;
+            }
+
             errorMessage = null;
 
-            newScooter = new Scooter(); // Clear the form
+            // Map Scooter to KundeScooter object and send it via callback
+            var kundeScooter = new KundeScooter
+                {
+                    Stelnummer = newScooter.Stelnummer,
+                    Registreringsnummer = newScooter.Registreringsnummer,
+                    MærkeId = newScooter.MærkeId,
+                    Mærke = Mærker.FirstOrDefault(m => m.MærkeId == newScooter.MærkeId)
+                };
+
+            await OnCreate.InvokeAsync(kundeScooter);
+
+            // Reset form 
+            newScooter = new Scooter();
         }
         catch (Exception ex)
         {
-            successMessage = null;
-            errorMessage = "Der opstod en fejl: " + ex.Message;
+            errorMessage = $"Der opstod en fejl: {ex.Message}";
         }
     }
 }
