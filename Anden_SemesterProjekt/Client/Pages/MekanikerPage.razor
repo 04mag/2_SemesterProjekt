@@ -4,21 +4,20 @@
 <PageTitle>Mekanikere</PageTitle>
 
 <div class="row p-3">
-    @if (mekanikerList != null)
+    @if (mekanikerList == null)
     {
-        <MekanikerListComponent Mekanikere="mekanikerList" OnSelect="OnSelectHandler" />
+        <div class="col-12">
+            <h3>Der er ingen mekanikere</h3>
+        </div>
     }
-
-    @*Til test og reference til implementering af vælg knap. Skal slettes senere*@
-    @if (SelectedMekaniker != null)
+    else if (mekanikerList.Count > 0)
     {
-        <h3>Valgt Mekaniker</h3>
-        <MekanikerRenderComponent Mekaniker="SelectedMekaniker" />
+        <MekanikerListComponent Mekanikere="mekanikerList"/>
     }
-
-    @if (TestMekaniker != null)
+    else
     {
-        <h3>Test Mekaniker</h3>
-        <MekanikerRenderComponent Mekaniker="TestMekaniker" />
+        <div class="col-12">
+            <h3>Indlæser...</h3>
+        </div>
     }
 </div>  
