@@ -79,7 +79,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                 if (response.IsSuccessStatusCode)
                 {
                     await JS.InvokeVoidAsync("alert", "Ordren er blevet opdateret!");
-                    NavigationManager.NavigateTo("/ordre");
+                    NavigationManager.NavigateTo("/ordrer");
                 }
                 else
                 {
