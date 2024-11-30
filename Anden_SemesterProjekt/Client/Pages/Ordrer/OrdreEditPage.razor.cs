@@ -27,6 +27,8 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 
         private bool ordreAfsluttet = false;
 
+        private bool ordreErBetaltState;
+
         protected override void OnInitialized()
         {
             EditContext = new EditContext(OrdreModel);
@@ -37,15 +39,10 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
             Console.WriteLine("Ordre indhentes!");
             var ordreResult = await OrdreService.GetOrdre(Id);
             
-            if (ordreResult == null)
-            {
-                Console.WriteLine("Ordre er lig null!");
-            }
-
             if (ordreResult != null)
             {
-                Console.WriteLine("Ordre er ikke null!");
                 OrdreModel = ordreResult;
+                ordreErBetaltState = OrdreModel.ErBetalt;
             }
         }
 
@@ -65,7 +62,12 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                     OrdreModel.Udlejning.UdlejningsScooter!.ErTilgængelig = true;
                 }
             }
-            
+
+            if (OrdreModel != null && !ordreErBetaltState && OrdreModel.ErBetalt)
+            {
+                OrdreModel.BetalingsDato = DateTime.Now;
+            }
+
             if (OrdreModel != null)
             {
                 var response = await OrdreService.UpdateOrdre(OrdreModel);
