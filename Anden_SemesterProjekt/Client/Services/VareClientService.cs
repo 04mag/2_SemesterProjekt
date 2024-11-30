@@ -111,34 +111,54 @@ namespace Anden_SemesterProjekt.Client.Services
         //Sender en PUT-anmodning for at opdatere en eksisterene vare eller ydelse. 
         public async Task<HttpResponseMessage> PutVare(Vare vare)
         {
-            
-            if (vare is Ydelse)
-            {
-                var response = await _httpClient.PutAsJsonAsync("api/varer/ydelse", vare);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
-                }
-                else
-                {
-                    return null;
-                }
-            }
-
             if (vare is Vare)
             {
-                var response = await _httpClient.PutAsJsonAsync("api/varer", vare);
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
-                }
-                else
-                {
-                    return null;
-                }
+                return await _httpClient.PutAsJsonAsync("api/varer", vare);
             }
-            return null;
+            else
+            {
+                return null; 
+            }
+
+            if (vare is Ydelse) 
+            {
+                return await _httpClient.PutAsJsonAsync("api/varer/ydelse", vare);
+            }
+            else
+            {
+                return null; 
+            }
+            return null; 
+
+
+            //    if (vare is Ydelse)
+            //    {
+            //        var response = await _httpClient.PutAsJsonAsync("api/varer/ydelse", vare);
+
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
+            //        }
+            //        else
+            //        {
+            //            return null;
+            //        }
+            //    }
+
+            //    if (vare is Vare)
+            //    {
+            //        var response = await _httpClient.PutAsJsonAsync("api/varer", vare);
+
+            //        if (response.IsSuccessStatusCode)
+            //        {
+            //            return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
+            //        }
+            //        else
+            //        {
+            //            return null;
+            //        }
+            //    }
+            //    return null;
         }
 
         //Sender en DELETE-anmodning for at slette en eksisterende vare.

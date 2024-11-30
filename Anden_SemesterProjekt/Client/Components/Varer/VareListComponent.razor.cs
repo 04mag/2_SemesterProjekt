@@ -19,7 +19,9 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private Vare valgtVare = new Vare();
         private Vare redigeretVare = new Vare();
-        private List<Vare>? filteredVarer = new List<Vare>();
+
+       [Parameter]
+        public List<Vare>? filteredVarer { get; set; } = new List<Vare>();
 
         [Parameter]
         public EventCallback<Vare> OnSelectVare { get; set; }
@@ -68,11 +70,14 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             }
         }
 
+        
+
+
         private void VareBeskrivelse(Vare vare)
         {
             valgtVare = Varer.FirstOrDefault(v => v.Id == vare.Id);
 
-            // Hvis en scooter er fundet, vis modal
+            // Hvis en varer er fundet, vis modal
             if (valgtVare != null)
             {
                 detailsModal = true;
@@ -121,11 +126,12 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Varen er opdateret.");
                 detailsModal = false;
-                Varer = await VareClientService.GetAktiveVarer();
+                filteredVarer = await VareClientService.GetAktiveVarer();
                 detailsModal = true;
                 editModal = false;
                 detailsModal = false;
             }
+            
         }
 
        
