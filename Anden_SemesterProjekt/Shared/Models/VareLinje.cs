@@ -19,16 +19,47 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int? Antal { get; set; }
         public double? Rabat { get; set; }
         public double VarePris { get; set; }
-
-        public double? TotalPris
-        {
-            get
-            {
-                return VarePris * Antal;
-            }
-        }
-        public string VareBeskrivelse { get; set; }
+        public string VareBeskrivelse { get; set; } = "";
         public double YdelseAntalTimer { get; set; } = 0;
+
+        public double GetTotalPris()
+        {
+            if (Antal == null)
+            {
+                return 0;
+            }
+            double totalPris = VarePris * (int)Antal;
+            if (Rabat != null)
+            {
+                totalPris -= (double)Rabat;
+            }
+            return totalPris;
+        }
+
+        public double GetTotalAntalTimer()
+        {
+            if (Antal == null)
+            {
+                return 0;
+            }
+            return YdelseAntalTimer * (int)Antal;
+        }
+
+        public string GetTotalPrisString()
+        {
+            return GetTotalPris().ToString("0.00");
+        }
+
+        public string GetAntalTimerString()
+        {
+            return YdelseAntalTimer.ToString("0.00");
+        }
+
+        public string GetTotalAntalTimerString()
+        {
+            return GetTotalAntalTimer().ToString("0.00");
+        }
+
     }
 }
 

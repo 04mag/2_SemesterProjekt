@@ -5,32 +5,30 @@
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class createvarer : Migration
+    public partial class ChangedBeskrivelseToStringInVareLinje : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Beskrivelse",
-                table: "Varer",
-                type: "nvarchar(50)",
-                maxLength: 50,
+                name: "VareBeskrivelse",
+                table: "VareLinjer",
+                type: "nvarchar(max)",
                 nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldClrType: typeof(double),
+                oldType: "float");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Beskrivelse",
-                table: "Varer",
-                type: "nvarchar(max)",
+            migrationBuilder.AlterColumn<double>(
+                name: "VareBeskrivelse",
+                table: "VareLinjer",
+                type: "float",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldType: "nvarchar(max)");
         }
     }
 }

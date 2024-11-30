@@ -9,22 +9,34 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
         [Inject]
         public IKundeClientService KundeService { get; set; }
 
+        [Inject]
+        public IOrdreClientService OrdreService { get; set; }
+
         [Parameter]
         public int KundeId { get; set; }
 
         public Kunde? KundeModel { get; set; }
 
+        public List<Ordre> KundeOrdrer { get; set; } = new List<Ordre>();
+
         override protected async Task OnInitializedAsync()
         {
-            var result = await KundeService.GetKunde(KundeId);
+            var kundeResult = await KundeService.GetKunde(KundeId);
 
-            if (result != null)
+            if (kundeResult != null)
             {
-                KundeModel = result;
+                KundeModel = kundeResult;
             }
             else
             {
                 KundeModel = new Kunde { KundeId = 0};
+            }
+
+            var ordreResult = await OrdreService.GetOrdrer(KundeId);
+
+            if (ordreResult != null)
+            {
+                KundeOrdrer = ordreResult;
             }
         }
     }

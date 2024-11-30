@@ -51,6 +51,11 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 
         public async Task OnValidSubmit()
         {
+            if (OrdreModel != null && OrdreModel.Udlejning != null)
+            {
+                OrdreModel.Udlejning.SlutDato = OrdreModel.SlutDato;
+            }
+
             if (OrdreModel != null && ordreAfsluttet)
             {
                 OrdreModel.ErAfsluttet = true;
@@ -68,7 +73,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                 if (response.IsSuccessStatusCode)
                 {
                     await JS.InvokeVoidAsync("alert", "Ordren er blevet opdateret!");
-                    NavigationManager.NavigateTo("/ordrer");
+                    NavigationManager.NavigateTo("/ordre");
                 }
                 else
                 {

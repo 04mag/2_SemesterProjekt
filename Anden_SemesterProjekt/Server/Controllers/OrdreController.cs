@@ -26,6 +26,17 @@ namespace Anden_SemesterProjekt.Server.Controllers
             return Ok(ordre);
         }
 
+        [HttpGet("kunde/{kundeId}")]
+        public async Task<ActionResult<List<Ordre>>> GetKundeOrdrer(int kundeId)
+        {
+            var ordre = await _ordreService.GetOrdrerAsync(kundeId);
+            if (ordre == null || ordre.Count == 0)
+            {
+                return NotFound("Ingen ordre fundet.");
+            }
+            return Ok(ordre);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Ordre>> Get(int id)
         {

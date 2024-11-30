@@ -1,0 +1,25 @@
+﻿@page "/ordre"
+@using Anden_SemesterProjekt.Client.Components.Ordrer
+@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
+
+<h3>Ordrer</h3>
+
+<OrdreListComponent Ordrer="Ordrer" />
+
+@code {
+    [Inject]
+    public IOrdreClientService OrdreService { get; set; }
+
+    public List<Ordre> Ordrer { get; set; } = new List<Ordre>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var ordreResult = await OrdreService.GetOrdrer();
+
+        if (ordreResult != null)
+        {
+            Ordrer = ordreResult;
+        }
+    }
+}

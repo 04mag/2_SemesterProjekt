@@ -1,0 +1,102 @@
+﻿@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
+@using System.Drawing
+<div class="col-12">
+    <div style="background-color:@BackgroundColor" class="row border border-primary rounded mb-1 p-1 align-middle">
+        <div class="col-md-1 p-1">
+            <span>ID: @Ordre.OrdreId</span>
+        </div>
+        @if (Ordre.Kunde != null)
+        {
+            <div class="col-md-2 p-1">
+                <span>@Ordre.Kunde.Navn</span>
+            </div>
+        }
+        <div class="col-md-2 p-1">
+            <span>Start Dato: @Ordre.StartDato.ToShortDateString()</span>
+        </div>
+        <div class="col-md-2 p-1">
+            <span>Slut Dato: @Ordre.SlutDato.ToShortDateString()</span>
+        </div>
+        <div class="col-md-2 p-1">
+            <span>Status: @Ordre.GetStatus()</span>
+        </div>
+        <div class="col-md-3 p-1">
+            <button type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">Mere Info</button>
+            @if (Ordre.ErAfsluttet == false)
+            {
+                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
+                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+            }
+            @if (Ordre.ErAfsluttet == true)
+            {
+                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IOrdreClientService OrdreService { get; set; }
+
+    [Parameter, EditorRequired]
+    public Ordre Ordre { get; set; } = new Ordre();
+
+    [Parameter]
+    public String BackgroundColor { get; set; } = "#ffffff";
+
+    private bool ordreModelErBetalt;
+
+    protected override void OnInitialized()
+    {
+        ordreModelErBetalt = Ordre.ErBetalt;
+    }
+
+    public string ErBetaltButtonText 
+    {
+        get 
+        {
+            if (ordreModelErBetalt)
+            {
+                return "Betalt";
+            }
+            else
+            {
+                return "Ikke betalt";
+            }
+        }
+    }
+
+    private void HandleClick()
+    {
+        NavigationManager.NavigateTo($"/ordre/{Ordre.OrdreId}");
+    }
+
+    private void OnEditClicked()
+    {
+        NavigationManager.NavigateTo($"/ordre/edit/{Ordre.OrdreId}");
+    }
+
+    private async Task OnBetaltClicked()
+    {
+        Ordre.ErBetalt = !Ordre.ErBetalt;
+
+        if (Ordre != null)
+        {
+            var response = await OrdreService.UpdateOrdre(Ordre);
+
+            if (response.IsSuccessStatusCode)
+            {
+                ordreModelErBetalt = Ordre.ErBetalt;
+            }
+            else
+            {
+                Ordre.ErBetalt = !Ordre.ErBetalt;
+            }
+        }
+    }
+}
