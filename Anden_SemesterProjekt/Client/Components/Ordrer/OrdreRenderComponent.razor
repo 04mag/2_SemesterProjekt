@@ -22,15 +22,29 @@
             <span>Status: @Ordre.GetStatus()</span>
         </div>
         <div class="col-md-3 p-1">
-            <button type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">Mere Info</button>
+            <button disabled="@isBusy" type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">Mere Info</button>
             @if (Ordre.ErAfsluttet == false)
             {
-                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
-                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                <button disabled="@isBusy" type="button" class="btn btn-warning float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
+                @if (ordreModelErBetalt)
+                {
+                    <button disabled="@isBusy" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                }
+                else
+                {
+                    <button disabled="@isBusy" type="button" class="btn btn-danger float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                }
             }
             @if (Ordre.ErAfsluttet == true)
             {
-                <button type="button" class="btn btn-primary float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                @if (ordreModelErBetalt)
+                {
+                    <button disabled="@isBusy" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                }
+                else
+                {
+                    <button disabled="@isBusy" type="button" class="btn btn-danger float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                }
             }
         </div>
     </div>
@@ -48,6 +62,8 @@
 
     [Parameter]
     public String BackgroundColor { get; set; } = "#ffffff";
+
+    private bool isBusy = false;
 
     private bool ordreModelErBetalt;
 
@@ -73,17 +89,24 @@
 
     private void HandleClick()
     {
+        isBusy = true;
         NavigationManager.NavigateTo($"/ordre/{Ordre.OrdreId}");
+        isBusy = false;
     }
 
     private void OnEditClicked()
     {
+        isBusy = true;
         NavigationManager.NavigateTo($"/ordre/edit/{Ordre.OrdreId}");
+        isBusy = false;
     }
 
     private async Task OnBetaltClicked()
     {
+        isBusy = true;
+
         Ordre.ErBetalt = !Ordre.ErBetalt;
+        Ordre.BetalingsDato = DateTime.Now;
 
         if (Ordre != null)
         {
@@ -98,5 +121,7 @@
                 Ordre.ErBetalt = !Ordre.ErBetalt;
             }
         }
+
+        isBusy = false;
     }
 }
