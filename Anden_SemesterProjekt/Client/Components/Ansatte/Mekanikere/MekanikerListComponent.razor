@@ -3,7 +3,7 @@
     <div class="col-lg-4 mb-3">
         <input class="form-control" @bind-value="searchString" @bind-value:event="oninput" placeholder="Søg via navn" />
     </div>
-    <div class="row p-4 mb-3 scroll">
+    <div class="row p-4 mb-3">
         <div class="col-12">
             @foreach (var mekaniker in FilteredMekanikere)
             {
