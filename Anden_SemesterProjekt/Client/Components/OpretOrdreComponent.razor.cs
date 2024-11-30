@@ -20,6 +20,10 @@ namespace Anden_SemesterProjekt.Client.Components
         private bool kundeValgt = false;
         private double? ordreTotalPris = 0;
         private bool opretKundeModal = false;
+        private string kundeNavn = string.Empty;
+        private string kundeEmail = string.Empty;
+        private string mekanikerNavn = string.Empty;
+        private string kundeScooter = string.Empty;
 
         // Søgning på varer og kunder
         #region Søgning på varer og kunder
@@ -71,14 +75,17 @@ namespace Anden_SemesterProjekt.Client.Components
             {
                 visVareForslag = false;
             }
+
+           
+
         }
         private void VælgVare(Vare vare)
         {
             søgeTekstVarer = $"{vare.Beskrivelse}";
-            ordreVare = vare;
             visVareForslag = false;
-            ordreVareLinje.Vare = ordreVare;
+            ordreVareLinje.Vare = vare;
             ordreVareLinje.VarePris = vare.Pris;
+
             StateHasChanged();
         }
 
@@ -106,6 +113,10 @@ namespace Anden_SemesterProjekt.Client.Components
             nyOrdre.Kunde = kunde;
             nyOrdre.KundeId = kunde.KundeId;
             nyOrdre.MekanikerId = kunde.MekanikerId;
+            kundeNavn = kunde.Navn;
+            kundeEmail = kunde.Email;
+            mekanikerNavn = kunde.TilknyttetMekaniker.Navn;
+           
             visKundeForslag = false;
             kundeScootere = kunde.Scootere;
             StateHasChanged();
@@ -121,6 +132,12 @@ namespace Anden_SemesterProjekt.Client.Components
 
                 ordreVareLinjer.Remove(vare);
                 StateHasChanged();
+        }
+
+        private void BindScooter(ChangeEventArgs e)
+        {
+            kundeScooter = e.Value.ToString(); // Opdater hovedinput
+          StateHasChanged();
         }
 
         private void OpretKunde()
@@ -140,7 +157,7 @@ namespace Anden_SemesterProjekt.Client.Components
         }
         private void TilføjVare()
         {
-            if(!ordreVareLinjer.Any(o => o.Vare.Id == ordreVareLinje.Vare.Id))
+            if(!ordreVareLinjer.Any(o => o.Vare.Id == ordreVareLinje.Vare.Id && o.Vare.Pris == ordreVareLinje.VarePris))
             {
                 ordreVareLinjer.Add(ordreVareLinje);
                 ordreVareLinje = new VareLinje();

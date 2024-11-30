@@ -16,7 +16,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public Ordre? Ordre { get; set; }
         public int VareId { get; set; }
         public Vare? Vare { get; set; }
-        public int? Antal { get; set; }
+        public int? Antal { get; set; } = 1;
         public double? Rabat { get; set; }
         public double VarePris { get; set; }
         public string VareBeskrivelse { get; set; } = "";
