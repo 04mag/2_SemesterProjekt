@@ -2,6 +2,8 @@
 @using Anden_SemesterProjekt.Client.Components.Kunder
 @using Anden_SemesterProjekt.Client.Components.Ordrer
 
+<PageTitle>Kunde Information</PageTitle>
+
 @if (KundeModel == null)
 {
     <p>Indlæser...</p>
@@ -12,6 +14,7 @@ else if (KundeModel.KundeId == 0)
 }
 else
 {
+    <PageTitle>@KundeModel.Navn</PageTitle>
     <div class="row p-3">
         <div class="col-12">
             <h4>Kunde information:</h4>
