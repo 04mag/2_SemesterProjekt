@@ -17,7 +17,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
     {
         private List<Vare> varer = new List<Vare>();
         
-        private VareListComponent vareListComponent;
+        //private VareListComponent vareListComponent;
 
         //En service, som skal injectes til at hente og manipulere data fra serveren via api kaldet. 
         [Inject]

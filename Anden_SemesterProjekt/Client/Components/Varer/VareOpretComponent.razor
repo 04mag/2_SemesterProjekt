@@ -1,23 +1,21 @@
-﻿
-<div>
-    <!-- Knap til at åbne modal -->
-    <button class="btn btn-primary" @onclick="ShowAddModal">Opret vare</button>
+﻿<div class="d-flex align-items-center mb-3">
+    <!-- Beskrivelse -->
+    <div class="me-3">
+        <label for="beskrivelse" class="form-label">Beskrivelse:</label>
+        <input id="beskrivelse" type="text" class="form-control" @bind="vareModel.Beskrivelse" />
+    </div>
 
-    <!-- Modal HTML -->
-    <div id="vareModal" class="modal" style="display: @(addModal ? "block" : "none")">
-        <div class="modal-content">
-            <span class="close" @onclick="CloseAddModal">&times;</span>
-            <h3>Opret ny vare</h3>
-            <div>
-                <label for="beskrivelse">Beskrivelse:</label>
-                <input id="beskrivelse" type="text" @bind="vareModel.Beskrivelse" />
-            </div>
-            <div>
-                <label for="pris">Pris (DKK):</label>
-                <input id="pris" type="number" @bind="vareModel.Pris" />
-            </div>
-            <button @onclick="HandleValidSubmit">Opret vare</button>
-        </div>
+    <!-- Pris -->
+    <div class="me-3">
+        <label for="pris" class="form-label">Pris (DKK):</label>
+        <input id="pris" type="number" class="form-control" @bind="vareModel.Pris" />
+    </div>
+
+    <!-- Opret knap -->
+    <div>
+        <button class="btn btn-primary mt-4" @onclick="HandleValidSubmit" disabled="@isSubmitting">
+            Opret vare
+        </button>
     </div>
 </div>
 
