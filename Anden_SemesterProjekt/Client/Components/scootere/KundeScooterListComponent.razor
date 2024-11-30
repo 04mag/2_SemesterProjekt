@@ -1,7 +1,6 @@
-﻿using Anden_SemesterProjekt.Shared.Models
+﻿@using Anden_SemesterProjekt.Shared.Models
 @using Microsoft.AspNetCore.Components.Forms
 @using Anden_SemesterProjekt.Client.Services
-
 
 @inject IScooterClientService ScooterClientService
 
@@ -14,10 +13,6 @@
 else if (errorMessage != null)
 {
     <p style="color: red;">@errorMessage</p>
-}
-else if (kundeScootere == null || !kundeScootere.Any())
-{
-    <p>Ingen kundescootere fundet.</p>
 }
 else
 {
@@ -32,17 +27,9 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadKundeScootereAsync();
-    }
-
-    private async Task LoadKundeScootereAsync()
-    {
         try
         {
-            isLoading = true;
-            errorMessage = null;
-
-            // Fetch customer scooters from the service
+            // Hent liste af kundescootere fra service
             kundeScootere = await ScooterClientService.GetAllKundeScootereAsync();
         }
         catch (Exception ex)
@@ -55,26 +42,9 @@ else
         }
     }
 
-    private void DeleteScooter(Scooter scooter)
+    private void DeleteScooter(KundeScooter scooter)
     {
-        try
-        {
-            errorMessage = null;
-
-            // Remove the scooter from the local list
-            var scooterToRemove = kundeScootere?.FirstOrDefault(s => s.ScooterId == scooter.ScooterId);
-            if (scooterToRemove != null)
-            {
-                kundeScootere.Remove(scooterToRemove);
-            }
-            else
-            {
-                errorMessage = "Scooteren blev ikke fundet i listen.";
-            }
-        }
-        catch (Exception ex)
-        {
-            errorMessage = $"Der opstod en fejl under sletning fra listen: {ex.Message}";
-        }
+        // Fjern scooteren fra listen
+        kundeScootere?.Remove(scooter);
     }
 }
