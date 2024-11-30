@@ -45,6 +45,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
                     vareModel = new Vare(); //Nulstiller modellen, så formularen bliver tom
                     editContext = new EditContext(vareModel); //Opretter en ny EditContext til den nulstillede model
                     await OnVareAdded.InvokeAsync();
+                    
                 }
                 else
                 {

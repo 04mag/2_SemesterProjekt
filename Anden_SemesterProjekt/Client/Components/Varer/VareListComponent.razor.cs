@@ -67,9 +67,6 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
                     .ToList();
             }
         }
-        
-
-        
 
         private void VareBeskrivelse(Vare vare)
         {

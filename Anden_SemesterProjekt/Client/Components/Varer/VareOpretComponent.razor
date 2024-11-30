@@ -1,5 +1,29 @@
-﻿
- <EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit">
+﻿<div class="d-flex align-items-center mb-3">
+    <!-- Beskrivelse -->
+    <div class="me-3">
+        <label for="beskrivelse" class="form-label">Beskrivelse:</label>
+        <input id="beskrivelse" type="text" class="form-control" @bind="vareModel.Beskrivelse" />
+    </div>
+
+    <!-- Pris -->
+    <div class="me-3">
+        <label for="pris" class="form-label">Pris (DKK):</label>
+        <input id="pris" type="number" class="form-control" @bind="vareModel.Pris" />
+    </div>
+
+    <!-- Opret knap -->
+    <div>
+        <button class="btn btn-primary mt-4" @onclick="HandleValidSubmit" disabled="@isSubmitting">
+            Opret vare
+        </button>
+    </div>
+</div>
+
+
+
+
+
+@*  <EditForm EditContext="editContext" class="row p-3 mb-5 border border-primary rounded" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <h3>Opret ny vare</h3>
@@ -26,8 +50,7 @@
     </div>
 
 </EditForm>
- 
-
+  *@
 
 
             

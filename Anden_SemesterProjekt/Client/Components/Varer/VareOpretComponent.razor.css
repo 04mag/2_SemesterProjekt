@@ -1,0 +1,11 @@
+﻿.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.me-3 {
+    margin-right: 1rem;
+}
