@@ -52,13 +52,6 @@
    </div>
 
     <row class =" pt-3">
-        <InputSelect @bind-Value="nyOrdre.MekanikerId" class="col-2">
-            <option value="">Vælg mekaniker</option>
-            @foreach (var mekaniker in alleMekanikere)
-            {
-                <option value="@mekaniker.MekanikerId">@mekaniker.Navn</option>
-            }
-        </InputSelect>
         
             <input type="text"class="col-6"placeholder="Vælg kunde ..."@bind="søgeTekstKunder"@oninput="KundeSøgefeltÆndret" />
             @if (visKundeForslag)
@@ -73,6 +66,21 @@
                 </ul>
             }
             <button class="btn btn-primary col-1" @onclick="OpretKunde">Opret kunde</button>
+            <InputSelect @bind-Value="nyOrdre.MekanikerId" class="col-2">
+                <option value="">Vælg mekaniker</option>
+                @foreach (var mekaniker in alleMekanikere)
+                {
+                    <option value="@mekaniker.MekanikerId">@mekaniker.Navn</option>
+                }
+            </InputSelect>
+            
+            <InputSelect @bind-Value="nyOrdre.KundeScooterId" class="col-2">
+                <option value="">Vælg scooter</option>
+                @foreach (var scooter in kundeScootere)
+                {
+                    <option value="@scooter.ScooterId">@scooter.Registreringsnummer</option>
+                }
+            </InputSelect>
     </row>
 
     <div class="border-primary mt-5 col-6">
@@ -111,7 +119,7 @@
     <div class="modal">
         <div class="modal-content">
             <span class="close-button" @onclick="@LukOpretKundeModal">&times;</span>
-            <KundeCreateComponent/>
+            <KundeCreateComponent OnKundeAdded="NyKunde" />
         </div>
     </div>
 }

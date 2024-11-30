@@ -18,7 +18,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         public IKundeClientService KundeService { get; set; }
 
         [Parameter]
-        public EventCallback OnKundeAdded { get; set; }
+        public EventCallback<Kunde> OnKundeAdded { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -43,7 +43,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
                 if (result != null)
                 {
-                    await OnKundeAdded.InvokeAsync();
+                    await OnKundeAdded.InvokeAsync(result);
                     kundeModel = new Kunde();
                     Mekaniker = null;
                 }

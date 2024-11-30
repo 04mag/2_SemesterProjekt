@@ -15,6 +15,7 @@ namespace Anden_SemesterProjekt.Client.Components
         private VareLinje ordreVareLinje = new VareLinje();
         private Vare ordreVare = new Vare();
         private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
+        private List<KundeScooter> kundeScootere = new List<KundeScooter>();
         private bool checkboxValue = false;
         private bool kundeValgt = false;
         private double? ordreTotalPris = 0;
@@ -105,6 +106,7 @@ namespace Anden_SemesterProjekt.Client.Components
             nyOrdre.Kunde = kunde;
             nyOrdre.KundeId = kunde.KundeId;
             visKundeForslag = false;
+            kundeScootere = kunde.Scootere;
             StateHasChanged();
             kundeValgt = true;
         }
@@ -173,6 +175,16 @@ namespace Anden_SemesterProjekt.Client.Components
             OrdreService.AddOrdre(nyOrdre);
 
         }
+        private async Task NyKunde(Kunde nyKunde)
+        {
+           LukOpretKundeModal();
+           nyOrdre.Kunde = nyKunde;
+            søgeTekstKunder = nyKunde.Navn;
+            opretKundeModal = false; // Luk modalvinduet
+            alleKunder = await KundeService.GetKunder(); // Opdater kundeliste
+            StateHasChanged(); // Opdater UI
+        }
+
         private async Task HandleValidSubmit()
         {
             try
