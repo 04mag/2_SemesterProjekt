@@ -15,3 +15,7 @@
     width: 100%;
     text-align: center;
 }
+
+.nowrap {
+    white-space: nowrap;
+}
