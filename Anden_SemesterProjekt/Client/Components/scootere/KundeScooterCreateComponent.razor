@@ -47,13 +47,13 @@
 }
 
 @code {
-    [Parameter, EditorRequired]
-    public EventCallback<KundeScooter> OnCreate { get; set; }
+    private KundeScooter newScooter = new KundeScooter();
 
-    private Scooter newScooter = new Scooter();
     private List<Mærke> Mærker = new();
     private string? errorMessage;
 
+    [Parameter]
+    public EventCallback<KundeScooter> OnCreate { get; set; }
     [Inject]
     private IMærkeClientService MærkeClientService { get; set; }
 
@@ -93,7 +93,8 @@
             await OnCreate.InvokeAsync(kundeScooter);
 
             // Reset form 
-            newScooter = new Scooter();
+            newScooter = new KundeScooter(); // Clear the form
+
         }
         catch (Exception ex)
         {
