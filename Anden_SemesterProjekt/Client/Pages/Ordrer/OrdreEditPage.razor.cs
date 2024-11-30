@@ -25,6 +25,8 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 
         public EditContext EditContext { get; set; }
 
+        private bool isBusy = false;
+
         private bool ordreAfsluttet = false;
 
         private bool ordreErBetaltState;
@@ -48,6 +50,8 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 
         public async Task OnValidSubmit()
         {
+            isBusy = true;
+
             if (OrdreModel != null && OrdreModel.Udlejning != null)
             {
                 OrdreModel.Udlejning.SlutDato = OrdreModel.SlutDato;
@@ -86,11 +90,13 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
             {
                 await JS.InvokeVoidAsync("alert", "Ordren kunne ikke findes!");
             }
+
+            isBusy = false;
         }
 
-        public async Task OnInvalidSubmit()
+        public void OnInvalidSubmit()
         {
-            
+            Console.WriteLine("Invalid submit!");
         }
     }
 }
