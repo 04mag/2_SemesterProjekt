@@ -42,10 +42,12 @@
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Vare</th>
                     <th scope="col">Antal</th>
                     <th scope="col"></th>
@@ -63,6 +65,7 @@
                         if (vareLinje.YdelseAntalTimer == 0)
                         {
                             <tr>
+                                <td>@vareLinje.VareId</td>
                                 <td>@vareLinje.VareBeskrivelse</td>
                                 <td>@vareLinje.Antal</td>
                                 <td></td>
@@ -82,10 +85,12 @@
                     <td class="p-3"></td>
                     <td class="p-3"></td>
                     <td class="p-3"></td>
+                    <td class="p-3"></td>
                 </tr>
             </tbody>
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Ydelse</th>
                     <th scope="col">Antal</th>
                     <th scope="col">Timer</th>
@@ -103,6 +108,7 @@
                         if (vareLinje.YdelseAntalTimer > 0)
                         {
                             <tr>
+                                <td>@vareLinje.VareId</td>
                                 <td>@vareLinje.VareBeskrivelse</td>
                                 <td>@vareLinje.Antal</td>
                                 <td>@vareLinje.GetAntalTimerString()</td>
@@ -122,6 +128,7 @@
                     <td class="p-3"></td>
                     <td class="p-3"></td>
                     <td class="p-3"></td>
+                    <td class="p-3"></td>
                 </tr>
             </tbody>
             <tbody>
@@ -131,23 +138,14 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                     <td class="fw-bold">Moms (25%)</td>
                     <td>@OrdreModel.GetTotalMomsString()</td>
                 </tr>
             </tbody>
-            @* <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col" class="fw-bold">Moms (25%)</th>
-                    <th scope="col">@OrdreModel.GetTotalMomsString()</th>
-                </tr>
-            </thead> *@
             <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -159,6 +157,7 @@
             </thead>
             <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
