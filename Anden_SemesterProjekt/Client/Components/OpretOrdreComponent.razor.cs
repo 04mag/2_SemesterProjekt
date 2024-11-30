@@ -9,7 +9,7 @@ namespace Anden_SemesterProjekt.Client.Components
     public partial class OpretOrdreComponent
     {
         #region Data og Initialisering
-        public Ordre nyOrdre = new Ordre();
+        public Ordre? nyOrdre = new Ordre();
         private Mekaniker? ordreMekaniker = new Mekaniker();
         private List<Mekaniker> alleMekanikere = new List<Mekaniker>();
         private VareLinje ordreVareLinje = new VareLinje();
@@ -18,12 +18,7 @@ namespace Anden_SemesterProjekt.Client.Components
         private List<KundeScooter> kundeScootere = new List<KundeScooter>();
         private bool checkboxValue = false;
         private bool kundeValgt = false;
-        private double? ordreTotalPris = 0;
         private bool opretKundeModal = false;
-        private string kundeNavn = string.Empty;
-        private string kundeEmail = string.Empty;
-        private string mekanikerNavn = string.Empty;
-        private string kundeScooter = string.Empty;
 
         // Søgning på varer og kunder
         #region Søgning på varer og kunder
@@ -113,9 +108,7 @@ namespace Anden_SemesterProjekt.Client.Components
             nyOrdre.Kunde = kunde;
             nyOrdre.KundeId = kunde.KundeId;
             nyOrdre.MekanikerId = kunde.MekanikerId;
-            kundeNavn = kunde.Navn;
-            kundeEmail = kunde.Email;
-            mekanikerNavn = kunde.TilknyttetMekaniker.Navn;
+
            
             visKundeForslag = false;
             kundeScootere = kunde.Scootere;
@@ -127,19 +120,11 @@ namespace Anden_SemesterProjekt.Client.Components
         private void FjernVare(VareLinje vare)
         {
             ordreVareLinjer.Remove(vare);
-            ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
             StateHasChanged();
 
                 ordreVareLinjer.Remove(vare);
                 StateHasChanged();
         }
-
-        private void BindScooter(ChangeEventArgs e)
-        {
-            kundeScooter = e.Value.ToString(); // Opdater hovedinput
-          StateHasChanged();
-        }
-
         private void OpretKunde()
         {
             opretKundeModal = true;
@@ -151,21 +136,19 @@ namespace Anden_SemesterProjekt.Client.Components
 
         private void FjernVareVedNul()
         {
-            ordreVareLinjer.RemoveAll(p => p.Antal <= 1);
-            ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
+            ordreVareLinjer.RemoveAll(p => p.Antal == 0);
             StateHasChanged();
         }
         private void TilføjVare()
         {
-            if(!ordreVareLinjer.Any(o => o.Vare.Id == ordreVareLinje.Vare.Id && o.Vare.Pris == ordreVareLinje.VarePris))
+            if(!nyOrdre.VareLinjer.Any(o => o.Vare.Id == ordreVareLinje.Vare.Id && o.Vare.Pris == ordreVareLinje.VarePris))
             {
-                ordreVareLinjer.Add(ordreVareLinje);
+                nyOrdre.VareLinjer.Add(ordreVareLinje);
                 ordreVareLinje = new VareLinje();
                 ordreVare = new Vare();
                 ordreVareLinje.Vare = ordreVare;
                 ordreVareLinje.VarePris = ordreVare.Pris;
                 ordreVare = new Vare();
-                ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris);
                 søgeTekstVarer = string.Empty;
                 StateHasChanged();
             }
@@ -173,7 +156,6 @@ namespace Anden_SemesterProjekt.Client.Components
             {
                 var o = ordreVareLinjer.Find(p => p.Vare.Id == ordreVareLinje.Vare.Id);
                 o.Antal += ordreVareLinje.Antal;
-                ordreTotalPris = ordreVareLinjer.Sum(p => p.VarePris * p.Antal);
                 NulstilVareInput();
                 StateHasChanged();
             }

@@ -132,47 +132,47 @@
 
 <div class="container mt-4">
     <!-- Header -->
-    <h2>Administrer Sko</h2>
-    <p>Tilføj produkter, vælg kunder, og opret ordrer nemt.</p>
-
     <!-- Kunde Sektion -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Vælg Kunde</h4>
-        </div>
-        <div class="card-body">
-            <div class="row mb-3">
-                <div class="col-6">
-                    <input type="text" class="form-control" placeholder="Vælg kunde ..." @bind="søgeTekstKunder" @oninput="KundeSøgefeltÆndret" />
-                    @if (visKundeForslag)
-                    {
-                        <ul class="list-group mt-2">
-                            @foreach (var kunde in kundeForslag)
-                            {
-                                <li class="list-group-item" @onclick="() => VælgKunde(kunde)">
-                                    (@kunde.KundeId) @kunde.Navn - @kunde.Email
-                                </li>
-                            }
-                        </ul>
-                    }
+            <div class="card">
+                <div class="card-header">
+                    <h4>Vælg Kunde og scooter</h4>
                 </div>
-                <div class="col-2">
-                    <button class="btn btn-success" @onclick="OpretKunde">Opret kunde</button>
-                </div>
-             
-                <div class="col-2">
-                    <InputSelect @bind-Value="nyOrdre.KundeScooterId" class="form-select">
-                        <option value="">Vælg scooter</option>
-                        @foreach (var scooter in kundeScootere)
+                <div class="card-body">
+
+                    <div>
+                        Kunde:
+                        <InputText class="form-control col-4" placeholder="Vælg kunde ..." @bind-Value="søgeTekstKunder" @oninput="KundeSøgefeltÆndret"/>
+                        @if (visKundeForslag)
                         {
-                            <option value="@scooter.ScooterId">@scooter.Registreringsnummer</option>
+                            <ul class="liste mt-2">
+                                @foreach (var kunde in kundeForslag)
+                                {
+                                    <li @onclick="() => VælgKunde(kunde)">
+                                        (@kunde.KundeId) @kunde.Navn - @kunde.Email
+                                    </li>
+                                }
+                            </ul>
                         }
-                    </InputSelect>
+                    </div>
+                    <div >
+                        Scooter: 
+                        <InputSelect @bind-Value="nyOrdre.KundeScooterId" class="form-select col-2">
+                            <option value="">Vælg scooter</option>
+                            @foreach (var scooter in kundeScootere)
+                            {
+                               
+                                    <option value="@scooter.ScooterId">@scooter.Registreringsnummer</option>
+                            }
+                        </InputSelect>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-success mt-1" @onclick="OpretKunde">Opret kunde</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <!--Mekaniker og scooter-->
+            <!--Mekaniker-->
+    
+  
     <div class="card mb-2">
         <div class="card-header">
             <h4>Vælg mekaniker</h4>
@@ -185,16 +185,6 @@
                         @foreach (var mekaniker in alleMekanikere)
                         {
                             <option value="@mekaniker.MekanikerId">@mekaniker.Navn</option>
-                        }
-                    </InputSelect>
-                </div>
-                <div class="col-2">
-                    <InputSelect @bind-Value="nyOrdre.KundeScooterId" @onchange="BindScooter"class="form-select">
-                        <option value="">Vælg scooter</option>
-                        @foreach (var scooter in kundeScootere)
-                        {
-                            <option value="@scooter.ScooterId">@scooter.Registreringsnummer</option>
-
                         }
                     </InputSelect>
                 </div>
@@ -221,10 +211,10 @@
                     <input type="text" class="form-control" placeholder="Søg varer ..." @bind="søgeTekstVarer" @oninput="VareSøgefeltÆndret"/>
                     @if (visVareForslag)
                     {
-                        <ul class="list-group mt-2">
+                        <ul class="liste mt-2">
                             @foreach (var vare in vareForslag)
                             {
-                                <li class="list-group-item" @onclick="() => VælgVare(vare)">
+                                <li  @onclick="() => VælgVare(vare)">
                                     @vare.Beskrivelse - @vare.Pris Kr
                                 </li>
                             }
@@ -257,14 +247,14 @@
             <h4>Ordre Oversigt</h4>
         </div>
         <div class="card-body">
-            @foreach (var vareLinje in ordreVareLinjer)
+            @foreach (var vareLinje in nyOrdre.VareLinjer)
             {
                 <div class="row align-items-center mb-2">
                     <div class="col-6">
                         @vareLinje.Vare.Beskrivelse - @vareLinje.VarePris Kr
                     </div>
                     <div class="col-2">
-                        <InputNumber @bind-Value="@vareLinje.Antal" class="form-control" @oninput="() => FjernVareVedNul()" />
+                        <InputNumber @bind-Value="@vareLinje.Antal" class="form-control" @onfocusout="FjernVareVedNul" />
                     </div>
                     <div class="col-2">
                         <button class="btn btn-danger" @onclick="() => FjernVare(vareLinje)">Slet</button>
@@ -273,22 +263,12 @@
             }
            
             <div class="row mt-3">
-                
-                <div class="col-6">
-                    <strong>Kunde:</strong> @kundeNavn - @kundeEmail
-                </div>
-                <div class="col-6">
-                    <strong>Scooter:</strong>
-                </div>
 
-                <div class="col-6">
-                    <strong>Mekaniker:</strong> @mekanikerNavn
-                </div>
                 <div class="col-6">
                     <strong>Total pris:</strong> @ordreVareLinjer.Sum(v => v.VarePris * v.Antal) Kr
                 </div>
                 <div class="col-6 text-end">
-                    <button class="btn btn-primary" @onclick="OpretOrdre" disabled="!(ordreVareLinjer.Count > 0 && nyOrdre.MekanikerId != null && nyOrdre.KundeScooterId != null)">
+                    <button class="btn btn-primary" @onclick="OpretOrdre" disabled="!(ordreVareLinjer.Count > 0 && nyOrdre.MekanikerId != null)">
                         Opret ordre
                     </button>
                 </div>
