@@ -26,30 +26,31 @@
             </ul>
         }
     </div>
-
-    <div class="col-1">
-        @if (ordreVareLinje.VarePris > 0)
+    @if (ordreVareLinje.VarePris > 0)
+    {
+        @if (checkboxValue)
         {
-            @if (checkboxValue)
-            {
-                <InputNumber @bind-Value="@ordreVareLinje.VarePris" Kr class="col-1"  />
-            }
-            else
-            {
-                <InputNumber @bind-Value="@ordreVareLinje.VarePris" Kr class="col-1" disabled />
-            }
-            <InputCheckbox class="small-checkbox col-1"@bind-Value="checkboxValue" />
-            <div class="col-1">
-                <InputNumber id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal"/>
-            </div>
+            <InputNumber @bind-Value="@ordreVareLinje.VarePris" Kr class="col-1"  />
 
-            <div class="col-1">
-                <button class="btn btn-primary" @onclick="TilføjVare">Tilføj</button>
-            </div>
         }
+        else
+        {
+            <InputNumber @bind-Value="@ordreVareLinje.VarePris" Kr class="col-1" disabled />
+
+        }
+        <InputCheckbox class="small-checkbox col-1"@bind-Value="checkboxValue" />
+        <div class="col-1">
+            <InputNumber id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal"/>
+        </div>
+        <div class="col-1">
+            <button class="btn btn-primary" @onclick="TilføjVare">Tilføj</button>
+        </div>
+    }
     
-    </div>
-   </div>
+</div>
+<div>
+
+</div>
 
     <row class =" pt-3">
         
