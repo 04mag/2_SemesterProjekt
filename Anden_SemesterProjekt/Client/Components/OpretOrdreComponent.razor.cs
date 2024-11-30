@@ -105,6 +105,7 @@ namespace Anden_SemesterProjekt.Client.Components
             søgeTekstKunder = $"{kunde.Navn}";
             nyOrdre.Kunde = kunde;
             nyOrdre.KundeId = kunde.KundeId;
+            nyOrdre.MekanikerId = kunde.MekanikerId;
             visKundeForslag = false;
             kundeScootere = kunde.Scootere;
             StateHasChanged();
@@ -175,11 +176,12 @@ namespace Anden_SemesterProjekt.Client.Components
             OrdreService.AddOrdre(nyOrdre);
 
         }
-        private async Task NyKunde(Kunde nyKunde)
+        private async Task NyKunde(Kunde? nyKunde)
         {
            LukOpretKundeModal();
            nyOrdre.Kunde = nyKunde;
             søgeTekstKunder = nyKunde.Navn;
+            nyOrdre.MekanikerId = nyKunde.MekanikerId;
             opretKundeModal = false; // Luk modalvinduet
             alleKunder = await KundeService.GetKunder(); // Opdater kundeliste
             StateHasChanged(); // Opdater UI
