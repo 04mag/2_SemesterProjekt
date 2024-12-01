@@ -108,7 +108,7 @@ namespace Anden_SemesterProjekt.Client.Components
                 visKundeForslag = false;
             }
         }
-        private void VælgKunde(Kunde kunde)
+        private void KundeVælges(Kunde kunde)
         {
             søgeTekstKunder = $"{kunde.Navn}";
             nyOrdre.Kunde = kunde;
@@ -120,6 +120,7 @@ namespace Anden_SemesterProjekt.Client.Components
             kundeScootere = kunde.Scootere;
             StateHasChanged();
             kundeValgt = true;
+            MekanikerÆndres();
         }
         #endregion // KundeSøgning
         #region Vare håndtering
@@ -145,10 +146,10 @@ namespace Anden_SemesterProjekt.Client.Components
             ordreVareLinjer.RemoveAll(p => p.Antal == 0);
             StateHasChanged();
         }
-        private void OnMechanicChange()
+        private void MekanikerÆndres()
         {
             // Get the selected mechanic ID
-            ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
+            nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
            
             
         }

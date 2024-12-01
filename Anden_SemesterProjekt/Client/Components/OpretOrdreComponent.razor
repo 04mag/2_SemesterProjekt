@@ -148,7 +148,7 @@
                     <ul class="liste mt-2">
                         @foreach (var kunde in kundeForslag)
                         {
-                            <li @onclick="() => VælgKunde(kunde)">
+                            <li @onclick="() => KundeVælges(kunde)">
                                 (@kunde.KundeId) @kunde.Navn - @kunde.Email
                             </li>
                         }
@@ -186,14 +186,12 @@
                             <option value="@mekaniker.MekanikerId">@mekaniker.Navn</option>
                         }
                     </InputSelect>
-                     @if (nyOrdre.MekanikerId != null)
+                     @if (nyOrdre.Mekaniker != null)
                     {
-                        @* <div>
-                            @foreach (var mærke in nyOrdre.Mekaniker.Mærker)
+                        @foreach (var mærke in nyOrdre.Mekaniker.Mærker)
                             {
                                 <div> @mærke.ScooterMærke </div>
                             }
-                        </div> *@
                     } 
                     <!-- Display details about the selected mechanic -->
                 </div>
