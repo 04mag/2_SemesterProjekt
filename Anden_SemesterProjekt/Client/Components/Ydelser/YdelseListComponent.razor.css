@@ -1,0 +1,43 @@
+﻿.table-container {
+    max-height: 300px; /* Begræns højden til ca. 8 varer  */
+    overflow-y: scroll; /* Tilføj vertikal scrolling */
+    scrollbar-width: thin;
+    border: 1px solid #ddd; /* Tilføj en kant for visuel struktur */
+    padding: 10px /* Giver lidt luft omkring tabellen */
+    border-radius: 5px; /* Gør hjørnerne runde */
+}
+
+.ydelse-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0; /* Fjern ekstra margin fra tabellen */
+    font-size: 14px; /* Mindre skrifttype for et kompakt udseende */
+    line-height: 1.4; /* Reducer linjehøjden */
+}
+
+    .ydelse-table th {
+        text-transform: uppercase; /* Gør overskrifter mere professionelle */
+        font-size: 12px; /* Mindre overskriftsskrift */
+        background-color: #f8f9fa; /* Lys grå baggrund */
+        font-weight: bold;
+        border-bottom: 2px solid #e9ecef; /* Tydelig bundlinje */
+        padding: 6px 10px; /* Mindre padding */
+    }
+
+    .ydelse-table th,
+    .ydelse-table td {
+        padding: 10px; /* Tilføj indre margen */
+        border-bottom: 1px solid #ddd; /* Tynd linje mellem rækker */
+    }
+
+    .ydelse-table tr:hover {
+        background-color: #f1f1f1; /* Lys baggrundsfarve ved hover */
+    }
+
+    .ydelse-table tbody tr:last-child td {
+        border-bottom: none; /* Fjern linje under sidste række */
+    }
+
+    .ydelse-table tbody td {
+        border-top: 1px solid #dee2e6; /* Diskret linje mellem rækker */
+    }

@@ -1,6 +1,7 @@
 ﻿.container {
     margin: 500px;
 }
+
 .row.align-items-center {
     display: flex;
     justify-content: space-between;
@@ -32,5 +33,11 @@ h3 {
 input.form-control {
     max-width: 300px; /* Begrænser søgefeltets bredde */
 }
+
+.ydelse-container {
+    overflow: visible; /* Sørg for, at ingen forælder forhindrer scrolling */
+    max-height: none;
+}
+
 
 
