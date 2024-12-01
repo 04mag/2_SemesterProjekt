@@ -27,5 +27,34 @@ namespace Anden_SemesterProjekt.Shared.Models
         {
 
         }
+
+        public double GetLejeForsikringPrisPrDag()
+        {
+            return LejePrDag + ForsikringPrDag;
+        }
+
+        public string GetLejeForsikringPrisPrDagString()
+        {
+            return GetLejeForsikringPrisPrDag().ToString("0.00");
+        }
+
+        public double GetTotalLejeForsikringPris()
+        {
+            double totalPris = 0;
+            double antalDage = (SlutDato - StartDato).TotalDays;
+            totalPris += antalDage * LejePrDag;
+            totalPris += antalDage * ForsikringPrDag;
+            return totalPris;
+        }
+
+        public string GetTotalLejeForsikringPrisString()
+        {
+            return GetTotalLejeForsikringPris().ToString("0.00");
+        }
+
+        public string AntalKmKørtToString()
+        {
+            return AntalKmKørt.ToString("0.00");
+        }
     }
 }

@@ -67,6 +67,8 @@
                     <th scope="col"></th>
                 </tr>
             </thead>
+
+            @* Vare del *@
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -110,6 +112,8 @@
                     <td class="p-3"></td>
                 </tr>
             </tbody>
+
+            @* Ydelse del *@
             <thead>
                 <tr>
                     <th scope="col">#</th>
@@ -153,6 +157,8 @@
                     </tr>
                 }
             </tbody>
+
+            @* Total timer del *@
             <thead>
                 <tr>
                     <th scope="col"></th>
@@ -185,6 +191,76 @@
                     <td class="p-3"></td>
                 </tr>
             </tbody>
+
+            @* Udlejningsscooter del *@
+            @if (OrdreModel.Udlejning != null && OrdreModel.Udlejning.UdlejningsScooter != null)
+            {
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Scooter</th>
+                        <th scope="col">Startdato</th>
+                        <th scope="col">Slutdato</th>
+                        <th scope="col"></th>
+                        <th scope="col">Pris pr. dag</th>
+                        <th scope="col"></th>
+                        <th scope="col">Pris i alt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-3"></td>
+                        <td class="p-3">@OrdreModel.Udlejning.UdlejningsScooter.ToString()</td>
+                        <td class="p-3">@OrdreModel.Udlejning.StartDato</td>
+                        <td class="p-3">@OrdreModel.Udlejning.SlutDato</td>
+                        <td class="p-3"></td>
+                        <td class="p-3">@OrdreModel.Udlejning.GetLejeForsikringPrisPrDagString()</td>
+                        <td class="p-3"></td>
+                        <td class="p-3">@OrdreModel.Udlejning.GetTotalLejeForsikringPrisString()</td>
+                    </tr>
+                </tbody>
+                @* Pris pr km *@
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Antal km</th>
+                        <th scope="col">@OrdreModel.Udlejning.AntalKmKørtToString()</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Total (DKK)</th>
+                        <th scope="col" class="text-decoration-underline">@OrdreModel.GetTotalPrisMedMomsString()</th>
+                    </tr>
+                </thead>
+                @* Selvrisiko *@
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Total (DKK)</th>
+                        <th scope="col" class="text-decoration-underline">@OrdreModel.GetTotalPrisMedMomsString()</th>
+                    </tr>
+                </thead>
+                @* Pris i alt *@
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Total (DKK)</th>
+                        <th scope="col" class="text-decoration-underline">@OrdreModel.GetTotalPrisMedMomsString()</th>
+                    </tr>
+                </thead>
+            }
+
+            @* Moms del *@
             <tbody>
                 <tr>
                     <td></td>
@@ -197,6 +273,8 @@
                     <td>@OrdreModel.GetTotalMomsString()</td>
                 </tr>
             </tbody>
+
+            @* Total del *@
             <thead>
                 <tr>
                     <th scope="col"></th>
@@ -209,6 +287,8 @@
                     <th scope="col" class="text-decoration-underline">@OrdreModel.GetTotalPrisMedMomsString()</th>
                 </tr>
             </thead>
+
+            @* Ekstra række for at få vandret streg *@
             <thead>
                 <tr>
                     <th scope="col"></th>
