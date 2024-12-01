@@ -188,9 +188,9 @@
                     @if (nyOrdre.Mekaniker != null)
                     {
                         <div>
-                            @foreach (var mærke in nyOrdre.Mekaniker.Mærker)
+                            @foreach (var mærke in ordreMekaniker.Mærker)
                             {
-                                mærke.ScooterMærke.ToString();
+                                <div> @mærke.ScooterMærke </div>
                             }
                         </div>
                     }

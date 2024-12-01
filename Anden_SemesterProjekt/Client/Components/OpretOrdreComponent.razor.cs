@@ -9,7 +9,7 @@ namespace Anden_SemesterProjekt.Client.Components
     public partial class OpretOrdreComponent
     {
         #region Data og Initialisering
-        public Ordre? nyOrdre = new Ordre();
+        public Ordre nyOrdre = new Ordre();
         private Mekaniker? ordreMekaniker = new Mekaniker();
         private List<Mekaniker> alleMekanikere = new List<Mekaniker>();
         private VareLinje ordreVareLinje = new VareLinje();
@@ -54,6 +54,7 @@ namespace Anden_SemesterProjekt.Client.Components
             { 
                 ordreMekaniker = ordreKunde.TilknyttetMekaniker;
             }
+            
         }
         #region VareSøgning
         private void VareSøgefeltÆndret(ChangeEventArgs e)
@@ -142,9 +143,10 @@ namespace Anden_SemesterProjekt.Client.Components
         }
         private void OnMechanicChange(ChangeEventArgs e)
         {
-            var selectedId = Convert.ToInt32(e.Value); // Get the selected mechanic ID
-            nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == selectedId); // Find the mechanic
-            nyOrdre.MekanikerId = selectedId; // Set the mechanic ID
+             nyOrdre.MekanikerId = Convert.ToInt32(e.Value); // Get the selected mechanic ID
+            ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
+           
+            
         }
         private void TilføjVare()
         {
