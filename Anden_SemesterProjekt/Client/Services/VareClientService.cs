@@ -20,11 +20,11 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             if (vare is Ydelse)
             {
-                var response = await _httpClient.PostAsJsonAsync("api/varer/ydelse", vare);
+                var response = await _httpClient.PostAsJsonAsync<Ydelse>("api/varer/ydelse",(Ydelse)vare);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<Vare>();
+                    return await response.Content.ReadFromJsonAsync<Ydelse>();
                 }
                 else
                 {
@@ -85,7 +85,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<Ydelse>>("api/varer/Ydelser"); //Dobbelttjek - evt try-catch
+                return await _httpClient.GetFromJsonAsync<List<Ydelse>>("api/varer/ydelse"); //Dobbelttjek - evt try-catch
             }
             catch (Exception e)
             {

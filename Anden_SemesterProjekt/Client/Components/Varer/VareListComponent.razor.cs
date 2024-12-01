@@ -22,6 +22,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
        [Parameter]
         public List<Vare>? filteredVarer { get; set; } = new List<Vare>();
+        
 
         [Parameter]
         public EventCallback<Vare> OnSelectVare { get; set; }
@@ -52,6 +53,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
                 IsLoading = false; 
             }
         }
+
 
         private void FilterVarer(ChangeEventArgs e)
         {
@@ -109,6 +111,8 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             editModal = true;
             StateHasChanged();
         }
+
+        
 
         private void CloseModal()
         {

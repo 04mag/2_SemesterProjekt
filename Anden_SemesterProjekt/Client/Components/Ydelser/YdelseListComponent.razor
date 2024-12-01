@@ -1,0 +1,81 @@
+﻿<div class="container">
+    <!-- Overskrift og søgefelt -->
+    <div class="row align-items-center mb-4">
+        <!-- Ydelse oversigt -->
+        <div class="col-6">
+            <h3 class="mb-0">Ydelseoversigt</h3>
+        </div>
+        <!-- Søgefelt -->
+        <div class="col-6 text-end">
+            <input type="text"
+             class="form-control" 
+             placeholder="Søg efter ydelser..." 
+             @bind="searchTerm" 
+             @oninput="FilterYdelse" />
+        </div>
+    </div>
+
+    <div class="table-container">
+        @if (Varer == null || !Varer.Any())
+        {
+            <p class="text-center text-muted">Ingen ydelser fundet.</p>
+        }
+        else
+        {
+            <table class="table table-hover table-striped table-borderless">
+                <thead>
+                    <tr>
+                        <th style="text-align: left;">Beskrivelse</th>
+                        <th style="text-align: right;">Pris</th>
+                        <th style="text-align: right;">Antal timer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ydelse in filteredYdelser)
+                    {
+                        <tr @onclick="() => YdelseBeskrivelse(ydelse)">
+                            <td>@ydelse.Beskrivelse</td>
+                            <td style="text-align: right;">@($"{ydelse.Pris:N2} kr")</td>
+                            <td style="text-align: right;">@ydelse.AntalTimer @(" timer")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@if (detailsModal)
+{
+    <div class="modal">
+        <div class="modal-content">
+            <span class="close-button" @onclick="CloseModal">&times;</span>
+            <h3>Ydelses detaljer</h3>
+            <h4>Id: @valgtYdelse?.Id</h4>
+            <h4>Navn</h4> <p>@valgtYdelse?.Beskrivelse</p>
+            <h4>Pris</h4> <p>@valgtYdelse?.Pris</p>
+            <h4>Antal timer</h4> <p>@valgtYdelse?.AntalTimer</p>
+            <button class="btn btn-primary" @onclick="() => RedigerYdelse(valgtYdelse)">Rediger</button>
+        </div>
+    </div>
+}
+
+@if (editModal)
+{
+    <EditForm Model="redigeretYdelse" OnValidSubmit="@UpdateYdelse">
+        <div class="modal">
+            <div class="modal-content">
+                <span class="close-button" @onclick="CloseEditModal">&times;</span>
+                <h3>Navn:</h3>
+                <input type="text" @bind="redigeretYdelse.Beskrivelse" />
+                <h3>Pris:</h3>
+                <input type="number" @bind="redigeretYdelse.Pris" />
+                <h3>Antal timer:</h3>
+                <input type="number" @bind="redigeretYdelse.AntalTimer" />
+                <button class="btn btn-primary" type="submit">Gem</button>
+                <p></p>
+
+            </div>
+        </div>
+    </EditForm>
+}

@@ -16,7 +16,8 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
     public partial class VarePage
     {
         private List<Vare> varer = new List<Vare>();
-        
+        private List<Ydelse> ydelser = new List<Ydelse>();
+
         //private VareListComponent vareListComponent;
 
         //En service, som skal injectes til at hente og manipulere data fra serveren via api kaldet. 
@@ -30,20 +31,30 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
             varer = await VareService.GetAktiveVarer();
             StateHasChanged();
         }
+        private async Task OnYdelseAddedHandler()
+        {
+            ydelser = await VareService.GetAktiveYdelser();
+            StateHasChanged();
+        }
         protected override async Task OnInitializedAsync()
         {
             try
             {
                 // Hent varer fra tjenesten
                 varer = await VareService.GetAktiveVarer();
-                
-                
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine($"Fejl ved hentning af varer: {ex.Message}");
-                varer = new List<Vare>();
-                
+                Console.WriteLine($"Fejl ved hentning af varer: {e.Message}");
+
+            }
+            try
+            {
+                ydelser = await VareService.GetAktiveYdelser();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Fejl ved hentning af ydelser: {e.Message}");
             }
         }
 

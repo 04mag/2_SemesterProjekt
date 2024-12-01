@@ -1,19 +1,21 @@
 ﻿@using Anden_SemesterProjekt.Client.Components.Varer
+@using Anden_SemesterProjekt.Client.Components.Ydelser
 @using Anden_SemesterProjekt.Shared.Models
 @using Anden_SemesterProjekt.Client.Services
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
 @page "/varer"
+@page "/ydelser"
 
 
-
-    <!-- Tabel med varer -->
-    <VareListComponent filteredVarer="@varer" />
-
+<!-- Tabel med varer -->
+<VareListComponent filteredVarer="@varer" />
 
 <!-- Opret varer -->
 <VareOpretComponent OnVareAdded="@OnVareAddedHandler" /> 
 
+<YdelseListComponent filteredYdelser="@ydelser" />
+<YdelseOpretComponent OnYdelseAdded="@OnYdelseAddedHandler" />
 
 
 
