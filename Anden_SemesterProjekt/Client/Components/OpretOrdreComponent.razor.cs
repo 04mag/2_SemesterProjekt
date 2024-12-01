@@ -15,8 +15,11 @@ namespace Anden_SemesterProjekt.Client.Components
         private VareLinje ordreVareLinje = new VareLinje();
         private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
      
+        private Udlejning udlejning = new Udlejning();
         private Vare ordreVare = new Vare();
         private List<KundeScooter> kundeScootere = new List<KundeScooter>();
+        private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
+
         private bool checkboxValue = false;
         private bool kundeValgt = false;
         private bool opretKundeModal = false;
@@ -48,6 +51,7 @@ namespace Anden_SemesterProjekt.Client.Components
             alleVarer = await VareService.GetAktiveVarer();
             alleKunder = await KundeService.GetKunder();
             ordreVareLinje = new VareLinje();
+            udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
             ordreVareLinje.Vare = ordreVare;
             alleMekanikere = await MekanikerService.GetMekanikere();
             if (ordreKunde != null)
@@ -141,9 +145,9 @@ namespace Anden_SemesterProjekt.Client.Components
             ordreVareLinjer.RemoveAll(p => p.Antal == 0);
             StateHasChanged();
         }
-        private void OnMechanicChange(ChangeEventArgs e)
+        private void OnMechanicChange()
         {
-             nyOrdre.MekanikerId = Convert.ToInt32(e.Value); // Get the selected mechanic ID
+            // Get the selected mechanic ID
             ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
            
             
@@ -173,7 +177,8 @@ namespace Anden_SemesterProjekt.Client.Components
         public void OpretOrdre()
         {
             nyOrdre.VareLinjer = ordreVareLinjer;
-            nyOrdre.Mekaniker = ordreMekaniker;
+            nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
+
             nyOrdre.Kunde = ordreKunde;
             nyOrdre.BetalingsDato = null;
             nyOrdre.ErBetalt = checkboxValue;

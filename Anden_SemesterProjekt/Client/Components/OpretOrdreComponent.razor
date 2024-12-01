@@ -127,6 +127,7 @@
  *@
  
  @page "/sko"
+
 @using Anden_SemesterProjekt.Shared.Models
 @using Anden_SemesterProjekt.Client.Components.Kunder
 
@@ -178,28 +179,49 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-6">
-                    <InputSelect @bind-Value="nyOrdre.MekanikerId" class="form-select" @onchange="OnMechanicChange">
+                    <InputSelect @bind-Value="nyOrdre.MekanikerId" class="form-select" @bind-Value:after="OnMechanicChange">
                         <option value="">Vælg mekaniker</option>
                         @foreach (var mekaniker in alleMekanikere)
                         {
                             <option value="@mekaniker.MekanikerId">@mekaniker.Navn</option>
                         }
                     </InputSelect>
-                    @if (nyOrdre.Mekaniker != null)
+                     @if (nyOrdre.MekanikerId != null)
                     {
-                        <div>
-                            @foreach (var mærke in ordreMekaniker.Mærker)
+                        @* <div>
+                            @foreach (var mærke in nyOrdre.Mekaniker.Mærker)
                             {
                                 <div> @mærke.ScooterMærke </div>
                             }
-                        </div>
-                    }
+                        </div> *@
+                    } 
                     <!-- Display details about the selected mechanic -->
                 </div>
             </div>
            
         </div>
     </div>
+    
+  @*   <!--Udlejning-->
+<div class="card mb-2">
+    <div class="card-header">
+        <h4>Scooterudlejning</h4>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-6">
+                <InputSelect @bind-Value="udlejning.UdlejningsScooter.ScooterId" class="form-select">
+                    <option value="">Vælg scooter</option>
+                    @foreach (var s in udlejningsScootere)
+                    {
+                        <option value="@s.ScooterId">@s.Registreringsnummer - @s.Mærke.ScooterMærke</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+           
+    </div>
+</div> *@
     <!-- Produkt Sektion -->
     <div class="card mb-4">
         <div class="card-header">
@@ -277,7 +299,7 @@
                     <strong>Total pris:</strong> @ordreVareLinjer.Sum(v => v.VarePris * v.Antal) Kr
                 </div>
                 <div class="col-6 text-end">
-                    <button class="btn btn-primary" @onclick="OpretOrdre" disabled="!(ordreVareLinjer.Count > 0 && nyOrdre.MekanikerId != null)">
+                    <button class="btn btn-primary" @onclick="OpretOrdre">
                         Opret ordre
                     </button>
                 </div>

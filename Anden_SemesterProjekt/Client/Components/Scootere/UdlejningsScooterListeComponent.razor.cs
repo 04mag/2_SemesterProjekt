@@ -100,6 +100,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 detailsModal = true;
                 editModal = false;
                 detailsModal = false;
+                StateHasChanged();
             }
         }
         private async Task DeleteScooter(UdlejningsScooter scooter)
@@ -117,7 +118,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                     detailsModal = false;
                     JS.InvokeVoidAsync("alert", "Scooteren er slettet.");
 
-                    nyUdlejningsScooter = new UdlejningsScooter();
+                
                     StateHasChanged();
                 }
             }
