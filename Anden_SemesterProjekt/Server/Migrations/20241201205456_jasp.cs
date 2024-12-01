@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class jasp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -251,13 +251,14 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     OrdreId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    KundeId = table.Column<int>(type: "int", nullable: true),
+                    KundeId = table.Column<int>(type: "int", nullable: false),
                     KundeScooterId = table.Column<int>(type: "int", nullable: true),
                     BetalingsDato = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ErBetalt = table.Column<bool>(type: "bit", nullable: false),
                     ErAfsluttet = table.Column<bool>(type: "bit", nullable: false),
                     StartDato = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SlutDato = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UdlejningId = table.Column<int>(type: "int", nullable: true),
                     MekanikerId = table.Column<int>(type: "int", nullable: true),
                     Bemærkninger = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -273,7 +274,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         name: "FK_Ordrer_Kunder_KundeId",
                         column: x => x.KundeId,
                         principalTable: "Kunder",
-                        principalColumn: "KundeId");
+                        principalColumn: "KundeId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ordrer_Mekanikere_MekanikerId",
                         column: x => x.MekanikerId,
@@ -326,7 +328,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     Antal = table.Column<int>(type: "int", nullable: true),
                     Rabat = table.Column<double>(type: "float", nullable: true),
                     VarePris = table.Column<double>(type: "float", nullable: false),
-                    VareBeskrivelse = table.Column<double>(type: "float", nullable: false),
+                    VareBeskrivelse = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     YdelseAntalTimer = table.Column<double>(type: "float", nullable: false)
                 },
                 constraints: table =>

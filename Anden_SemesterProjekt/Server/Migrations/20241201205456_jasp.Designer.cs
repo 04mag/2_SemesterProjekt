@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241129170851_Initial")]
-    partial class Initial
+    [Migration("20241201205456_jasp")]
+    partial class jasp
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -302,7 +302,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<bool>("ErBetalt")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("KundeId")
+                    b.Property<int>("KundeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("KundeScooterId")
@@ -316,6 +316,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<DateTime>("StartDato")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("UdlejningId")
+                        .HasColumnType("int");
 
                     b.HasKey("OrdreId");
 
@@ -472,8 +475,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<double?>("Rabat")
                         .HasColumnType("float");
 
-                    b.Property<double>("VareBeskrivelse")
-                        .HasColumnType("float");
+                    b.Property<string>("VareBeskrivelse")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("VareId")
                         .HasColumnType("int");
@@ -679,7 +683,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
                         .WithMany("Ordrer")
-                        .HasForeignKey("KundeId");
+                        .HasForeignKey("KundeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.KundeScooter", "KundeScooter")
                         .WithMany()

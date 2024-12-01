@@ -299,7 +299,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.Property<bool>("ErBetalt")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("KundeId")
+                    b.Property<int>("KundeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("KundeScooterId")
@@ -313,6 +313,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<DateTime>("StartDato")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("UdlejningId")
+                        .HasColumnType("int");
 
                     b.HasKey("OrdreId");
 
@@ -677,7 +680,9 @@ namespace Anden_SemesterProjekt.Server.Migrations
                 {
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Kunde", "Kunde")
                         .WithMany("Ordrer")
-                        .HasForeignKey("KundeId");
+                        .HasForeignKey("KundeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.KundeScooter", "KundeScooter")
                         .WithMany()

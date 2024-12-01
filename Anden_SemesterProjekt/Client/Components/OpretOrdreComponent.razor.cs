@@ -10,7 +10,7 @@ namespace Anden_SemesterProjekt.Client.Components
     {
         #region Data og Initialisering
         public Ordre nyOrdre = new Ordre();
-        private Mekaniker? ordreMekaniker = new Mekaniker();
+        private Mekaniker ordreMekaniker = new Mekaniker();
         private List<Mekaniker> alleMekanikere = new List<Mekaniker>();
         private VareLinje ordreVareLinje = new VareLinje();
         private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
@@ -19,6 +19,7 @@ namespace Anden_SemesterProjekt.Client.Components
         private Vare ordreVare = new Vare();
         private List<KundeScooter> kundeScootere = new List<KundeScooter>();
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
+        private KundeScooter ordreKundeScooter = new KundeScooter();
 
         private bool checkboxValue = false;
         private bool kundeValgt = false;
@@ -111,16 +112,21 @@ namespace Anden_SemesterProjekt.Client.Components
         private void KundeVælges(Kunde kunde)
         {
             søgeTekstKunder = $"{kunde.Navn}";
-            nyOrdre.Kunde = kunde;
+            ordreKunde = kunde;
             nyOrdre.KundeId = kunde.KundeId;
-            nyOrdre.MekanikerId = kunde.MekanikerId;
+            nyOrdre.Kunde = kunde;
+            if (ordreVareLinjer.Any(v => v.Vare is Ydelse))
+            {
+                nyOrdre.MekanikerId = kunde.MekanikerId;
+            }
+            ordreMekaniker = kunde.TilknyttetMekaniker;
+            MekanikerÆndres();
 
            
             visKundeForslag = false;
             kundeScootere = kunde.Scootere;
             StateHasChanged();
             kundeValgt = true;
-            MekanikerÆndres();
         }
         #endregion // KundeSøgning
         #region Vare håndtering
@@ -128,9 +134,6 @@ namespace Anden_SemesterProjekt.Client.Components
         {
             ordreVareLinjer.Remove(vare);
             StateHasChanged();
-
-                ordreVareLinjer.Remove(vare);
-                StateHasChanged();
         }
         private void OpretKunde()
         {
@@ -148,10 +151,12 @@ namespace Anden_SemesterProjekt.Client.Components
         }
         private void MekanikerÆndres()
         {
-            // Get the selected mechanic ID
-            nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
-           
-            
+            ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId);
+        }
+
+        private void KundeScooterÆndres()
+        {
+            ordreKundeScooter = kundeScootere.FirstOrDefault(s => s.ScooterId == nyOrdre.KundeScooterId);
         }
         private void TilføjVare()
         {
@@ -177,16 +182,17 @@ namespace Anden_SemesterProjekt.Client.Components
         #endregion // vare håndtering
         public void OpretOrdre()
         {
+            nyOrdre.Mekaniker = ordreMekaniker;
+            nyOrdre.KundeScooter = ordreKundeScooter;
             nyOrdre.VareLinjer = ordreVareLinjer;
-            nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
-
-            nyOrdre.Kunde = ordreKunde;
-            nyOrdre.BetalingsDato = null;
-            nyOrdre.ErBetalt = checkboxValue;
+            //nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
+            nyOrdre.ErBetalt = false;
             nyOrdre.ErAfsluttet = false;
             nyOrdre.StartDato = DateTime.Now;
+            nyOrdre.SlutDato = DateTime.Now;
+            nyOrdre.BetalingsDato = DateTime.Now;
+            nyOrdre.Bemærkninger = " ";
 
-            
             OrdreService.AddOrdre(nyOrdre);
 
         }

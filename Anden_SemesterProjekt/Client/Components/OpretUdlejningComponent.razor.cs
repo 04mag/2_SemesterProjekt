@@ -24,7 +24,7 @@ namespace Anden_SemesterProjekt.Client.Components
         {
             //nyUdlejning.UdlejningsScooterId = nyUdlejning.Ordre.UdlejningsScooterId.Value;
        
-            nyUdlejning.OrdreId = nyUdlejning.Ordre.OrdreId;
+            nyUdlejning.OrdreId = nyUdlejning.OrdreId;
             await UdlejningClientService.AddUdlejningAsync(nyUdlejning);
         }
         public async Task HandleValidSubmit()

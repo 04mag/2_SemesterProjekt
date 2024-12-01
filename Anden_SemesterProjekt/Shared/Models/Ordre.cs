@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Anden_SemesterProjekt.Shared.Models
@@ -11,10 +12,11 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class Ordre
     {
         public int OrdreId { get; set; }
-        public List<VareLinje>? VareLinjer { get; set; }
-        public int? KundeId { get; set; }
-        public Kunde? Kunde { get; set; }
+        public List<VareLinje>? VareLinjer { get; set; } = new List<VareLinje>();
+        public int KundeId { get; set; }
+        public Kunde Kunde { get; set; }
         public int? KundeScooterId { get; set; }
+        [JsonIgnore]
         public KundeScooter? KundeScooter { get; set; }
         public DateTime? BetalingsDato { get; set; }
         public bool ErBetalt { get; set; }
@@ -22,8 +24,10 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime StartDato { get; set; } = DateTime.Now;
         [OrdreSlutDatoCheck]
         public DateTime SlutDato { get; set; } = DateTime.Now;
+        public int? UdlejningId { get; set; }
         public Udlejning? Udlejning { get; set; }
         public int? MekanikerId { get; set; }
+        [JsonIgnore]
         public Mekaniker? Mekaniker { get; set; }
         public string Bemærkninger { get; set; } = string.Empty;
 
