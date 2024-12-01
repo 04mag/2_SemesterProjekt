@@ -133,46 +133,44 @@
 <div class="container mt-4">
     <!-- Header -->
     <!-- Kunde Sektion -->
-            <div class="card">
-                <div class="card-header">
-                    <h4>Vælg Kunde og scooter</h4>
-                </div>
-                <div class="card-body">
+    <div class="card">
+        <div class="card-header">
+            <h4>Vælg Kunde og scooter</h4>
+        </div>
+        <div class="card-body">
 
-                    <div>
-                        Kunde:
-                        <InputText class="form-control col-4" placeholder="Vælg kunde ..." @bind-Value="søgeTekstKunder" @oninput="KundeSøgefeltÆndret"/>
-                        @if (visKundeForslag)
+            <div>
+                Kunde:
+                <InputText class="form-control col-4" placeholder="Vælg kunde ..." @bind-Value="søgeTekstKunder" @oninput="KundeSøgefeltÆndret"/>
+                @if (visKundeForslag)
+                {
+                    <ul class="liste mt-2">
+                        @foreach (var kunde in kundeForslag)
                         {
-                            <ul class="liste mt-2">
-                                @foreach (var kunde in kundeForslag)
-                                {
-                                    <li @onclick="() => VælgKunde(kunde)">
-                                        (@kunde.KundeId) @kunde.Navn - @kunde.Email
-                                    </li>
-                                }
-                            </ul>
+                            <li @onclick="() => VælgKunde(kunde)">
+                                (@kunde.KundeId) @kunde.Navn - @kunde.Email
+                            </li>
                         }
-                    </div>
-                    <div >
-                        Scooter: 
-                        <InputSelect @bind-Value="nyOrdre.KundeScooterId" class="form-select col-2">
-                            <option value="">Vælg scooter</option>
-                            @foreach (var scooter in kundeScootere)
-                            {
-                               
-                                    <option value="@scooter.ScooterId">@scooter.Registreringsnummer</option>
-                            }
-                        </InputSelect>
-                    </div>
-                    <div class="col-4">
-                        <button class="btn btn-success mt-1" @onclick="OpretKunde">Opret kunde</button>
-                    </div>
-                </div>
+                    </ul>
+                }
             </div>
-            <!--Mekaniker-->
-    
-  
+            <div >
+                Scooter: 
+                <InputSelect @bind-Value="nyOrdre.KundeScooterId" class="form-select col-2">
+                    <option value="">Vælg scooter</option>
+                    @foreach (var scooter in kundeScootere)
+                    {
+                        <option value="@scooter.ScooterId">@scooter.Registreringsnummer - @scooter.Mærke.ScooterMærke</option>
+                    }
+                </InputSelect>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-success mt-1" @onclick="OpretKunde">Opret kunde</button>
+            </div>
+        </div>
+    </div>
+
+    <!--Mekaniker-->
     <div class="card mb-2">
         <div class="card-header">
             <h4>Vælg mekaniker</h4>
@@ -180,15 +178,26 @@
         <div class="card-body">
             <div class="row mb-3">
                 <div class="col-6">
-                    <InputSelect @bind-Value="nyOrdre.MekanikerId" class="form-select">
+                    <InputSelect @bind-Value="nyOrdre.MekanikerId" class="form-select" @onchange="OnMechanicChange">
                         <option value="">Vælg mekaniker</option>
                         @foreach (var mekaniker in alleMekanikere)
                         {
                             <option value="@mekaniker.MekanikerId">@mekaniker.Navn</option>
                         }
                     </InputSelect>
+                    @if (nyOrdre.Mekaniker != null)
+                    {
+                        <div>
+                            @foreach (var mærke in nyOrdre.Mekaniker.Mærker)
+                            {
+                                mærke.ScooterMærke.ToString();
+                            }
+                        </div>
+                    }
+                    <!-- Display details about the selected mechanic -->
                 </div>
             </div>
+           
         </div>
     </div>
     <!-- Produkt Sektion -->
@@ -247,7 +256,7 @@
             <h4>Ordre Oversigt</h4>
         </div>
         <div class="card-body">
-            @foreach (var vareLinje in nyOrdre.VareLinjer)
+            @foreach (var vareLinje in ordreVareLinjer)
             {
                 <div class="row align-items-center mb-2">
                     <div class="col-6">

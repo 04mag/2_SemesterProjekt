@@ -13,8 +13,9 @@ namespace Anden_SemesterProjekt.Client.Components
         private Mekaniker? ordreMekaniker = new Mekaniker();
         private List<Mekaniker> alleMekanikere = new List<Mekaniker>();
         private VareLinje ordreVareLinje = new VareLinje();
-        private Vare ordreVare = new Vare();
         private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
+     
+        private Vare ordreVare = new Vare();
         private List<KundeScooter> kundeScootere = new List<KundeScooter>();
         private bool checkboxValue = false;
         private bool kundeValgt = false;
@@ -139,11 +140,17 @@ namespace Anden_SemesterProjekt.Client.Components
             ordreVareLinjer.RemoveAll(p => p.Antal == 0);
             StateHasChanged();
         }
+        private void OnMechanicChange(ChangeEventArgs e)
+        {
+            var selectedId = Convert.ToInt32(e.Value); // Get the selected mechanic ID
+            nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == selectedId); // Find the mechanic
+            nyOrdre.MekanikerId = selectedId; // Set the mechanic ID
+        }
         private void TilføjVare()
         {
-            if(!nyOrdre.VareLinjer.Any(o => o.Vare.Id == ordreVareLinje.Vare.Id && o.Vare.Pris == ordreVareLinje.VarePris))
+            if(!ordreVareLinjer.Any(v => v.Vare.Id == ordreVareLinje.Vare.Id && v.Vare.Pris == ordreVareLinje.VarePris))
             {
-                nyOrdre.VareLinjer.Add(ordreVareLinje);
+                ordreVareLinjer.Add(ordreVareLinje);
                 ordreVareLinje = new VareLinje();
                 ordreVare = new Vare();
                 ordreVareLinje.Vare = ordreVare;
@@ -154,8 +161,8 @@ namespace Anden_SemesterProjekt.Client.Components
             }
             else
             {
-                var o = ordreVareLinjer.Find(p => p.Vare.Id == ordreVareLinje.Vare.Id);
-                o.Antal += ordreVareLinje.Antal;
+                var v = ordreVareLinjer.Find(v => (v.Vare.Id == ordreVareLinje.Vare.Id && v.Vare.Pris == ordreVareLinje.Vare.Pris));
+                v.Antal += ordreVareLinje.Antal;
                 NulstilVareInput();
                 StateHasChanged();
             }
