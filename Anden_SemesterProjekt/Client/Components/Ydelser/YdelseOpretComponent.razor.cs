@@ -29,7 +29,6 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
             editContext = new EditContext(ydelseModel);
         }
 
-
         private async Task YdelseHandleValidSubmit()
         {
             isSubmitting = true;

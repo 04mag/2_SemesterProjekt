@@ -11,7 +11,7 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
     {
 
         [Parameter, EditorRequired]
-        public List<Ydelse>? Varer { get; set; } = new List<Ydelse>();
+        public List<Ydelse> Ydelser { get; set; } 
         [Inject] private IJSRuntime JS { get; set; } //JavaScript runtime
         [Inject] public IVareClientService VareClientService { get; set; }
 
@@ -20,42 +20,37 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
         private Ydelse valgtYdelse = new Ydelse();
         private Ydelse redigeretYdelse = new Ydelse();
 
-        [Parameter]
-        public List<Ydelse>? filteredYdelser { get; set; } = new List<Ydelse>();
+
+      
+
+        public List<Ydelse> FilteredYdelser
+        {
+            get
+            {
+                    return Ydelser
+                   .Where(v => v.Beskrivelse != null && v.Beskrivelse.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                   .ToList();
+            }
+        }
 
         [Parameter]
-        public EventCallback<Vare> OnSelectYdelse { get; set; }
+        public EventCallback<Ydelse> OnSelectYdelse { get; set; }
         [Parameter]
-        public EventCallback<Vare> OnEditYdelse{ get; set; }
+        public EventCallback<Ydelse> OnEditYdelse{ get; set; }
         [Parameter]
-        public EventCallback<Vare> OnDeleteYdelse { get; set; }
+        public EventCallback<Ydelse> OnDeleteYdelse { get; set; }
 
         private int Id;
         private bool detailsModal = false;
         private bool editModal = false;
-        private string searchTerm = string.Empty;
+        private string searchTerm = "";
 
-        private void FilterYdelse(ChangeEventArgs e)
-        {
-            searchTerm = e.Value.ToString();
-
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                filteredYdelser = Varer;
-            }
-            else
-            {
-                filteredYdelser = Varer
-                    .Where(v => v.Beskrivelse != null && v.Beskrivelse.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
-        }
 
         private void YdelseBeskrivelse(Ydelse ydelse)
         {
-            valgtYdelse = Varer.FirstOrDefault(v => v.Id == ydelse.Id);
+            valgtYdelse = Ydelser.FirstOrDefault(v => v.Id == ydelse.Id);
 
-            // Hvis en varer er fundet, vis modal
+            // Hvis en Varer er fundet, vis modal
             if (valgtYdelse != null)
             {
                 detailsModal = true;
@@ -72,6 +67,7 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
         {
             valgtYdelse = ydelse;
             redigeretYdelse = new Ydelse
+
             {
                 Id = ydelse.Id,
                 Beskrivelse = ydelse.Beskrivelse,
@@ -84,7 +80,7 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
 
         public void UpdateList(List<Ydelse> updatedYdelser)
         {
-            Varer = updatedYdelser;
+            Ydelser = updatedYdelser;
             StateHasChanged();
         }
 
@@ -95,7 +91,7 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Ydelsen er opdateret.");
                 detailsModal = false;
-                filteredYdelser = await VareClientService.GetAktiveYdelser();
+                Ydelser = await VareClientService.GetAktiveYdelser();
                 detailsModal = true;
                 editModal = false;
                 detailsModal = false;

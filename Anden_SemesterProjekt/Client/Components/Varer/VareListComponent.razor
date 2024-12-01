@@ -11,8 +11,8 @@
             <input type="text"
             class="form-control"
             placeholder="Søg efter varer..."
-            @bind="searchTerm"
-            @oninput="FilterVarer" />
+            @bind-value="searchTerm"
+            @bind-value:event="oninput" />
         </div>
     </div>
 </div>    
@@ -32,7 +32,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (var vare in filteredVarer)
+            @foreach (var vare in FilteredVarer)
             {
                 <tr @onclick="() => VareBeskrivelse(vare)">
                     <td>@vare.Beskrivelse</td>

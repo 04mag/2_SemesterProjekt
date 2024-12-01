@@ -4,17 +4,18 @@
 @using Anden_SemesterProjekt.Client.Services
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
-@page "/varer"
-@page "/ydelser"
+@page "/Varer"
+@page "/Ydelser"
 
 
 <!-- Tabel med varer -->
-<VareListComponent filteredVarer="@varer" />
+<VareListComponent Varer="@Varer" />
 
 <!-- Opret varer -->
-<VareOpretComponent OnVareAdded="@OnVareAddedHandler" /> 
+<VareOpretComponent OnVareAdded="@OnVareAddedHandler" />  
 
-<YdelseListComponent filteredYdelser="@ydelser" />
+<YdelseListComponent Ydelser="@Ydelser" />
+
 <YdelseOpretComponent OnYdelseAdded="@OnYdelseAddedHandler" />
 
 

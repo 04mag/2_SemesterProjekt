@@ -10,13 +10,13 @@
             <input type="text"
              class="form-control" 
              placeholder="Søg efter ydelser..." 
-             @bind="searchTerm" 
-             @oninput="FilterYdelse" />
+             @bind-value="searchTerm"
+             @bind-value:event="oninput" />
         </div>
     </div>
 
     <div class="table-container">
-        @if (Varer == null || !Varer.Any())
+        @if (Ydelser == null || !Ydelser.Any())
         {
             <p class="text-center text-muted">Ingen ydelser fundet.</p>
         }
@@ -31,14 +31,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var ydelse in filteredYdelser)
-                    {
-                        <tr @onclick="() => YdelseBeskrivelse(ydelse)">
-                            <td>@ydelse.Beskrivelse</td>
-                            <td style="text-align: right;">@($"{ydelse.Pris:N2} kr")</td>
-                            <td style="text-align: right;">@ydelse.AntalTimer @(" timer")</td>
-                        </tr>
-                    }
+                        @foreach (var ydelse in FilteredYdelser)
+                        {
+                            <tr @onclick="() => YdelseBeskrivelse(ydelse)">
+                                <td>@ydelse.Beskrivelse</td>
+                                <td style="text-align: right;">@($"{ydelse.Pris:N2} kr")</td>
+                                <td style="text-align: right;">@ydelse.AntalTimer @(" timer")</td>
+                            </tr>
+                        }
                 </tbody>
             </table>
         }

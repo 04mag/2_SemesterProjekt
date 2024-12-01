@@ -10,7 +10,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
     public partial class VareListComponent
     {
         [Parameter, EditorRequired]
-        public List<Vare>? Varer { get; set; } = new List<Vare>();
+        public List<Vare> Varer { get; set; } 
         [Inject] private IJSRuntime JS {  get; set; } //JavaScript runtime
         [Inject] public IVareClientService VareClientService { get; set; }
 
@@ -19,10 +19,16 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private Vare valgtVare = new Vare();
         private Vare redigeretVare = new Vare();
+        public List<Vare> FilteredVarer
+        {
+            get
+            {
+                return Varer
+               .Where(v => v.Beskrivelse != null && v.Beskrivelse.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+               .ToList();
+            }
+        }
 
-       [Parameter]
-        public List<Vare>? filteredVarer { get; set; } = new List<Vare>();
-        
 
         [Parameter]
         public EventCallback<Vare> OnSelectVare { get; set; }
@@ -34,43 +40,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         private int Id; 
         private bool detailsModal = false;
         private bool editModal = false;
-        private string searchTerm = string.Empty;
-        protected override async Task OnInitializedAsync()
-        {
-            try 
-            { 
-                Varer = await VareClientService.GetAktiveVarer();
-                filteredVarer = Varer ?? new List<Vare>();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Fejl ved hentning af varer: {e.Message}");
-                Varer = new List<Vare>();
-                filteredVarer = new List<Vare>();
-            }
-            finally
-            {
-                IsLoading = false; 
-            }
-        }
-
-
-        private void FilterVarer(ChangeEventArgs e)
-        {
-            searchTerm = e.Value.ToString();
-
-            if (string.IsNullOrEmpty(searchTerm))
-            {
-                filteredVarer = Varer; 
-            }   
-            else
-            {
-                // Filtrér listen baseret på søgetekst
-                filteredVarer = Varer
-                    .Where(v => v.Beskrivelse != null && v.Beskrivelse.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
-        }
+        private string searchTerm = "";
 
         
 
@@ -79,7 +49,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
         {
             valgtVare = Varer.FirstOrDefault(v => v.Id == vare.Id);
 
-            // Hvis en varer er fundet, vis modal
+            // Hvis en Varer er fundet, vis modal
             if (valgtVare != null)
             {
                 detailsModal = true;
@@ -130,7 +100,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             {
                 var successBox = await JS.InvokeAsync<string>("alert", "Varen er opdateret.");
                 detailsModal = false;
-                filteredVarer = await VareClientService.GetAktiveVarer();
+                Varer = await VareClientService.GetAktiveVarer();
                 detailsModal = true;
                 editModal = false;
                 detailsModal = false;

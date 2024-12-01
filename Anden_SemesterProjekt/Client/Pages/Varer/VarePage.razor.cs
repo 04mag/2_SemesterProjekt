@@ -15,8 +15,8 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
 {
     public partial class VarePage
     {
-        private List<Vare> varer = new List<Vare>();
-        private List<Ydelse> ydelser = new List<Ydelse>();
+        public List<Vare> Varer { get; set; } = new List<Vare>();
+        public List<Ydelse> Ydelser { get; set; } = new List<Ydelse>();
 
         //private VareListComponent vareListComponent;
 
@@ -25,36 +25,44 @@ namespace Anden_SemesterProjekt.Client.Pages.Varer
         public IVareClientService VareService { get; set; }
 
        
-        //Denne metoder opdaterer listen over varer, når der er tilføjet en ny vare. Ved genkald af metoden "UpdateVare".
+        //Denne metoder opdaterer listen over Varer, når der er tilføjet en ny vare. Ved genkald af metoden "UpdateVare".
         private async Task OnVareAddedHandler()
         {
-            varer = await VareService.GetAktiveVarer();
+            Varer = await VareService.GetAktiveVarer();
             StateHasChanged();
         }
         private async Task OnYdelseAddedHandler()
         {
-            ydelser = await VareService.GetAktiveYdelser();
+            Ydelser = await VareService.GetAktiveYdelser();
             StateHasChanged();
         }
         protected override async Task OnInitializedAsync()
         {
             try
+                
             {
-                // Hent varer fra tjenesten
-                varer = await VareService.GetAktiveVarer();
+                var result = await VareService.GetAktiveVarer();
+                if (result != null)
+                {
+                    Varer = result;
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Fejl ved hentning af varer: {e.Message}");
+                Console.WriteLine($"Fejl ved hentning af Varer: {e.Message}");
 
             }
             try
             {
-                ydelser = await VareService.GetAktiveYdelser();
+                var ydelsesResult = await VareService.GetAktiveYdelser();
+                if (ydelsesResult != null)
+                {
+                    Ydelser = ydelsesResult;
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Fejl ved hentning af ydelser: {e.Message}");
+                Console.WriteLine($"Fejl ved hentning af Ydelser: {e.Message}");
             }
         }
 
