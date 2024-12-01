@@ -67,100 +67,6 @@
                     <th scope="col"></th>
                 </tr>
             </thead>
-            @* Udlejningsscooter del *@
-            @if (OrdreModel.Udlejning != null && OrdreModel.Udlejning.UdlejningsScooter != null)
-            {
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Udlejning</th>
-                        <th scope="col">Scooter</th>
-                        <th scope="col">Startdato</th>
-                        <th scope="col">Slutdato</th>
-                        <th scope="col">Pris pr. dag</th>
-                        <th scope="col"></th>
-                        <th scope="col">Pris i alt</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>@OrdreModel.Udlejning.UdlejningId</td>
-                        <td></td>
-                        <td>@OrdreModel.Udlejning.UdlejningsScooter.ToString()</td>
-                        <td>@OrdreModel.Udlejning.StartDato.ToShortDateString()</td>
-                        <td>@OrdreModel.Udlejning.SlutDato.ToShortDateString()</td>
-                        <td>@OrdreModel.Udlejning.GetLejeForsikringPrisPrDagString()</td>
-                        <td></td>
-                        <td>@OrdreModel.Udlejning.GetTotalLejeForsikringPrisString()</td>
-                    </tr>
-                </tbody>
-
-                @* Pris pr km *@
-                <thead>
-                    <tr>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Antal km:</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col">Pris pr. km</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td>@OrdreModel.Udlejning.AntalKmKørtToString()</td>
-                        <td></td>
-                        <td></td>
-                        <td>@OrdreModel.Udlejning.PrisPrKm</td>
-                        <td></td>
-                        <td>@OrdreModel.Udlejning.GetTotalKmPrisString()</td>
-                    </tr>
-                </tbody>
-                @* Selvrisiko *@
-                @if (OrdreModel.Udlejning.SelvrisikoUdløst)
-                {
-                    <thead>
-                        <tr>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                            <th scope="col">Selvrisiko</th>
-                            <th scope="col"></th>
-                            <th scope="col"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>@OrdreModel.Udlejning.Selvrisiko</td>
-                            <td></td>
-                            <td>@OrdreModel.Udlejning.GetSelvrisikoToString()</td>
-                        </tr>
-                    </tbody>
-                }
-                <tbody>
-                    <tr>
-                        <td class="p-4"></td>
-                        <td class="p-4"></td>
-                        <td class="p-4"></td>
-                        <td class="p-4"></td>
-                        <td class="p-4"></td>
-                        <td class="p-4"></td>
-                        <td class="p-4"></td>
-                        <td class="p-4"></td>
-                    </tr>
-                </tbody>
-            }
 
             @* Vare del *@
             <thead>
@@ -256,18 +162,141 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
                     @if (OrdreModel.GetTotalAntalTimer() > 0)
                     {
                         <td class="fw-bold">Timetal</td>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                         <th scope="col">@OrdreModel.GetTotalAntalTimerString()</th>
                     }
                     else
                     {
                         <th scope="col"></th>
                         <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     }
+                    <th scope="col"></th>
+                    <td class="fw-bold"></td>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                </tr>
+            </tbody>
+
+            @* Udlejningsscooter del *@
+            @if (OrdreModel.Udlejning != null && OrdreModel.Udlejning.UdlejningsScooter != null)
+            {
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Udlejning</th>
+                        <th scope="col">Scooter</th>
+                        <th scope="col">Startdato</th>
+                        <th scope="col">Slutdato</th>
+                        <th scope="col">Pris pr. dag</th>
+                        <th scope="col"></th>
+                        <th scope="col">Pris i alt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@OrdreModel.Udlejning.UdlejningId</td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.UdlejningsScooter.ToString()</td>
+                        <td>@OrdreModel.Udlejning.StartDato.ToShortDateString()</td>
+                        <td>@OrdreModel.Udlejning.SlutDato.ToShortDateString()</td>
+                        <td>@OrdreModel.Udlejning.GetLejeForsikringPrisPrDagString()</td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.GetTotalLejeForsikringPrisString()</td>
+                    </tr>
+                </tbody>
+
+                @* Pris pr km *@
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Antal km:</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Pris pr. km</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.AntalKmKørtToString()</td>
+                        <td></td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.PrisPrKm</td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.GetTotalKmPrisString()</td>
+                    </tr>
+                </tbody>
+                @* Selvrisiko *@
+                @if (OrdreModel.Udlejning.SelvrisikoUdløst)
+                {
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col">Selvrisiko</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>@OrdreModel.Udlejning.Selvrisiko</td>
+                            <td></td>
+                            <td>@OrdreModel.Udlejning.GetSelvrisikoToString()</td>
+                        </tr>
+                    </tbody>
+                }
+                <tbody>
+                    <tr>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                    </tr>
+                </tbody>
+            }
+
+            @* Total timer del *@
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <td class="fw-bold">Subtotal (DKK)</td>
                     <th scope="col">@OrdreModel.GetTotalPrisString()</th>
@@ -285,8 +314,6 @@
                     <td class="p-4"></td>
                 </tr>
             </tbody>
-
-            
 
             @* Moms del *@
             <tbody>
