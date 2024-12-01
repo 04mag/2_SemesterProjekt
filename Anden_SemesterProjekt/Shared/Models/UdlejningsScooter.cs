@@ -16,12 +16,7 @@ namespace Anden_SemesterProjekt.Shared.Models
 
         public override string ToString()
         {
-            if (this.Mærke == null)
-            {
-                return $"{this.Registreringsnummer}";
-            }
-
-            return $"{this.Registreringsnummer}({this.Mærke.ScooterMærke})";
+            return $"{this.Registreringsnummer}";
         }
     }
 }

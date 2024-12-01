@@ -58,6 +58,10 @@ namespace Anden_SemesterProjekt.Shared.Models
                     totalPris += vareLinje.GetTotalPris();
                 }
             }
+            if (Udlejning != null)
+            {
+                totalPris += Udlejning.GetTotalPris();
+            }
             return totalPris;
         }
 

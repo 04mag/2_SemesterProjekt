@@ -41,7 +41,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public double GetTotalLejeForsikringPris()
         {
             double totalPris = 0;
-            double antalDage = (SlutDato - StartDato).TotalDays;
+            double antalDage = (SlutDato - StartDato).TotalDays + 1;
             totalPris += antalDage * LejePrDag;
             totalPris += antalDage * ForsikringPrDag;
             return totalPris;
@@ -54,7 +54,32 @@ namespace Anden_SemesterProjekt.Shared.Models
 
         public string AntalKmKørtToString()
         {
-            return AntalKmKørt.ToString("0.00");
+            return AntalKmKørt.ToString("0");
+        }
+
+        public double GetTotalKmPris()
+        {
+            return AntalKmKørt * PrisPrKm;
+        }
+
+        public string GetTotalKmPrisString()
+        {
+            return GetTotalKmPris().ToString("0.00");
+        }
+
+        public string GetSelvrisikoToString()
+        {
+            return Selvrisiko.ToString("0.00");
+        }
+
+        public double GetTotalPris()
+        {
+            return GetTotalLejeForsikringPris() + GetTotalKmPris() + (SelvrisikoUdløst ? Selvrisiko : 0);
+        }
+
+        public string GetTotalPrisString()
+        {
+            return GetTotalPris().ToString("0.00");
         }
     }
 }
