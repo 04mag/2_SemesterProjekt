@@ -14,7 +14,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int OrdreId { get; set; }
         public List<VareLinje>? VareLinjer { get; set; } = new List<VareLinje>();
         public int KundeId { get; set; }
-        public Kunde Kunde { get; set; }
+        public Kunde? Kunde { get; set; }
         public int? KundeScooterId { get; set; }
         [JsonIgnore]
         public KundeScooter? KundeScooter { get; set; }

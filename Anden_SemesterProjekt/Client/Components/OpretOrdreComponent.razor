@@ -60,7 +60,7 @@
                         }
                     </InputSelect>
                     <!-- Display details about the selected mechanic -->
-                  @*   @if (nyOrdre.Mekaniker != null)
+                  @*   @if (nyOrdreMekaniker != null)
                     {
                         @foreach (var mærke in nyOrdre.Mekaniker.Mærker)
                         {
@@ -101,7 +101,7 @@
         <div class="card-body">
             <div class="row mb-3">
                 <label class="col-6">Søg varer</label>
-                @if (ordreVareLinje.Vare != null && ordreVareLinje.Vare.Pris > 0)
+                @if ( ordreVareLinje.VarePris > 0)
                 {
                     <label class="col-2">Pris</label>
                     <label class="col-2">Ændr Pris</label>
@@ -123,7 +123,7 @@
                         </ul>
                     }
                 </div>
-                @if (ordreVareLinje.Vare != null && ordreVareLinje.Vare.Pris > 0)
+                @if (ordreVareLinje.VarePris > 0)
                 {
                     <div class="col-2">
                         <InputNumber @bind-Value="@ordreVareLinje.VarePris" class="form-control" disabled="@(!checkboxValue)" />
@@ -153,7 +153,7 @@
             {
                 <div class="row align-items-center mb-2">
                     <div class="col-6">
-                        @vareLinje.Vare.Beskrivelse - @vareLinje.VarePris Kr
+                        @vareLinje.VareBeskrivelse - @vareLinje.VarePris Kr
                     </div>
                     <div class="col-2">
                         <InputNumber @bind-Value="@vareLinje.Antal" class="form-control" @onfocusout="FjernVareVedNul" />
