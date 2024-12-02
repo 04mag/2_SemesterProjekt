@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Anden_SemesterProjekt.Shared.Models
 {
     public class Udlejning
-    {
+    { 
         public int UdlejningId { get; set; }
         public int UdlejningsScooterId { get; set; }
         public UdlejningsScooter? UdlejningsScooter { get; set; }
