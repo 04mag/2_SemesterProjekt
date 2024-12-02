@@ -3,7 +3,7 @@
     overflow-y: scroll; /* Tilføj vertikal scrolling */
     scrollbar-width: thin;
     border: 1px solid #ddd; /* Tilføj en kant for visuel struktur */
-    padding: 10px /* Giver lidt luft omkring tabellen */
+    padding: 10px; /* Giver lidt luft omkring tabellen */
     border-radius: 5px; /* Gør hjørnerne runde */
 }
 
@@ -11,6 +11,7 @@
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 0; /* Fjern ekstra margin fra tabellen */
+    border-collapse:collapse;
     font-size: 14px; /* Mindre skrifttype for et kompakt udseende */
     line-height: 1.4; /* Reducer linjehøjden */
 }
@@ -41,3 +42,10 @@
     .ydelse-table tbody td {
         border-top: 1px solid #dee2e6; /* Diskret linje mellem rækker */
     }
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: #6c757d;
+}
