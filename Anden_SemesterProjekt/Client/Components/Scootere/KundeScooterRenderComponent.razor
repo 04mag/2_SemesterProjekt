@@ -1,0 +1,41 @@
+﻿@using Anden_SemesterProjekt.Shared.Models
+
+<h3>KundeScooterRenderComponent</h3>
+
+<div class="list-group">
+    @if (KundeScootere != null && KundeScootere.Any())
+    {
+        @foreach (var scooter in KundeScootere)
+        {
+            <div class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>Stelnummer:</strong> @scooter.Stelnummer<br />
+                    <strong>Registreringsnummer:</strong> @scooter.Registreringsnummer<br />
+                    <strong>Mærke:</strong> @scooter.Mærke?.ScooterMærke
+                </div>
+                @if (OnDeleteScooter.HasDelegate)
+                {
+                    <button class="btn btn-danger" @onclick="() => OnDeleteScooter.InvokeAsync(scooter)">Slet</button>
+                }
+            </div>
+        }
+    }
+    else
+    {
+        <p>Ingen scootere fundet for denne kunde.</p>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public List<KundeScooter> KundeScootere { get; set; } = new();
+
+    [Parameter]
+    public EventCallback<KundeScooter> OnDeleteScooter { get; set; }
+}
+
+
+
+
+
+

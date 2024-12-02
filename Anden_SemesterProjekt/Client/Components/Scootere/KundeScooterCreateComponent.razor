@@ -1,0 +1,104 @@
+﻿@using Anden_SemesterProjekt.Shared.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Anden_SemesterProjekt.Client.Services
+
+<h3>Opret KundeScooter</h3>
+
+<EditForm Model="newScooter" OnValidSubmit="HandleCreateScooter">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <!-- Stelnummer -->
+    <div class="mb-3">
+        <label for="stelnummer">Stelnummer:</label>
+        <InputText id="stelnummer" class="form-control" @bind-Value="newScooter.Stelnummer" />
+        <ValidationMessage For="@(() => newScooter.Stelnummer)" />
+    </div>
+
+    <!-- Registreringsnummer -->
+    <div class="mb-3">
+        <label for="registreringsnummer">Registreringsnummer:</label>
+        <InputText id="registreringsnummer" class="form-control" @bind-Value="newScooter.Registreringsnummer" />
+        <ValidationMessage For="@(() => newScooter.Registreringsnummer)" />
+    </div>
+
+    <!-- Dropdown for Mærker -->
+    <div class="mb-3">
+        <label for="mærke">Vælg Mærke:</label>
+        <select id="mærke" class="form-control" @bind="newScooter.MærkeId">
+            <option value="0">-- Vælg Mærke --</option>
+            @if (Mærker != null)
+            {
+                @foreach (var mærke in Mærker)
+                {
+                    <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
+                }
+            }
+        </select>
+        <ValidationMessage For="@(() => newScooter.MærkeId)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Opret KundeScooter</button>
+</EditForm>
+
+@if (errorMessage != null)
+{
+    <p style="color: red;">@errorMessage</p>
+}
+
+@code {
+    private KundeScooter newScooter = new KundeScooter();
+
+    private List<Mærke> Mærker = new();
+    private string? errorMessage;
+
+    [Parameter]
+    public EventCallback<KundeScooter> OnCreate { get; set; }
+    [Inject]
+    private IMærkeClientService MærkeClientService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Mærker = await MærkeClientService.GetMærker();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Fejl under hentning af mærker: {ex.Message}";
+        }
+    }
+
+    private async Task HandleCreateScooter()
+    {
+        try
+        {
+            if (newScooter.MærkeId == 0)
+            {
+                errorMessage = "Du skal vælge et mærke.";
+                return;
+            }
+
+            errorMessage = null;
+
+            // Map Scooter to KundeScooter object and send it via callback
+            var kundeScooter = new KundeScooter
+                {
+                    Stelnummer = newScooter.Stelnummer,
+                    Registreringsnummer = newScooter.Registreringsnummer,
+                    MærkeId = newScooter.MærkeId,
+                    Mærke = Mærker.FirstOrDefault(m => m.MærkeId == newScooter.MærkeId)
+                };
+
+            await OnCreate.InvokeAsync(kundeScooter);
+
+            // Reset form 
+            newScooter = new KundeScooter(); // Clear the form
+
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Der opstod en fejl: {ex.Message}";
+        }
+    }
+}

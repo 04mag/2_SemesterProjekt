@@ -1,0 +1,50 @@
+﻿@using Anden_SemesterProjekt.Shared.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Anden_SemesterProjekt.Client.Services
+
+@inject IScooterClientService ScooterClientService
+
+<h3>Liste over KundeScootere</h3>
+
+@if (isLoading)
+{
+    <p>Indlæser kundescootere...</p>
+}
+else if (errorMessage != null)
+{
+    <p style="color: red;">@errorMessage</p>
+}
+else
+{
+    <KundeScooterRenderComponent KundeScootere="kundeScootere"
+                                 OnDeleteScooter="DeleteScooter" />
+}
+
+@code {
+    private List<KundeScooter>? kundeScootere;
+    private bool isLoading = true;
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            // Hent liste af kundescootere fra service
+            kundeScootere = await ScooterClientService.GetAllKundeScootereAsync();
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Der opstod en fejl: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void DeleteScooter(KundeScooter scooter)
+    {
+        // Fjern scooteren fra listen
+        kundeScootere?.Remove(scooter);
+    }
+}

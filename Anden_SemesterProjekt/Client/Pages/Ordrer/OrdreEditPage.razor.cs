@@ -25,7 +25,11 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 
         public EditContext EditContext { get; set; }
 
+        private bool isBusy = false;
+
         private bool ordreAfsluttet = false;
+
+        private bool ordreErBetaltState;
 
         protected override void OnInitialized()
         {
@@ -37,20 +41,17 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
             Console.WriteLine("Ordre indhentes!");
             var ordreResult = await OrdreService.GetOrdre(Id);
             
-            if (ordreResult == null)
-            {
-                Console.WriteLine("Ordre er lig null!");
-            }
-
             if (ordreResult != null)
             {
-                Console.WriteLine("Ordre er ikke null!");
                 OrdreModel = ordreResult;
+                ordreErBetaltState = OrdreModel.ErBetalt;
             }
         }
 
         public async Task OnValidSubmit()
         {
+            isBusy = true;
+
             if (OrdreModel != null && OrdreModel.Udlejning != null)
             {
                 OrdreModel.Udlejning.SlutDato = OrdreModel.SlutDato;
@@ -65,7 +66,12 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                     OrdreModel.Udlejning.UdlejningsScooter!.ErTilgængelig = true;
                 }
             }
-            
+
+            if (OrdreModel != null && !ordreErBetaltState && OrdreModel.ErBetalt)
+            {
+                OrdreModel.BetalingsDato = DateTime.Now;
+            }
+
             if (OrdreModel != null)
             {
                 var response = await OrdreService.UpdateOrdre(OrdreModel);
@@ -84,11 +90,13 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
             {
                 await JS.InvokeVoidAsync("alert", "Ordren kunne ikke findes!");
             }
+
+            isBusy = false;
         }
 
-        public async Task OnInvalidSubmit()
+        public void OnInvalidSubmit()
         {
-            
+            Console.WriteLine("Invalid submit!");
         }
     }
 }
