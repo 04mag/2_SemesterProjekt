@@ -112,15 +112,20 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private async Task SoftDelete()
         {
-            redigeretVare.ErAktiv = false;
-            var response = await VareClientService.SoftDelete(redigeretVare);
-            if (response != null)
+            // Vis en bekræftelsesdialog med JavaScript
+            var confirmDelete= await JS.InvokeAsync<bool>("confirm", "Er du sikker på, at du vil slette denne vare?");
+            if (confirmDelete)
             {
-                var successBox = await JS.InvokeAsync<string>("alert", "Varen er inaktiv.");
-                Varer = await VareClientService.GetAktiveVarer();
-                detailsModal = true;
-                editModal = false;
-                detailsModal = false;
+                redigeretVare.ErAktiv = false;
+                var response = await VareClientService.SoftDelete(redigeretVare);
+                if (response != null)
+                {
+                    var successBox = await JS.InvokeAsync<string>("alert", "Varen er inaktiv.");
+                    Varer = await VareClientService.GetAktiveVarer();
+                    detailsModal = true;
+                    editModal = false;
+                    detailsModal = false;
+                }
             }
 
         }
