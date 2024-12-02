@@ -96,6 +96,21 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
 
         }
 
+        private async Task SoftDelete()
+        {
+            redigeretYdelse.ErAktiv = false;
+            var response = await VareClientService.SoftDelete(redigeretYdelse);
+            if (response != null)
+            {
+                var succesBox = await JS.InvokeAsync<string>("alert", "Ydelsen er inaktiv");
+                Ydelser = await VareClientService.GetAktiveYdelser();
+                detailsModal = true;
+                editModal = false;
+                detailsModal = false;
+            }
+        }
+            
+
         private void CloseModal()
         {
             detailsModal = false;

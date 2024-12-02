@@ -127,6 +127,23 @@ namespace Anden_SemesterProjekt.Client.Services
             return null;
         }
 
+        public async Task <HttpResponseMessage> SoftDelete (Vare vare)
+        {
+            if (vare is Ydelse)
+            {
+                Ydelse ydelse = (Ydelse)vare;
+                return await _httpClient.PutAsJsonAsync("api/Varer/ydelse", ydelse);
+            }
+
+            if (vare is Vare)
+            {
+                
+                return await _httpClient.PutAsJsonAsync("api/Varer", vare);
+            }
+            return null;
+        }
+
+        
         //Sender en DELETE-anmodning for at slette en eksisterende vare.
         public async Task<HttpResponseMessage> DeleteVare(int id)
         {

@@ -19,6 +19,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private Vare valgtVare = new Vare();
         private Vare redigeretVare = new Vare();
+        
         public List<Vare> FilteredVarer
         {
             get
@@ -95,6 +96,7 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
 
         private async Task UpdateVare()
         {
+            
             var response = await VareClientService.PutVare(redigeretVare);
             if (response != null)
             {
@@ -108,13 +110,19 @@ namespace Anden_SemesterProjekt.Client.Components.Varer
             
         }
 
-        private async Task DeleteVare(Vare vare)
+        private async Task SoftDelete()
         {
-            var confirmDelete = await JS.InvokeAsync<bool>("confirm", "Er du sikker på at du vil slette denne vare?");
-            if (confirmDelete)
+            redigeretVare.ErAktiv = false;
+            var response = await VareClientService.SoftDelete(redigeretVare);
+            if (response != null)
             {
-                //Søren - hjælp til metode.
+                var successBox = await JS.InvokeAsync<string>("alert", "Varen er inaktiv.");
+                Varer = await VareClientService.GetAktiveVarer();
+                detailsModal = true;
+                editModal = false;
+                detailsModal = false;
             }
+
         }
     }
 

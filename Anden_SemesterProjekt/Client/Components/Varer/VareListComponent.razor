@@ -70,10 +70,14 @@
                 <input type="number" @bind="redigeretVare.Pris" />
                 <button class="btn btn-primary" type="submit">Gem</button>
                 <p></p>
+                <button class="btn btn-danger btn-sm delete-button" type=button @onclick="() =>SoftDelete()">Slet</button>
 
             </div>
         </div>
     </EditForm>
+
+    
+
  }
 
 
