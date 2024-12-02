@@ -11,7 +11,8 @@ namespace Anden_SemesterProjekt.Client.Components
         #region Data og Initialisering
 
         public Ordre nyOrdre = new Ordre();
-        private Mekaniker ordreMekaniker = new Mekaniker();
+        private double nyOrdreTotalPris = 0;
+        private Mekaniker ordreMekaniker;
         private List<Mekaniker> alleMekanikere = new List<Mekaniker>();
         private VareLinje ordreVareLinje = new VareLinje();
         private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
@@ -20,8 +21,7 @@ namespace Anden_SemesterProjekt.Client.Components
         private Vare ordreVare = new Vare();
         private List<KundeScooter> kundeScootere = new List<KundeScooter>();
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
-        private KundeScooter ordreKundeScooter = new KundeScooter();
-
+        private KundeScooter ordreKundeScooter;
         private bool checkboxValue = false;
         private bool kundeValgt = false;
         private bool opretKundeModal = false;
@@ -141,6 +141,7 @@ namespace Anden_SemesterProjekt.Client.Components
         private void FjernVare(VareLinje vare)
         {
             ordreVareLinjer.Remove(vare);
+            nyOrdreTotalPris = ordreVareLinjer.Sum(v => v.GetTotalPris());
             StateHasChanged();
         }
 
@@ -184,46 +185,28 @@ namespace Anden_SemesterProjekt.Client.Components
             visVareForslag = false;
             StateHasChanged();
         }
-        //private void TilføjVare()
-        //{
-        //    if(!ordreVareLinjer.Any(v => v.Vare.Id == ordreVareLinje.Vare.Id && v.Vare.Pris == ordreVareLinje.VarePris))
-        //    {
-
-        //        ordreVareLinje.VarePris = ordreVare.Pris;
-        //        ordreVareLinje.VareId = ordreVare.Id;
-        //        ordreVareLinjer.Add(ordreVareLinje);
-        //        ordreVareLinje = new VareLinje();
-        //        ordreVare = new Vare();
-        //        //ordreVareLinje.Vare = ordreVare;
-        //        //ordreVareLinje.VarePris = ordreVare.Pris;
-        //        søgeTekstVarer = string.Empty;
-        //        StateHasChanged();
-        //    }
-        //    else
-        //    {
-        //        var v = ordreVareLinjer.Find(v => (v.Vare.Id == ordreVareLinje.Vare.Id && v.Vare.Pris == ordreVareLinje.Vare.Pris));
-        //        v.Antal += ordreVareLinje.Antal;
-        //        NulstilVareInput();
-        //        StateHasChanged();
-        //    }
-        //}
         private void TilføjVare()
         {
-            var eksisterendeVareLinje = ordreVareLinjer.FirstOrDefault(v => v.VareId == ordreVareLinje.VareId && v.VarePris == ordreVareLinje.VarePris);
+            var eksisterendeVareLinje = ordreVareLinjer.FirstOrDefault(v
+                => v.VareId == ordreVareLinje.VareId 
+                   && v.VarePris == ordreVareLinje.VarePris
+                   && v.Rabat == ordreVareLinje.Rabat);
             if (eksisterendeVareLinje != null)
             {
                 eksisterendeVareLinje.Antal += ordreVareLinje.Antal;
             }
             else
             {
-                ordreVareLinjer.Add(new VareLinje
+                nyOrdre.VareLinjer.Add(new VareLinje
                 {
                     VareId = ordreVareLinje.VareId,
                     VarePris = ordreVareLinje.VarePris,
+                    Rabat = ordreVareLinje.Rabat,
                     Antal = ordreVareLinje.Antal,
-                    VareBeskrivelse = ordreVareLinje.VareBeskrivelse
+                    VareBeskrivelse = ordreVareLinje.VareBeskrivelse,
                 });
             }
+                 
             NulstilVareInput();
         }
 

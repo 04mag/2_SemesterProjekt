@@ -100,16 +100,17 @@
         </div>
         <div class="card-body">
             <div class="row mb-3">
-                <label class="col-6">Søg varer</label>
+                <label class="col-3">Søg varer</label>
                 @if ( ordreVareLinje.VarePris > 0)
                 {
-                    <label class="col-2">Pris</label>
-                    <label class="col-2">Ændr Pris</label>
-                    <label class="col-2">Antal</label>
+                    <label class="col-1">Pris</label>
+                    <label class="col-1">Ændr Pris</label>
+                    <label class="col-1">Rabat %</label>
+                    <label class="col-1">Antal</label>
                 }
             </div>
             <div class="row mb-3">
-                <div class="col-6">
+                <div class="col-3">
                     <input type="text" class="form-control" placeholder="Søg varer ..." @bind="søgeTekstVarer" @oninput="VareSøgefeltÆndret"/>
                     @if (visVareForslag)
                     {
@@ -125,14 +126,20 @@
                 </div>
                 @if (ordreVareLinje.VarePris > 0)
                 {
-                    <div class="col-2">
+                    <div class="col-1">
                         <InputNumber @bind-Value="@ordreVareLinje.VarePris" class="form-control" disabled="@(!checkboxValue)" />
                     </div>
-                    <div class="col-2">
+                    <div class="col-1">
                         <InputCheckbox @bind-Value="checkboxValue" />
                     </div>
-                    <div class="col-2">
+                    <div class="col-1">
+                        <InputNumber id="rabat" @bind-Value="ordreVareLinje.Rabat" class="form-control" placeholder="Rabat %" />
+                    </div>
+                    <div class="col-1">
                         <InputNumber id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal" />
+                    </div>
+                    <div class="col-1">
+                            <label>Total: @ordreVareLinje.GetTotalPris() kr </label>
                     </div>
                     <div class="col-2">
                         <button class="btn btn-primary" @onclick="TilføjVare">Tilføj</button>
@@ -141,6 +148,18 @@
             </div>
         </div>
     </div>
+        <!-- Bemærkning -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Bemærkninger</h4>
+            </div>
+            <div class="card-body">
+                <form>
+                    <textarea id="multiline-input" name="multiline-input" rows="4" cols="50" placeholder="Skriv her..."></textarea>
+                </form>
+
+            </div>
+        </div>
 
 
     <!-- Ordreoversigt -->
@@ -148,16 +167,34 @@
         <div class="card-header">
             <h4>Ordre Oversigt</h4>
         </div>
-        <div class="card-body">
-            @foreach (var vareLinje in ordreVareLinjer)
+
+        @if (ordreVareLinjer.Count > 0)
+    {
+        <div class="row align-items-center mt-1 ms-1">
+            <strong class="col-2">Vare</strong>
+            <strong class="col-2">Pris</strong>
+            <strong class="col-2">Rabat</strong>
+            <strong class="col-1">Antal</strong>
+            <strong class="col-1">Total</strong>
+        </div>
+    }
+        <div>
+            @foreach (var vareLinje in nyOrdre.VareLinjer)
             {
-                <div class="row align-items-center mb-2">
-                    <div class="col-6">
-                        @vareLinje.VareBeskrivelse - @vareLinje.VarePris Kr
+                    <div class="row align-items-center mt-1 ms-1 mb-2">
+                    <div class="col-2">
+                        @vareLinje.VareBeskrivelse  
                     </div>
                     <div class="col-2">
+                       @vareLinje.VarePris Kr
+                    </div>
+                    <div class="col-2">
+                       @vareLinje.Rabat Kr
+                    </div>
+                    <div class="col-1">
                         <InputNumber @bind-Value="@vareLinje.Antal" class="form-control" @onfocusout="FjernVareVedNul" />
                     </div>
+                        <label class="col-1">@vareLinje.GetTotalPris() Kr</label>
                     <div class="col-2">
                         <button class="btn btn-danger" @onclick="() => FjernVare(vareLinje)">Slet</button>
                     </div>
@@ -170,31 +207,31 @@
            
             <div class="row mt-3">
 
-                <div class="col-2">
-                    <strong>Total pris:</strong> @string.Format("{0:F2}", ordreVareLinjer.Sum(v => v.VarePris * v.Antal)) Kr
+                <div class="col-2 ms-2">
+                    <strong>Total pris:</strong> @nyOrdre.GetTotalPris() Kr
 
 
                 </div>
-              @*   @if (nyOrdre.Kunde != null)
+                @if (ordreKunde != null)
                 {
                     <div class="col-2">
                         <strong>Kunde:</strong> @ordreKunde.Navn
                     </div>
                 }
-                @if (nyOrdre.Mekaniker != null)
+                @if (ordreMekaniker != null)
                 {
                     <div class="col-2">
                         <strong>Mekaniker:</strong> @ordreMekaniker.Navn
                     </div>
                 }
-                @if (nyOrdre.KundeScooter != null)
+                @if (ordreKundeScooter != null)
                 { 
                     <div class="col-2">
                         <strong>Scooter:</strong> @ordreKundeScooter.Registreringsnummer - @ordreKundeScooter.Mærke.ScooterMærke
                     </div>
-                } *@
+                }
                
-                <div class="col-6 text-end">
+                <div class="col-6 mb-3">
                     <button class="btn btn-primary" type="button" @onclick="OpretOrdre">
                         Opret ordre
                     </button>

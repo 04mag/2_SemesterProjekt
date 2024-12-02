@@ -21,7 +21,8 @@ namespace Anden_SemesterProjekt.Shared.Models
         // data annotation til at sikre at antal altid er over 0
         [Range(1, int.MaxValue, ErrorMessage = "Antal skal være større end 0")]
         public int? Antal { get; set; } = 1;
-        public double? Rabat { get; set; }
+
+        public double? Rabat { get; set; } = 0;
         public double VarePris { get; set; }
         public string VareBeskrivelse { get; set; } = "";
         public double YdelseAntalTimer { get; set; } = 0;
