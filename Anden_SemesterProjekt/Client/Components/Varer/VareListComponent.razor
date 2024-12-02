@@ -28,7 +28,7 @@
             <thead class="thead-light">
             <tr>
                 <th style="text-align: left;">Beskrivelse</th>
-                <th style="text-align: right;">Pris</th>
+                <th style="text-align: left;">Pris</th>
             </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
             {
                 <tr @onclick="() => VareBeskrivelse(vare)">
                     <td>@vare.Beskrivelse</td>
-                    <td style="text-align: right;">@($"{vare.Pris:N2} kr")</td>
+                    <td style="text-align: left;">@($"{vare.Pris:N2} kr")</td>
                 </tr>
             }
             </tbody>

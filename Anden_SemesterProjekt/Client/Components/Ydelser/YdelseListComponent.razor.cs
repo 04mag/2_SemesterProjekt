@@ -20,9 +20,6 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
         private Ydelse valgtYdelse = new Ydelse();
         private Ydelse redigeretYdelse = new Ydelse();
 
-
-      
-
         public List<Ydelse> FilteredYdelser
         {
             get
