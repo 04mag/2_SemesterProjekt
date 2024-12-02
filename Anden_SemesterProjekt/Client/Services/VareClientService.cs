@@ -112,54 +112,19 @@ namespace Anden_SemesterProjekt.Client.Services
         //Sender en PUT-anmodning for at opdatere en eksisterene vare eller ydelse. 
         public async Task<HttpResponseMessage> PutVare(Vare vare)
         {
+            if (vare is Ydelse)
+            {
+                Ydelse ydelse = (Ydelse)vare;
+                return await _httpClient.PutAsJsonAsync("api/Varer/ydelse", ydelse);
+            }
+            
+
             if (vare is Vare)
             {
                 return await _httpClient.PutAsJsonAsync("api/Varer", vare);
             }
-            else
-            {
-                return null; 
-            }
-
-            if (vare is Ydelse) 
-            {
-                return await _httpClient.PutAsJsonAsync("api/Varer/ydelse", vare);
-            }
-            else
-            {
-                return null; 
-            }
-            return null; 
-
-
-            //    if (vare is Ydelse)
-            //    {
-            //        var response = await _httpClient.PutAsJsonAsync("api/Varer/ydelse", vare);
-
-            //        if (response.IsSuccessStatusCode)
-            //        {
-            //            return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
-            //        }
-            //        else
-            //        {
-            //            return null;
-            //        }
-            //    }
-
-            //    if (vare is Vare)
-            //    {
-            //        var response = await _httpClient.PutAsJsonAsync("api/Varer", vare);
-
-            //        if (response.IsSuccessStatusCode)
-            //        {
-            //            return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
-            //        }
-            //        else
-            //        {
-            //            return null;
-            //        }
-            //    }
-            //    return null;
+            
+            return null;
         }
 
         //Sender en DELETE-anmodning for at slette en eksisterende vare.
