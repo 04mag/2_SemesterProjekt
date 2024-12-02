@@ -62,7 +62,16 @@ namespace Anden_SemesterProjekt.Shared.Models
                     totalPris += vareLinje.GetTotalPris();
                 }
             }
+            if (Udlejning != null)
+            {
+                totalPris += Udlejning.GetTotalPris();
+            }
             return totalPris;
+        }
+
+        public string GetTotalPrisString()
+        {
+            return GetTotalPris().ToString("0.00");
         }
 
         public double GetTotalPrisMedMoms()
@@ -85,5 +94,34 @@ namespace Anden_SemesterProjekt.Shared.Models
             return GetTotalMoms().ToString("0.00");
         }
 
+        public double GetTotalAntalTimer()
+        {
+            double totalAntalTimer = 0;
+            if (VareLinjer != null)
+            {
+                foreach (var vareLinje in VareLinjer)
+                {
+                    totalAntalTimer += vareLinje.GetTotalAntalTimer();
+                }
+            }
+            return totalAntalTimer;
+        }
+
+        public string GetTotalAntalTimerString()
+        {
+            return GetTotalAntalTimer().ToString("0.00");
+        }
+
+        public bool OrdreContainsYdelse()
+        {
+            if (VareLinjer != null)
+            {
+                if (GetTotalAntalTimer() > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

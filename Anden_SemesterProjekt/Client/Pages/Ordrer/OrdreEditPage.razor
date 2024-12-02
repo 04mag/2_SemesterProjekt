@@ -1,5 +1,7 @@
-﻿@page "/ordre/edit/{Id:int}"
+﻿@page "/ordrer/edit/{Id:int}"
 @using Anden_SemesterProjekt.Client.Components.Kunder
+
+<PageTitle>Rediger ordre</PageTitle>
 
 @if (OrdreModel != null && OrdreModel.OrdreId == 0)
 {
@@ -15,6 +17,7 @@ else if (OrdreModel.ErAfsluttet == true)
 }
 else
 {
+    <PageTitle>(@OrdreModel.OrdreId)Rediger ordre</PageTitle>
     <div class="row p-3 mb-5 border border-primary rounded">
         <div class="col-md-6">
             <h3>Rediger ordre med ID: @OrdreModel.OrdreId</h3>
@@ -53,13 +56,6 @@ else
                 <InputCheckbox id="SelvrisikoUdløst" @bind-Value="OrdreModel.Udlejning.SelvrisikoUdløst" />
             </div>
         }
-        <div class="col-12">
-            <h4>Betaling</h4>
-        </div>
-        <div class="col-12 mb-3">
-            <label for="ErBetalt">Ordre er betalt?</label>
-            <InputCheckbox id="ErBetalt" @bind-Value="OrdreModel.ErBetalt" />
-        </div>
 
         <div class="col-12">
             <h4>Afslut ordre</h4>

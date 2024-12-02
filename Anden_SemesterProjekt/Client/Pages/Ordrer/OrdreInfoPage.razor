@@ -2,18 +2,35 @@
 @using Anden_SemesterProjekt.Shared.Models
 @layout NoMenuLayout
 
+@page "/ordrer/{OrdreId:int}"
 
-@page "/ordre/{OrdreId:int}"
+<PageTitle>(@OrdreId)Ordre Information</PageTitle>
 
 <div class="maxwidth">
-    <div class="row p-3">
-        <h1 class="mb-5">Scooterland</h1>
+    <div class="row">
+        
+        <div class="col-md-12 mb-3">
+            <div class="float-end">
+                @if (OrdreModel.OrdreContainsYdelse())
+                {
+                    <span class="float-end">Start dato: @OrdreModel.StartDato.ToShortDateString()</span>
+                    <br />
+                    <span class="float-end">Slut dato: @OrdreModel.SlutDato.ToShortDateString()</span>
+                }
+                else
+                {
+                    <span class="float-end">Dato: @OrdreModel.StartDato.ToShortDateString()</span>
+                }
+            </div>
+            <span>@DateTime.Now.ToShortDateString()</span>
+            <h1 class="mb-1">Scooterland</h1>
+        </div>
 
         @if (OrdreModel.Kunde != null)
         {
             <span class="fw-bold">@OrdreModel.Kunde.Navn</span>
         }
-        <div class="col-md-12">
+        <div class="col-md-12 mb-3">
             @if (OrdreModel.Kunde != null && OrdreModel.Kunde.Adresse != null && OrdreModel.Kunde.Adresse.By != null)
             {
                 <span>@OrdreModel.Kunde.Adresse</span>
@@ -29,9 +46,15 @@
                 }
             }
         </div>
+
+        <div class="col-md-12">
+            <span>Ordrenummer: #@OrdreModel.OrdreId</span>
+        </div>
     </div>
 
-    <div class="row p-3">
+    
+
+    <div class="row">
         <table class="table">
             <thead>
                 <tr>
@@ -42,10 +65,14 @@
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
+
+            @* Vare del *@
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Vare</th>
                     <th scope="col">Antal</th>
                     <th scope="col"></th>
@@ -63,6 +90,7 @@
                         if (vareLinje.YdelseAntalTimer == 0)
                         {
                             <tr>
+                                <td>@vareLinje.VareId</td>
                                 <td>@vareLinje.VareBeskrivelse</td>
                                 <td>@vareLinje.Antal</td>
                                 <td></td>
@@ -82,10 +110,14 @@
                     <td class="p-3"></td>
                     <td class="p-3"></td>
                     <td class="p-3"></td>
+                    <td class="p-3"></td>
                 </tr>
             </tbody>
+
+            @* Ydelse del *@
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Ydelse</th>
                     <th scope="col">Antal</th>
                     <th scope="col">Timer</th>
@@ -103,6 +135,7 @@
                         if (vareLinje.YdelseAntalTimer > 0)
                         {
                             <tr>
+                                <td>@vareLinje.VareId</td>
                                 <td>@vareLinje.VareBeskrivelse</td>
                                 <td>@vareLinje.Antal</td>
                                 <td>@vareLinje.GetAntalTimerString()</td>
@@ -113,19 +146,180 @@
                             </tr>
                         }
                     }
+                    <tr>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                    </tr>
                 }
-                <tr>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                </tr>
             </tbody>
+
+            @* Total timer del *@
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    @if (OrdreModel.GetTotalAntalTimer() > 0)
+                    {
+                        <td class="fw-bold">Timetal</td>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">@OrdreModel.GetTotalAntalTimerString()</th>
+                    }
+                    else
+                    {
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    }
+                    <th scope="col"></th>
+                    <td class="fw-bold"></td>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                </tr>
+            </tbody>
+
+            @* Udlejningsscooter del *@
+            @if (OrdreModel.Udlejning != null && OrdreModel.Udlejning.UdlejningsScooter != null)
+            {
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Udlejning</th>
+                        <th scope="col">Scooter</th>
+                        <th scope="col">Startdato</th>
+                        <th scope="col">Slutdato</th>
+                        <th scope="col">Pris pr. dag</th>
+                        <th scope="col"></th>
+                        <th scope="col">Pris i alt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@OrdreModel.Udlejning.UdlejningId</td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.UdlejningsScooter.ToString()</td>
+                        <td>@OrdreModel.Udlejning.StartDato.ToShortDateString()</td>
+                        <td>@OrdreModel.Udlejning.SlutDato.ToShortDateString()</td>
+                        <td>@OrdreModel.Udlejning.GetLejeForsikringPrisPrDagString()</td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.GetTotalLejeForsikringPrisString()</td>
+                    </tr>
+                </tbody>
+
+                @* Pris pr km *@
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Antal km:</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Pris pr. km</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.AntalKmKørtToString()</td>
+                        <td></td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.PrisPrKm</td>
+                        <td></td>
+                        <td>@OrdreModel.Udlejning.GetTotalKmPrisString()</td>
+                    </tr>
+                </tbody>
+                @* Selvrisiko *@
+                @if (OrdreModel.Udlejning.SelvrisikoUdløst)
+                {
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col">Selvrisiko</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>@OrdreModel.Udlejning.Selvrisiko</td>
+                            <td></td>
+                            <td>@OrdreModel.Udlejning.GetSelvrisikoToString()</td>
+                        </tr>
+                    </tbody>
+                }
+                <tbody>
+                    <tr>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                    </tr>
+                </tbody>
+            }
+
+            @* Total timer del *@
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                    <td class="fw-bold">Subtotal (DKK)</td>
+                    <th scope="col">@OrdreModel.GetTotalPrisString()</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                    <td class="p-4"></td>
+                </tr>
+            </tbody>
+
+            @* Moms del *@
+            <tbody>
+                <tr>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -135,17 +329,8 @@
                     <td>@OrdreModel.GetTotalMomsString()</td>
                 </tr>
             </tbody>
-            @* <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col" class="fw-bold">Moms (25%)</th>
-                    <th scope="col">@OrdreModel.GetTotalMomsString()</th>
-                </tr>
-            </thead> *@
+
+            @* Total del *@
             <thead>
                 <tr>
                     <th scope="col"></th>
@@ -153,12 +338,16 @@
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
-                    <th scope="col">Pris totalt (DKK)</th>
+                    <th scope="col"></th>
+                    <th scope="col">Total (DKK)</th>
                     <th scope="col" class="text-decoration-underline">@OrdreModel.GetTotalPrisMedMomsString()</th>
                 </tr>
             </thead>
+
+            @* Ekstra række for at få vandret streg *@
             <thead>
                 <tr>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
@@ -170,6 +359,8 @@
             </thead>
         </table>
     </div>
+
+    
 
     <div class="footer">
         <div class="row maxwidth align-items-center">

@@ -26,9 +26,9 @@
             @if (Ordre.ErAfsluttet == false)
             {
                 <button disabled="@isBusy" type="button" class="btn btn-warning float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
-                @if (ordreModelErBetalt)
+                @if (Ordre.ErBetalt)
                 {
-                    <button disabled="@isBusy" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                    <button disabled="true" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
                 }
                 else
                 {
@@ -37,9 +37,9 @@
             }
             @if (Ordre.ErAfsluttet == true)
             {
-                @if (ordreModelErBetalt)
+                @if (Ordre.ErBetalt)
                 {
-                    <button disabled="@isBusy" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                    <button disabled="true" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
                 }
                 else
                 {
@@ -51,6 +51,9 @@
 </div>
 
 @code {
+    [Inject]
+    private IJSRuntime JS { get; set; }
+
     [Inject]
     public NavigationManager NavigationManager { get; set; }
 
@@ -65,24 +68,17 @@
 
     private bool isBusy = false;
 
-    private bool ordreModelErBetalt;
-
-    protected override void OnInitialized()
-    {
-        ordreModelErBetalt = Ordre.ErBetalt;
-    }
-
     public string ErBetaltButtonText 
     {
         get 
         {
-            if (ordreModelErBetalt)
+            if (Ordre.ErBetalt)
             {
                 return "Betalt";
             }
             else
             {
-                return "Ikke betalt";
+                return "Marker som betalt";
             }
         }
     }
@@ -90,14 +86,14 @@
     private void HandleClick()
     {
         isBusy = true;
-        NavigationManager.NavigateTo($"/ordre/{Ordre.OrdreId}");
+        NavigationManager.NavigateTo($"/ordrer/{Ordre.OrdreId}");
         isBusy = false;
     }
 
     private void OnEditClicked()
     {
         isBusy = true;
-        NavigationManager.NavigateTo($"/ordre/edit/{Ordre.OrdreId}");
+        NavigationManager.NavigateTo($"/ordrer/edit/{Ordre.OrdreId}");
         isBusy = false;
     }
 
@@ -105,20 +101,24 @@
     {
         isBusy = true;
 
-        Ordre.ErBetalt = !Ordre.ErBetalt;
-        Ordre.BetalingsDato = DateTime.Now;
-
-        if (Ordre != null)
+        if (Ordre.ErBetalt == false)
         {
-            var response = await OrdreService.UpdateOrdre(Ordre);
+            bool confirmBetaling = await JS.InvokeAsync<bool>("confirm", "Er du sikker på at du vil markere ordren som betalt?");
 
-            if (response.IsSuccessStatusCode)
+            if (confirmBetaling)
             {
-                ordreModelErBetalt = Ordre.ErBetalt;
-            }
-            else
-            {
-                Ordre.ErBetalt = !Ordre.ErBetalt;
+                Ordre.ErBetalt = true;
+                Ordre.BetalingsDato = DateTime.Now;
+
+                if (Ordre != null)
+                {
+                    var response = await OrdreService.UpdateOrdre(Ordre);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Ordre.ErBetalt = false;
+                    }
+                }
             }
         }
 
