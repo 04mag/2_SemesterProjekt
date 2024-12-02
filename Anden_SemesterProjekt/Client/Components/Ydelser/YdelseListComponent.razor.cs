@@ -98,15 +98,20 @@ namespace Anden_SemesterProjekt.Client.Components.Ydelser
 
         private async Task SoftDelete()
         {
-            redigeretYdelse.ErAktiv = false;
-            var response = await VareClientService.SoftDelete(redigeretYdelse);
-            if (response != null)
+            //Viser en bekræftelsesdialog med Javascript
+            var confirmDelete = await JS.InvokeAsync<bool>("confirm", "Er du sikker på, at du vil slette denne ydelse?");
+            if (confirmDelete)
             {
-                var succesBox = await JS.InvokeAsync<string>("alert", "Ydelsen er inaktiv");
-                Ydelser = await VareClientService.GetAktiveYdelser();
-                detailsModal = true;
-                editModal = false;
-                detailsModal = false;
+                redigeretYdelse.ErAktiv = false;
+                var response = await VareClientService.SoftDelete(redigeretYdelse);
+                if (response != null)
+                {
+                    var succesBox = await JS.InvokeAsync<string>("alert", "Ydelsen er inaktiv");
+                    Ydelser = await VareClientService.GetAktiveYdelser();
+                    detailsModal = true;
+                    editModal = false;
+                    detailsModal = false;
+                }
             }
         }
             
