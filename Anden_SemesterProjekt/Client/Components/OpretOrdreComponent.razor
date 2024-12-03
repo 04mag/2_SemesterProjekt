@@ -104,7 +104,7 @@
                 {
                     <label class="col-1">Pris</label>
                     <label class="col-1">Ændr Pris</label>
-                    <label class="col-1">Rabat %</label>
+                    <label class="col-1">Rabat</label>
                     <label class="col-1">Antal</label>
                 }
             </div>
@@ -197,34 +197,30 @@
         <div>
             @foreach (var vareLinje in nyOrdre.VareLinjer)
             {
-                    <div class="row align-items-center mt-1 ms-1 mb-2">
+                <div class="row align-items-center mt-1 ms-1 mb-2">
+                    
                     <div class="col-2">
-                        @vareLinje.VareBeskrivelse  
+                        @vareLinje.VareBeskrivelse
+                        </div>
+                    <div class="col-2">
+                        @vareLinje.VarePris Kr
                     </div>
                     <div class="col-2">
-                       @vareLinje.VarePris Kr
-                    </div>
-                    <div class="col-2">
-                       @vareLinje.Rabat Kr
+                        @vareLinje.Rabat Kr
                     </div>
                     <div class="col-1">
-                        <InputNumber @bind-Value="@vareLinje.Antal" class="form-control" @onfocusout="FjernVareVedNul" />
+                        <InputNumber @bind-Value="@vareLinje.Antal" class="form-control" @onfocusout="FjernVareVedNul"/>
                     </div>
-                        <label class="col-1">@vareLinje.GetTotalPris() Kr</label>
+                    <label class="col-1">@vareLinje.GetTotalPris() Kr</label>
                     <div class="col-2">
                         <button class="btn btn-danger" @onclick="() => FjernVare(vareLinje)">Slet</button>
                     </div>
                 </div>
             }
-            
-            <div class="row mt-3">
-
-            </div>
-           
             <div class="row mt-3">
 
                 <div class="col-2 ms-2">
-                    <strong>Total pris:</strong> @nyOrdre.GetTotalPris() Kr
+                    <strong>Total pris:</strong> @nyOrdre.GetTotalPrisUdenUdlejning() Kr
 
 
                 </div>

@@ -70,28 +70,28 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<int> UpdateOrdreAsync(Ordre ordre)
         {
-            // Henter scooteren fra databasen og gemmer den i existingScooter
+            // Henter ordren fra databasen og gemmer den i existingOrdre
             var existingOrdre = await _context.Ordrer.FindAsync(ordre.OrdreId);
             if (existingOrdre == null)
             {
                 return 0;
             }
 
-            // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
+            // Alle properties på existingScooter bliver overskrevet af de properties der er i ordre
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
 
-            // Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre
-            existingOrdre.Udlejning = ordre.Udlejning;
-            existingOrdre.Udlejning.UdlejningsScooter = ordre.Udlejning.UdlejningsScooter;
+            //// Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre
+            //existingOrdre.Udlejning = ordre.Udlejning;
+            //existingOrdre.Udlejning.UdlejningsScooter = ordre.Udlejning.UdlejningsScooter;
 
-            //Finder udlejningsscooter i _context
-            var existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
+            ////Finder udlejningsscooter i _context
+            //var existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
             
-            if (existingScooter != null)
-            {
-                //detach scooter from context
-                _context.Entry(existingScooter).State = EntityState.Detached;
-            }
+            //if (existingScooter != null)
+            //{
+            //    //detach scooter from context
+            //    _context.Entry(existingScooter).State = EntityState.Detached;
+            //}
 
             return await _context.SaveChangesAsync();
         }

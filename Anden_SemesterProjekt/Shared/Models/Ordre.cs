@@ -68,6 +68,20 @@ namespace Anden_SemesterProjekt.Shared.Models
             return totalPris;
         }
 
+        public double GetTotalPrisUdenUdlejning()
+        {
+            double totalPris = 0;
+            if (VareLinjer != null)
+            {
+                foreach (var vareLinje in VareLinjer)
+                {
+                    totalPris += vareLinje.GetTotalPris();
+                }
+            }
+            
+            return totalPris;
+        }
+
         public string GetTotalPrisString()
         {
             return GetTotalPris().ToString("0.00");

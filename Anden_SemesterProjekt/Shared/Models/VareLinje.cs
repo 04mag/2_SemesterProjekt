@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [Range(1, int.MaxValue, ErrorMessage = "Antal skal være større end 0")]
         public int? Antal { get; set; } = 1;
 
-        public double? Rabat { get; set; } = 0;
+        public double Rabat { get; set; } = 0;
         public double VarePris { get; set; }
         public string VareBeskrivelse { get; set; } = "";
         public double YdelseAntalTimer { get; set; } = 0;
@@ -33,11 +33,8 @@ namespace Anden_SemesterProjekt.Shared.Models
             {
                 return 0;
             }
-            double totalPris = VarePris * (int)Antal;
-            if (Rabat != null)
-            {
-                totalPris -= (double)Rabat;
-            }
+            double totalPris = (VarePris - Rabat) * (int)Antal;
+           
             return totalPris;
         }
 

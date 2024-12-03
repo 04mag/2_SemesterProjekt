@@ -214,13 +214,14 @@ namespace Anden_SemesterProjekt.Client.Components
             NulstilVareInput();
         }
 
-        private async Task NårUdlejningsScooterVælges()
+        private async Task SetUdlejningsScooter()
         {
             udlejning = new Udlejning();
             udlejningsScooter = udlejningsScootere.FirstOrDefault(s => s.ScooterId == udlejningsScooterId);
             udlejning.UdlejningsScooterId = udlejningsScooterId;
             udlejning.SlutDato = nyOrdre.SlutDato;
-            //udlejning.UdlejningsScooter = udlejningsScooter;
+            udlejning.SelvrisikoUdløst = false;
+            udlejning.AntalKmKørt = 0;
             nyOrdre.Udlejning = udlejning;
         }
 
@@ -229,18 +230,18 @@ namespace Anden_SemesterProjekt.Client.Components
         {
             nyOrdre.Mekaniker = ordreMekaniker;
             nyOrdre.KundeScooter = ordreKundeScooter;
-            nyOrdre.VareLinjer = ordreVareLinjer;
+         
             nyOrdre.ErBetalt = false;
             nyOrdre.ErAfsluttet = false;
             nyOrdre.StartDato = DateTime.Now;
             nyOrdre.BetalingsDato = DateTime.Now;
-            NårUdlejningsScooterVælges();
+            SetUdlejningsScooter();
 
             var result = await OrdreService.AddOrdre(nyOrdre);
             if (result != null)
             {
                 nyOrdre = new Ordre();
-                nyOrdreTotalPris = 0;
+                //nyOrdreTotalPris = 0;
                 ordreVareLinjer = new List<VareLinje>();
                 ordreVareLinje = new VareLinje();
                 ordreVare = new Vare();
