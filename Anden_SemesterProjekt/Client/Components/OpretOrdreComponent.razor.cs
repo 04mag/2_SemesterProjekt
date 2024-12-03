@@ -17,11 +17,13 @@ namespace Anden_SemesterProjekt.Client.Components
         private VareLinje ordreVareLinje = new VareLinje();
         private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
 
-        private Udlejning udlejning = new Udlejning();
+        private Udlejning? udlejning = new Udlejning();
         private Vare ordreVare = new Vare();
         private List<KundeScooter> kundeScootere = new List<KundeScooter>();
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
-        private KundeScooter ordreKundeScooter;
+        private KundeScooter? ordreKundeScooter;
+        private UdlejningsScooter udlejningsScooter;
+        private int udlejningsScooterId;
         private bool checkboxValue = false;
         private bool kundeValgt = false;
         private bool opretKundeModal = false;
@@ -60,6 +62,7 @@ namespace Anden_SemesterProjekt.Client.Components
             alleKunder = await KundeService.GetKunder();
             ordreVareLinje = new VareLinje();
             udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
+            udlejningsScootere = udlejningsScootere.Where(s => s.ErTilgængelig == true).ToList();
             ordreVareLinje.Vare = ordreVare;
             alleMekanikere = await MekanikerService.GetMekanikere();
             if (ordreKunde != null)
@@ -92,6 +95,8 @@ namespace Anden_SemesterProjekt.Client.Components
         }
 
         #endregion // VareSøgning
+
+
 
         #region KundeSøgning
 
@@ -126,7 +131,6 @@ namespace Anden_SemesterProjekt.Client.Components
 
             ordreMekaniker = kunde.TilknyttetMekaniker;
             MekanikerÆndres();
-
 
             visKundeForslag = false;
             kundeScootere = kunde.Scootere;
@@ -210,24 +214,50 @@ namespace Anden_SemesterProjekt.Client.Components
             NulstilVareInput();
         }
 
+        private async Task NårUdlejningsScooterVælges()
+        {
+            //udlejning = new Udlejning();
+            //udlejningsScooter = udlejningsScootere.FirstOrDefault(s => s.ScooterId == udlejningsScooterId);
+            //udlejning.UdlejningsScooterId = udlejningsScooterId;
+            //udlejningsScooter.ErTilgængelig = false;
+            //udlejning.SlutDato = nyOrdre.SlutDato;
+            //udlejning.UdlejningsScooter = udlejningsScooter;
+            //nyOrdre.UdlejningId = udlejning.UdlejningId;
+        }
+
         #endregion // vare håndtering
-        public void OpretOrdre()
+        public async Task OpretOrdre()
         {
             nyOrdre.Mekaniker = ordreMekaniker;
             nyOrdre.KundeScooter = ordreKundeScooter;
-
             nyOrdre.VareLinjer = ordreVareLinjer;
-            //nyOrdre.Mekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId); // Find the mechanic
             nyOrdre.ErBetalt = false;
             nyOrdre.ErAfsluttet = false;
             nyOrdre.StartDato = DateTime.Now;
-            nyOrdre.SlutDato = DateTime.Now;
             nyOrdre.BetalingsDato = DateTime.Now;
-            nyOrdre.Bemærkninger = " ";
-
-
-            OrdreService.AddOrdre(nyOrdre);
-
+           
+            var result = await OrdreService.AddOrdre(nyOrdre);
+            if (result != null)
+            {
+                nyOrdre = new Ordre();
+                nyOrdreTotalPris = 0;
+                ordreVareLinjer = new List<VareLinje>();
+                ordreVareLinje = new VareLinje();
+                ordreVare = new Vare();
+                ordreVareLinje.Vare = ordreVare;
+                //ordreMekaniker = new Mekaniker();
+                //ordreKundeScooter = new KundeScooter();
+                //ordreKunde = new Kunde();
+                kundeValgt = false;
+                søgeTekstKunder = "";
+                StateHasChanged();
+                
+                await JS.InvokeVoidAsync("alert", "Ordre oprettet");
+            }
+            else
+            {
+                await JS.InvokeVoidAsync("alert", "Ordre kunne ikke oprettes");
+            }
         }
         private async Task NyKunde(Kunde? nyKunde)
         {
@@ -269,6 +299,13 @@ namespace Anden_SemesterProjekt.Client.Components
             {
                 var errorBox = await JS.InvokeAsync<string>("alert", ex.Message);
             }
+        }
+
+        private void UdlejnigsScooterVælges(UdlejningsScooter udlejningsScooter)
+        {
+
+            udlejningsScooter.ErTilgængelig = false;
+            ScooterService.UpdateScooter(udlejningsScooter);
         }
         private void NulstilVareInput()
         {

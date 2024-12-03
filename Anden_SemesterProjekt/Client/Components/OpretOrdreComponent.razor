@@ -43,8 +43,7 @@
             </div>
         </div>
     </div>
-
-    <!--Mekaniker-->
+<!--Mekaniker-->
     <div class="card mb-2">
         <div class="card-header">
             <h4>Vælg mekaniker</h4>
@@ -148,21 +147,38 @@
             </div>
         </div>
     </div>
-        <!-- Bemærkning -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4>Bemærkninger</h4>
-            </div>
-            <div class="card-body">
-                <form>
-                    <textarea id="multiline-input" name="multiline-input" rows="4" cols="50" placeholder="Skriv her..."></textarea>
-                </form>
-
-            </div>
+<!-- Bemærkning -->
+<div class="row">
+    <div class="card mb-4 col-4">
+        <div class="card-header">
+            <h4>Bemærkninger</h4>
         </div>
+        <div class="col-6">
+            <textarea id="multiline-input" name="multiline-input" rows="4" cols="50" @bind="nyOrdre.Bemærkninger"placeholder="Skriv her..."></textarea>
+        </div>
+    </div>
 
+    <div class="card mb-4 col-4">
+        <div class="card-header mb-4 ">
+            <h4>Slutdato</h4>
+        </div>
+        <InputDate @bind-Value="nyOrdre.SlutDato" class="form-control"/>
+    </div>
+</div>
 
-    <!-- Ordreoversigt -->
+<div class="card mb-4 col-4">
+    <div class="card-header mb-4 ">
+        <InputSelect @bind-Value="udlejningsScooterId" @bind-Value:after="NårUdlejningsScooterVælges" class="form-select">
+            <option value="">Vælg scooter</option>
+            @foreach (var scooter in udlejningsScootere)
+            {
+                <option value="@scooter.ScooterId">@scooter.Registreringsnummer - @scooter.Mærke.ScooterMærke </option>
+            }
+        </InputSelect>
+    </div>
+</div>
+
+<!-- Ordreoversigt -->
     <div class="card">
         <div class="card-header">
             <h4>Ordre Oversigt</h4>
