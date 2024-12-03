@@ -107,7 +107,8 @@ namespace Anden_SemesterProjekt.Client.Components
             {
                 kundeForslag = alleKunder
                     .Where(k => k.Navn.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase) ||
-                                k.Email.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase))
+                                k.Email.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase) ||
+                                k.TlfNumre.Any(t => t.TelefonNummer.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase)))
                     .Take(5)
                     .ToList();
                 visKundeForslag = kundeForslag.Count > 0;
