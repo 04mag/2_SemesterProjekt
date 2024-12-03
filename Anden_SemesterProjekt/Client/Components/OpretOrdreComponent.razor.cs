@@ -17,7 +17,7 @@ namespace Anden_SemesterProjekt.Client.Components
         private VareLinje ordreVareLinje = new VareLinje();
         private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
 
-        private Udlejning? udlejning = new Udlejning();
+        private Udlejning? udlejning;
         private Vare ordreVare = new Vare();
         private List<KundeScooter> kundeScootere = new List<KundeScooter>();
         private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
@@ -216,13 +216,12 @@ namespace Anden_SemesterProjekt.Client.Components
 
         private async Task NårUdlejningsScooterVælges()
         {
-            //udlejning = new Udlejning();
-            //udlejningsScooter = udlejningsScootere.FirstOrDefault(s => s.ScooterId == udlejningsScooterId);
-            //udlejning.UdlejningsScooterId = udlejningsScooterId;
-            //udlejningsScooter.ErTilgængelig = false;
-            //udlejning.SlutDato = nyOrdre.SlutDato;
+            udlejning = new Udlejning();
+            udlejningsScooter = udlejningsScootere.FirstOrDefault(s => s.ScooterId == udlejningsScooterId);
+            udlejning.UdlejningsScooterId = udlejningsScooterId;
+            udlejning.SlutDato = nyOrdre.SlutDato;
             //udlejning.UdlejningsScooter = udlejningsScooter;
-            //nyOrdre.UdlejningId = udlejning.UdlejningId;
+            nyOrdre.Udlejning = udlejning;
         }
 
         #endregion // vare håndtering
@@ -235,7 +234,8 @@ namespace Anden_SemesterProjekt.Client.Components
             nyOrdre.ErAfsluttet = false;
             nyOrdre.StartDato = DateTime.Now;
             nyOrdre.BetalingsDato = DateTime.Now;
-           
+            NårUdlejningsScooterVælges();
+
             var result = await OrdreService.AddOrdre(nyOrdre);
             if (result != null)
             {
@@ -270,36 +270,6 @@ namespace Anden_SemesterProjekt.Client.Components
             StateHasChanged(); // Opdater UI
         }
 
-        private async Task HandleValidSubmit()
-        {
-            try
-            {
-                if (ordreKunde == null)
-                {
-                    throw new InvalidOperationException("Ingen kunde valgt.Vælg venligst en kunde");
-                }
-
-                var response = await OrdreService.AddOrdre(nyOrdre);
-
-                if (response != null)
-                {
-                    StateHasChanged();
-                    nyOrdre = new Ordre();
-                  
-                  
-                    await JS.InvokeVoidAsync("alert", "Ordre blev oprettet.");
-                }
-                else
-                {
-                    throw new InvalidOperationException("API oprettelsen mislykkedes.");
-                }
-
-            }
-            catch (Exception ex)
-            {
-                var errorBox = await JS.InvokeAsync<string>("alert", ex.Message);
-            }
-        }
 
         private void UdlejnigsScooterVælges(UdlejningsScooter udlejningsScooter)
         {

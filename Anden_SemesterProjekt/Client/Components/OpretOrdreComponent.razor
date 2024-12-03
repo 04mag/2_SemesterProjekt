@@ -72,7 +72,7 @@
         </div>
     </div>
     
-    @*   <!--Udlejning-->
+      <!--Udlejning-->
 <div class="card mb-2">
     <div class="card-header">
         <h4>Scooterudlejning</h4>
@@ -80,7 +80,7 @@
     <div class="card-body">
         <div class="row mb-3">
             <div class="col-6">
-                <InputSelect @bind-Value="udlejning.UdlejningsScooter.ScooterId" class="form-select">
+                <InputSelect @bind-Value="udlejningsScooterId" class="form-select">
                     <option value="">Vælg scooter</option>
                     @foreach (var s in udlejningsScootere)
                     {
@@ -91,7 +91,7 @@
         </div>
            
     </div>
-</div> *@
+</div>
     <!-- Produkt Sektion -->
     <div class="card mb-4">
         <div class="card-header">
@@ -168,7 +168,7 @@
 
 <div class="card mb-4 col-4">
     <div class="card-header mb-4 ">
-        <InputSelect @bind-Value="udlejningsScooterId" @bind-Value:after="NårUdlejningsScooterVælges" class="form-select">
+        <InputSelect @bind-Value="udlejningsScooterId" class="form-select">
             <option value="">Vælg scooter</option>
             @foreach (var scooter in udlejningsScootere)
             {

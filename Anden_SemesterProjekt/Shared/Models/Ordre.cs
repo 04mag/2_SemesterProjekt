@@ -24,7 +24,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime StartDato { get; set; } = DateTime.Now;
         [OrdreSlutDatoCheck]
         public DateTime SlutDato { get; set; } = DateTime.Now;
-        public int? UdlejningId { get; set; }
         public Udlejning? Udlejning { get; set; }
         public int? MekanikerId { get; set; }
         [JsonIgnore]
