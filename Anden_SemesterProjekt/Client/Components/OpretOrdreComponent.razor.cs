@@ -144,8 +144,8 @@ namespace Anden_SemesterProjekt.Client.Components
 
         private void FjernVare(VareLinje vare)
         {
-            ordreVareLinjer.Remove(vare);
-            nyOrdreTotalPris = ordreVareLinjer.Sum(v => v.GetTotalPris());
+            nyOrdre.VareLinjer.Remove(vare);
+            nyOrdreTotalPris = nyOrdre.VareLinjer.Sum(v => v.GetTotalPris());
             StateHasChanged();
         }
 
@@ -161,7 +161,7 @@ namespace Anden_SemesterProjekt.Client.Components
 
         private void FjernVareVedNul()
         {
-            ordreVareLinjer.RemoveAll(p => p.Antal == 0);
+            nyOrdre.VareLinjer.RemoveAll(p => p.Antal < 1);
             StateHasChanged();
         }
 
