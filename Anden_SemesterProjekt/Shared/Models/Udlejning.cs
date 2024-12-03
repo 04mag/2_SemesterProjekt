@@ -13,6 +13,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int UdlejningsScooterId { get; set; }
         public UdlejningsScooter? UdlejningsScooter { get; set; }
         public int OrdreId { get; set; }
+        [JsonIgnore]
         public Ordre? Ordre { get; set; }
         public DateTime StartDato { get; set; } = DateTime.Now;
         public DateTime SlutDato { get; set; } = DateTime.Now;

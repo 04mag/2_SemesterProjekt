@@ -682,7 +682,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.KundeScooter", "KundeScooter")
-                        .WithMany()
+                        .WithMany("Ordrer")
                         .HasForeignKey("KundeScooterId");
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "Mekaniker")
@@ -843,6 +843,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Vare", b =>
                 {
                     b.Navigation("VareLinjer");
+                });
+
+            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.KundeScooter", b =>
+                {
+                    b.Navigation("Ordrer");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", b =>

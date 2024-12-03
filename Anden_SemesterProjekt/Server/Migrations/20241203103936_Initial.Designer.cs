@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241201205456_jasp")]
-    partial class jasp
+    [Migration("20241203103936_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -316,9 +316,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
 
                     b.Property<DateTime>("StartDato")
                         .HasColumnType("datetime2");
-
-                    b.Property<int?>("UdlejningId")
-                        .HasColumnType("int");
 
                     b.HasKey("OrdreId");
 
@@ -707,7 +704,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mærke", "Mærke")
                         .WithMany("Scootere")
                         .HasForeignKey("MærkeId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Mærke");

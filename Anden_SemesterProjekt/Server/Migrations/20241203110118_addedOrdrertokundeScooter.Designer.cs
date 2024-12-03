@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    [Migration("20241203103110_UdlejningsScooterIdRemoved")]
-    partial class UdlejningsScooterIdRemoved
+    [Migration("20241203110118_addedOrdrertokundeScooter")]
+    partial class addedOrdrertokundeScooter
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -685,7 +685,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .IsRequired();
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.KundeScooter", "KundeScooter")
-                        .WithMany()
+                        .WithMany("Ordrer")
                         .HasForeignKey("KundeScooterId");
 
                     b.HasOne("Anden_SemesterProjekt.Shared.Models.Mekaniker", "Mekaniker")
@@ -846,6 +846,11 @@ namespace Anden_SemesterProjekt.Server.Migrations
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Vare", b =>
                 {
                     b.Navigation("VareLinjer");
+                });
+
+            modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.KundeScooter", b =>
+                {
+                    b.Navigation("Ordrer");
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.UdlejningsScooter", b =>

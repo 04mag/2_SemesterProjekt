@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class jasp : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -131,7 +131,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         column: x => x.MærkeId,
                         principalTable: "Mærker",
                         principalColumn: "MærkeId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -258,7 +258,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     ErAfsluttet = table.Column<bool>(type: "bit", nullable: false),
                     StartDato = table.Column<DateTime>(type: "datetime2", nullable: false),
                     SlutDato = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UdlejningId = table.Column<int>(type: "int", nullable: true),
                     MekanikerId = table.Column<int>(type: "int", nullable: true),
                     Bemærkninger = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },

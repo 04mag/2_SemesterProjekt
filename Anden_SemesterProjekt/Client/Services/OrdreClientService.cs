@@ -30,7 +30,7 @@ namespace Anden_SemesterProjekt.Client.Services
             {
                 return await _httpClient.GetFromJsonAsync<List<Ordre>>("api/ordre");
             }
-            catch
+            catch (Exception e)
             {
                 return null;
             }

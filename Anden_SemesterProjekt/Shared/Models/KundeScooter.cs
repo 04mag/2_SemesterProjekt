@@ -15,6 +15,9 @@ namespace Anden_SemesterProjekt.Shared.Models
         [JsonIgnore]
         public Kunde? Kunde { get; set; }
 
+        [JsonIgnore]
+        public List<Ordre> Ordrer { get; set; }
+
         public override string ToString()
         {
             if (this.Mærke == null)
