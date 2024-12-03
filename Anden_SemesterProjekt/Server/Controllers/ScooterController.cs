@@ -92,6 +92,25 @@ namespace Anden_SemesterProjekt.Server.Controllers
             return Ok(updatedScooter);
         }
 
+        [HttpPut("{id}/ledighed")]
+        public async Task<IActionResult> UpdateScooterTilgængelighed(int id, bool isAvailable)
+        {
+            try
+            {
+                await _scooterService.UpdateScooterTilgængelighedAsync(id, isAvailable);
+                return NoContent();
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {

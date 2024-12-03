@@ -62,6 +62,17 @@ namespace Anden_SemesterProjekt.Client.Services
                 return 0;
             }
         }
+        public async Task UpdateScooterTilgængelighed(int scooterId, bool isAvailable)
+        {
+            var url = $"api/scootere/{scooterId}/ledighed";
+            var response = await _httpClient.PutAsJsonAsync(url, isAvailable);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Failed to update scooter availability: {response.ReasonPhrase}");
+            }
+        }
+
 
         public async Task<int> DeleteScooter(int id)
         {

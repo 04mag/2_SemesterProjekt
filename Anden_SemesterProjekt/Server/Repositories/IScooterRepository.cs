@@ -11,6 +11,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         Task<int> CreateScooterAsync(Scooter scooter);
         Task<int> UpdateScooterAsync(Scooter Scooter);
+        Task UpdateScooterTilgængelighedAsync(int scooterId, bool erTilgængelig);
         Task<int> DeleteScooterAsync(int id);
     }
 }

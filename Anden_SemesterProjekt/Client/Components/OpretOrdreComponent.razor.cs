@@ -223,6 +223,10 @@ namespace Anden_SemesterProjekt.Client.Components
             udlejning.SelvrisikoUdløst = false;
             udlejning.AntalKmKørt = 0;
             nyOrdre.Udlejning = udlejning;
+            if (udlejningsScooterId != 0)
+            {
+                await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false);
+            }
         }
 
         #endregion // vare håndtering
