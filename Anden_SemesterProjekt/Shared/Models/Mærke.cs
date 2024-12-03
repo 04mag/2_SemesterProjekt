@@ -10,15 +10,12 @@ namespace Anden_SemesterProjekt.Shared.Models
     public class Mærke
     {
         public int MærkeId { get; set; }
-        public string ScooterMærke { get; set; } 
+        public string ScooterMærke { get; set; }
         [JsonIgnore]
-        public List<Scooter> Scootere { get; set; }
+        public List<Scooter>? Scootere { get; set; } = new List<Scooter>();
         [JsonIgnore]
-        public List<Mekaniker> Mekanikere { get; set; }
+        public List<Mekaniker> Mekanikere { get; set; } = new List<Mekaniker>();
 
-        public Mærke()
-        {
-        }
         public override string ToString()
         {
             return ScooterMærke;

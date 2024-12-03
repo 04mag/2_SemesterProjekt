@@ -15,7 +15,7 @@
                 </div>
                 @if (OnDeleteScooter.HasDelegate)
                 {
-                    <button class="btn btn-danger" @onclick="() => OnDeleteScooter.InvokeAsync(scooter)">Slet</button>
+                    <button type="button" class="btn btn-danger" @onclick="() => OnDeleteScooter.InvokeAsync(scooter)">Slet</button>
                 }
             </div>
         }

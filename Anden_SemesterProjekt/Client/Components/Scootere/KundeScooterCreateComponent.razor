@@ -4,26 +4,25 @@
 
 <h3>Opret KundeScooter</h3>
 
-<EditForm Model="newScooter" OnValidSubmit="HandleCreateScooter">
+<EditForm class="row p-3 mb-3 border border-primary rounded" Model="newScooter" OnValidSubmit="HandleCreateScooter">
     <DataAnnotationsValidator />
-    <ValidationSummary />
 
     <!-- Stelnummer -->
-    <div class="mb-3">
+    <div class="col-md-6 mb-3">
         <label for="stelnummer">Stelnummer:</label>
         <InputText id="stelnummer" class="form-control" @bind-Value="newScooter.Stelnummer" />
         <ValidationMessage For="@(() => newScooter.Stelnummer)" />
     </div>
 
     <!-- Registreringsnummer -->
-    <div class="mb-3">
+    <div class="col-md-6 mb-3">
         <label for="registreringsnummer">Registreringsnummer:</label>
         <InputText id="registreringsnummer" class="form-control" @bind-Value="newScooter.Registreringsnummer" />
         <ValidationMessage For="@(() => newScooter.Registreringsnummer)" />
     </div>
 
     <!-- Dropdown for Mærker -->
-    <div class="mb-3">
+    <div class="col-md-6 mb-3">
         <label for="mærke">Vælg Mærke:</label>
         <select id="mærke" class="form-control" @bind="newScooter.MærkeId">
             <option value="0">-- Vælg Mærke --</option>
@@ -38,7 +37,9 @@
         <ValidationMessage For="@(() => newScooter.MærkeId)" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Opret KundeScooter</button>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Tilføj Scooter</button>
+    </div>
 </EditForm>
 
 @if (errorMessage != null)
@@ -86,8 +87,7 @@
                 {
                     Stelnummer = newScooter.Stelnummer,
                     Registreringsnummer = newScooter.Registreringsnummer,
-                    MærkeId = newScooter.MærkeId,
-                    Mærke = Mærker.FirstOrDefault(m => m.MærkeId == newScooter.MærkeId)
+                    MærkeId = newScooter.MærkeId
                 };
 
             await OnCreate.InvokeAsync(kundeScooter);

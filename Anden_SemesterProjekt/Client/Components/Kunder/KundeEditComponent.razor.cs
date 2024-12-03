@@ -139,5 +139,22 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
             Mekaniker = null;
             KundeModel.MekanikerId = null;
         }
+
+        //Kunde scooter del
+        private void OnScooterAdded(KundeScooter scooter)
+        {
+            if (KundeModel.Scootere == null)
+            {
+                KundeModel.Scootere = new List<KundeScooter>();
+            }
+            KundeModel.Scootere.Add(scooter);
+        }
+        private void OnScooterRemoved(KundeScooter scooter)
+        {
+            if (KundeModel.Scootere != null)
+            {
+                KundeModel.Scootere.Remove(scooter);
+            }
+        }
     }
 }
