@@ -10,6 +10,7 @@ namespace Anden_SemesterProjekt.Client.Services
         Task<List<Ydelse>?> GetAktiveYdelser();
         Task<Vare?> GetVare(int id);
         Task<HttpResponseMessage> PutVare(Vare vare);
+        Task<HttpResponseMessage> SoftDelete(Vare vare);
         Task<HttpResponseMessage> DeleteVare(int id);
 
 
