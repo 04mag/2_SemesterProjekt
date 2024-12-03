@@ -16,7 +16,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [StringLength(20, MinimumLength = 15, ErrorMessage = "Stelnummer skal være mellem 15 og 20 tegn.")]
         public string Stelnummer { get; set; }
         public string? Registreringsnummer { get; set; }
-        [Required(ErrorMessage = "Mærke er påkrævet.")]
+        
         public int MærkeId { get; set; }
 
         public Mærke? Mærke { get; set; }

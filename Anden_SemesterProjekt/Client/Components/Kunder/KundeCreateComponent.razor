@@ -1,5 +1,6 @@
 ﻿@using Anden_SemesterProjekt.Client.Components.Ansatte.Mekanikere
 @using Anden_SemesterProjekt.Client.Components.Kunder.TlfNumre
+@using Anden_SemesterProjekt.Client.Components.Scootere
 <EditForm EditContext="editContext" class="col-12 mb-5" OnValidSubmit="HandleValidSubmit" OnInvalidSubmit="HandleInvalidSubmit">
     <ObjectGraphDataAnnotationsValidator />
     <div class="mb-3">
@@ -70,6 +71,13 @@
                 }
             </ul>
         </div>
+    }
+
+    <KundeScooterCreateComponent OnCreate="OnScooterAdded"/>
+
+    @if (kundeModel.Scootere != null && kundeModel.Scootere.Count > 0)
+    {
+        <KundeScooterRenderComponent KundeScootere="kundeModel.Scootere" OnDeleteScooter="OnScooterRemoved" />
     }
 
     <div class="row p-3 mb-5 border border-primary rounded">

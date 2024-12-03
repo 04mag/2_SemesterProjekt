@@ -218,8 +218,31 @@ namespace Anden_SemesterProjekt.Server.Repositories
                         existingKunde.TlfNumre.Add(nummer);
                     }
                 }
-                
+
                 existingKunde.TlfNumre = existingKunde.TlfNumre.Except(missingRows).ToList();
+
+                //Sletter scootere som ikke længere tilhører kunden
+                //Finder Id på alle kundens scootere
+                var allValidScooterIds = kunde.Scootere.Select(s => s.ScooterId).ToList();
+                //Finder alle scootere som ikke findes i kunde objektet
+                var missingScooterRows = _context.Scootere.OfType<KundeScooter>().Where(s => s.KundeId == kunde.KundeId && !allValidScooterIds.Contains(s.ScooterId)).ToList();
+
+                if (existingKunde.Scootere == null)
+                {
+                    existingKunde.Scootere = new List<KundeScooter>();
+                }
+
+                foreach (var scooter in kunde.Scootere)
+                {
+                    if (scooter.ScooterId == 0)
+                    {
+                        existingKunde.Scootere.Add(scooter);
+                    }
+                }
+
+                existingKunde.Scootere = existingKunde.Scootere.Except(missingScooterRows).ToList();
+
+                
 
                 _context.SaveChanges();
                 return true;
