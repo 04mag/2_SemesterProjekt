@@ -83,6 +83,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
             // Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre
             existingOrdre.Udlejning = ordre.Udlejning;
             existingOrdre.Udlejning.UdlejningsScooter = ordre.Udlejning.UdlejningsScooter;
+            existingOrdre.VareLinjer = ordre.VareLinjer;
 
             //Finder udlejningsscooter i _context
             var existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
