@@ -69,67 +69,70 @@
                 </tr>
             </thead>
 
-            @* Vare del *@
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Vare</th>
-                    <th scope="col">Antal</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                    <th scope="col">Pris pr. stk.</th>
-                    <th scope="col">Rabat</th>
-                    <th scope="col">Pris i alt</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (OrdreModel.VareLinjer != null)
-                {
-                    @foreach (var vareLinje in OrdreModel.VareLinjer)
+            @if (OrdreModel.VareLinjer!.Any(v => v.YdelseAntalTimer == 0))
+            {
+                @* Vare del *@
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Vare</th>
+                        <th scope="col">Antal</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col">Pris pr. stk.</th>
+                        <th scope="col">Rabat</th>
+                        <th scope="col">Pris i alt</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (OrdreModel.VareLinjer != null)
                     {
-                        if (vareLinje.YdelseAntalTimer == 0)
+                        @foreach (var vareLinje in OrdreModel.VareLinjer)
                         {
-                            <tr>
-                                <td>@vareLinje.VareId</td>
-                                <td>@vareLinje.VareBeskrivelse</td>
-                                <td>@vareLinje.Antal</td>
-                                <td></td>
-                                <td></td>
-                                <td>@vareLinje.VarePris</td>
-                                <td>@vareLinje.Rabat</td>
-                                <td>@vareLinje.GetTotalPrisString()</td>
-                            </tr>
+                            if (vareLinje.YdelseAntalTimer == 0)
+                            {
+                                <tr>
+                                    <td>@vareLinje.VareId</td>
+                                    <td>@vareLinje.VareBeskrivelse</td>
+                                    <td>@vareLinje.Antal</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>@vareLinje.VarePris</td>
+                                    <td>@vareLinje.Rabat</td>
+                                    <td>@vareLinje.GetTotalPrisString()</td>
+                                </tr>
+                            }
                         }
                     }
-                }
-                <tr>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                    <td class="p-3"></td>
-                </tr>
-            </tbody>
+                    <tr>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                        <td class="p-3"></td>
+                    </tr>
+                </tbody>
+            }
 
             @* Ydelse del *@
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Ydelse</th>
-                    <th scope="col">Antal</th>
-                    <th scope="col">Timer</th>
-                    <th scope="col">Timer i alt</th>
-                    <th scope="col">Pris pr. stk.</th>
-                    <th scope="col">Rabat</th>
-                    <th scope="col">Pris i alt</th>
-                </tr>
-            </thead>
-            <tbody>
-                @if (OrdreModel.VareLinjer != null)
-                {
+            @if (OrdreModel.VareLinjer!.Any(v => v.YdelseAntalTimer > 0))
+            {
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Ydelse</th>
+                        <th scope="col">Antal</th>
+                        <th scope="col">Timer</th>
+                        <th scope="col">Timer i alt</th>
+                        <th scope="col">Pris pr. stk.</th>
+                        <th scope="col">Rabat</th>
+                        <th scope="col">Pris i alt</th>
+                    </tr>
+                </thead>
+                <tbody>
                     @foreach (var vareLinje in OrdreModel.VareLinjer)
                     {
                         if (vareLinje.YdelseAntalTimer > 0)
@@ -156,44 +159,44 @@
                         <td class="p-3"></td>
                         <td class="p-3"></td>
                     </tr>
-                }
-            </tbody>
+                </tbody>
 
-            @* Total timer del *@
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    @if (OrdreModel.GetTotalAntalTimer() > 0)
-                    {
-                        <td class="fw-bold">Timetal</td>
+                @* Total timer del *@
+                <thead>
+                    <tr>
                         <th scope="col"></th>
+                        @if (OrdreModel.GetTotalAntalTimer() > 0)
+                        {
+                            <td class="fw-bold">Timetal</td>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col">@OrdreModel.GetTotalAntalTimerString()</th>
+                        }
+                        else
+                        {
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        }
                         <th scope="col"></th>
-                        <th scope="col">@OrdreModel.GetTotalAntalTimerString()</th>
-                    }
-                    else
-                    {
+                        <td class="fw-bold"></td>
                         <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
-                    }
-                    <th scope="col"></th>
-                    <td class="fw-bold"></td>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td class="p-4"></td>
-                    <td class="p-4"></td>
-                    <td class="p-4"></td>
-                    <td class="p-4"></td>
-                    <td class="p-4"></td>
-                    <td class="p-4"></td>
-                    <td class="p-4"></td>
-                    <td class="p-4"></td>
-                </tr>
-            </tbody>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                        <td class="p-4"></td>
+                    </tr>
+                </tbody>
+            }
 
             @* Udlejningsscooter del *@
             @if (OrdreModel.Udlejning != null && OrdreModel.Udlejning.UdlejningsScooter != null)

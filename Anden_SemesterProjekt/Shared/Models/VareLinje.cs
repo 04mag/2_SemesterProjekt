@@ -16,6 +16,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         [JsonIgnore]
         public Ordre? Ordre { get; set; }
         public int VareId { get; set; }
+        [JsonIgnore]
         public Vare? Vare { get; set; }
 
         // data annotation til at sikre at antal altid er over 0
