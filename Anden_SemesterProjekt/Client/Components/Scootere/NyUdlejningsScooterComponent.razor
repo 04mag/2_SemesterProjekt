@@ -12,7 +12,9 @@
                  <div class="col-12 mb-3">
                      <h3>Tilføj ny scooter</h3>
                      <InputText id="stelnummer" @bind-Value="nyUdlejningsScooter.Stelnummer" class="mb-2 form-control" placeholder="Stelnummer"/>
+                     <ValidationMessage For="@(() => nyUdlejningsScooter.Stelnummer)" />
                      <InputText id="registreringsnummer" @bind-Value="nyUdlejningsScooter.Registreringsnummer" class="mb-2 form-control" placeholder="Registreringsnummer"/>
+                     <ValidationMessage For="@(() => nyUdlejningsScooter.Registreringsnummer)" />
                      <label class ="form-label"for="mærke">Mærke:</label>
                      <select @bind="nyScooterMærkeId">
                          <option value="0"> Vælg et mærke...</option>
