@@ -69,6 +69,7 @@
             <hr class="my-4" />
 
             <!-- Liste over tilføjede varelinjer -->
+            <!-- Liste over tilføjede varelinjer -->
             @if (nyOrdre.VareLinjer.Any())
             {
                 <div class="container">
@@ -90,6 +91,9 @@
                             <div class="col-1 text-center">@vareLinje.Rabat Kr</div>
                             <div class="col-1 text-center">@vareLinje.Antal</div>
                             <div class="col-2 text-end">@vareLinje.GetTotalPris() Kr</div>
+                            <div class="col-1 text-center">
+                                <button class="btn btn-danger btn-sm" @onclick="() => FjernVare(vareLinje)">X</button>
+                            </div>
                         </div>
                     }
 
@@ -123,6 +127,7 @@
             {
                 <p class="text-muted">Ingen varer tilføjet endnu.</p>
             }
+
 
         </div>
     </div>
