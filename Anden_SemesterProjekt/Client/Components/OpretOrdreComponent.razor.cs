@@ -152,6 +152,7 @@ public partial class OpretOrdreComponent
     private void MekanikerÆndres()
     {
         ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId);
+        nyOrdre.MekanikerId = ordreMekaniker.MekanikerId;
     }
 
     private void VælgVare(Vare vare)
@@ -296,11 +297,7 @@ public partial class OpretOrdreComponent
         søgeTekstVarer = string.Empty;
     }
 
-    private async Task SetUdlejningsScooterTilIkkeTilgængelig()
-    {
-        if (udlejningsScooterId != 0) await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false); 
-
-    }
+    
     private void NulstilAlleFelter()
     {
         ordreMekaniker = null;
@@ -310,5 +307,21 @@ public partial class OpretOrdreComponent
         kundeValgt = false;
         søgeTekstKunder = "";
         NulstilVareInput();
+    }
+    private async Task SetUdlejningsScooterTilIkkeTilgængelig()
+    {
+        if (udlejningsScooterId != 0) await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false); 
+
+    }
+    private void MekanikerValgt()
+    {
+      
+        StateHasChanged();
+    }
+   
+
+    private void KundeScooterÆndres()
+    {
+        ordreKundeScooter = kundeScootere.FirstOrDefault(s => s.ScooterId == nyOrdre.KundeScooterId);
     }
 }

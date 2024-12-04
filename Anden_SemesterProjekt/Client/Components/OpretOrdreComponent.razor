@@ -69,7 +69,6 @@
             <hr class="my-4" />
 
             <!-- Liste over tilføjede varelinjer -->
-            <!-- Liste over tilføjede varelinjer -->
             @if (nyOrdre.VareLinjer.Any())
             {
                 <div class="container">
@@ -97,7 +96,7 @@
                         </div>
                     }
 
-                    <!-- Samlet oversigt -->
+                    <!-- Samlet oversigt og pris u. moms-->
                     <div class="row fw-bold py-3 border-top mt-3">
                         <div class="col-3">Samlet:</div>
                         <div class="col-1 text-center"></div> <!-- Tom kolonne -->
@@ -106,7 +105,7 @@
                         <div class="col-2 text-end">@nyOrdre.GetTotalPrisUdenUdlejning() Kr</div>
                     </div>
 
-                    <!-- Moms og total inkl. moms -->
+                    <!-- Moms og totalpris -->
                     <div class="row fw-bold py-2">
                         <div class="col-3">Moms (25%):</div>
                         <div class="col-1 text-center"></div> <!-- Tom kolonne -->
@@ -201,11 +200,12 @@
                     <h4 class="mb-0">Service Info</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Mekaniker og Scooter dropdowns -->
+
+                    <!-- Mekaniker dropdown -->
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <label for="mekaniker" class="form-label fw-bold">Vælg mekaniker</label>
-                            <InputSelect id="mekaniker" @bind-Value="nyOrdre.MekanikerId" class="form-select">
+                            <InputSelect id="mekaniker" @bind-Value="nyOrdre.MekanikerId" @bind-Value:after="MekanikerÆndres" class="form-select">
                                 <option value="">Vælg mekaniker</option>
                                 @foreach (var mekaniker in alleMekanikere)
                                 {
@@ -213,6 +213,8 @@
                                 }
                             </InputSelect>
                         </div>
+
+                        <!-- Scooter dropdown -->
                         <div class="col-md-3">
                             <label for="scooter" class="form-label fw-bold">Vælg scooter</label>
                             <InputSelect id="scooter" @bind-Value="nyOrdre.KundeScooterId" class="form-select">
@@ -225,25 +227,24 @@
                         </div>
 
                         <!-- Slutdato -->
-                        
                         <div class="col md-3">
                             <div class="col-md-6">
                                 <label for="slutdato" class="form-label fw-bold">Slutdato</label>
-                                <InputDate id="slutdato" @bind-Value="nyOrdre.SlutDato" class="form-control" />
+                                <InputDate id="slutdato" @bind-Value="nyOrdre.SlutDato" class="form-control"/>
                             </div>
-                    
+
                         </div>
                     </div>
 
                     <!-- Udlejning Sektion -->
-                    <hr class="my-4" />
+                    <hr class="my-4"/>
                     <div>
                         <h5 class="fw-bold">Scooterudlejning</h5>
                         <div class="row mb-3">
                             <div class="col-12">
                                 <div class="form-check">
                                     <!-- Checkbox til aktivering -->
-                                    <InputCheckbox id="udlejningCheckbox" class="form-check-input" @bind-Value="udlejningAktiveret"  />
+                                    <InputCheckbox id="udlejningCheckbox" class="form-check-input" @bind-Value="udlejningAktiveret"/>
                                     <label for="udlejningCheckbox" class="form-check-label">Aktiver udlejning</label>
                                 </div>
                             </div>
@@ -289,6 +290,12 @@
                 {
                     <div class="col-md-4">
                         <strong>Mekaniker:</strong> @ordreMekaniker.Navn
+                    </div>
+                }
+                @if (udlejningsScooter != null)
+                {
+                    <div class="col-md-4">
+                        <strong>Scooter:</strong> @udlejningsScooter.Mærke.ScooterMærke - @udlejningsScooter.Registreringsnummer
                     </div>
                 }
             </div>
