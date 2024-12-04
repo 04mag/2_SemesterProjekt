@@ -3,274 +3,295 @@
 @using Anden_SemesterProjekt.Shared.Models
 @using Anden_SemesterProjekt.Client.Components.Kunder
 @using System.Linq
+
 <div class="container mt-4">
-<!-- Header -->
-
-
-
-<div class="card mb-4">
-    <div class="card-header">
-        <h4>Produkter</h4>
-    </div>
-    <div class="card-body">
-        <div class="row mb-3">
-            <label class="col-3">Søg varer</label>
-            @if (ordreVareLinje.VarePris > 0)
-            {
-                <label class="col-1">Pris</label>
-                <label class="col-1">Ændr Pris</label>
-                <label class="col-1">Rabat</label>
-                <label class="col-1">Antal</label>
-            }
+    <!-- Header -->
+    <div class="card mb-4 shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Produkter</h4>
         </div>
-        <div class="row mb-3">
-            <div class="col-3">
-                <input type="text" class="form-control" placeholder="Søg varer ..." @bind="søgeTekstVarer" @oninput="VareSøgefeltÆndret"/>
-                @if (visVareForslag)
+        <div class="card-body">
+            <div class="row mb-3">
+                <label class="col-3 fw-bold">Søg varer</label>
+                @if (ordreVareLinje.VarePris > 0)
                 {
-                    <ul class="liste mt-2">
-                        @foreach (var vare in vareForslag)
-                        {
-                            <li @onclick="() => VælgVare(vare)">@vare.Beskrivelse - @vare.Pris Kr</li>
-                        }
-                        
-                        @foreach (var ydelse in ydelserForslag)
-                        {
-                                <li @onclick="() => VælgVare(ydelse)">@ydelse.Beskrivelse - @ydelse.AntalTimer timer - @ydelse.Pris Kr</li>
-                        }
-                    </ul>
+                    <label class="col-1 fw-bold">Pris</label>
+                    <label class="col-1 fw-bold">Ændr Pris</label>
+                    <label class="col-1 fw-bold">Rabat</label>
+                    <label class="col-1 fw-bold">Antal</label>
                 }
             </div>
-            @if (ordreVareLinje.VarePris > 0)
-            {
-                <EditForm Model="ordreVareLinje" OnInvalidSubmit="TilføjVare">
-                    <DataAnnotationsValidator/>
+            <div class="row mb-3">
+                <div class="col-3">
+                    <input type="text" class="form-control" placeholder="Søg varer ..." @bind="søgeTekstVarer" @oninput="VareSøgefeltÆndret" />
+                    @if (visVareForslag)
+                    {
+                        <ul class="list-group mt-2">
+                            @foreach (var vare in vareForslag)
+                            {
+                                <li class="list-group-item" @onclick="() => VælgVare(vare)">
+                                    @vare.Beskrivelse - @vare.Pris Kr
+                                </li>
+                            }
+                            @foreach (var ydelse in ydelserForslag)
+                            {
+                                <li class="list-group-item" @onclick="() => VælgVare(ydelse)">
+                                    @ydelse.Beskrivelse - @ydelse.AntalTimer timer - @ydelse.Pris Kr
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+                @if (ordreVareLinje.VarePris > 0)
+                {
                     <div class="col-1">
-                        <InputNumber @bind-Value="@ordreVareLinje.VarePris" class="form-control" disabled="@(!checkboxValue)"/>
+                        <InputNumber @bind-Value="@ordreVareLinje.VarePris" class="form-control" disabled="@(!checkboxValue)" />
                     </div>
                     <div class="col-1">
-                        <InputCheckbox @bind-Value="checkboxValue"/>
+                        <InputCheckbox @bind-Value="checkboxValue" class="form-check-input" />
                     </div>
                     <div class="col-1">
-                        <InputNumber id="rabat" @bind-Value="ordreVareLinje.Rabat" class="form-control" placeholder="Rabat"/>
+                        <InputNumber id="rabat" @bind-Value="ordreVareLinje.Rabat" class="form-control" placeholder="Rabat" />
                     </div>
                     <div class="col-1">
-                        <InputNumber min="1" id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal"/>
+                        <InputNumber min="1" id="antal" @bind-Value="ordreVareLinje.Antal" class="form-control" placeholder="Antal" />
                     </div>
                     <div class="col-1">
-                        <label>Total: @ordreVareLinje.GetTotalPris() kr </label>
+                        <label>Total: @ordreVareLinje.GetTotalPris() kr</label>
                     </div>
                     <div class="col-2">
                         <button class="btn btn-primary" type="button" @onclick="TilføjVare">Tilføj</button>
                     </div>
-                </EditForm>
-            }
-            @if (nyOrdre.VareLinjer.Count > 0)
+                }
+            </div>
+
+            <!-- Divider -->
+            <hr class="my-4" />
+
+            <!-- Liste over tilføjede varelinjer -->
+            @if (nyOrdre.VareLinjer.Any())
             {
-                <div class="row align-items-center mt-1 ms-1">
-                    <strong class="col-2">Vare</strong>
-                    <strong class="col-2">Pris</strong>
-                    <strong class="col-1">Timer</strong>
-                    <strong class="col-1">Rabat</strong>
-                    <strong class="col-1">Antal</strong>
-                    <strong class="col-1">Total</strong>
+                <div class="container">
+                    <!-- Overskrift -->
+                    <div class="row border-bottom pb-2 mb-3">
+                        <strong class="col-3">Vare</strong>
+                        <strong class="col-1 text-center">Pris</strong>
+                        <strong class="col-1 text-center">Rabat</strong>
+                        <strong class="col-1 text-center">Antal</strong>
+                        <strong class="col-2 text-end">Total</strong>
+                    </div>
+
+                    <!-- Liste over varelinjer -->
+                    @foreach (var vareLinje in nyOrdre.VareLinjer)
+                    {
+                        <div class="row py-2 border-bottom">
+                            <div class="col-3">@vareLinje.VareBeskrivelse</div>
+                            <div class="col-1 text-center">@vareLinje.VarePris Kr</div>
+                            <div class="col-1 text-center">@vareLinje.Rabat Kr</div>
+                            <div class="col-1 text-center">@vareLinje.Antal</div>
+                            <div class="col-2 text-end">@vareLinje.GetTotalPris() Kr</div>
+                        </div>
+                    }
+
+                    <!-- Samlet oversigt -->
+                    <div class="row fw-bold py-3 border-top mt-3">
+                        <div class="col-3">Samlet:</div>
+                        <div class="col-1 text-center"></div> <!-- Tom kolonne -->
+                        <div class="col-1 text-center">@nyOrdre.VareLinjer.Sum(v => v.Rabat) Kr</div>
+                        <div class="col-1 text-center">@nyOrdre.VareLinjer.Sum(v => v.Antal)</div>
+                        <div class="col-2 text-end">@nyOrdre.GetTotalPris() Kr</div>
+                    </div>
+
+                    <!-- Moms og total inkl. moms -->
+                    <div class="row fw-bold py-2">
+                        <div class="col-3">Moms (25%):</div>
+                        <div class="col-1 text-center"></div> <!-- Tom kolonne -->
+                        <div class="col-1 text-center"></div>
+                        <div class="col-1 text-center"></div>
+                        <div class="col-2 text-end">@nyOrdre.GetTotalMoms() Kr</div>
+                    </div>
+                    <div class="row fw-bold py-2">
+                        <div class="col-3">Total inkl. Moms:</div>
+                        <div class="col-1 text-center"></div> <!-- Tom kolonne -->
+                        <div class="col-1 text-center"></div>
+                        <div class="col-1 text-center"></div>
+                        <div class="col-2 text-end">@nyOrdre.GetTotalPrisMedMoms() Kr</div>
+                    </div>
                 </div>
             }
-                @foreach (var vareLinje in nyOrdre.VareLinjer)
-                {
-                    <div class="row align-items-center mt-1 ms-1 mb-2">
-                        <div class="col-2">
-                            @vareLinje.VareBeskrivelse
+            else
+            {
+                <p class="text-muted">Ingen varer tilføjet endnu.</p>
+            }
+
+        </div>
+    </div>
+
+    <!-- Kunde Sektion -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0">Kunde</h4>
+                </div>
+                <div class="card-body">
+                    <InputText class="form-control" placeholder="Vælg kunde ..." @bind-Value="søgeTekstKunder" @oninput="KundeSøgefeltÆndret" />
+                    @if (visKundeForslag)
+                    {
+                        <ul class="list-group mt-2">
+                            @foreach (var kunde in kundeForslag)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>
+                                        (@kunde.KundeId) @kunde.Navn - @kunde.Email
+                                    </span>
+                                    <button class="btn btn-primary btn-sm" type="button" @onclick="() => KundeVælges(kunde)">
+                                        Vælg
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    <div class="text-end mt-3">
+                        <button class="btn btn-secondary btn-sm" type="button" @onclick="OpretKunde">Ny kunde</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (opretKundeModal)
+        {
+            <div class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Opret Kunde</h5>
+                        <button type="button" class="btn-close" @onclick="@LukOpretKundeModal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <KundeCreateComponent OnKundeAdded="NyKunde" />
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- Bemærkninger Sektion -->
+        <div class="col-md-6">
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="mb-0">Bemærkninger</h4>
+                </div>
+                <div class="card-body">
+                    <textarea id="multiline-input" name="multiline-input" rows="3" class="form-control" @bind="nyOrdre.Bemærkninger" placeholder="Skriv her..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Info -->
+    @foreach (var vl in nyOrdre.VareLinjer)
+    {
+        @if (vl.YdelseAntalTimer > 0)
+        {
+            <div class="card mb-4 shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Service Info</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Mekaniker og Scooter dropdowns -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <label for="mekaniker" class="form-label fw-bold">Vælg mekaniker</label>
+                            <InputSelect id="mekaniker" @bind-Value="nyOrdre.MekanikerId" class="form-select">
+                                <option value="">Vælg mekaniker</option>
+                                @foreach (var mekaniker in alleMekanikere)
+                                {
+                                    <option value="@mekaniker.MekanikerId" title="@string.Join(", ", mekaniker.Mærker.Select(m => m.ScooterMærke))">@mekaniker.Navn</option>
+                                }
+                            </InputSelect>
                         </div>
-                        <div class="col-2">@vareLinje.VarePris Kr
+                        <div class="col-md-3">
+                            <label for="scooter" class="form-label fw-bold">Vælg scooter</label>
+                            <InputSelect id="scooter" @bind-Value="nyOrdre.KundeScooterId" class="form-select">
+                                <option value="">Vælg scooter</option>
+                                @foreach (var s in kundeScootere)
+                                {
+                                    <option value="@s.ScooterId">@s.Mærke.ScooterMærke - @s.Registreringsnummer</option>
+                                }
+                            </InputSelect>
                         </div>
-                        @if (vareLinje.Vare is Ydelse y)
-                        {
-                            <div class="col-1">@y.AntalTimer
+
+                        <!-- Slutdato -->
+                        
+                        <div class="col md-3">
+                            <div class="col-md-6">
+                                <label for="slutdato" class="form-label fw-bold">Slutdato</label>
+                                <InputDate id="slutdato" @bind-Value="nyOrdre.SlutDato" class="form-control" />
                             </div>
-                        }
-                        <div class="col-1">@vareLinje.YdelseAntalTimer
-                        </div>
-                        <div class="col-1">@vareLinje.Rabat Kr
-                        </div>
-                        <div class="col-1">
-                            <InputNumber min="1" @bind-Value="@vareLinje.Antal" class="form-control" @onfocusout="FjernVareVedNul"/>
-                        </div>
-
-                        <label class="col-1">@vareLinje.GetTotalPris() Kr</label>
-
-                        <div class="col-2">
-                            <button class="btn btn-danger" type="button" @onclick="() => FjernVare(vareLinje)">Slet</button>
+                    
                         </div>
                     </div>
+
+                    <!-- Udlejning Sektion -->
+                    <hr class="my-4" />
+                    <div>
+                        <h5 class="fw-bold">Scooterudlejning</h5>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <!-- Checkbox til aktivering -->
+                                    <InputCheckbox id="udlejningCheckbox" class="form-check-input" @bind-Value="udlejningAktiveret"  />
+                                    <label for="udlejningCheckbox" class="form-check-label">Aktiver udlejning</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (udlejningAktiveret)
+                        {
+                            <!-- Dropdown bliver synlig, hvis udlejningCheckbox er valgt -->
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="udlejningsScooter" class="form-label fw-bold">Vælg scooter</label>
+                                    <InputSelect id="udlejningsScooter" @bind-Value="udlejningsScooterId" class="form-select">
+                                        <option value="">Vælg scooter</option>
+                                        @foreach (var s in udlejningsScootere)
+                                        {
+                                            <option value="@s.ScooterId">@s.Mærke.ScooterMærke - @s.Registreringsnummer</option>
+                                        }
+                                    </InputSelect>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    }
+
+
+    <!-- Opsummering -->
+    <div class="card mt-4 shadow">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <strong>Total pris:</strong> @nyOrdre.GetTotalPrisUdenUdlejning() Kr
+                </div>
+                @if (ordreKunde != null)
+                {
+                    <div class="col-md-4">
+                        <strong>Kunde:</strong> @ordreKunde.Navn
+                    </div>
                 }
-            
-        </div>
-    </div>
-</div>
-
-
-<div class="row mt-3">
-
-    <div class="col-2 ms-2">
-        <strong>Total pris:</strong> @nyOrdre.GetTotalPrisUdenUdlejning() Kr
-
-
-    </div>
-    @if (ordreKunde != null)
-    {
-        <div class="col-2">
-            <strong>Kunde:</strong> @ordreKunde.Navn
-        </div>
-    }
-    @if (ordreMekaniker != null)
-    {
-        <div class="col-2">
-            <strong>Mekaniker:</strong> @ordreMekaniker.Navn
-        </div>
-    }
-    @if (ordreKundeScooter != null)
-    {
-        <div class="col-2">
-            <strong>Scooter:</strong> @ordreKundeScooter.Registreringsnummer - @ordreKundeScooter.Mærke.ScooterMærke
-        </div>
-    }
-
-    <div class="col-6 mb-3">
-
-        <button class="btn btn-primary" type="button" @onclick="OpretOrdre">
-            Opret ordre
-        </button>
-    </div>
-</div>
-
-
-<!-- Kunde Sektion -->
-<div class="card">
-    <div class="card-header">
-        <h4>Kunde</h4>
-    </div>
-    <div class="card-body">
-        <div>
-               
-            <InputText class="form-control col-4" placeholder="Vælg kunde ..." @bind-Value="søgeTekstKunder" @oninput="KundeSøgefeltÆndret"/>
-            @if (visKundeForslag)
-            {
-                <ul class="liste mt-2">
-                    @foreach (var kunde in kundeForslag)
-                    {
-                        <li @onclick="() => KundeVælges(kunde)">
-                            (@kunde.KundeId) @kunde.Navn - @kunde.Email
-                        </li>
-                    }
-                </ul>
-            }
-        </div>
-        <div class="text-end ">
-            <button class="small-button" type="button" @onclick="OpretKunde">Opret kunde</button>
-        </div>
-
-    </div>
-</div>
-<!-- Modal til oprettelse af kunde -->
-@if (opretKundeModal)
-{
-    <div class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Opret Kunde</h5>
-                <button type="button" class="btn-close" @onclick="@LukOpretKundeModal"></button>
+                @if (ordreMekaniker != null)
+                {
+                    <div class="col-md-4">
+                        <strong>Mekaniker:</strong> @ordreMekaniker.Navn
+                    </div>
+                }
             </div>
-            <div class="modal-body">
-                <KundeCreateComponent OnKundeAdded="NyKunde" />
+            <div class="text-end mt-3">
+                <button class="btn btn-primary" type="button" @onclick="OpretOrdre">
+                    Opret ordre
+                </button>
             </div>
         </div>
     </div>
-}
-<!-- Bemærkning -->
-
-    <div class="card mb-4 col-4">
-        <div class="card-header">
-            <h4>Bemærkninger</h4>
-        </div>
-        <div class="col-6">
-            <textarea id="multiline-input" name="multiline-input" rows="4" cols="50" @bind="nyOrdre.Bemærkninger"placeholder="Skriv her..."></textarea>
-        </div>
-    </div>
-
-
-<!--Mekaniker-->
-// Tjekker at der er timer i kurven. Hvis ja, så skal der vælges mekaniker, scooter og evt udljening
-@foreach (var vl in nyOrdre.VareLinjer)
-{
- @if (vl.YdelseAntalTimer > 0)
- {
-     <div class="card mb-2">
-         <div class="card-header">
-             <h4>Vælg mekaniker</h4>
-         </div>
-         <div class="card-body">
-             <div class="row mb-3">
-                 <div class="col-6">
-                     <InputSelect @bind-Value="nyOrdre.MekanikerId" class="form-select" @bind-Value:after="MekanikerÆndres">
-                         <option value="">Vælg mekaniker</option>
-                         @foreach (var mekaniker in alleMekanikere)
-                         {
-                             <option value="@mekaniker.MekanikerId">@mekaniker.Navn</option>
-                         }
-                     </InputSelect>
-                     <!-- Display details about the selected mechanic -->
-                     @if (ordreMekaniker != null)
-                     {
-                         @foreach (var mærke in ordreMekaniker.Mærker)
-                         {
-                             <div> @mærke.ScooterMærke </div>
-                         }
-                     }
-                     <div >
-                         Scooter: 
-                         <InputSelect @bind-Value="nyOrdre.KundeScooterId" class="form-select col-2" @bind-Value:after="KundeScooterÆndres">
-                             <option value="">Vælg scooter</option>
-                             @foreach (var scooter in kundeScootere)
-                             {
-                                 <option value="@scooter.ScooterId">@scooter.Registreringsnummer - @scooter.Mærke.ScooterMærke</option>
-                             }
-                         </InputSelect>
-                     </div>
-                 </div>
-             </div>
-
-         </div>
-     </div>
-     <!-- Slutdato -->
-    <div class="card mb-4 col-4">
-        <div class="card-header mb-4 ">
-            <h4>Slutdato</h4>
-        </div>
-        <InputDate @bind-Value="nyOrdre.SlutDato" class="form-control"/>
-    </div>
-
-     <!--Udlejning-->
-     <div class="card mb-2">
-         <div class="card-header">
-             <h4>Scooterudlejning</h4>
-         </div>
-         <div class="card-body">
-             <div class="row mb-3">
-                 <div class="col-6">
-                     <InputSelect @bind-Value="udlejningsScooterId" class="form-select">
-                         <option value="">Vælg scooter</option>
-                         @foreach (var s in udlejningsScootere)
-                         {
-                             <option value="@s.ScooterId">@s.Registreringsnummer - @s.Mærke.ScooterMærke</option>
-                         }
-                     </InputSelect>
-                 </div>
-             </div>
-
-         </div>
-     </div>
- }
-
-}
 </div>

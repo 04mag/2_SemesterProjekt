@@ -91,7 +91,7 @@ tbody tr {
 .small-button {
     font-size: 12px; /* Mindre tekst på knappen */
     padding: 4px 8px; /* Mindre afstand inde i knappen */
-    background-color: #1B6EC2; /* Blå baggrund */
+    background-color: gray; /* Blå baggrund */
     color: white; /* Hvid tekst */
     border: none; /* Fjern kant */
     border-radius: 4px; /* Runde hjørner */
