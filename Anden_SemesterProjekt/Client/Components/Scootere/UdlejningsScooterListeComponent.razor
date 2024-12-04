@@ -1,6 +1,4 @@
-﻿
-
-<h3>Udlejningsscooter liste</h3>
+﻿<h3>Udlejningsscooter Liste</h3>
 
 @if (UdlejningsScootere.Count < 1)
 {
@@ -9,29 +7,25 @@
 
 @if (UdlejningsScootere.Count > 0)
 {
-   
-
-    <table class="table table-sm" >
+    <table class="table table-sm">
         <thead>
-        <tr> 
-            <th>Stelnummer</th>
-            <th>Registreringsnummer</th>
-            <th>Mærke</th>
-            <th>Status</th>
-        
-        </tr>
+            <tr> 
+                <th>Stelnummer</th>
+                <th>Registreringsnummer</th>
+                <th>Mærke</th>
+                <th>Status</th>
+            </tr>
         </thead>
         <tbody>
-        @foreach (var scooter in UdlejningsScootere.Where(s => s.ErAktiv == true))
-        {
-            <tr @onclick="() => ScooterDetaljer(scooter)">
-           
-                <td>@scooter.Stelnummer</td>
-                <td>@scooter.Registreringsnummer</td>
-                <td>@scooter.Mærke?.ScooterMærke</td>
-                <td>@(scooter.ErTilgængelig ? "Til rådighed" : "Udlejet")</td>
-            </tr>
-        }
+            @foreach (var scooter in UdlejningsScootere.Where(s => s.ErAktiv == true))
+            {
+                <tr @onclick="() => ScooterDetaljer(scooter)">
+                    <td>@scooter.Stelnummer</td>
+                    <td>@scooter.Registreringsnummer</td>
+                    <td>@(scooter.Mærke != null ? scooter.Mærke.ScooterMærke : "Ukendt")</td>
+                    <td>@(scooter.ErTilgængelig ? "Til rådighed" : "Udlejet")</td>
+                </tr>
+            }
         </tbody>
     </table>
 }
@@ -41,42 +35,41 @@
     <div class="modal">
         <div class="modal-content">
             <span class="close-button" @onclick="CloseModal">&times;</span>
-            <h3>Scooter detaljer</h3>
+            <h3>Scooter Detaljer</h3>
             <h4>Id: @valgtUdlejningsScooter?.ScooterId</h4>
             <h4>Mærke</h4> <p>@valgtUdlejningsScooter?.Mærke?.ScooterMærke</p>
             <h4>Stelnummer</h4> <p>@valgtUdlejningsScooter?.Stelnummer</p>
             <h4>Registreringsnummer</h4> <p>@valgtUdlejningsScooter?.Registreringsnummer</p>
-            <button class="btn btn-primary" @onclick="() =>EditScooter(valgtUdlejningsScooter)">Rediger</button>
+            <button class="btn btn-primary" @onclick="() => EditScooter(valgtUdlejningsScooter)">Rediger</button>
         </div>
     </div>
 }
+
 @if (editModal)
 {
     <EditForm Model="redigeretScooter" OnValidSubmit="@UpdateScooter">
-        <DataAnnotationsValidator/>
+        <DataAnnotationsValidator />
         <div class="modal">
             <div class="modal-content">
                 <span class="close-button" @onclick="CloseEditModal">&times;</span>
                 <h3>Mærke:</h3>
-                <select @bind="redigeretScooter.MærkeId">
-                    <option value=""> Vælg et mærke...</option>
+                <select @bind="redigeretScooter.MærkeId" class="form-select">
+                    <option value="">Vælg et mærke...</option>
                     @foreach (var mærke in mærker)
                     {
                         <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
-                        // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
                     }
                 </select>
-                <p></p>
+
                 <h3>Stelnummer</h3>
-                <InputText id="stelnummer" @bind-Value="redigeretScooter.Stelnummer" class="form-control" placeholder="Stelnummer"/>
+                <InputText id="stelnummer" @bind-Value="redigeretScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
                 <ValidationMessage For="@(() => redigeretScooter.Stelnummer)" />
-                <p></p>
+
                 <h3>Registreringsnummer</h3>
-                <InputText id="registreringsnummer" @bind-Value="redigeretScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer"/>
+                <InputText id="registreringsnummer" @bind-Value="redigeretScooter.Registreringsnummer" class="form-control" placeholder="Registreringsnummer" />
                 <ValidationMessage For="@(() => redigeretScooter.Registreringsnummer)" />
-                <p></p>
+
                 <button class="btn btn-primary" type="submit">Gem</button>
-                <p></p>
                 <button class="btn btn-danger btn-sm delete-button" type="button" @onclick="() => DeleteScooter(valgtUdlejningsScooter)">Slet</button>
             </div>
         </div>
