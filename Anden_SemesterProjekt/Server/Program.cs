@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt
             //Det her istedet for?
             //builder.Services.AddSingleton<SLContext>();
 
-            builder.Services.AddSingleton<IAnsatRepository, AnsatRepository>();
+            builder.Services.AddSingleton<IAnsatRepository, AnsatRepositorySql>();
             builder.Services.AddScoped<IAnsatService, AnsatService>();
 
             builder.Services.AddScoped<IMærkeRepository, MærkeRepository>();
