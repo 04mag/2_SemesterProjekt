@@ -29,7 +29,7 @@
         </tbody>
     </table>
 }
-
+@* Modalt vindue med detaljer, der åbner ved kilik på vilkårlig scooter på listen *@
 @if (detailsModal)
 {
     <div class="modal">
@@ -44,7 +44,7 @@
         </div>
     </div>
 }
-
+@*Vidnue til ændring af informationer, ved klik på rediger knap i details-modal*@
 @if (editModal)
 {
     <EditForm Model="redigeretScooter" OnValidSubmit="@UpdateScooter">
@@ -55,12 +55,14 @@
                 <h3>Mærke:</h3>
                 <select @bind="redigeretScooter.MærkeId" class="form-select">
                     <option value="">Vælg et mærke...</option>
+
+                    @*Henter mærker fra databasen og viser dem i en dropdown*@
                     @foreach (var mærke in mærker)
                     {
                         <option value="@mærke.MærkeId">@mærke.ScooterMærke</option>
                     }
                 </select>
-
+                
                 <h3>Stelnummer</h3>
                 <InputText id="stelnummer" @bind-Value="redigeretScooter.Stelnummer" class="form-control" placeholder="Stelnummer" />
                 <ValidationMessage For="@(() => redigeretScooter.Stelnummer)" />
