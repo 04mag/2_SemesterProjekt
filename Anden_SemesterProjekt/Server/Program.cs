@@ -19,6 +19,9 @@ namespace Anden_SemesterProjekt
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();
 
+            //Det her istedet for?
+            //builder.Services.AddSingleton<SLContext>();
+
             builder.Services.AddSingleton<IAnsatRepository, AnsatRepository>();
             builder.Services.AddScoped<IAnsatService, AnsatService>();
 

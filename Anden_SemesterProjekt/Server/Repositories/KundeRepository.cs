@@ -8,6 +8,13 @@ namespace Anden_SemesterProjekt.Server.Repositories
     public class KundeRepository : IKundeRepository
     {
         private readonly SLContext _context;
+
+        //Det her i stedet for og drop singleton på repositories?
+        //public KundeRepository(SLContext context)
+        //{
+        //    _context = context;
+        //}
+
         public KundeRepository()
         {
             _context = new SLContext();
