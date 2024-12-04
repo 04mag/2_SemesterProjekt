@@ -22,26 +22,14 @@
             <span>Status: @Ordre.GetStatus()</span>
         </div>
         <div class="col-md-3 p-1">
-            <button disabled="@isBusy" type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">Mere Info</button>
+            <button disabled="@isBusy" type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">@Ordre.GetInfoString()</button>
             @if (Ordre.ErAfsluttet == false)
             {
                 <button disabled="@isBusy" type="button" class="btn btn-warning float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
-                @if (Ordre.ErBetalt)
-                {
-                    <button disabled="true" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
-                }
-                else
-                {
-                    <button disabled="@isBusy" type="button" class="btn btn-danger float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
-                }
             }
             @if (Ordre.ErAfsluttet == true)
             {
-                @if (Ordre.ErBetalt)
-                {
-                    <button disabled="true" type="button" class="btn btn-success float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
-                }
-                else
+                @if (!Ordre.ErBetalt)
                 {
                     <button disabled="@isBusy" type="button" class="btn btn-danger float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
                 }

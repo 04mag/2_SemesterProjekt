@@ -33,6 +33,22 @@ namespace Anden_SemesterProjekt.Shared.Models
         {
             if (ErAfsluttet && ErBetalt)
             {
+                return "Betalt";
+            }
+            else if (ErAfsluttet && !ErBetalt)
+            {
+                return "Ikke betalt";
+            }
+            else
+            {
+                return "Uafsluttet";
+            }
+        }
+
+        public string GetInfoString()
+        {
+            if (ErAfsluttet && ErBetalt)
+            {
                 return "Kvittering";
             }
             else if (ErAfsluttet && !ErBetalt)
@@ -41,7 +57,7 @@ namespace Anden_SemesterProjekt.Shared.Models
             }
             else
             {
-                return "Uafsluttet";
+                return "Ordre info";
             }
         }
 
