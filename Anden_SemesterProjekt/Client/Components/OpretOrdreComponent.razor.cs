@@ -152,7 +152,6 @@ public partial class OpretOrdreComponent
     private void MekanikerÆndres()
     {
         ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId);
-        nyOrdre.MekanikerId = ordreMekaniker.MekanikerId;
     }
 
     private void VælgVare(Vare vare)
@@ -256,8 +255,8 @@ public partial class OpretOrdreComponent
         }
 
         {
-            nyOrdre.Mekaniker = ordreMekaniker;
-            nyOrdre.KundeScooter = ordreKundeScooter;
+            //nyOrdre.Mekaniker = ordreMekaniker;
+            //nyOrdre.KundeScooter = ordreKundeScooter;
             nyOrdre.ErBetalt = false;
             nyOrdre.ErAfsluttet = false;
             nyOrdre.StartDato = DateTime.Now;

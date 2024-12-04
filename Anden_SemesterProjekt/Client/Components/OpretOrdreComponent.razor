@@ -205,7 +205,7 @@
                     <div class="row mb-4">
                         <div class="col-md-3">
                             <label for="mekaniker" class="form-label fw-bold">Vælg mekaniker</label>
-                            <InputSelect id="mekaniker" @bind-Value="nyOrdre.MekanikerId" @bind-Value:after="MekanikerÆndres" class="form-select">
+                            <InputSelect id="mekaniker" @bind-Value="nyOrdre.MekanikerId" class="form-select">
                                 <option value="">Vælg mekaniker</option>
                                 @foreach (var mekaniker in alleMekanikere)
                                 {
@@ -272,38 +272,10 @@
         }
     }
 
-
-    <!-- Opsummering -->
-    <div class="card mt-4 shadow">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-4">
-                    <strong>Total pris:</strong> @nyOrdre.GetTotalPrisUdenUdlejning() Kr
-                </div>
-                @if (ordreKunde != null)
-                {
-                    <div class="col-md-4">
-                        <strong>Kunde:</strong> @ordreKunde.Navn
-                    </div>
-                }
-                @if (ordreMekaniker != null)
-                {
-                    <div class="col-md-4">
-                        <strong>Mekaniker:</strong> @ordreMekaniker.Navn
-                    </div>
-                }
-                @if (udlejningsScooter != null)
-                {
-                    <div class="col-md-4">
-                        <strong>Scooter:</strong> @udlejningsScooter.Mærke.ScooterMærke - @udlejningsScooter.Registreringsnummer
-                    </div>
-                }
-            </div>
-            <div class="text-end mt-3">
-                <button class="btn btn-primary" type="button" @onclick="OpretOrdre">
-                    Opret ordre
-                </button>
-            </div>
-        </div>
+<div class="text-center col-12 mt-3">
+    <button class="btn btn-success col-12" type="button" @onclick="OpretOrdre">
+        Opret ordre
+        </button>
     </div>
 </div>
+  
