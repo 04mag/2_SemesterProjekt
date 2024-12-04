@@ -99,7 +99,7 @@
                         <div class="col-1 text-center"></div> <!-- Tom kolonne -->
                         <div class="col-1 text-center">@nyOrdre.VareLinjer.Sum(v => v.Rabat) Kr</div>
                         <div class="col-1 text-center">@nyOrdre.VareLinjer.Sum(v => v.Antal)</div>
-                        <div class="col-2 text-end">@nyOrdre.GetTotalPris() Kr</div>
+                        <div class="col-2 text-end">@nyOrdre.GetTotalPrisUdenUdlejning() Kr</div>
                     </div>
 
                     <!-- Moms og total inkl. moms -->
@@ -108,14 +108,14 @@
                         <div class="col-1 text-center"></div> <!-- Tom kolonne -->
                         <div class="col-1 text-center"></div>
                         <div class="col-1 text-center"></div>
-                        <div class="col-2 text-end">@nyOrdre.GetTotalMoms() Kr</div>
+                        <div class="col-2 text-end">@nyOrdre.GetTotalMomsUdenUdlejning() Kr</div>
                     </div>
                     <div class="row fw-bold py-2">
                         <div class="col-3">Total inkl. Moms:</div>
                         <div class="col-1 text-center"></div> <!-- Tom kolonne -->
                         <div class="col-1 text-center"></div>
                         <div class="col-1 text-center"></div>
-                        <div class="col-2 text-end">@nyOrdre.GetTotalPrisMedMoms() Kr</div>
+                        <div class="col-2 text-end">@nyOrdre.GetTotalPrisUdenUdlejningMedMoms() Kr</div>
                     </div>
                 </div>
             }

@@ -88,12 +88,4 @@ tbody tr {
     transform: scale(0.50); /* Gør checkboxen 50% af dens originale størrelse */
     transform-origin: center; /* Sørger for, at skaleringspunktet er øverst til venstre */
 }
-.small-button {
-    font-size: 12px; /* Mindre tekst på knappen */
-    padding: 4px 8px; /* Mindre afstand inde i knappen */
-    background-color: gray; /* Blå baggrund */
-    color: white; /* Hvid tekst */
-    border: none; /* Fjern kant */
-    border-radius: 4px; /* Runde hjørner */
-    cursor: pointer; /* Musen ændrer sig ved hover */
-}
+
