@@ -1,6 +1,7 @@
 ﻿using Anden_SemesterProjekt.Server.Repositories;
 using Anden_SemesterProjekt.Shared.Models;
 using Anden_SemesterProjekt.Shared.Validation;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace Anden_SemesterProjekt.Server.Services
 {
@@ -17,7 +18,7 @@ namespace Anden_SemesterProjekt.Server.Services
         /// </summary>
         /// <param name="kunde"></param>
         /// <returns>Retunerer kundeId hvis kunden er oprettet, ellers -1.</returns>
-        public int CreateKunde(Kunde kunde)
+        public async Task<int> CreateKunde(Kunde kunde)
         {
             //Tjekker om kundens navn er mellem 2 og 50 karaktere langt.
             if (!SLValidator.StringLenght(kunde.Navn, 2, 50)) return -1;
@@ -32,6 +33,7 @@ namespace Anden_SemesterProjekt.Server.Services
             }
 
             //Adresse tjek
+            if (kunde.Adresse == null) return -1;
             if (!SLValidator.StringLenght(kunde.Adresse.Gadenavn, 2, 100)) return -1;
             if (!SLValidator.StringLenght(kunde.Adresse.Husnummer, 1, 5)) return -1;
             if (!SLValidator.StringLenght(kunde.Adresse.Etage, 0, 3)) return -1;
@@ -40,7 +42,7 @@ namespace Anden_SemesterProjekt.Server.Services
 
             //Postnummer tjekkes ikke da denne tjekkes i databasen i forhold til om foreign key er valid. Dermed valideres by også.
 
-            return _kundeRepository.CreateKunde(kunde);
+            return await _kundeRepository.CreateKunde(kunde);
         }
 
         /// <summary>
@@ -48,9 +50,9 @@ namespace Anden_SemesterProjekt.Server.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Om sletning var successfuld som bool.</returns>
-        public bool DeleteKunde(int id)
+        public async Task<bool> DeleteKunde(int id)
         {
-            return _kundeRepository.DeleteKunde(id);
+            return await _kundeRepository.DeleteKunde(id);
         }
 
         /// <summary>
@@ -58,9 +60,9 @@ namespace Anden_SemesterProjekt.Server.Services
         /// </summary>
         /// <param name="postnummer"></param>
         /// <returns>Retunerer By Object fra postnummer. Null hvis ikke fundet.</returns>
-        public By? GetBy(string postnummer)
+        public async Task<By?> GetBy(string postnummer)
         {
-            return _kundeRepository.GetBy(postnummer);
+            return await _kundeRepository.GetBy(postnummer);
         }
 
         /// <summary>
@@ -68,29 +70,18 @@ namespace Anden_SemesterProjekt.Server.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retunerer kunde object. Null hvis ikke fundet.</returns>
-        public Kunde? ReadKunde(int id)
+        public async Task<Kunde?> ReadKunde(int id)
         {
-            return _kundeRepository.ReadKunde(id);
+            return await _kundeRepository.ReadKunde(id);
         }
 
         /// <summary>
         /// Finder alle kunder i databasen.
         /// </summary>
         /// <returns>Retunerer liste af kunder. Null hvis ingen fundet.</returns>
-        public List<Kunde>? ReadKunder()
+        public async Task<List<Kunde>?> ReadKunder()
         {
-            return _kundeRepository.ReadKunder();
-        }
-
-        /// <summary>
-        /// Finder kunder ud fra tlfNummer og mærke søgning.
-        /// </summary>
-        /// <param name="tlfNummer"></param>
-        /// <param name="mærke"></param>
-        /// <returns>Retunerer liste af kunder. Null hvis ikke fundet</returns>
-        public List<Kunde>? ReadKunder(string tlfNummer, string mærke)
-        {
-            return _kundeRepository.ReadKunder(tlfNummer, mærke);
+            return await _kundeRepository.ReadKunder();
         }
 
         /// <summary>
@@ -98,7 +89,7 @@ namespace Anden_SemesterProjekt.Server.Services
         /// </summary>
         /// <param name="kunde"></param>
         /// <returns>Om opdatering var successfuld som bool.</returns>
-        public bool UpdateKunde(Kunde kunde)
+        public async Task<bool> UpdateKunde(Kunde kunde)
         {
             //Tjekker om kundens navn er mellem 2 og 50 karaktere langt.
             if (!SLValidator.StringLenght(kunde.Navn, 2, 50)) return false;
@@ -113,6 +104,7 @@ namespace Anden_SemesterProjekt.Server.Services
             }
 
             //Adresse tjek
+            if (kunde.Adresse == null) return false;
             if (!SLValidator.StringLenght(kunde.Adresse.Gadenavn, 2, 100)) return false;
             if (!SLValidator.StringLenght(kunde.Adresse.Husnummer, 1, 5)) return false;
             if (!SLValidator.StringLenght(kunde.Adresse.Etage, 0, 3)) return false;
@@ -122,7 +114,7 @@ namespace Anden_SemesterProjekt.Server.Services
             //Postnummer tjekkes ikke da denne tjekkes i databasen i forhold til om foreign key er valid. Dermed valideres by også.
 
 
-            return _kundeRepository.UpdateKunde(kunde);
+            return await _kundeRepository.UpdateKunde(kunde);
         }
     }
 }
