@@ -2,6 +2,8 @@
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Net.Http.Json;
+
 
 namespace Anden_SemesterProjekt.Client.Components;
 
@@ -50,6 +52,7 @@ public partial class OpretOrdreComponent
     // Søgning på varer og kunder
 
     [Parameter] public Kunde ordreKunde { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; }
     [Inject] public IAnsatClientService MekanikerService { get; set; }
     [Inject] public IVareClientService VareService { get; set; }
     [Inject] public IOrdreClientService OrdreService { get; set; }
@@ -71,9 +74,7 @@ public partial class OpretOrdreComponent
         alleMekanikere = await MekanikerService.GetMekanikere();
         if (ordreKunde != null) ordreMekaniker = ordreKunde.TilknyttetMekaniker;
     }
-
-    #region VareSøgning
-
+    
     private void VareSøgefeltÆndret(ChangeEventArgs e)
     {
         søgeTekstVarer = e.Value.ToString();
@@ -95,11 +96,6 @@ public partial class OpretOrdreComponent
             visVareForslag = false;
         }
     }
-
-    #endregion // VareSøgning
-
-
-    #region KundeSøgning
 
     private void KundeSøgefeltÆndret(ChangeEventArgs e)
     {
@@ -137,10 +133,6 @@ public partial class OpretOrdreComponent
         StateHasChanged();
         kundeValgt = true;
     }
-
-    #endregion // KundeSøgning
-
-    #region Vare håndtering
 
     private void FjernVare(VareLinje vare)
     {
@@ -218,11 +210,8 @@ public partial class OpretOrdreComponent
         udlejning.SelvrisikoUdløst = false;
         udlejning.AntalKmKørt = 0;
         udlejning.OrdreId = 0;
-
         nyOrdre.Udlejning = udlejning;
     }
-
-    #endregion // vare håndtering
 
     public async Task OpretOrdre()
     {
@@ -276,23 +265,18 @@ public partial class OpretOrdreComponent
         SetUdlejningsScooter();
 
         var result = await OrdreService.AddOrdre(nyOrdre);
-        if (result != null)
+        if (result.IsSuccessStatusCode)
         {
-            NulstilAlleFelter();
-
-            // sætter scooteren til ikke tilgængelig i databasen
-            if (udlejningsScooterId != 0) await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false);
-
-            StateHasChanged();
-
-            await JS.InvokeVoidAsync("alert", "Ordre oprettet");
+            SetUdlejningsScooterTilIkkeTilgængelig();
+                // Når ordren er oprettet, navigér til den nye ordre med det genererede ordreId
+                NavigationManager.NavigateTo($"/ordrer");  // Antag, at OrdreId er et property på ordren
+                await JS.InvokeVoidAsync("alert", "Ordre oprettet");
         }
         else
         {
             await JS.InvokeVoidAsync("alert", "Ordre kunne ikke oprettes");
         }
     }
-
     private async Task NyKunde(Kunde? nyKunde)
     {
         LukOpretKundeModal();
@@ -303,7 +287,6 @@ public partial class OpretOrdreComponent
         alleKunder = await KundeService.GetKunder(); // Opdater kundeliste
         StateHasChanged(); // Opdater UI
     }
-
     private void NulstilVareInput()
     {
         ordreVareLinje = new VareLinje();
@@ -313,6 +296,11 @@ public partial class OpretOrdreComponent
         søgeTekstVarer = string.Empty;
     }
 
+    private async Task SetUdlejningsScooterTilIkkeTilgængelig()
+    {
+        if (udlejningsScooterId != 0) await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false); 
+
+    }
     private void NulstilAlleFelter()
     {
         ordreMekaniker = null;
