@@ -12,9 +12,9 @@ namespace Anden_SemesterProjekt.Server.Repositories
             _context = new SLContext();
         }
 
-        public Mekaniker? ReadMekaniker(int id)
+        public async Task<Mekaniker?> ReadMekaniker(int id)
         {
-            var result = _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).FirstOrDefault(m => m.MekanikerId == id);
+            var result = await _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).FirstOrDefaultAsync(m => m.MekanikerId == id);
 
             if (result != null && result.MekanikerId == id)
             {
@@ -26,11 +26,11 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
         }
 
-        public List<Mekaniker>? ReadMekanikere()
+        public async Task<List<Mekaniker>?> ReadMekanikere()
         {
             try
             {
-                 return _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).Where(m => m.ErAktiv == true).ToList();
+                 return await _context.Mekanikere.Include(m => m.Mærker).Include(m => m.Ordrer).Where(m => m.ErAktiv == true).ToListAsync();
             }
             catch
             {

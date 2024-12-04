@@ -12,14 +12,14 @@ namespace Anden_SemesterProjekt.Server.Services
             _ansatRepository = ansatRepository;
         }
 
-        public Mekaniker? ReadMekaniker(int id)
+        public async Task<Mekaniker?> ReadMekaniker(int id)
         {
-            return _ansatRepository.ReadMekaniker(id);
+            return await _ansatRepository.ReadMekaniker(id);
         }
 
-        public List<Mekaniker>? ReadMekanikere()
+        public async Task<List<Mekaniker>?> ReadMekanikere()
         {
-            return _ansatRepository.ReadMekanikere();
+            return await _ansatRepository.ReadMekanikere();
         }
     }
 }
