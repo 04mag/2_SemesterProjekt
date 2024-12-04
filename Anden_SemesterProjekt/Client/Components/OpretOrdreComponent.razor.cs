@@ -86,12 +86,13 @@ namespace Anden_SemesterProjekt.Client.Components
                     .Where(p => p.Beskrivelse.Contains(søgeTekstVarer, StringComparison.OrdinalIgnoreCase))
                     .Take(5)
                     .ToList();
-                visVareForslag = vareForslag.Count > 0;
 
                 ydelserForslag = alleYdelser
                     .Where(p => p.Beskrivelse.Contains(søgeTekstVarer, StringComparison.OrdinalIgnoreCase))
                     .Take(5)
                     .ToList();
+                visVareForslag = vareForslag.Count > 0 || ydelserForslag.Count > 0;
+               
             }
             else
             {
@@ -221,8 +222,6 @@ namespace Anden_SemesterProjekt.Client.Components
             }
             else
             {
-                
-
                 nyOrdre.VareLinjer.Add(new VareLinje
                 {
                     VareId = ordreVareLinje.VareId,
@@ -240,17 +239,19 @@ namespace Anden_SemesterProjekt.Client.Components
 
         private async Task SetUdlejningsScooter()
         {
+            if (udlejningsScooterId == 0)
+            {
+                return;
+            }
             udlejning = new Udlejning();
             udlejningsScooter = udlejningsScootere.FirstOrDefault(s => s.ScooterId == udlejningsScooterId);
             udlejning.UdlejningsScooterId = udlejningsScooterId;
             udlejning.SlutDato = nyOrdre.SlutDato;
             udlejning.SelvrisikoUdløst = false;
             udlejning.AntalKmKørt = 0;
+            udlejning.OrdreId = 0;
+           
             nyOrdre.Udlejning = udlejning;
-            if (udlejningsScooterId != 0)
-            {
-                await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false);
-            }
         }
 
         #endregion // vare håndtering
@@ -268,17 +269,14 @@ namespace Anden_SemesterProjekt.Client.Components
             var result = await OrdreService.AddOrdre(nyOrdre);
             if (result != null)
             {
-                nyOrdre = new Ordre();
-                //nyOrdreTotalPris = 0;
-                ordreVareLinjer = new List<VareLinje>();
-                ordreVareLinje = new VareLinje();
-                ordreVare = new Vare();
-                ordreVareLinje.Vare = ordreVare;
-                //ordreMekaniker = new Mekaniker();
-                //ordreKundeScooter = new KundeScooter();
-                //ordreKunde = new Kunde();
-                kundeValgt = false;
-                søgeTekstKunder = "";
+              NulstilAlleFelter();
+
+                // sætter scooteren til ikke tilgængelig i databasen
+                if (udlejningsScooterId != 0)
+                {
+                    await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false);
+                }
+
                 StateHasChanged();
                 
                 await JS.InvokeVoidAsync("alert", "Ordre oprettet");
@@ -313,6 +311,28 @@ namespace Anden_SemesterProjekt.Client.Components
             ordreVareLinje.Vare = ordreVare;
             ordreVareLinje.VarePris = ordreVare.Pris;
             søgeTekstVarer = string.Empty;
+        }
+        private void NulstilAlleFelter()
+        {
+         
+            //nyOrdreTotalPris = 0;
+            ordreMekaniker = null;
+            //ordreKundeScooter = new KundeScooter();
+            //søgeTekstVarer = string.Empty;
+            //visVareForslag = false;
+            //visKundeForslag = false;
+
+            nyOrdre = new Ordre();
+            //nyOrdreTotalPris = 0;
+            ordreVareLinjer = new List<VareLinje>();
+            ordreVareLinje = new VareLinje();
+            ordreVare = new Vare();
+            ordreVareLinje.Vare = ordreVare;
+            //ordreMekaniker = new Mekaniker();
+            //ordreKundeScooter = new KundeScooter();
+            //ordreKunde = new Kunde();
+            kundeValgt = false;
+            søgeTekstKunder = "";
         }
     }
 }

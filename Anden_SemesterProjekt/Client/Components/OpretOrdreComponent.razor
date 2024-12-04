@@ -200,9 +200,10 @@
 
 
 <!--Mekaniker-->
+// Tjekker at der er timer i kurven. Hvis ja, så skal der vælges mekaniker, scooter og evt udljening
 @foreach (var vl in nyOrdre.VareLinjer)
 {
- @if (vl.Vare is Ydelse)
+ @if (vl.YdelseAntalTimer > 0)
  {
      <div class="card mb-2">
          <div class="card-header">
