@@ -16,7 +16,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int KundeId { get; set; }
         public Kunde? Kunde { get; set; }
         public int? KundeScooterId { get; set; }
-        [JsonIgnore]
         public KundeScooter? KundeScooter { get; set; }
         public DateTime? BetalingsDato { get; set; }
         public bool ErBetalt { get; set; }

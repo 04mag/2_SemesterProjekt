@@ -19,3 +19,8 @@
 .nowrap {
     white-space: nowrap;
 }
+
+tbody tr:hover {
+    background-color: #ffffff; /* Lys baggrund når musen hover */
+    cursor: default; /* Ændrer markøren til en hånd for klikbare elementer */
+}
