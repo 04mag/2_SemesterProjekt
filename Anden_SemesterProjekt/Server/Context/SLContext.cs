@@ -26,8 +26,11 @@ namespace Anden_SemesterProjekt.Server.Context
         {
             modelBuilder.Entity<KundeScooter>().ToTable("KundeScootere");
             modelBuilder.Entity<UdlejningsScooter>().ToTable("UdlejningsScootere");
-            modelBuilder.Entity<Vare>().ToTable("Varer");
-            modelBuilder.Entity<Ydelse>().ToTable("Ydelser");
+            modelBuilder.Entity<Vare>()
+                .ToTable("Varer")  // Samme tabel for både Vare og Ydelse
+                .HasDiscriminator<string>("Discriminator") // Angiver en kolonne, der adskiller Vare og Ydelse
+                .HasValue<Vare>("Vare")  // Værdi for Vare
+                .HasValue<Ydelse>("Ydelse");  // Værdi for Ydelse
             modelBuilder.Entity<Ordre>()
                 .HasOne(o => o.Udlejning)
                 .WithOne(u => u.Ordre)

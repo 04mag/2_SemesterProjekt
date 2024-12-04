@@ -35,6 +35,8 @@ namespace Anden_SemesterProjekt.Client.Components
         private string søgeTekstVarer = string.Empty;
         private List<Vare> alleVarer = new List<Vare>();
         private List<Vare> vareForslag = new List<Vare>();
+        private List<Ydelse> alleYdelser = new List<Ydelse>();
+        private List<Ydelse> ydelserForslag = new List<Ydelse>();
         private bool visVareForslag = false;
 
         private string søgeTekstKunder = string.Empty;
@@ -59,6 +61,7 @@ namespace Anden_SemesterProjekt.Client.Components
         protected override async Task OnInitializedAsync()
         {
             alleVarer = await VareService.GetAktiveVarer();
+            alleYdelser = await VareService.GetAktiveYdelser();
             alleKunder = await KundeService.GetKunder();
             ordreVareLinje = new VareLinje();
             udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
@@ -84,6 +87,11 @@ namespace Anden_SemesterProjekt.Client.Components
                     .Take(5)
                     .ToList();
                 visVareForslag = vareForslag.Count > 0;
+
+                ydelserForslag = alleYdelser
+                    .Where(p => p.Beskrivelse.Contains(søgeTekstVarer, StringComparison.OrdinalIgnoreCase))
+                    .Take(5)
+                    .ToList();
             }
             else
             {
@@ -93,7 +101,6 @@ namespace Anden_SemesterProjekt.Client.Components
 
 
         }
-
         #endregion // VareSøgning
 
 
@@ -178,18 +185,30 @@ namespace Anden_SemesterProjekt.Client.Components
 
         private void VælgVare(Vare vare)
         {
-            ordreVareLinje = new VareLinje
-            {
-               
-                VareId = vare.Id,
-                VarePris = vare.Pris,
-                Antal = 1, // Standard antal
-                VareBeskrivelse = vare.Beskrivelse
-            };
+            if (vare is Ydelse ydelse)
+                ordreVareLinje = new VareLinje
+                {
+                    VareId = ydelse.Id,
+                    VarePris = ydelse.Pris,
+                    Antal = 1, // Standard antal
+                    VareBeskrivelse = ydelse.Beskrivelse,
+                    YdelseAntalTimer = ydelse.AntalTimer
+                };
+            else
+                ordreVareLinje = new VareLinje
+                {
+                    VareId = vare.Id,
+                    VarePris = vare.Pris,
+                    Antal = 1, // Standard antal
+                    VareBeskrivelse = vare.Beskrivelse
+                };
+
+
             søgeTekstVarer = vare.Beskrivelse;
             visVareForslag = false;
             StateHasChanged();
         }
+
         private void TilføjVare()
         {
             var eksisterendeVareLinje = ordreVareLinjer.FirstOrDefault(v
@@ -202,6 +221,8 @@ namespace Anden_SemesterProjekt.Client.Components
             }
             else
             {
+                
+
                 nyOrdre.VareLinjer.Add(new VareLinje
                 {
                     VareId = ordreVareLinje.VareId,
@@ -209,9 +230,11 @@ namespace Anden_SemesterProjekt.Client.Components
                     Rabat = ordreVareLinje.Rabat,
                     Antal = ordreVareLinje.Antal,
                     VareBeskrivelse = ordreVareLinje.VareBeskrivelse,
+                    YdelseAntalTimer = ordreVareLinje.YdelseAntalTimer
+
                 });
             }
-                 
+
             NulstilVareInput();
         }
 
