@@ -54,18 +54,6 @@ namespace Anden_SemesterProjekt.Client.Services
             }
         }
 
-        public async Task<List<Kunde>?> GetKunder(string tlfnummer, string mærke)
-        {
-            try
-            {
-                return await _httpClient.GetFromJsonAsync<List<Kunde>>($"api/kunder/{tlfnummer}/{mærke}");
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
         public async Task<Kunde?> PostKunde(Kunde kunde)
         {
             var response = await _httpClient.PostAsJsonAsync("api/kunder", kunde);

@@ -4,7 +4,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
 {
     public interface IAnsatRepository
     {
-        public Mekaniker? ReadMekaniker(int id);
-        public List<Mekaniker>? ReadMekanikere();
+        public Task<Mekaniker?> ReadMekaniker(int id);
+        public Task<List<Mekaniker>?> ReadMekanikere();
     }
 }

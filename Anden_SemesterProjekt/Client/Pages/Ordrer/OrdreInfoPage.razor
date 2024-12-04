@@ -97,8 +97,8 @@
                                     <td>@vareLinje.Antal</td>
                                     <td></td>
                                     <td></td>
-                                    <td>@vareLinje.VarePris</td>
-                                    <td>@vareLinje.Rabat</td>
+                                    <td>@vareLinje.GetPrisPrVareString()</td>
+                                    <td>@vareLinje.GetRabatString()</td>
                                     <td>@vareLinje.GetTotalPrisString()</td>
                                 </tr>
                             }
@@ -143,8 +143,8 @@
                                 <td>@vareLinje.Antal</td>
                                 <td>@vareLinje.GetAntalTimerString()</td>
                                 <td>@vareLinje.GetTotalAntalTimerString()</td>
-                                <td>@vareLinje.VarePris</td>
-                                <td>@vareLinje.Rabat</td>
+                                <td>@vareLinje.GetPrisPrVareString()</td>
+                                <td>@vareLinje.GetRabatString()</td>
                                 <td>@vareLinje.GetTotalPrisString()</td>
                             </tr>
                         }

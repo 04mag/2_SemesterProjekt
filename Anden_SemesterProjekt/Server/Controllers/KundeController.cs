@@ -19,9 +19,9 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet("by/{postnummer}")]
-        public IActionResult GetBy(string postnummer)
+        public async Task<IActionResult> GetBy(string postnummer)
         {
-            var by = _kundeService.GetBy(postnummer);
+            var by = await _kundeService.GetBy(postnummer);
 
             if (by == null)
             {
@@ -34,24 +34,9 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetKunder()
+        public async Task<IActionResult> GetKunder()
         {
-            var kunder = _kundeService.ReadKunder();
-
-            if (kunder == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return Ok(kunder);
-            }
-        }
-
-        [HttpGet("{tlfnummer}/{mærke}")]
-        public IActionResult GetKunder(string tlfnummer, string mærke)
-        {
-            var kunder = _kundeService.ReadKunder(tlfnummer, mærke);
+            var kunder = await _kundeService.ReadKunder();
 
             if (kunder == null)
             {
@@ -64,9 +49,9 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetKunde(int id)
+        public async Task<IActionResult> GetKunde(int id)
         {
-            var kunde = _kundeService.ReadKunde(id);
+            var kunde = await _kundeService.ReadKunde(id);
 
             if (kunde == null)
             {
@@ -79,9 +64,9 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostKunde(Kunde kunde)
+        public async Task<IActionResult> PostKunde(Kunde kunde)
         {
-            int id = _kundeService.CreateKunde(kunde);
+            int id = await _kundeService.CreateKunde(kunde);
 
             if (id == -1)
             {
@@ -89,14 +74,15 @@ namespace Anden_SemesterProjekt.Server.Controllers
             }
             else
             {
+                //Henter den nye kunde og tildeler den det nye id.
                 return CreatedAtAction(nameof(GetKunde), new { id = id }, kunde);
             }
         }
 
         [HttpPut]
-        public IActionResult PutKunde(Kunde kunde)
+        public async Task<IActionResult> PutKunde(Kunde kunde)
         {
-            bool updated = _kundeService.UpdateKunde(kunde);
+            bool updated = await _kundeService.UpdateKunde(kunde);
 
             if (updated)
             {
@@ -109,9 +95,9 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteKunde(int id)
+        public async Task<IActionResult> DeleteKunde(int id)
         {
-            bool deleted = _kundeService.DeleteKunde(id);
+            bool deleted =  await _kundeService.DeleteKunde(id);
             
             if (deleted)
             {

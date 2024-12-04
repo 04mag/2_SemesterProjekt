@@ -1,4 +1,5 @@
-﻿using Anden_SemesterProjekt.Server.Context;
+﻿using Anden_SemesterProjekt.Client.Pages.Kunder;
+using Anden_SemesterProjekt.Server.Context;
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,6 +8,13 @@ namespace Anden_SemesterProjekt.Server.Repositories
     public class KundeRepository : IKundeRepository
     {
         private readonly SLContext _context;
+
+        //Det her i stedet for og drop singleton på repositories?
+        //public KundeRepository(SLContext context)
+        //{
+        //    _context = context;
+        //}
+
         public KundeRepository()
         {
             _context = new SLContext();
@@ -17,10 +25,10 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// </summary>
         /// <param name="kunde"></param>
         /// <returns>Retunerer kundeId hvis kunden er oprettet, ellers -1.</returns>
-        public int CreateKunde(Kunde kunde)
+        public async Task<int> CreateKunde(Kunde kunde)
         {
-            _context.Kunder.Add(kunde);
-            _context.SaveChanges();
+            await _context.Kunder.AddAsync(kunde);
+            await _context.SaveChangesAsync();
 
             int id = kunde.KundeId;
 
@@ -39,9 +47,9 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Om sletning var successfuld som bool.</returns>
-        public bool DeleteKunde(int id)
+        public async Task<bool> DeleteKunde(int id)
         {
-            Kunde? kunde = ReadKunde(id);
+            Kunde? kunde = await ReadKunde(id);
 
             if (kunde == null)
             {
@@ -49,7 +57,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
-                bool aktiveOrdrer = _context.Ordrer.Any(o => o.KundeId == id && o.ErAfsluttet == false);
+                bool aktiveOrdrer = await _context.Ordrer.AnyAsync(o => o.KundeId == id && o.ErAfsluttet == false);
 
                 if (aktiveOrdrer)
                 {
@@ -58,9 +66,9 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
                 kunde.ErAktiv = false;
 
-                UpdateKunde(kunde);
+                await UpdateKunde(kunde);
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
         }
@@ -70,9 +78,9 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// </summary>
         /// <param name="postnummer"></param>
         /// <returns>Retunerer By Object fra postnummer. Null hvis ikke fundet.</returns>
-        public By? GetBy(string postnummer)
+        public async Task<By?> GetBy(string postnummer)
         {
-            return _context.By.Find(postnummer);
+            return await _context.By.FindAsync(postnummer);
         }
 
         /// <summary>
@@ -80,24 +88,26 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// </summary>
         /// <param name="id"></param>
         /// <returns>Retunerer kunde object. Null hvis ikke fundet.</returns>
-        public Kunde? ReadKunde(int id)
+        public async Task<Kunde?> ReadKunde(int id)
         {
             try
             {
-                var result = _context.Kunder
-                    .Include(k => k.Scootere).ThenInclude(s => s.Mærke)
+                var result = await _context.Kunder
+                    .Include(k => k.Scootere!).ThenInclude(s => s.Mærke)
                     .Include(k => k.TlfNumre)
-                    .Include(k => k.TilknyttetMekaniker).ThenInclude(m => m.Mærker)
+                    .Include(k => k.TilknyttetMekaniker)
                     .Include(k => k.Ordrer)
-                    .Include(k => k.Adresse).ThenInclude(a => a.By).Where(k => k.KundeId == id).FirstOrDefault();
+                    .Include(k => k.Adresse).ThenInclude(a => a!.By)
+                    .Where(k => k.KundeId == id)
+                    .FirstOrDefaultAsync();
 
-                if (result == null)
+                if (result != null && result.KundeId == id)
                 {
-                    return null;
+                    return result;
                 }
                 else
                 {
-                    return result;
+                    return null;
                 }
             }
             catch
@@ -110,18 +120,18 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// Finder alle kunder i databasen.
         /// </summary>
         /// <returns>Retunerer liste af kunder. Null hvis ingen fundet.</returns>
-        public List<Kunde>? ReadKunder()
+        public async Task<List<Kunde>?> ReadKunder()
         {
             try
             {
-                var result = _context.Kunder
-                    .Include(k => k.Scootere).ThenInclude(s => s.Mærke)
+                var result = await _context.Kunder
+                    .Include(k => k.Scootere!).ThenInclude(s => s.Mærke)
                     .Include(k => k.TlfNumre)
                     .Include(k => k.TilknyttetMekaniker)
                     .Include(k => k.Ordrer)
-                    .Include(k => k.Adresse).ThenInclude(a => a.By)
+                    .Include(k => k.Adresse).ThenInclude(a => a!.By)
                     .Where(k => k.ErAktiv == true)
-                    .ToList();
+                    .ToListAsync();
 
                 if (result.Count == 0)
                 {
@@ -138,50 +148,15 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
         }
 
-        /// <summary>
-        /// Finder kunder ud fra tlfNummer og mærke søgning.
-        /// </summary>
-        /// <param name="tlfNummer"></param>
-        /// <param name="mærke"></param>
-        /// <returns>Retunerer liste af kunder. Null hvis ikke fundet</returns>
-        public List<Kunde>? ReadKunder(string tlfNummer, string mærke)
-        {
-            try
-            {
-                var result = _context.Kunder
-                    .Include(k => k.TlfNumre)
-                    .Include(k => k.Adresse).ThenInclude(a => a.By)
-                    .Include(k => k.TilknyttetMekaniker)
-                    .Include(k => k.Scootere).ThenInclude(m => m.Mærke)
-                    .Include(k => k.Ordrer)
-                    .Where(k => k.TlfNumre.Any(t => t.TelefonNummer.Contains(tlfNummer, StringComparison.OrdinalIgnoreCase)))
-                    .Where(k => k.Scootere.Any(s => s.Mærke.ScooterMærke.Contains(mærke, StringComparison.OrdinalIgnoreCase)))
-                    .Where(k => k.ErAktiv == true)
-                    .ToList();
-
-                if (result.Count == 0)
-                {
-                    return null;
-                }
-                else
-                {
-                    return result;
-                }
-            }
-            catch
-            {
-                return null;
-            }
-        }
 
         /// <summary>
         /// Opdaterer kunde i databasen.
         /// </summary>
         /// <param name="kunde"></param>
         /// <returns>Om opdatering var successfuld som bool.</returns>
-        public bool UpdateKunde(Kunde kunde)
+        public async Task<bool> UpdateKunde(Kunde kunde)
         {
-            var existingKunde = _context.Kunder.Find(kunde.KundeId);
+            var existingKunde = await _context.Kunder.FindAsync(kunde.KundeId);
             if (existingKunde == null)
             {
                 return false;
@@ -193,7 +168,11 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
 
                 //Opdaterer adresse
-                var existingAdresse = _context.Adresser.Find(kunde.Adresse.AdresseId);
+                if (kunde.Adresse == null)
+                {
+                    kunde.Adresse = new Adresse();
+                }
+                var existingAdresse = await _context.Adresser.FindAsync(kunde.Adresse.AdresseId);
                 if (existingAdresse == null)
                 {
                     return false;
@@ -208,7 +187,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 //Finder Id på alle kundens tlfnumre
                 var allValidIds = kunde.TlfNumre.Select(t => t.TlfNummerId).ToList();
                 //Finder alle tlfnumre som ikke findes i kunde objektet
-                var missingRows = _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToList();
+                var missingRows = await _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToListAsync();
                 
 
                 foreach (var nummer in kunde.TlfNumre)
@@ -222,6 +201,10 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 existingKunde.TlfNumre = existingKunde.TlfNumre.Except(missingRows).ToList();
 
                 //Sletter scootere som ikke længere tilhører kunden
+                if (kunde.Scootere == null)
+                {
+                    kunde.Scootere = new List<KundeScooter>();
+                }
                 //Finder Id på alle kundens scootere
                 var allValidScooterIds = kunde.Scootere.Select(s => s.ScooterId).ToList();
                 //Finder alle scootere som ikke findes i kunde objektet
@@ -244,7 +227,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
                 
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return true;
             }
         }

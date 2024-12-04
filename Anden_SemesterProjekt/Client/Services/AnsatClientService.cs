@@ -15,7 +15,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                var result = await _httpClient.GetFromJsonAsync<Mekaniker>($"api/mekaniker/{id}");
+                var result = await _httpClient.GetFromJsonAsync<Mekaniker>($"api/ansatte/mekanikere/{id}");
 
                 return result;
             }
@@ -29,7 +29,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                var result = await _httpClient.GetFromJsonAsync<List<Mekaniker>>("api/mekaniker");
+                var result = await _httpClient.GetFromJsonAsync<List<Mekaniker>>("api/ansatte/mekanikere");
 
                 return result;
             }
