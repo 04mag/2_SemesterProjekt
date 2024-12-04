@@ -74,6 +74,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
             }
             else
             {
+                //Henter den nye kunde og tildeler den det nye id.
                 return CreatedAtAction(nameof(GetKunde), new { id = id }, kunde);
             }
         }
