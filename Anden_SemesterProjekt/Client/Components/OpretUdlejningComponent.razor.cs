@@ -8,20 +8,22 @@ namespace Anden_SemesterProjekt.Client.Components
     {
         Udlejning nyUdlejning = new Udlejning();
         UdlejningsScooter udlejningsScooter = new UdlejningsScooter();
-        List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
-        List<Kunde> kunder = new List<Kunde>();
-       [Inject] IUdlejningClientService UdlejningClientService { get; }
-       [Inject] IScooterClientService UdlejningsScooterClientService { get; }
+        List<UdlejningsScooter>? udlejningsScootere = new List<UdlejningsScooter>();
+        private int SamletKmPris = new int();
+        [Inject] private IUdlejningClientService UdlejningClientService { get; set; }
+       [Inject] private IScooterClientService ScooterClientService { get; set; }
 
-        public async Task OnInitializedAsync()
+        protected override async Task OnInitializedAsync()
         {
-            var result = await UdlejningsScooterClientService.GetAllUdlejningsScootereAsync();
-            udlejningsScootere = result.Where(x => x.ErTilgængelig == true).ToList();
+            var result = await ScooterClientService.GetAllUdlejningsScootereAsync();
+            udlejningsScootere = result.Where(x => x.ErTilgængelig).ToList();
 
         }
         public async Task OpretUdlejning()
+
         {
-            nyUdlejning.UdlejningsScooterId = nyUdlejning.Ordre.UdlejningsScooterId.Value;
+            //nyUdlejning.UdlejningsScooterId = nyUdlejning.Ordre.UdlejningsScooterId.Value;
+       
             nyUdlejning.OrdreId = nyUdlejning.Ordre.OrdreId;
             await UdlejningClientService.AddUdlejningAsync(nyUdlejning);
         }

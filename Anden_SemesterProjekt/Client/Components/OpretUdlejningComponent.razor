@@ -1,27 +1,61 @@
-﻿@page "/Udlejning"
-<h3>OpretUdlejning</h3>
+﻿<h3>OpretUdlejning</h3>
 
 <EditForm Model="nyUdlejning" OnValidSubmit="HandleValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
     <div>
-        <label for="kunde">Kunde:</label>
-        <select @bind="nyUdlejning.Ordre.KundeId">
-        <option value =""> Vælg en kunde...</option>
-        @foreach (var kunde in kunder)
-            {
-                <option value="@kunde.KundeId">@kunde.Navn</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
-            }
-        </select>
+       
         <label for="scooter">Scooter:</label>
         <select @bind="nyUdlejning.UdlejningsScooterId">
-        <option value =""> Vælg en scooter...</option>
+            <option value =""> Vælg en scooter...</option>
             @foreach (var udlejningsScooter in udlejningsScootere)
             {
-                <option value="@udlejningsScooter.ScooterId">@udlejningsScooter.Registreringsnummer @udlejningsScooter.Mærke.ScooterMærke</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
+                <option value="@udlejningsScooter.ScooterId">Nr @udlejningsScooter.ScooterId - @udlejningsScooter.Registreringsnummer, @udlejningsScooter.Mærke.ScooterMærke</option> // Første værdi er hvad der bliver bindet, anden værdi er hvad der bliver vist i dropdown
             }
         </select>
-    <InputDate id="startDato" @bind-Value="nyUdlejning.StartDato" class="form-control" placeholder="Start dato" />
-    <InputDate id="slutDato" @bind-Value="nyUdlejning.SlutDato" class="form-control" placeholder ="Slut dato" />
+        @if (string.IsNullOrEmpty(nyUdlejning.UdlejningsScooterId.ToString()))
+        {
+            <p class="text-danger">Vælg venligst en scooter.</p>
+        }
+        <div class="col-2"> @* Denne class, angiver at alt inden for, fylder 2 kolloner i et standard 12-grid layout*@
+
+            <!--Input til dato, priser og kilometer-->
+            <div class="row mt-3">
+                <div class="col-md-6"> @* Bruger 6/12 kolonner i mit 12-grid layout, men da jeg ovenover har brugt col-2 i samme division, vil 6 egentlig betyde 3 ud af 12*@
+                    <label for="startDato">Start Dato:</label>
+                    <InputDate id="startDato" @bind-Value="nyUdlejning.StartDato" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label for="slutDato">Slut Dato:</label>
+                    <InputDate id="slutDato" @bind-Value="nyUdlejning.SlutDato" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="lejePrDag">Leje Pris pr. Dag:</label>
+                    <InputNumber id="lejePrDag" @bind-Value="nyUdlejning.LejePrDag" class="form-control" />
+                </div>
+                <div class="col-md-12">
+                    <label for="prisPrKm">Km Pris:</label>
+                    <InputNumber id="prisPrKm" @bind-Value="nyUdlejning.PrisPrKm" class="form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="kørteKm">Kørte KM:</label>
+                    <InputNumber id="kørteKm" @bind-Value="nyUdlejning.AntalKmKørt" class="form-control" />
+                </div>
+                <div class="col-md-6">
+                    <label for="selvrisiko">Selvrisiko:</label>
+                    <InputNumber id="selvrisiko" @bind-Value="nyUdlejning.Selvrisiko" class="form-control" />
+                </div>
+            </div>
+
+        </div>
+
     </div>
+
     </EditForm>
+    

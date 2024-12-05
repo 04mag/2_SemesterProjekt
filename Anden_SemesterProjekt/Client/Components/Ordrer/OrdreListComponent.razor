@@ -1,0 +1,50 @@
+﻿@using Anden_SemesterProjekt.Shared.Models
+
+<div class="row p-3 border border-primary rounded">
+    <div class="col-md-5 mb-2">
+        <div>
+            <input class="form-control" @bind-value="ordreNummer" @bind-value:event="oninput" placeholder="Søg via ordrenummer" />
+        </div>
+    </div>
+    <div class="col-md-3 mb-2">
+        <div>
+            <select class="form-select" @bind="selectedStatusId">
+                <option value="0">Vælg status (alle)</option>
+                <option value="1">Uafsluttet</option>
+                <option value="2">Faktura</option>
+                <option value="3">Kvittering</option>
+            </select>
+        </div>
+    </div>
+
+    @for (int i = 0; i < FilteredOrdrer.Count; i++)
+    {
+        <OrdreRenderComponent Ordre="FilteredOrdrer[i]" BackgroundColor="@((i % 2 == 0) ? "#ffffff" : "#e6e6e6")" />
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public List<Ordre> Ordrer { get; set; } = new List<Ordre>();
+
+    private string ordreNummer = "";
+    private int selectedStatusId = 0;
+
+    public List<Ordre> FilteredOrdrer
+    {
+        get
+        {
+            switch (selectedStatusId)
+            {
+                case 1:
+                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Uafsluttet").ToList();
+                case 2:
+                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Faktura").ToList();
+                case 3:
+                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Kvittering").ToList();
+                default:
+                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+        }
+    }
+}

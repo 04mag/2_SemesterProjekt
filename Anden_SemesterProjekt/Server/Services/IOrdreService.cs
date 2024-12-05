@@ -6,6 +6,7 @@ namespace Anden_SemesterProjekt.Server.Services
     {
         Task<Ordre?> GetOrdreAsync(int id);
         Task<List<Ordre>> GetOrdrerAsync();
+        Task<List<Ordre>> GetOrdrerAsync(int kundeId);
         Task<int> AddOrdreAsync(Ordre ordre);
         Task<int> UpdateOrdreAsync(Ordre ordre);
         Task<int> DeleteOrdreAsync(int id);

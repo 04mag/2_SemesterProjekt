@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Anden_SemesterProjekt.Shared.Validation;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +19,33 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime? BetalingsDato { get; set; }
         public bool ErBetalt { get; set; }
         public bool ErAfsluttet { get; set; }
-        public DateTime? StartDato { get; set; }
-        public DateTime? SlutDato { get; set; }
-        public int? UdlejningsScooterId { get; set; }
-        public UdlejningsScooter? UdlejningsScooter { get; set; }
+        public DateTime StartDato { get; set; } = DateTime.Now;
+        [OrdreSlutDatoCheck]
+        public DateTime SlutDato { get; set; } = DateTime.Now;
+        public Udlejning? Udlejning{ get; set; }
         public int? MekanikerId { get; set; }
         public Mekaniker? Mekaniker { get; set; }
         public string Bemærkninger { get; set; } = string.Empty;
+
+        public string GetStatus()
+        {
+            if (ErAfsluttet && ErBetalt)
+            {
+                return "Kvittering";
+            }
+            else if (ErAfsluttet && !ErBetalt)
+            {
+                return "Faktura";
+            }
+            else
+            {
+                return "Uafsluttet";
+            }
+        }
+
+        public string IdToString()
+        {
+            return OrdreId.ToString();
+        }
     }
 }

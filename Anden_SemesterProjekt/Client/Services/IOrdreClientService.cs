@@ -6,6 +6,7 @@ namespace Anden_SemesterProjekt.Client.Services
     {
         public Task<Ordre?> GetOrdre(int id);
         public Task<List<Ordre>?> GetOrdrer();
+        public Task<List<Ordre>?> GetOrdrer(int kundeId);
         public Task<HttpResponseMessage> AddOrdre(Ordre ordre);
         public Task<HttpResponseMessage> DeleteOrdre(int id);
         public Task<HttpResponseMessage> UpdateOrdre(Ordre ordre);

@@ -1,71 +1,69 @@
-﻿<div class="col-12 mb-2 p-3">
-    <div>
-        <div class="card">
-            <div class="card-header">
-                <div class="row p-3">
-                    <div class="col-md-6 align-content-center">
-                        <h5 class="card-title">(@KundeModel.KundeId) @KundeModel.Navn</h5>
-                    </div>
-                    <div class="col-md-6 align-content-center">
-                        @if (OnDeleteKunde.HasDelegate)
-                        {
-                            <button class="btn btn-danger m-1 float-end" @onclick="async () => await OnDeleteKunde.InvokeAsync(KundeModel)">Slet</button>
-                        }
-                        @if (OnEditKunde.HasDelegate)
-                        {
-                            <button class="btn btn-warning m-1 float-end" @onclick="async () => await OnEditKunde.InvokeAsync(KundeModel)">Rediger</button>
-                        }
-                        @if (OnSelectKunde.HasDelegate)
-                        {
-                            <button class="btn btn-primary m-1 float-end" @onclick="async () => await OnSelectKunde.InvokeAsync(KundeModel)">Vælg</button>
-                        }
-                    </div>
+﻿<div class="col-12 mb-2">
+    <div class="card">
+        <div class="card-header">
+            <div class="row p-3">
+                <div class="col-md-6 align-content-center">
+                    <h5 class="card-title">(@KundeModel.KundeId) @KundeModel.Navn</h5>
                 </div>
-            </div>
-            <div class="card-body">
-                <div class="row p-3 mb-3">
-                    <div class="col-md-3 mb-3">
-                        <span class="card-text">@KundeModel.Adresse</span>
-                        <br />
-                        <span class="card-text">@KundeModel.Adresse.Postnummer</span>
-                        <span class="card-text">@KundeModel.Adresse.By.ByNavn</span>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        <p class="card-text">@KundeModel.Email</p>
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        @if (KundeModel.TlfNumre != null && KundeModel.TlfNumre.Count > 0)
-                        {
-                            <label>Telefonnumre:</label>
-                            <ul>
-                                @foreach (var tlf in KundeModel.TlfNumre)
-                                {
-                                    <li>(+45) @tlf.TelefonNummer</li>
-                                }
-                            </ul>
-                        }
-                    </div>
-                    <div class="col-md-3 mb-3">
-                        @if (KundeModel.Scootere != null && KundeModel.Scootere.Count > 0)
-                        {
-                            <label>Scootere:</label>
-                            <ul>
-                                @foreach (var scooter in KundeModel.Scootere)
-                                {
-                                    <li>@scooter</li>
-                                }
-                            </ul>
-                        }
-                    </div>
-                </div>
-            </div>
-            <div class="card-footer">
-                <div class="p-3">
-                    @if (KundeModel.TilknyttetMekaniker != null)
+                <div class="col-md-6 align-content-center">
+                    @if (OnDeleteKunde.HasDelegate)
                     {
-                        <p>Mekaniker: @KundeModel.TilknyttetMekaniker.Navn</p>
+                        <button class="btn btn-danger m-1 float-end" @onclick="async () => await OnDeleteKunde.InvokeAsync(KundeModel)">Slet</button>
+                    }
+                    @if (OnEditKunde.HasDelegate)
+                    {
+                        <button class="btn btn-warning m-1 float-end" @onclick="async () => await OnEditKunde.InvokeAsync(KundeModel)">Rediger</button>
+                    }
+                    @if (OnSelectKunde.HasDelegate)
+                    {
+                        <button class="btn btn-primary m-1 float-end" @onclick="async () => await OnSelectKunde.InvokeAsync(KundeModel)">Vælg</button>
                     }
                 </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row p-3 mb-3">
+                <div class="col-md-3 mb-3">
+                    <span class="card-text">@KundeModel.Adresse</span>
+                    <br />
+                    <span class="card-text">@KundeModel.Adresse.Postnummer</span>
+                    <span class="card-text">@KundeModel.Adresse.By.ByNavn</span>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <p class="card-text">@KundeModel.Email</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    @if (KundeModel.TlfNumre != null && KundeModel.TlfNumre.Count > 0)
+                    {
+                        <label>Telefonnumre:</label>
+                        <ul>
+                            @foreach (var tlf in KundeModel.TlfNumre)
+                            {
+                                <li>(+45) @tlf.TelefonNummer</li>
+                            }
+                        </ul>
+                    }
+                </div>
+                <div class="col-md-3 mb-3">
+                    @if (KundeModel.Scootere != null && KundeModel.Scootere.Count > 0)
+                    {
+                        <label>Scootere:</label>
+                        <ul>
+                            @foreach (var scooter in KundeModel.Scootere)
+                            {
+                                <li>@scooter</li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="p-3">
+                @if (KundeModel.TilknyttetMekaniker != null)
+                {
+                    <p>Mekaniker: @KundeModel.TilknyttetMekaniker.Navn</p>
+                }
             </div>
         </div>
     </div>

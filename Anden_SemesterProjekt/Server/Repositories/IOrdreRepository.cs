@@ -6,6 +6,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
     {
         Task<Ordre?> ReadOrdreAsync(int id);
         Task<List<Ordre>> ReadOrdrerAsync();
+        Task<List<Ordre>> ReadOrdrerAsync(int kundeId);
         Task<int> CreateOrdreAsync(Ordre ordre);
         Task<int> UpdateOrdreAsync(Ordre ordre);
         Task<int> DeleteOrdreAsync(int id);
