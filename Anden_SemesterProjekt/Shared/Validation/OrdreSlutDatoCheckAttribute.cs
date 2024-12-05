@@ -19,7 +19,7 @@ namespace Anden_SemesterProjekt.Shared.Validation
                 return new ValidationResult("Slutdatoen kan ikke være før startdatoen");
             }
 
-            if (ordre.SlutDato < DateTime.Now.Date)
+            if (ordre.SlutDato.Date < DateTime.Now.Date)
             {
                 return new ValidationResult("Slutdatoen kan ikke være før dags dato");
             }

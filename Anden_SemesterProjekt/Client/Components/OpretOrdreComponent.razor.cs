@@ -229,7 +229,7 @@ public partial class OpretOrdreComponent
                 return;
             }
 
-            if (nyOrdre.SlutDato < nyOrdre.StartDato)
+            if (nyOrdre.SlutDato.Date < nyOrdre.StartDato.Date)
             {
                 await JS.InvokeVoidAsync("alert", "Slutdato kan ikke være før startdato");
                 return;
@@ -252,13 +252,21 @@ public partial class OpretOrdreComponent
                 await JS.InvokeVoidAsync("alert", "Vælg en scooter til udlejning");
                 return;
             }
+
+            if (!nyOrdre.OrdreContainsYdelse())
+            {
+                nyOrdre.ErAfsluttet = false;
+            }
+            else
+            {
+                nyOrdre.ErAfsluttet = true;
+            }
         }
 
         {
             //nyOrdre.Mekaniker = ordreMekaniker;
             //nyOrdre.KundeScooter = ordreKundeScooter;
             nyOrdre.ErBetalt = false;
-            nyOrdre.ErAfsluttet = false;
             nyOrdre.StartDato = DateTime.Now;
             nyOrdre.BetalingsDato = DateTime.Now;
         }
