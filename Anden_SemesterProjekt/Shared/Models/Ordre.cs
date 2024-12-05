@@ -49,15 +49,15 @@ namespace Anden_SemesterProjekt.Shared.Models
         {
             if (ErAfsluttet && ErBetalt)
             {
-                return "Kvittering";
+                return "Vis Kvittering";
             }
             else if (ErAfsluttet && !ErBetalt)
             {
-                return "Faktura";
+                return "Vis Faktura";
             }
             else
             {
-                return "Ordre info";
+                return "Vis Ordre";
             }
         }
 
