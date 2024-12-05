@@ -24,12 +24,12 @@ else
         <div class="row mb-3">
             <KundeRenderComponent KundeModel="KundeModel" />
         </div>
-        <div class="col-12">
-            <h4>Ordrer</h4>
-        </div>
 
         @if (KundeOrdrer.Count > 0)
         {
+            <div class="col-12">
+                <h4>Ordrer</h4>
+            </div>
             <div class="row mb-3">
                 <div class="col-12">
                     <OrdreListComponent Ordrer="KundeOrdrer" />

@@ -36,7 +36,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
 
             if (ordreResult != null)
             {
-                KundeOrdrer = ordreResult;
+                KundeOrdrer = ordreResult.OrderByDescending(o => o.OrdreId).ToList();
             }
         }
     }

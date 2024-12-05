@@ -1,7 +1,7 @@
 ﻿<div class="col-12 mb-2">
     <div class="card">
         <div class="card-header">
-            <div class="row p-3">
+            <div class="row">
                 <div class="col-md-6 align-content-center">
                     <h5 class="card-title">(@KundeModel.KundeId) @KundeModel.Navn</h5>
                 </div>
@@ -22,17 +22,17 @@
             </div>
         </div>
         <div class="card-body">
-            <div class="row p-3 mb-3">
-                <div class="col-md-3 mb-3">
+            <div class="row">
+                <div class="col-md-3 mb-1">
                     <span class="card-text">@KundeModel.Adresse</span>
                     <br />
                     <span class="card-text">@KundeModel.Adresse.Postnummer</span>
                     <span class="card-text">@KundeModel.Adresse.By.ByNavn</span>
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-md-3 mb-1">
                     <p class="card-text">@KundeModel.Email</p>
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-md-3 mb-1">
                     @if (KundeModel.TlfNumre != null && KundeModel.TlfNumre.Count > 0)
                     {
                         <label>Telefonnumre:</label>
@@ -44,7 +44,7 @@
                         </ul>
                     }
                 </div>
-                <div class="col-md-3 mb-3">
+                <div class="col-md-3 mb-1">
                     @if (KundeModel.Scootere != null && KundeModel.Scootere.Count > 0)
                     {
                         <label>Scootere:</label>
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div class="card-footer">
-            <div class="p-3">
+            <div class="row">
                 @if (KundeModel.TilknyttetMekaniker != null)
                 {
                     <p>Mekaniker: @KundeModel.TilknyttetMekaniker.Navn</p>
