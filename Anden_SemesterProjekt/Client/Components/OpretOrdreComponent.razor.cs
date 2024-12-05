@@ -253,7 +253,7 @@ public partial class OpretOrdreComponent
                 return;
             }
 
-            if (!nyOrdre.OrdreContainsYdelse())
+            if (nyOrdre.OrdreContainsYdelse())
             {
                 nyOrdre.ErAfsluttet = false;
             }
