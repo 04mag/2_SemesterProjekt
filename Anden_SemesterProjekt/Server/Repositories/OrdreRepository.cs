@@ -85,6 +85,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 return 0;
             }
 
+            // Alle properties på existingScooter bliver overskrevet af de properties der er i ordre
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
 
             // Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre

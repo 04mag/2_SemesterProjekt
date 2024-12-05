@@ -68,8 +68,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
             return _context.Varer.OfType<Ydelse>().Where(v => v.ErAktiv).ToList();
                 
         }
-
-
+        
         /// <summary>
         /// Finder en vare i databasen udfra Id
         /// </summary>
@@ -85,17 +84,17 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// </summary>
         /// <param name="vare"></param>
         /// <returns> Fortæller om opdateringen lykkedes som bool </returns>
-        public bool UpdateVare(Vare vare)
+        public bool  UpdateVare(Vare vare)
         {
-            var result = _context.Varer.Find(vare.Id);
+            var eksisterendeVare = _context.Varer.Find(vare.Id);
 
-            if (result == null)
+            if (eksisterendeVare == null)
             {
                 return false;
             }
             else
             {
-                _context.Update(vare);
+                _context.Entry(eksisterendeVare).CurrentValues.SetValues(vare);
                 _context.SaveChanges();
                 return true;
             }

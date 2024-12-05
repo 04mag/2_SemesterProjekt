@@ -1,0 +1,42 @@
+﻿<div class="col-12 mb-2 p-3">
+    <div>
+        <div class="card">
+            <div class="card-header">
+                <div class="row p-3">
+                    <div class="col-md-6 align-content-center">
+                        <h5 class="card-title">(@YdelseModel.Id) @YdelseModel.Beskrivelse</h5>
+                    </div>
+                    <div class="col-md-6 align-content-center">
+                        @if (OnDeleteYdelse.HasDelegate)
+                        {
+                            <button class="btn btn-danger m-1 float-end" @onclick="async () => await OnDeleteYdelse.InvokeAsync(YdelseModel)">Slet</button>
+                        }
+                        @if (OnEditYdelse.HasDelegate)
+                        {
+                            <button class="btn btn-warning m-1 float-end" @onclick="async () => await OnEditYdelse.InvokeAsync(YdelseModel)">Rediger</button>
+                        }
+                        @if (OnSelectYdelse.HasDelegate)
+                        {
+                            <button class="btn btn-primary m-1 float-end" @onclick="async () => await OnSelectYdelse.InvokeAsync(YdelseModel)">Vælg</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        @YdelseModel.Beskrivelse
+    </div>
+    <div class="col-6 text-end">
+        @YdelseModel.Pris.ToString("C")
+    </div>
+    <div class="col-6 text-end">
+        @YdelseModel.AntalTimer.ToString("C")
+    </div>
+</div>
+<YdelseOpretComponent OnYdelseCreated="HandleYdelseCreated" />
+
+<!-- Liste over ydelser -->
+<YdelseListComponent Items="nyYdelse" />

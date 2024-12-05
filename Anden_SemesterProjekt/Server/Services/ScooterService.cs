@@ -35,7 +35,16 @@ namespace Anden_SemesterProjekt.Server.Services
         {
             return await _scooterRepository.UpdateScooterAsync(scooter);
         }
-        
+        public async Task UpdateScooterTilgængelighedAsync(int scooterId, bool isAvailable)
+        {
+            if (scooterId <= 0)
+            {
+                throw new ArgumentException("Invalid scooter ID.");
+            }
+
+            // Eventuel forretningslogik her
+            await _scooterRepository.UpdateScooterTilgængelighedAsync(scooterId, isAvailable);
+        }
         public async Task<int> DeleteScooterAsync(int id)
         {
             return await _scooterRepository.DeleteScooterAsync(id);

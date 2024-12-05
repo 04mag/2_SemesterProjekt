@@ -18,7 +18,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public DateTime StartDato { get; set; } = DateTime.Now;
         public DateTime SlutDato { get; set; } = DateTime.Now;
         public double AntalKmKørt { get; set; }
-        public bool SelvrisikoUdløst { get; set; }
+        public bool SelvrisikoUdløst { get; set; } = false;
         public double LejePrDag { get; set; } = 200;
         public double ForsikringPrDag { get; set; } = 100;
         public double PrisPrKm { get; set; } = 0.53;

@@ -11,13 +11,13 @@
             <input type="text"
             class="form-control"
             placeholder="Søg efter varer..."
-            @bind="searchTerm"
-            @oninput="FilterVarer" />
+            @bind-value="searchTerm"
+            @bind-value:event="oninput" />
         </div>
     </div>
 </div>    
 
-<div class="table-container">
+<div class="table-container mb-4">
     @if (Varer == null || !Varer.Any())
     {
         <p class="text-center text-muted">Ingen varer fundet.</p>
@@ -28,15 +28,15 @@
             <thead class="thead-light">
             <tr>
                 <th style="text-align: left;">Beskrivelse</th>
-                <th style="text-align: right;">Pris</th>
+                <th style="text-align: left;">Pris</th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var vare in filteredVarer)
+            @foreach (var vare in FilteredVarer)
             {
                 <tr @onclick="() => VareBeskrivelse(vare)">
                     <td>@vare.Beskrivelse</td>
-                    <td style="text-align: right;">@($"{vare.Pris:N2} kr")</td>
+                    <td style="text-align: left;">@($"{vare.Pris:N2} kr")</td>
                 </tr>
             }
             </tbody>
@@ -70,13 +70,14 @@
                 <input type="number" @bind="redigeretVare.Pris" />
                 <button class="btn btn-primary" type="submit">Gem</button>
                 <p></p>
-                <button class="btn btn-primary" type="submit">Gem</button>
-                <p></p>
-                
+                <button class="btn btn-danger btn-sm delete-button" type=button @onclick="() =>SoftDelete()">Slet</button>
 
             </div>
         </div>
     </EditForm>
+
+    
+
  }
 
 

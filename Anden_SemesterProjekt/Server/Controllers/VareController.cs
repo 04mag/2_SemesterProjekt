@@ -33,7 +33,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
             }
         }
 
-        [HttpPost("Ydelse")]
+        [HttpPost("ydelse")]
         public IActionResult PostVare(Ydelse vare)
         {
             int id = _vareService.CreateVare(vare);
@@ -78,7 +78,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
             }
         }
 
-        [HttpGet("Ydelser")]
+        [HttpGet("ydelse")]
         public IActionResult GetAktiveYdelser()
         {
             var ydelser = _vareService.ReadAktiveYdelser();

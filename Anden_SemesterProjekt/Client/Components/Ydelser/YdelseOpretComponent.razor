@@ -1,0 +1,26 @@
+﻿<div class="d-flex align-items-center mb-3">
+    <!-- Beskrivelse -->
+    <div class="me-3">
+        <label for="beskrivelse" class="form-label">Beskrivelse:</label>
+        <input id="beskrivelse" type="text" class="form-control" @bind="ydelseModel.Beskrivelse" />
+    </div>
+
+    <!-- Pris -->
+    <div class="me-3">
+        <label for="pris" class="form-label">Pris (DKK):</label>
+        <input id="pris" type="number" class="form-control" @bind="ydelseModel.Pris" />
+    </div>
+
+    <!-- Antal timer -->
+    <div class="me-3">
+        <label for="antalTimer" class="form-label">Antal Timer:</label>
+        <input id="antalTimer" type="number" class="form-control" @bind="ydelseModel.AntalTimer" />
+    </div>
+
+    <!-- Opret knap -->
+    <div>
+        <button class="btn btn-primary mt-4" @onclick="YdelseHandleValidSubmit" disabled="@isSubmitting">
+            Opret ydelse
+        </button>
+    </div>
+</div>
