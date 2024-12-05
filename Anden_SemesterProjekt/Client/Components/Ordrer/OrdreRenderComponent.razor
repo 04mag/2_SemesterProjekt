@@ -22,7 +22,7 @@
             <span>Status: @Ordre.GetStatus()</span>
         </div>
         <div class="col-md-3 p-1">
-            <button disabled="@isBusy" type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">@Ordre.GetInfoString()</button>
+            <button disabled="@isBusy" type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">@GetInfoString()</button>
             @if (Ordre.ErAfsluttet == false)
             {
                 <button disabled="@isBusy" type="button" class="btn btn-warning float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
@@ -111,5 +111,22 @@
         }
 
         isBusy = false;
+    }
+
+
+    public string GetInfoString()
+    {
+        if (Ordre.ErAfsluttet && Ordre.ErBetalt)
+        {
+            return "Vis Kvittering";
+        }
+        else if (Ordre.ErAfsluttet && !Ordre.ErBetalt)
+        {
+            return "Vis Faktura";
+        }
+        else
+        {
+            return "Vis Ordre";
+        }
     }
 }

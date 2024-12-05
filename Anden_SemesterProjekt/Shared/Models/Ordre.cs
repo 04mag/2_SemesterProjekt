@@ -45,21 +45,6 @@ namespace Anden_SemesterProjekt.Shared.Models
             }
         }
 
-        public string GetInfoString()
-        {
-            if (ErAfsluttet && ErBetalt)
-            {
-                return "Vis Kvittering";
-            }
-            else if (ErAfsluttet && !ErBetalt)
-            {
-                return "Vis Faktura";
-            }
-            else
-            {
-                return "Vis Ordre";
-            }
-        }
 
         public string IdToString()
         {
