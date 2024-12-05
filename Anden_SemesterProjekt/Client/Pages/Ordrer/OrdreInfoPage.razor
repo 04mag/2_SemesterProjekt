@@ -62,7 +62,7 @@
 
     
 
-    <div class="row">
+    <div class="row mb-5">
         <table class="table table-sm">
             <thead>
                 <tr>
@@ -371,6 +371,23 @@
         </table>
     </div>
 
+
+    @if (OrdreModel.ErAfsluttet == false)
+    {
+        <div class="row mb-5">
+            <h4>Bemærkninger</h4>
+            <span>@OrdreModel.Bemærkninger</span>
+        </div>
+    }
+    else if (OrdreModel.ErAfsluttet == true && OrdreModel.ErBetalt == false)
+    {
+        <div class="row mb-5">
+            <h4>Betaling</h4>
+            <span>@OrdreModel.GetTotalPrisMedMomsString() DKK indbetales senest d. @OrdreModel.SlutDato.AddMonths(1).ToShortDateString()</span>
+            <br />
+            <span>Bankoverførsel til: Reg.nr. 1234 Konto nr. 5678</span>
+        </div>
+    }
     
 
     <div class="footer">

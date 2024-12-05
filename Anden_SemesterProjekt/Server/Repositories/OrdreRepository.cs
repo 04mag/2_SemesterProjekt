@@ -70,28 +70,35 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<int> UpdateOrdreAsync(Ordre ordre)
         {
-            // Henter scooteren fra databasen og gemmer den i existingScooter
             var existingOrdre = await _context.Ordrer.FindAsync(ordre.OrdreId);
             if (existingOrdre == null)
             {
                 return 0;
             }
 
-            // Alle properties på existingScooter bliver overskrevet af de properties der er i udlejningsScooter
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
 
             // Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre
-            existingOrdre.Udlejning = ordre.Udlejning;
-            existingOrdre.Udlejning.UdlejningsScooter = ordre.Udlejning.UdlejningsScooter;
-            existingOrdre.VareLinjer = ordre.VareLinjer;
-
-            //Finder udlejningsscooter i _context
-            var existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
-            
-            if (existingScooter != null)
+            if (ordre.Udlejning != null)
             {
-                //detach scooter from context
-                _context.Entry(existingScooter).State = EntityState.Detached;
+                existingOrdre.Udlejning = ordre.Udlejning;
+                if (ordre.Udlejning.UdlejningsScooter != null)
+                {
+                    existingOrdre.Udlejning.UdlejningsScooter.ErTilgængelig = ordre.Udlejning.UdlejningsScooter.ErTilgængelig;
+                }
+                existingOrdre.VareLinjer = ordre.VareLinjer;
+            }
+
+            if (ordre.Udlejning != null && ordre.Udlejning.UdlejningsScooter != null)
+            {
+                //Finder udlejningsscooter i _context
+                Scooter? existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
+
+                if (existingScooter != null)
+                {
+                    //detach scooter from context
+                    _context.Entry(existingScooter).State = EntityState.Detached;
+                }
             }
 
             return await _context.SaveChangesAsync();
