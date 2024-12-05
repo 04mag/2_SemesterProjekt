@@ -1,6 +1,7 @@
 ﻿@page "/kunder/{KundeId:int}"
 @using Anden_SemesterProjekt.Client.Components.Kunder
 @using Anden_SemesterProjekt.Client.Components.Ordrer
+@using Anden_SemesterProjekt.Client.Components.Scootere
 
 <PageTitle>Kunde Information</PageTitle>
 
@@ -16,27 +17,26 @@ else
 {
     <PageTitle>@KundeModel.Navn</PageTitle>
     <div class="row p-3">
+
         <div class="col-12">
             <h4>Kunde information:</h4>
         </div>
-        <div class="row">
+        <div class="row mb-3">
             <KundeRenderComponent KundeModel="KundeModel" />
         </div>
         <div class="col-12">
             <h4>Ordrer</h4>
         </div>
+
         @if (KundeOrdrer.Count > 0)
         {
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-12">
                     <OrdreListComponent Ordrer="KundeOrdrer" />
                 </div>
             </div>
         }
-        else
-        {
-            <p>Ingen ordrer fundet</p>
-        }
+
     </div>
 
 
