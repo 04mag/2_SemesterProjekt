@@ -36,12 +36,21 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
 
         protected override async Task OnInitializedAsync()
         {
-            Console.WriteLine("Ordre indhentes!");
+            await HentOrdre();
+        }
+
+        private async Task HentOrdre()
+        {
             var ordreResult = await OrdreService.GetOrdre(Id);
-            
+
             if (ordreResult != null)
             {
                 OrdreModel = ordreResult;
+
+                if (OrdreModel.SlutDato.Date < DateTime.Now.Date)
+                {
+                    OrdreModel.SlutDato = DateTime.Now.Date;
+                }
             }
         }
 
@@ -76,6 +85,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                 else
                 {
                     await JS.InvokeVoidAsync("alert", "Ordren kunne ikke opdateres!");
+                    await HentOrdre();
                 }
             }
             else

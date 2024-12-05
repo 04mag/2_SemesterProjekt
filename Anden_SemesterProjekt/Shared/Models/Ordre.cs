@@ -16,7 +16,6 @@ namespace Anden_SemesterProjekt.Shared.Models
         public int KundeId { get; set; }
         public Kunde? Kunde { get; set; }
         public int? KundeScooterId { get; set; }
-        [JsonIgnore]
         public KundeScooter? KundeScooter { get; set; }
         public DateTime? BetalingsDato { get; set; }
         public bool ErBetalt { get; set; }
@@ -34,17 +33,18 @@ namespace Anden_SemesterProjekt.Shared.Models
         {
             if (ErAfsluttet && ErBetalt)
             {
-                return "Kvittering";
+                return "Betalt";
             }
             else if (ErAfsluttet && !ErBetalt)
             {
-                return "Faktura";
+                return "Ikke betalt";
             }
             else
             {
                 return "Uafsluttet";
             }
         }
+
 
         public string IdToString()
         {

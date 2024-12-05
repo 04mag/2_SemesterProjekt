@@ -74,7 +74,14 @@ namespace Anden_SemesterProjekt.Client.Services
 
         public async Task<HttpResponseMessage> UpdateOrdre(Ordre ordre)
         {
-            return await _httpClient.PutAsJsonAsync("api/ordre", ordre);
+            try
+            {
+                return await _httpClient.PutAsJsonAsync("api/ordre", ordre);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Fejl i UpdateOrdre");
+            }
         }
     }
 }

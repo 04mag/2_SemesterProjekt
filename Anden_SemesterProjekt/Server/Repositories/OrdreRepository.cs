@@ -16,9 +16,9 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<Ordre?> ReadOrdreAsync(int id)
         {
             var result = await _context.Ordrer
-                .Include(o => o.Kunde).ThenInclude(k => k.TlfNumre)
-                .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
-                .Include(o => o.KundeScooter)
+                .Include(o => o.Kunde).ThenInclude(k => k!.TlfNumre)
+                .Include(o => o.Kunde).ThenInclude(k => k!.Adresse).ThenInclude(a => a!.By)
+                .Include(o => o.KundeScooter).ThenInclude(k => k!.Mærke)
                 .Include(o => o.Mekaniker)
                 .Include(o => o.VareLinjer)
                 .Include(o => o.Udlejning).ThenInclude(u => u.UdlejningsScooter)
@@ -40,24 +40,24 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<List<Ordre>> ReadOrdrerAsync()
         {
             return await _context.Ordrer
-                .Include(o => o.Kunde).ThenInclude(k => k.TlfNumre)
-                .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
-                .Include(o => o.KundeScooter)
+                .Include(o => o.Kunde).ThenInclude(k => k!.TlfNumre)
+                .Include(o => o.Kunde).ThenInclude(k => k!.Adresse).ThenInclude(a => a!.By)
+                .Include(o => o.KundeScooter).ThenInclude(k => k!.Mærke)
                 .Include(o => o.Mekaniker)
                 .Include(o => o.VareLinjer)
-                .Include(o => o.Udlejning).ThenInclude(u => u.UdlejningsScooter)
+                .Include(o => o.Udlejning).ThenInclude(u => u!.UdlejningsScooter)
                 .ToListAsync();
         }
 
         public async Task<List<Ordre>> ReadOrdrerAsync(int kundeId)
         {
             return await _context.Ordrer
-                .Include(o => o.Kunde).ThenInclude(k => k.TlfNumre)
-                .Include(o => o.Kunde).ThenInclude(k => k.Adresse).ThenInclude(a => a.By)
-                .Include(o => o.KundeScooter)
+                .Include(o => o.Kunde).ThenInclude(k => k!.TlfNumre)
+                .Include(o => o.Kunde).ThenInclude(k => k!.Adresse).ThenInclude(a => a!.By)
+                .Include(o => o.KundeScooter).ThenInclude(k => k!.Mærke)
                 .Include(o => o.Mekaniker)
                 .Include(o => o.VareLinjer)
-                .Include(o => o.Udlejning).ThenInclude(u => u.UdlejningsScooter)
+                .Include(o => o.Udlejning).ThenInclude(u => u!.UdlejningsScooter)
                 .Where(o => o.KundeId == kundeId)
                 .ToListAsync();
         }
@@ -70,7 +70,6 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<int> UpdateOrdreAsync(Ordre ordre)
         {
-            // Henter ordren fra databasen og gemmer den i existingOrdre
             var existingOrdre = await _context.Ordrer.FindAsync(ordre.OrdreId);
             if (existingOrdre == null)
             {
@@ -81,18 +80,27 @@ namespace Anden_SemesterProjekt.Server.Repositories
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
 
             // Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre
-            existingOrdre.Udlejning = ordre.Udlejning;
-            existingOrdre.Udlejning.UdlejningsScooter = ordre.Udlejning.UdlejningsScooter;
-            existingOrdre.VareLinjer = ordre.VareLinjer;
+            if (ordre.Udlejning != null)
+            {
+                existingOrdre.Udlejning = ordre.Udlejning;
+                if (ordre.Udlejning.UdlejningsScooter != null)
+                {
+                    existingOrdre.Udlejning.UdlejningsScooter.ErTilgængelig = ordre.Udlejning.UdlejningsScooter.ErTilgængelig;
+                }
+                existingOrdre.VareLinjer = ordre.VareLinjer;
+            }
 
-            ////Finder udlejningsscooter i _context
-            //var existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
-            
-            //if (existingScooter != null)
-            //{
-            //    //detach scooter from context
-            //    _context.Entry(existingScooter).State = EntityState.Detached;
-            //}
+            if (ordre.Udlejning != null && ordre.Udlejning.UdlejningsScooter != null)
+            {
+                //Finder udlejningsscooter i _context
+                Scooter? existingScooter = await _context.Scootere.FindAsync(ordre.Udlejning.UdlejningsScooter.ScooterId);
+
+                if (existingScooter != null)
+                {
+                    //detach scooter from context
+                    _context.Entry(existingScooter).State = EntityState.Detached;
+                }
+            }
 
             return await _context.SaveChangesAsync();
         }

@@ -1,21 +1,24 @@
 ﻿@using Anden_SemesterProjekt.Shared.Models
 
-<h3>KundeScooterRenderComponent</h3>
 
-<div class="list-group">
+
+<div class="row p-3 mb-5 border border-primary rounded">
+    <h4>Kundescootere tilføjet</h4>
     @if (KundeScootere != null && KundeScootere.Any())
     {
         @foreach (var scooter in KundeScootere)
         {
-            <div class="list-group-item d-flex justify-content-between align-items-center">
+            <div class="col-12 p-3 mb-2 border border-primary rounded">
                 <div>
-                    <strong>Stelnummer:</strong> @scooter.Stelnummer<br />
-                    <strong>Registreringsnummer:</strong> @scooter.Registreringsnummer<br />
-                    <strong>Mærke:</strong> @scooter.Mærke?.ScooterMærke
+                    <span>Stelnummer: @scooter.Stelnummer</span> 
+                    <br />
+                    <span>Registreringsnummer: @scooter.Registreringsnummer</span> 
+                    <br />
+                    <span>Mærke: @scooter.Mærke?.ScooterMærke</span>
                 </div>
                 @if (OnDeleteScooter.HasDelegate)
                 {
-                    <button type="button" class="btn btn-danger" @onclick="() => OnDeleteScooter.InvokeAsync(scooter)">Slet</button>
+                    <button type="button" class="btn btn-danger float-end" @onclick="() => OnDeleteScooter.InvokeAsync(scooter)">Slet</button>
                 }
             </div>
         }

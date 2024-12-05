@@ -39,9 +39,9 @@
                 case 1:
                     return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Uafsluttet").ToList();
                 case 2:
-                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Faktura").ToList();
+                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Ikke betalt").ToList();
                 case 3:
-                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Kvittering").ToList();
+                    return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase) && o.GetStatus() == "Betalt").ToList();
                 default:
                     return Ordrer.Where(o => o.IdToString().Contains(ordreNummer, StringComparison.OrdinalIgnoreCase)).ToList();
             }

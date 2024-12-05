@@ -21,7 +21,7 @@
 
         if (ordreResult != null)
         {
-            Ordrer = ordreResult;
+            Ordrer = ordreResult.OrderByDescending(o => o.OrdreId).ToList();
         }
     }
 }

@@ -59,7 +59,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
         {
             List<Mekaniker> mekanikerList = new List<Mekaniker>();
 
-            string sqlCommand = "SELECT * FROM Mekanikere";
+            string sqlCommand = "SELECT * FROM Mekanikere m WHERE m.ErAktiv = 1";
 
             using SqlConnection connection = new SqlConnection(connectionString);
 
