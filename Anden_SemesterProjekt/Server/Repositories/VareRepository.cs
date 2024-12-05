@@ -68,8 +68,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
             return _context.Varer.OfType<Ydelse>().Where(v => v.ErAktiv).ToList();
                 
         }
-
-
+        
         /// <summary>
         /// Finder en vare i databasen udfra Id
         /// </summary>

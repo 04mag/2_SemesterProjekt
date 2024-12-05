@@ -34,14 +34,14 @@ namespace Anden_SemesterProjekt
             //builder.Services.AddSingleton<IUdlejningRepository, UdlejningRepository>();
             //builder.Services.AddScoped<IUdlejningService, UdlejningService>();
 
-            builder.Services.AddSingleton<IOrdreRepository, OrdreRepository>();
+            builder.Services.AddScoped<IOrdreRepository, OrdreRepository>();
             builder.Services.AddScoped<IOrdreService, OrdreService>();
 
-            builder.Services.AddSingleton<IKundeRepository, KundeRepository>();
+            builder.Services.AddScoped<IKundeRepository, KundeRepository>();
             builder.Services.AddScoped<IKundeService, KundeService>();
 
             
-            builder.Services.AddSingleton<IVareRepository, VareRepository>();
+            builder.Services.AddScoped<IVareRepository, VareRepository>();
             builder.Services.AddScoped<IVareService, VareService>();
         
 

@@ -88,3 +88,4 @@ tbody tr {
     transform: scale(0.50); /* Gør checkboxen 50% af dens originale størrelse */
     transform-origin: center; /* Sørger for, at skaleringspunktet er øverst til venstre */
 }
+

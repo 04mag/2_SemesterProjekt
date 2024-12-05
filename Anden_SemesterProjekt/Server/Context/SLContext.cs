@@ -28,6 +28,8 @@ namespace Anden_SemesterProjekt.Server.Context
             modelBuilder.Entity<UdlejningsScooter>().ToTable("UdlejningsScootere");
             modelBuilder.Entity<Vare>().ToTable("Varer");
             modelBuilder.Entity<Ydelse>().ToTable("Ydelser");
+
+
             modelBuilder.Entity<Ordre>()
                 .HasOne(o => o.Udlejning)
                 .WithOne(u => u.Ordre)

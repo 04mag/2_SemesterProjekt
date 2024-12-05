@@ -10,6 +10,7 @@ namespace Anden_SemesterProjekt.Server.Services
         Task<List<KundeScooter>> ReadKundeScootereAsync(int kundeId);
         Task<int> AddScooterAsync(Scooter Scooter);
         Task<int> UpdateScooterAsync(Scooter Scooter);
+        Task UpdateScooterTilgængelighedAsync(int scooterId, bool isAvailable);
         Task<int> DeleteScooterAsync(int id);
     }
 }

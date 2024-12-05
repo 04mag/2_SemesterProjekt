@@ -1,6 +1,7 @@
 ﻿using Anden_SemesterProjekt.Server.Services;
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
 
 namespace Anden_SemesterProjekt.Server.Controllers
 {
@@ -16,7 +17,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Ordre>>> Get()
+        public async Task<ActionResult<List<Ordre>>> GetOrdrer()
         {
             var ordre = await _ordreService.GetOrdrerAsync();
             if (ordre == null || ordre.Count == 0)
@@ -38,7 +39,7 @@ namespace Anden_SemesterProjekt.Server.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Ordre>> Get(int id)
+        public async Task<ActionResult<Ordre>> GetOrdre(int id)
         {
             var ordre = await _ordreService.GetOrdreAsync(id);
             if (ordre == null)
@@ -57,7 +58,16 @@ namespace Anden_SemesterProjekt.Server.Controllers
             }
 
             var id = await _ordreService.AddOrdreAsync(ordre);
-            return Ok(id);
+
+            if (id == -1)
+            {
+                return Conflict();
+            }
+            else
+            {
+                //Henter den nye kunde og tildeler den det nye id.
+                return CreatedAtAction(nameof(GetOrdre), new { id = id }, ordre);
+            }
         }
 
         [HttpPut]

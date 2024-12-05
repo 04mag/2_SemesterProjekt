@@ -10,6 +10,7 @@ namespace Anden_SemesterProjekt.Client.Services
         Task<int> CreateScooter(Scooter scooter);
         
         Task<int> UpdateScooter(Scooter scooter);
+        Task UpdateScooterTilgængelighed(int scooterId, bool erTilgængelig);
         Task<int> DeleteScooter(int id);
     }
 }

@@ -68,6 +68,20 @@ namespace Anden_SemesterProjekt.Shared.Models
             return totalPris;
         }
 
+        public double GetTotalPrisUdenUdlejning()
+        {
+            double totalPris = 0;
+            if (VareLinjer != null)
+            {
+                foreach (var vareLinje in VareLinjer)
+                {
+                    totalPris += vareLinje.GetTotalPris();
+                }
+            }
+            
+            return totalPris;
+        }
+
         public string GetTotalPrisString()
         {
             return GetTotalPris().ToString("0.00");
@@ -78,6 +92,10 @@ namespace Anden_SemesterProjekt.Shared.Models
             return GetTotalPris() * 1.25;
         }
 
+        public double GetTotalPrisUdenUdlejningMedMoms()
+        {
+            return GetTotalPrisUdenUdlejning() * 1.25;
+        }
         public string GetTotalPrisMedMomsString()
         {
             return GetTotalPrisMedMoms().ToString("0.00");
@@ -86,6 +104,11 @@ namespace Anden_SemesterProjekt.Shared.Models
         public double GetTotalMoms()
         {
             return GetTotalPris() * 0.25;
+        }
+
+        public double GetTotalMomsUdenUdlejning()
+        {
+            return GetTotalPrisUdenUdlejning() * 0.25;
         }
 
         public string GetTotalMomsString()

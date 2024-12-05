@@ -65,7 +65,16 @@ namespace Anden_SemesterProjekt.Server.Repositories
         public async Task<int> CreateOrdreAsync(Ordre ordre)
         {
             _context.Ordrer.Add(ordre);
-            return await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
+            if (ordre.OrdreId > 0)
+            {
+                return ordre.OrdreId;
+            }
+            else
+            {
+                return -1;
+            }
         }
 
         public async Task<int> UpdateOrdreAsync(Ordre ordre)
@@ -76,6 +85,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 return 0;
             }
 
+            // Alle properties på existingScooter bliver overskrevet af de properties der er i ordre
             _context.Entry(existingOrdre).CurrentValues.SetValues(ordre);
 
             // Sætter udlejningen på existingOrdre til at være den udlejning der er i ordre

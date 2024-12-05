@@ -14,7 +14,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
 
         private UdlejningsScooter nyUdlejningsScooter = new UdlejningsScooter();
         private List<Mærke> mærker = new List<Mærke>();
-        private int? nyScooterMærkeId = new int();
+        private int nyScooterMærkeId;
         private int? valgtScooterMærkeId = new int();
         private bool addModal = false;
         [Inject] public IMærkeClientService MærkeService { get; set; }
@@ -33,20 +33,14 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         {
             try
             {
-                if (nyScooterMærkeId == null)
+                if (nyScooterMærkeId == 0)
                 {
                     throw new InvalidOperationException("Valgt scooter mærke ID er null.");
                 }
-
-                // Find det valgte mærke
-                var valgtScooterMærke = mærker.FirstOrDefault(m => m.MærkeId == nyScooterMærkeId);
-
                 // Tildel data til nyUdlejningsScooter
-                nyUdlejningsScooter.MærkeId = valgtScooterMærke.MærkeId;
+                nyUdlejningsScooter.MærkeId = nyScooterMærkeId;
                 nyUdlejningsScooter.ErAktiv = true;
                 
-
-
                 // Kald API for at gemme
                 var response = await UdlejningsScooterService.CreateScooter(nyUdlejningsScooter);
 
@@ -56,7 +50,7 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                     await OnScooterAdded.InvokeAsync(); // Kalder parent component's HandleChildChanged metode
                     StateHasChanged();
                     nyUdlejningsScooter = new UdlejningsScooter();
-                    nyScooterMærkeId = null;
+                    nyScooterMærkeId = new int();
                     addModal = false;
                     await JS.InvokeVoidAsync("alert", "Scooteren blev oprettet.");
                 }
@@ -64,7 +58,6 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
                 {
                     throw new InvalidOperationException("API oprettelsen mislykkedes.");
                 }
-
             }
             catch (Exception ex)
             {
@@ -73,12 +66,15 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         }
         private async Task ShowAddModal()
         {
+            // Hent mærker
             var mærkerResult = await MærkeService.GetMærker();
 
+            // Hvis der er mærker i databasen, så tildel dem til den lokale liste
             if (mærkerResult != null)
             {
                 mærker = mærkerResult;
             }
+            // Åben modal
             addModal = true;
             StateHasChanged();
         }
@@ -86,7 +82,5 @@ namespace Anden_SemesterProjekt.Client.Components.Scootere
         {
             addModal = false;
         }
-
-     
     }
 }

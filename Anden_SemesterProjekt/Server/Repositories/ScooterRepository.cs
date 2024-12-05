@@ -39,17 +39,32 @@ namespace Anden_SemesterProjekt.Server.Repositories
 
         public async Task<List<UdlejningsScooter>> ReadUdlejningsScootereAsync()
         {
-            return await _context.Scootere.OfType<UdlejningsScooter>().Include(s=>s.Mærke).ToListAsync();
+            return await _context.Scootere.OfType<UdlejningsScooter>().Include(s => s.Mærke).ToListAsync();
         }
+
         public async Task<List<KundeScooter>> ReadKundeScootereAsync(int kundeId)
         {
-            return await _context.Scootere.OfType<KundeScooter>().Include(s=>s.Mærke).ToListAsync();
+            return await _context.Scootere.OfType<KundeScooter>().Include(s => s.Mærke).ToListAsync();
         }
 
         public async Task<int> UpdateScooterAsync(Scooter scooter)
         {
             _context.Entry(scooter).State = EntityState.Modified;
             return await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateScooterTilgængelighedAsync(int scooterId, bool erTilgængelig)
+        {
+            var scooter = new UdlejningsScooter
+            {
+                ScooterId = scooterId,
+                ErTilgængelig = erTilgængelig
+            };
+
+            _context.Scootere.Attach(scooter);
+            _context.Entry(scooter).Property(s => s.ErTilgængelig).IsModified = true;
+
+            await _context.SaveChangesAsync();
         }
     }
 }

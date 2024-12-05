@@ -2,289 +2,325 @@
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using System.Net.Http.Json;
 
-namespace Anden_SemesterProjekt.Client.Components
 
+namespace Anden_SemesterProjekt.Client.Components;
+
+public partial class OpretOrdreComponent
 {
-    public partial class OpretOrdreComponent
+    #region Data og Initialisering
+
+    public Ordre nyOrdre = new();
+    private double nyOrdreTotalPris;
+    private Mekaniker ordreMekaniker;
+    private List<Mekaniker> alleMekanikere = new();
+    private VareLinje ordreVareLinje = new();
+    private List<VareLinje> ordreVareLinjer = new();
+
+    private Udlejning? udlejning;
+    private Vare ordreVare = new();
+    private List<KundeScooter> kundeScootere = new();
+    private List<UdlejningsScooter> udlejningsScootere = new();
+    private KundeScooter? ordreKundeScooter;
+    private UdlejningsScooter udlejningsScooter;
+    private int udlejningsScooterId;
+    private bool checkboxValue;
+    private bool kundeValgt;
+    private bool opretKundeModal;
+    private bool isChecked = false;
+    private bool udlejningAktiveret;
+
+    // Søgning på varer og kunder
+
+    #region Søgning på varer og kunder
+
+    private string søgeTekstVarer = string.Empty;
+    private List<Vare> alleVarer = new();
+    private List<Vare> vareForslag = new();
+    private List<Ydelse> alleYdelser = new();
+    private List<Ydelse> ydelserForslag = new();
+    private bool visVareForslag;
+
+    private string søgeTekstKunder = string.Empty;
+    private List<Kunde> alleKunder = new();
+    private List<Kunde> kundeForslag = new();
+    private bool visKundeForslag;
+
+    #endregion
+
+    // Søgning på varer og kunder
+
+    [Parameter] public Kunde ordreKunde { get; set; }
+    [Inject] NavigationManager NavigationManager { get; set; }
+    [Inject] public IAnsatClientService MekanikerService { get; set; }
+    [Inject] public IVareClientService VareService { get; set; }
+    [Inject] public IOrdreClientService OrdreService { get; set; }
+    [Inject] public IKundeClientService KundeService { get; set; }
+    [Inject] public IScooterClientService ScooterService { get; set; }
+    [Inject] private IJSRuntime JS { get; set; } // JavaScript runtime
+
+    #endregion // Data og Initialisering
+
+    protected override async Task OnInitializedAsync()
     {
-        #region Data og Initialisering
-
-        public Ordre nyOrdre = new Ordre();
-        private double nyOrdreTotalPris = 0;
-        private Mekaniker ordreMekaniker;
-        private List<Mekaniker> alleMekanikere = new List<Mekaniker>();
-        private VareLinje ordreVareLinje = new VareLinje();
-        private List<VareLinje> ordreVareLinjer = new List<VareLinje>();
-
-        private Udlejning? udlejning;
-        private Vare ordreVare = new Vare();
-        private List<KundeScooter> kundeScootere = new List<KundeScooter>();
-        private List<UdlejningsScooter> udlejningsScootere = new List<UdlejningsScooter>();
-        private KundeScooter? ordreKundeScooter;
-        private UdlejningsScooter udlejningsScooter;
-        private int udlejningsScooterId;
-        private bool checkboxValue = false;
-        private bool kundeValgt = false;
-        private bool opretKundeModal = false;
-
-        // Søgning på varer og kunder
-
-        #region Søgning på varer og kunder
-
-        private string søgeTekstVarer = string.Empty;
-        private List<Vare> alleVarer = new List<Vare>();
-        private List<Vare> vareForslag = new List<Vare>();
-        private bool visVareForslag = false;
-
-        private string søgeTekstKunder = string.Empty;
-        private List<Kunde> alleKunder = new List<Kunde>();
-        private List<Kunde> kundeForslag = new List<Kunde>();
-        private bool visKundeForslag = false;
-
-        #endregion
-
-        // Søgning på varer og kunder
-
-        [Parameter] public Kunde ordreKunde { get; set; }
-        [Inject] public IAnsatClientService MekanikerService { get; set; }
-        [Inject] public IVareClientService VareService { get; set; }
-        [Inject] public IOrdreClientService OrdreService { get; set; }
-        [Inject] public IKundeClientService KundeService { get; set; }
-        [Inject] public IScooterClientService ScooterService { get; set; }
-        [Inject] private IJSRuntime JS { get; set; } // JavaScript runtime
-
-        #endregion // Data og Initialisering
-
-        protected override async Task OnInitializedAsync()
+        alleVarer = await VareService.GetAktiveVarer();
+        alleYdelser = await VareService.GetAktiveYdelser();
+        alleKunder = await KundeService.GetKunder();
+        ordreVareLinje = new VareLinje();
+        udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
+        udlejningsScootere = udlejningsScootere.Where(s => s.ErTilgængelig).ToList();
+        ordreVareLinje.Vare = ordreVare;
+        alleMekanikere = await MekanikerService.GetMekanikere();
+        if (ordreKunde != null) ordreMekaniker = ordreKunde.TilknyttetMekaniker;
+    }
+    
+    private void VareSøgefeltÆndret(ChangeEventArgs e)
+    {
+        søgeTekstVarer = e.Value.ToString();
+        if (!string.IsNullOrWhiteSpace(søgeTekstVarer))
         {
-            alleVarer = await VareService.GetAktiveVarer();
-            alleKunder = await KundeService.GetKunder();
-            ordreVareLinje = new VareLinje();
-            udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
-            udlejningsScootere = udlejningsScootere.Where(s => s.ErTilgængelig == true).ToList();
-            ordreVareLinje.Vare = ordreVare;
-            alleMekanikere = await MekanikerService.GetMekanikere();
-            if (ordreKunde != null)
-            {
-                ordreMekaniker = ordreKunde.TilknyttetMekaniker;
-            }
+            vareForslag = alleVarer
+                .Where(p => p.Beskrivelse.Contains(søgeTekstVarer, StringComparison.OrdinalIgnoreCase))
+                .Take(5)
+                .ToList();
 
+            ydelserForslag = alleYdelser
+                .Where(p => p.Beskrivelse.Contains(søgeTekstVarer, StringComparison.OrdinalIgnoreCase))
+                .Take(5)
+                .ToList();
+            visVareForslag = vareForslag.Count > 0 || ydelserForslag.Count > 0;
         }
-
-        #region VareSøgning
-
-        private void VareSøgefeltÆndret(ChangeEventArgs e)
+        else
         {
-            søgeTekstVarer = e.Value.ToString();
-            if (!string.IsNullOrWhiteSpace(søgeTekstVarer))
-            {
-                vareForslag = alleVarer
-                    .Where(p => p.Beskrivelse.Contains(søgeTekstVarer, StringComparison.OrdinalIgnoreCase))
-                    .Take(5)
-                    .ToList();
-                visVareForslag = vareForslag.Count > 0;
-            }
-            else
-            {
-                visVareForslag = false;
-            }
-
-
-
+            visVareForslag = false;
         }
+    }
 
-        #endregion // VareSøgning
-
-
-
-        #region KundeSøgning
-
-        private void KundeSøgefeltÆndret(ChangeEventArgs e)
+    private void KundeSøgefeltÆndret(ChangeEventArgs e)
+    {
+        søgeTekstKunder = e.Value.ToString();
+        if (!string.IsNullOrWhiteSpace(søgeTekstKunder))
         {
-            søgeTekstKunder = e.Value.ToString();
-            if (!string.IsNullOrWhiteSpace(søgeTekstKunder))
-            {
-                kundeForslag = alleKunder
-                    .Where(k => k.Navn.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase) ||
-                                k.Email.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase))
-                    .Take(5)
-                    .ToList();
-                visKundeForslag = kundeForslag.Count > 0;
-            }
-            else
-            {
-                visKundeForslag = false;
-            }
+            kundeForslag = alleKunder
+                .Where(k => k.Navn.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase) ||
+                            k.Email.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase) ||
+                            k.TlfNumre.Any(t =>
+                                t.TelefonNummer.Contains(søgeTekstKunder, StringComparison.OrdinalIgnoreCase)))
+                .Take(5)
+                .ToList();
+            visKundeForslag = kundeForslag.Count > 0;
         }
-
-        private void KundeVælges(Kunde kunde)
+        else
         {
-            søgeTekstKunder = $"{kunde.Navn}";
-            ordreKunde = kunde;
-            nyOrdre.KundeId = kunde.KundeId;
-
-            if (ordreVareLinjer.Any(v => v.Vare is Ydelse))
-            {
-                nyOrdre.MekanikerId = kunde.MekanikerId;
-            }
-
-            ordreMekaniker = kunde.TilknyttetMekaniker;
-            MekanikerÆndres();
-
             visKundeForslag = false;
-            kundeScootere = kunde.Scootere;
-            StateHasChanged();
-            kundeValgt = true;
         }
+    }
 
-        #endregion // KundeSøgning
+    private void KundeVælges(Kunde kunde)
+    {
+        søgeTekstKunder = $"{kunde.Navn}";
+        ordreKunde = kunde;
+        nyOrdre.KundeId = kunde.KundeId;
 
-        #region Vare håndtering
+        if (ordreVareLinjer.Any(v => v.Vare is Ydelse)) nyOrdre.MekanikerId = kunde.MekanikerId;
 
-        private void FjernVare(VareLinje vare)
-        {
-            ordreVareLinjer.Remove(vare);
-            nyOrdreTotalPris = ordreVareLinjer.Sum(v => v.GetTotalPris());
-            StateHasChanged();
-        }
+        ordreMekaniker = kunde.TilknyttetMekaniker;
+        MekanikerÆndres();
 
-        private void OpretKunde()
-        {
-            opretKundeModal = true;
-        }
+        visKundeForslag = false;
+        kundeScootere = kunde.Scootere;
+        StateHasChanged();
+        kundeValgt = true;
+    }
 
-        private void LukOpretKundeModal()
-        {
-            opretKundeModal = false;
-        }
+    private void FjernVare(VareLinje vare)
+    {
+        nyOrdre.VareLinjer.Remove(vare);
+    }
 
-        private void FjernVareVedNul()
-        {
-            ordreVareLinjer.RemoveAll(p => p.Antal == 0);
-            StateHasChanged();
-        }
+    private void OpretKunde()
+    {
+        opretKundeModal = true;
+    }
 
-        private void MekanikerÆndres()
-        {
-            ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId);
-        }
+    private void LukOpretKundeModal()
+    {
+        opretKundeModal = false;
+    }
 
-        private void KundeScooterÆndres()
-        {
-            ordreKundeScooter = kundeScootere.FirstOrDefault(s => s.ScooterId == nyOrdre.KundeScooterId);
-        }
+    private void MekanikerÆndres()
+    {
+        ordreMekaniker = alleMekanikere.FirstOrDefault(m => m.MekanikerId == nyOrdre.MekanikerId);
+    }
 
-        private void VælgVare(Vare vare)
-        {
+    private void VælgVare(Vare vare)
+    {
+        if (vare is Ydelse ydelse)
             ordreVareLinje = new VareLinje
             {
-               
+                VareId = ydelse.Id,
+                VarePris = ydelse.Pris,
+                Antal = 1, // Standard antal
+                VareBeskrivelse = ydelse.Beskrivelse,
+                YdelseAntalTimer = ydelse.AntalTimer
+            };
+        else
+            ordreVareLinje = new VareLinje
+            {
                 VareId = vare.Id,
                 VarePris = vare.Pris,
                 Antal = 1, // Standard antal
                 VareBeskrivelse = vare.Beskrivelse
             };
-            søgeTekstVarer = vare.Beskrivelse;
-            visVareForslag = false;
-            StateHasChanged();
-        }
-        private void TilføjVare()
+        søgeTekstVarer = vare.Beskrivelse;
+        visVareForslag = false;
+        StateHasChanged();
+    }
+
+    private void TilføjVare()
+    {
+        var eksisterendeVareLinje = nyOrdre.VareLinjer.FirstOrDefault(v
+            => v.VareId == ordreVareLinje.VareId
+               && v.VarePris == ordreVareLinje.VarePris
+               && v.Rabat == ordreVareLinje.Rabat);
+        if (eksisterendeVareLinje != null)
+            eksisterendeVareLinje.Antal += ordreVareLinje.Antal;
+        else
+            nyOrdre.VareLinjer.Add(new VareLinje
+            {
+                VareId = ordreVareLinje.VareId,
+                VarePris = ordreVareLinje.VarePris,
+                Rabat = ordreVareLinje.Rabat,
+                Antal = ordreVareLinje.Antal,
+                VareBeskrivelse = ordreVareLinje.VareBeskrivelse,
+                YdelseAntalTimer = ordreVareLinje.YdelseAntalTimer
+            });
+
+        NulstilVareInput();
+    }
+
+    private async Task SetUdlejningsScooter()
+    {
+        if (udlejningsScooterId == 0) return;
+        udlejning = new Udlejning();
+        udlejningsScooter = udlejningsScootere.FirstOrDefault(s => s.ScooterId == udlejningsScooterId);
+        udlejning.UdlejningsScooterId = udlejningsScooterId;
+        udlejning.SlutDato = nyOrdre.SlutDato;
+        udlejning.SelvrisikoUdløst = false;
+        udlejning.AntalKmKørt = 0;
+        udlejning.OrdreId = 0;
+        nyOrdre.Udlejning = udlejning;
+    }
+
+    public async Task OpretOrdre()
+    {
+        // Tjekker at alle ordreinfo er tilstede inden vi opretter.
         {
-            var eksisterendeVareLinje = ordreVareLinjer.FirstOrDefault(v
-                => v.VareId == ordreVareLinje.VareId 
-                   && v.VarePris == ordreVareLinje.VarePris
-                   && v.Rabat == ordreVareLinje.Rabat);
-            if (eksisterendeVareLinje != null)
+            if (nyOrdre.KundeId == 0)
             {
-                eksisterendeVareLinje.Antal += ordreVareLinje.Antal;
+                await JS.InvokeVoidAsync("alert", "Vælg en kunde");
+                return;
             }
-            else
+
+            if (nyOrdre.VareLinjer.Count == 0)
             {
-                nyOrdre.VareLinjer.Add(new VareLinje
-                {
-                    VareId = ordreVareLinje.VareId,
-                    VarePris = ordreVareLinje.VarePris,
-                    Rabat = ordreVareLinje.Rabat,
-                    Antal = ordreVareLinje.Antal,
-                    VareBeskrivelse = ordreVareLinje.VareBeskrivelse,
-                });
+                await JS.InvokeVoidAsync("alert", "Tilføj mindst én vare");
+                return;
             }
-                 
-            NulstilVareInput();
+
+            if (nyOrdre.SlutDato < nyOrdre.StartDato)
+            {
+                await JS.InvokeVoidAsync("alert", "Slutdato kan ikke være før startdato");
+                return;
+            }
+
+            if (nyOrdre.VareLinjer.Any(v => v.YdelseAntalTimer > 0 && nyOrdre.MekanikerId == null))
+            {
+                await JS.InvokeVoidAsync("alert", "Vælg en mekaniker");
+                return;
+            }
+
+            if (nyOrdre.VareLinjer.Any(v => v.YdelseAntalTimer > 0 && nyOrdre.KundeScooterId == null))
+            {
+                await JS.InvokeVoidAsync("alert", "Vælg en scooter");
+                return;
+            }
+
+            if (udlejningsScooterId == 0 && udlejningAktiveret)
+            {
+                await JS.InvokeVoidAsync("alert", "Vælg en scooter til udlejning");
+                return;
+            }
         }
 
-        private async Task NårUdlejningsScooterVælges()
         {
-            udlejning = new Udlejning();
-            udlejningsScooter = udlejningsScootere.FirstOrDefault(s => s.ScooterId == udlejningsScooterId);
-            udlejning.UdlejningsScooterId = udlejningsScooterId;
-            udlejning.SlutDato = nyOrdre.SlutDato;
-            //udlejning.UdlejningsScooter = udlejningsScooter;
-            nyOrdre.Udlejning = udlejning;
-        }
-
-        #endregion // vare håndtering
-        public async Task OpretOrdre()
-        {
-            nyOrdre.Mekaniker = ordreMekaniker;
-            nyOrdre.KundeScooter = ordreKundeScooter;
-            nyOrdre.VareLinjer = ordreVareLinjer;
+            //nyOrdre.Mekaniker = ordreMekaniker;
+            //nyOrdre.KundeScooter = ordreKundeScooter;
             nyOrdre.ErBetalt = false;
             nyOrdre.ErAfsluttet = false;
             nyOrdre.StartDato = DateTime.Now;
             nyOrdre.BetalingsDato = DateTime.Now;
-            NårUdlejningsScooterVælges();
+        }
+        SetUdlejningsScooter();
 
-            var result = await OrdreService.AddOrdre(nyOrdre);
-            if (result != null)
-            {
-                nyOrdre = new Ordre();
-                nyOrdreTotalPris = 0;
-                ordreVareLinjer = new List<VareLinje>();
-                ordreVareLinje = new VareLinje();
-                ordreVare = new Vare();
-                ordreVareLinje.Vare = ordreVare;
-                //ordreMekaniker = new Mekaniker();
-                //ordreKundeScooter = new KundeScooter();
-                //ordreKunde = new Kunde();
-                kundeValgt = false;
-                søgeTekstKunder = "";
-                StateHasChanged();
-                
+        var result = await OrdreService.AddOrdre(nyOrdre);
+        if (result.IsSuccessStatusCode)
+        {
+            SetUdlejningsScooterTilIkkeTilgængelig();
+                // Når ordren er oprettet, navigér til den nye ordre med det genererede ordreId
+                NavigationManager.NavigateTo($"/ordrer");  // Antag, at OrdreId er et property på ordren
                 await JS.InvokeVoidAsync("alert", "Ordre oprettet");
-            }
-            else
-            {
-                await JS.InvokeVoidAsync("alert", "Ordre kunne ikke oprettes");
-            }
         }
-        private async Task NyKunde(Kunde? nyKunde)
+        else
         {
-           LukOpretKundeModal();
-           nyOrdre.Kunde = nyKunde;
-            søgeTekstKunder = nyKunde.Navn;
-            nyOrdre.MekanikerId = nyKunde.MekanikerId;
-            opretKundeModal = false; // Luk modalvinduet
-            alleKunder = await KundeService.GetKunder(); // Opdater kundeliste
-            StateHasChanged(); // Opdater UI
-        }
-
-
-        private void UdlejnigsScooterVælges(UdlejningsScooter udlejningsScooter)
-        {
-
-            udlejningsScooter.ErTilgængelig = false;
-            ScooterService.UpdateScooter(udlejningsScooter);
-        }
-        private void NulstilVareInput()
-        {
-            ordreVareLinje = new VareLinje();
-            ordreVare = new Vare();
-            ordreVareLinje.Vare = ordreVare;
-            ordreVareLinje.VarePris = ordreVare.Pris;
-            søgeTekstVarer = string.Empty;
+            await JS.InvokeVoidAsync("alert", "Ordre kunne ikke oprettes");
         }
     }
-}
+    private async Task NyKunde(Kunde? nyKunde)
+    {
+        LukOpretKundeModal();
+        nyOrdre.Kunde = nyKunde;
+        søgeTekstKunder = nyKunde.Navn;
+        nyOrdre.MekanikerId = nyKunde.MekanikerId;
+        opretKundeModal = false; // Luk modalvinduet
+        alleKunder = await KundeService.GetKunder(); // Opdater kundeliste
+        StateHasChanged(); // Opdater UI
+    }
+    private void NulstilVareInput()
+    {
+        ordreVareLinje = new VareLinje();
+        ordreVare = new Vare();
+        ordreVareLinje.Vare = ordreVare;
+        ordreVareLinje.VarePris = ordreVare.Pris;
+        søgeTekstVarer = string.Empty;
+    }
 
+    
+    private void NulstilAlleFelter()
+    {
+        ordreMekaniker = null;
+        nyOrdre = new Ordre();
+        ordreKunde = new Kunde();
+        ordreVareLinjer = new List<VareLinje>();
+        kundeValgt = false;
+        søgeTekstKunder = "";
+        NulstilVareInput();
+    }
+    private async Task SetUdlejningsScooterTilIkkeTilgængelig()
+    {
+        if (udlejningsScooterId != 0) await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false); 
+
+    }
+    private void MekanikerValgt()
+    {
+      
+        StateHasChanged();
+    }
+   
+
+    private void KundeScooterÆndres()
+    {
+        ordreKundeScooter = kundeScootere.FirstOrDefault(s => s.ScooterId == nyOrdre.KundeScooterId);
+    }
+}
