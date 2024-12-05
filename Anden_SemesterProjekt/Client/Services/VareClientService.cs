@@ -15,16 +15,17 @@ namespace Anden_SemesterProjekt.Client.Services
             _httpClient = httpClient;
         }
 
-        //Sender en POST-anmodning til api/varer og api/varer/ydelse og opretter en ny vare i databasen
+        //Sender en POST-anmodning til api/Varer og api/Varer/ydelse og opretter en ny vare i databasen
         public async Task<Vare?> PostVare(Vare vare)
         {
             if (vare is Ydelse)
             {
-                var response = await _httpClient.PostAsJsonAsync("api/varer/ydelse", vare);
+                Ydelse ydelse = (Ydelse)vare; 
+                var response = await _httpClient.PostAsJsonAsync("api/Varer/ydelse",ydelse);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return await response.Content.ReadFromJsonAsync<Vare>();
+                    return await response.Content.ReadFromJsonAsync<Ydelse>();
                 }
                 else
                 {
@@ -33,7 +34,7 @@ namespace Anden_SemesterProjekt.Client.Services
             }
             if (vare is Vare)
             {
-                var response = await _httpClient.PostAsJsonAsync("api/varer", vare);
+                var response = await _httpClient.PostAsJsonAsync("api/Varer", vare);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -49,12 +50,12 @@ namespace Anden_SemesterProjekt.Client.Services
         }
 
 
-        //Sender en GET-anmodning til api/varer for at hente en liste over alle aktive varer og ydelser.
+        //Sender en GET-anmodning til api/Varer for at hente en liste over alle aktive Varer og Ydelser.
         public async Task<List<Vare>?> GetAktiveVarerOgYdelser()
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<Vare>>("api/varer/VarerOgYdelser"); //Dobbelttjek 
+                return await _httpClient.GetFromJsonAsync<List<Vare>>("api/Varer/VarerOgYdelser"); //Dobbelttjek 
             }
             catch (Exception e)
             {
@@ -64,12 +65,12 @@ namespace Anden_SemesterProjekt.Client.Services
         }
         
 
-        //Sender en GET-anmodning til api/varer for at hente en liste over alle aktive varer.
+        //Sender en GET-anmodning til api/Varer for at hente en liste over alle aktive Varer.
         public async Task<List<Vare>?> GetAktiveVarer()
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<Vare>>("api/varer/Varer"); //Dobbelttjek
+                return await _httpClient.GetFromJsonAsync<List<Vare>>("api/Varer/Varer"); //Dobbelttjek
             }
             catch (Exception e)
             {
@@ -79,13 +80,13 @@ namespace Anden_SemesterProjekt.Client.Services
         }
 
 
-        //Sender en GET-anmodning til api/varer for at hente en liste over alle aktive ydelser.
+        //Sender en GET-anmodning til api/Varer for at hente en liste over alle aktive Ydelser.
         //Har tilrettet nedstående fra Vare til Ydelse. 20/11/2024-20.30
         public async Task<List<Ydelse>?> GetAktiveYdelser()
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<List<Ydelse>>("api/varer/Ydelser"); //Dobbelttjek - evt try-catch
+                return await _httpClient.GetFromJsonAsync<List<Ydelse>>("api/Varer/ydelse"); //Dobbelttjek - evt try-catch
             }
             catch (Exception e)
             {
@@ -100,7 +101,7 @@ namespace Anden_SemesterProjekt.Client.Services
         {
             try
             {
-                return await _httpClient.GetFromJsonAsync<Vare>($"api/varer/{id}");
+                return await _httpClient.GetFromJsonAsync<Vare>($"api/Varer/{id}");
             }
             catch
             {
@@ -111,42 +112,44 @@ namespace Anden_SemesterProjekt.Client.Services
         //Sender en PUT-anmodning for at opdatere en eksisterene vare eller ydelse. 
         public async Task<HttpResponseMessage> PutVare(Vare vare)
         {
-            
             if (vare is Ydelse)
             {
-                var response = await _httpClient.PutAsJsonAsync("api/varer/ydelse", vare);
+                Ydelse ydelse = (Ydelse)vare;
+                return await _httpClient.PutAsJsonAsync("api/Varer/ydelse", ydelse);
+            }
+            
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
-                }
-                else
-                {
-                    return null;
-                }
+            if (vare is Vare)
+            {
+                return await _httpClient.PutAsJsonAsync("api/Varer", vare);
+            }
+            
+            return null;
+        }
+
+        public async Task <HttpResponseMessage> SoftDelete (Vare vare)
+        {
+            if (vare is Ydelse)
+            {
+                Ydelse ydelse = (Ydelse)vare;
+                return await _httpClient.PutAsJsonAsync("api/Varer/ydelse", ydelse);
             }
 
             if (vare is Vare)
             {
-                var response = await _httpClient.PutAsJsonAsync("api/varer", vare);
-                if (response.IsSuccessStatusCode)
-                {
-                    return await response.Content.ReadFromJsonAsync<HttpResponseMessage>();
-                }
-                else
-                {
-                    return null;
-                }
+                
+                return await _httpClient.PutAsJsonAsync("api/Varer", vare);
             }
             return null;
         }
 
+        
         //Sender en DELETE-anmodning for at slette en eksisterende vare.
         public async Task<HttpResponseMessage> DeleteVare(int id)
         {
             try
             {
-                var response = await _httpClient.DeleteAsync($"api/varer/{id}");
+                var response = await _httpClient.DeleteAsync($"api/Varer/{id}");
                 return response;
             }
             catch (Exception e)
