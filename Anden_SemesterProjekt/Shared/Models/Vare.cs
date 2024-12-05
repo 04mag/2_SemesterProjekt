@@ -12,21 +12,15 @@ namespace Anden_SemesterProjekt.Shared.Models
 {
     public class Vare
     {
-        
+        [Key]
         public int Id { get; set; }
 
         [StringLength(50, MinimumLength = 2, ErrorMessage = "Navn skal være mellem 2 og 50 karaktere langt.")]
         public string Beskrivelse { get; set; }
         
         public double Pris { get; set; }
-       
-        public bool ErAktiv { get; set; } = true;
+        public bool ErAktiv { get; set; }
         [JsonIgnore]
-        public List<VareLinje>? VareLinjer { get; set; } = new List<VareLinje>();
-
-        public Vare()
-        {
-           
-        }
+        public List<VareLinje> VareLinjer { get; set; }
     }
 }
