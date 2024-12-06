@@ -4,6 +4,7 @@ using Anden_SemesterProjekt.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    partial class SLContextModelSnapshot : ModelSnapshot
+    [Migration("20241206154128_changeToKundeSeededData")]
+    partial class changeToKundeSeededData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -346,7 +349,7 @@ namespace Anden_SemesterProjekt.Server.Migrations
                             KundeId = 1,
                             Email = "TrNi@mail.dk",
                             ErAktiv = true,
-                            MekanikerId = 1,
+                            MekanikerId = 2,
                             Navn = "Troels Nielsen"
                         },
                         new
@@ -631,21 +634,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("MekanikerId");
 
                     b.ToTable("Ordrer");
-
-                    b.HasData(
-                        new
-                        {
-                            OrdreId = 1,
-                            Bemærkninger = "",
-                            BetalingsDato = new DateTime(2024, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ErAfsluttet = true,
-                            ErBetalt = true,
-                            KundeId = 1,
-                            KundeScooterId = 1,
-                            MekanikerId = 1,
-                            SlutDato = new DateTime(2024, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDato = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
@@ -869,22 +857,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("UdlejningsScooterId");
 
                     b.ToTable("Udlejninger");
-
-                    b.HasData(
-                        new
-                        {
-                            UdlejningId = 1,
-                            AntalKmKørt = 14.0,
-                            ForsikringPrDag = 100.0,
-                            LejePrDag = 200.0,
-                            OrdreId = 1,
-                            PrisPrKm = 0.53000000000000003,
-                            Selvrisiko = 1000.0,
-                            SelvrisikoUdløst = false,
-                            SlutDato = new DateTime(2024, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDato = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UdlejningsScooterId = 17
-                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Vare", b =>
@@ -1092,19 +1064,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("VareId");
 
                     b.ToTable("VareLinjer");
-
-                    b.HasData(
-                        new
-                        {
-                            VareLinjeId = 1,
-                            Antal = 1,
-                            OrdreId = 1,
-                            Rabat = 50.0,
-                            VareBeskrivelse = "Service",
-                            VareId = 21,
-                            VarePris = 500.0,
-                            YdelseAntalTimer = 4.0
-                        });
                 });
 
             modelBuilder.Entity("MekanikerMærke", b =>
@@ -1395,71 +1354,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasColumnType("bit");
 
                     b.ToTable("UdlejningsScootere", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ScooterId = 17,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "CD3654",
-                            Stelnummer = "1HGCM82633A004363",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 18,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "EF9073",
-                            Stelnummer = "2HGCM82633A004364",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 19,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "GH1234",
-                            Stelnummer = "3HGCM82633A004365",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 20,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "IJ5678",
-                            Stelnummer = "4HGCM82633A004366",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 21,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "KL9012",
-                            Stelnummer = "5HGCM82633A004367",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 22,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "MN3456",
-                            Stelnummer = "6HGCM82633A004368",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 23,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "OP7890",
-                            Stelnummer = "7HGCM82633A004369",
-                            ErTilgængelig = true
-                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Ydelse", b =>

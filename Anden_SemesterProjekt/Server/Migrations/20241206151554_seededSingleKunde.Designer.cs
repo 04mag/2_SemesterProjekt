@@ -4,6 +4,7 @@ using Anden_SemesterProjekt.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    partial class SLContextModelSnapshot : ModelSnapshot
+    [Migration("20241206151554_seededSingleKunde")]
+    partial class seededSingleKunde
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,171 +83,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                             Gadenavn = "Hovedgaden",
                             Husnummer = "34",
                             KundeId = 1,
-                            Postnummer = "6000",
-                            Side = "tv"
-                        },
-                        new
-                        {
-                            AdresseId = 2,
-                            Dørnummer = "23",
-                            Etage = "2",
-                            Gadenavn = "Borgergade",
-                            Husnummer = "12",
-                            KundeId = 2,
-                            Postnummer = "7100",
-                            Side = ""
-                        },
-                        new
-                        {
-                            AdresseId = 3,
-                            Dørnummer = "",
-                            Etage = "",
-                            Gadenavn = "Vestergade",
-                            Husnummer = "45",
-                            KundeId = 3,
-                            Postnummer = "7000",
-                            Side = ""
-                        },
-                        new
-                        {
-                            AdresseId = 4,
-                            Dørnummer = "10",
-                            Etage = "1",
-                            Gadenavn = "Nørregade",
-                            Husnummer = "78",
-                            KundeId = 4,
-                            Postnummer = "7100",
-                            Side = "mf"
-                        },
-                        new
-                        {
-                            AdresseId = 5,
-                            Dørnummer = "",
-                            Etage = "4",
-                            Gadenavn = "Østergade",
-                            Husnummer = "22",
-                            KundeId = 5,
-                            Postnummer = "6000",
-                            Side = "th"
-                        },
-                        new
-                        {
-                            AdresseId = 6,
-                            Dørnummer = "5",
-                            Etage = "",
-                            Gadenavn = "Søndergade",
-                            Husnummer = "56",
-                            KundeId = 6,
-                            Postnummer = "7100",
-                            Side = ""
-                        },
-                        new
-                        {
-                            AdresseId = 7,
-                            Dørnummer = "8",
-                            Etage = "2",
-                            Gadenavn = "Kirkegade",
-                            Husnummer = "15",
-                            KundeId = 7,
-                            Postnummer = "6000",
-                            Side = "tv"
-                        },
-                        new
-                        {
-                            AdresseId = 8,
-                            Dørnummer = "",
-                            Etage = "3",
-                            Gadenavn = "Skolegade",
-                            Husnummer = "9",
-                            KundeId = 8,
-                            Postnummer = "7000",
-                            Side = "th"
-                        },
-                        new
-                        {
-                            AdresseId = 9,
-                            Dørnummer = "12",
-                            Etage = "",
-                            Gadenavn = "Algade",
-                            Husnummer = "27",
-                            KundeId = 9,
-                            Postnummer = "7100",
-                            Side = ""
-                        },
-                        new
-                        {
-                            AdresseId = 10,
-                            Dørnummer = "",
-                            Etage = "1",
-                            Gadenavn = "Møllevej",
-                            Husnummer = "33",
-                            KundeId = 10,
-                            Postnummer = "6000",
-                            Side = "mf"
-                        },
-                        new
-                        {
-                            AdresseId = 11,
-                            Dørnummer = "7",
-                            Etage = "4",
-                            Gadenavn = "Bakkevej",
-                            Husnummer = "5",
-                            KundeId = 11,
-                            Postnummer = "7000",
-                            Side = "tv"
-                        },
-                        new
-                        {
-                            AdresseId = 12,
-                            Dørnummer = "3",
-                            Etage = "",
-                            Gadenavn = "Engvej",
-                            Husnummer = "18",
-                            KundeId = 12,
-                            Postnummer = "7100",
-                            Side = ""
-                        },
-                        new
-                        {
-                            AdresseId = 13,
-                            Dørnummer = "",
-                            Etage = "2",
-                            Gadenavn = "Lærkevej",
-                            Husnummer = "21",
-                            KundeId = 13,
-                            Postnummer = "6000",
-                            Side = "th"
-                        },
-                        new
-                        {
-                            AdresseId = 14,
-                            Dørnummer = "9",
-                            Etage = "3",
-                            Gadenavn = "Birkevej",
-                            Husnummer = "44",
-                            KundeId = 14,
-                            Postnummer = "7000",
-                            Side = "mf"
-                        },
-                        new
-                        {
-                            AdresseId = 15,
-                            Dørnummer = "6",
-                            Etage = "",
-                            Gadenavn = "Fasanvej",
-                            Husnummer = "30",
-                            KundeId = 15,
-                            Postnummer = "7100",
-                            Side = ""
-                        },
-                        new
-                        {
-                            AdresseId = 16,
-                            Dørnummer = "",
-                            Etage = "1",
-                            Gadenavn = "Solbakken",
-                            Husnummer = "12",
-                            KundeId = 16,
                             Postnummer = "6000",
                             Side = "tv"
                         });
@@ -346,128 +184,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                             KundeId = 1,
                             Email = "TrNi@mail.dk",
                             ErAktiv = true,
-                            MekanikerId = 1,
+                            MekanikerId = 2,
                             Navn = "Troels Nielsen"
-                        },
-                        new
-                        {
-                            KundeId = 2,
-                            Email = "AnnaH@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 3,
-                            Navn = "Anna Hansen"
-                        },
-                        new
-                        {
-                            KundeId = 3,
-                            Email = "PeJe@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 1,
-                            Navn = "Peter Jensen"
-                        },
-                        new
-                        {
-                            KundeId = 4,
-                            Email = "LaNi@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 4,
-                            Navn = "Lars Nielsen"
-                        },
-                        new
-                        {
-                            KundeId = 5,
-                            Email = "MeSo@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 2,
-                            Navn = "Mette Sørensen"
-                        },
-                        new
-                        {
-                            KundeId = 6,
-                            Email = "KaAn@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 3,
-                            Navn = "Kasper Andersen"
-                        },
-                        new
-                        {
-                            KundeId = 7,
-                            Email = "SoPe@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 3,
-                            Navn = "Sofie Pedersen"
-                        },
-                        new
-                        {
-                            KundeId = 8,
-                            Email = "JoKr@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 1,
-                            Navn = "Jonas Kristensen"
-                        },
-                        new
-                        {
-                            KundeId = 9,
-                            Email = "CaTh@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 4,
-                            Navn = "Camilla Thomsen"
-                        },
-                        new
-                        {
-                            KundeId = 10,
-                            Email = "FrRa@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 1,
-                            Navn = "Frederik Rasmussen"
-                        },
-                        new
-                        {
-                            KundeId = 11,
-                            Email = "JensNielsen@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 2,
-                            Navn = "Jens Nielsen"
-                        },
-                        new
-                        {
-                            KundeId = 12,
-                            Email = "MaLa@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 3,
-                            Navn = "Maja Larsen"
-                        },
-                        new
-                        {
-                            KundeId = 13,
-                            Email = "NiMo@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 2,
-                            Navn = "Nikolaj Møller"
-                        },
-                        new
-                        {
-                            KundeId = 14,
-                            Email = "JuOl@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 1,
-                            Navn = "Julie Olesen"
-                        },
-                        new
-                        {
-                            KundeId = 15,
-                            Email = "HePo@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 4,
-                            Navn = "Henrik Poulsen"
-                        },
-                        new
-                        {
-                            KundeId = 16,
-                            Email = "KaHo@mail.dk",
-                            ErAktiv = true,
-                            MekanikerId = 3,
-                            Navn = "Katrine Holm"
                         });
                 });
 
@@ -631,21 +349,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("MekanikerId");
 
                     b.ToTable("Ordrer");
-
-                    b.HasData(
-                        new
-                        {
-                            OrdreId = 1,
-                            Bemærkninger = "",
-                            BetalingsDato = new DateTime(2024, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ErAfsluttet = true,
-                            ErBetalt = true,
-                            KundeId = 1,
-                            KundeScooterId = 1,
-                            MekanikerId = 1,
-                            SlutDato = new DateTime(2024, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDato = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Scooter", b =>
@@ -705,121 +408,13 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         {
                             TlfNummerId = 1,
                             KundeId = 1,
-                            TelefonNummer = "34345678"
+                            TelefonNummer = "12345678"
                         },
                         new
                         {
                             TlfNummerId = 2,
                             KundeId = 1,
-                            TelefonNummer = "47254321"
-                        },
-                        new
-                        {
-                            TlfNummerId = 3,
-                            KundeId = 2,
-                            TelefonNummer = "23456789"
-                        },
-                        new
-                        {
-                            TlfNummerId = 4,
-                            KundeId = 3,
-                            TelefonNummer = "34567890"
-                        },
-                        new
-                        {
-                            TlfNummerId = 5,
-                            KundeId = 4,
-                            TelefonNummer = "45678901"
-                        },
-                        new
-                        {
-                            TlfNummerId = 6,
-                            KundeId = 5,
-                            TelefonNummer = "56789012"
-                        },
-                        new
-                        {
-                            TlfNummerId = 7,
-                            KundeId = 6,
-                            TelefonNummer = "67890123"
-                        },
-                        new
-                        {
-                            TlfNummerId = 8,
-                            KundeId = 7,
-                            TelefonNummer = "78901234"
-                        },
-                        new
-                        {
-                            TlfNummerId = 9,
-                            KundeId = 8,
-                            TelefonNummer = "89012345"
-                        },
-                        new
-                        {
-                            TlfNummerId = 10,
-                            KundeId = 9,
-                            TelefonNummer = "90123456"
-                        },
-                        new
-                        {
-                            TlfNummerId = 11,
-                            KundeId = 10,
-                            TelefonNummer = "23456780"
-                        },
-                        new
-                        {
-                            TlfNummerId = 12,
-                            KundeId = 11,
-                            TelefonNummer = "34567891"
-                        },
-                        new
-                        {
-                            TlfNummerId = 13,
-                            KundeId = 12,
-                            TelefonNummer = "45678902"
-                        },
-                        new
-                        {
-                            TlfNummerId = 14,
-                            KundeId = 13,
-                            TelefonNummer = "56789013"
-                        },
-                        new
-                        {
-                            TlfNummerId = 15,
-                            KundeId = 14,
-                            TelefonNummer = "67890124"
-                        },
-                        new
-                        {
-                            TlfNummerId = 16,
-                            KundeId = 15,
-                            TelefonNummer = "78901235"
-                        },
-                        new
-                        {
-                            TlfNummerId = 17,
-                            KundeId = 16,
-                            TelefonNummer = "89012346"
-                        },
-                        new
-                        {
-                            TlfNummerId = 18,
-                            KundeId = 2,
-                            TelefonNummer = "90123457"
-                        },
-                        new
-                        {
-                            TlfNummerId = 19,
-                            KundeId = 3,
-                            TelefonNummer = "23456781"
-                        },
-                        new
-                        {
-                            TlfNummerId = 20,
-                            KundeId = 4,
-                            TelefonNummer = "34567892"
+                            TelefonNummer = "87654321"
                         });
                 });
 
@@ -869,22 +464,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("UdlejningsScooterId");
 
                     b.ToTable("Udlejninger");
-
-                    b.HasData(
-                        new
-                        {
-                            UdlejningId = 1,
-                            AntalKmKørt = 14.0,
-                            ForsikringPrDag = 100.0,
-                            LejePrDag = 200.0,
-                            OrdreId = 1,
-                            PrisPrKm = 0.53000000000000003,
-                            Selvrisiko = 1000.0,
-                            SelvrisikoUdløst = false,
-                            SlutDato = new DateTime(2024, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDato = new DateTime(2024, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UdlejningsScooterId = 17
-                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Vare", b =>
@@ -1092,19 +671,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                     b.HasIndex("VareId");
 
                     b.ToTable("VareLinjer");
-
-                    b.HasData(
-                        new
-                        {
-                            VareLinjeId = 1,
-                            Antal = 1,
-                            OrdreId = 1,
-                            Rabat = 50.0,
-                            VareBeskrivelse = "Service",
-                            VareId = 21,
-                            VarePris = 500.0,
-                            YdelseAntalTimer = 4.0
-                        });
                 });
 
             modelBuilder.Entity("MekanikerMærke", b =>
@@ -1247,143 +813,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                             ErAktiv = true,
                             MærkeId = 1,
                             Registreringsnummer = "HB3827",
-                            Stelnummer = "Kj37h3GS9jOpI800J",
+                            Stelnummer = "Kj37h3GS9jOpI800",
                             KundeId = 1
-                        },
-                        new
-                        {
-                            ScooterId = 2,
-                            ErAktiv = true,
-                            MærkeId = 2,
-                            Registreringsnummer = "VB7382",
-                            Stelnummer = "1HGBH41JXMN109186",
-                            KundeId = 2
-                        },
-                        new
-                        {
-                            ScooterId = 3,
-                            ErAktiv = true,
-                            MærkeId = 3,
-                            Registreringsnummer = "AF3234",
-                            Stelnummer = "2HGCM82633A004352",
-                            KundeId = 3
-                        },
-                        new
-                        {
-                            ScooterId = 4,
-                            ErAktiv = true,
-                            MærkeId = 4,
-                            Registreringsnummer = "CD5634",
-                            Stelnummer = "1HGCM82633A004353",
-                            KundeId = 4
-                        },
-                        new
-                        {
-                            ScooterId = 5,
-                            ErAktiv = true,
-                            MærkeId = 5,
-                            Registreringsnummer = "EF9072",
-                            Stelnummer = "JH4KA8260MC000000",
-                            KundeId = 5
-                        },
-                        new
-                        {
-                            ScooterId = 6,
-                            ErAktiv = true,
-                            MærkeId = 6,
-                            Registreringsnummer = "GH3656",
-                            Stelnummer = "1HGCM82633A004354",
-                            KundeId = 6
-                        },
-                        new
-                        {
-                            ScooterId = 7,
-                            ErAktiv = true,
-                            MærkeId = 7,
-                            Registreringsnummer = "IJ7630",
-                            Stelnummer = "2HGCM82633A004355",
-                            KundeId = 7
-                        },
-                        new
-                        {
-                            ScooterId = 8,
-                            ErAktiv = true,
-                            MærkeId = 8,
-                            Registreringsnummer = "KL1533",
-                            Stelnummer = "1HGCM82633A004356",
-                            KundeId = 8
-                        },
-                        new
-                        {
-                            ScooterId = 9,
-                            ErAktiv = true,
-                            MærkeId = 9,
-                            Registreringsnummer = "MN2648",
-                            Stelnummer = "JH4KA8260MC000001",
-                            KundeId = 9
-                        },
-                        new
-                        {
-                            ScooterId = 10,
-                            ErAktiv = true,
-                            MærkeId = 10,
-                            Registreringsnummer = "OP9314",
-                            Stelnummer = "1HGCM82633A004357",
-                            KundeId = 10
-                        },
-                        new
-                        {
-                            ScooterId = 11,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "QR5452",
-                            Stelnummer = "2HGCM82633A004358",
-                            KundeId = 11
-                        },
-                        new
-                        {
-                            ScooterId = 12,
-                            ErAktiv = true,
-                            MærkeId = 2,
-                            Registreringsnummer = "ST3850",
-                            Stelnummer = "1HGCM82633A004359",
-                            KundeId = 12
-                        },
-                        new
-                        {
-                            ScooterId = 13,
-                            ErAktiv = true,
-                            MærkeId = 3,
-                            Registreringsnummer = "UV2254",
-                            Stelnummer = "JH4KA8260MC000002",
-                            KundeId = 13
-                        },
-                        new
-                        {
-                            ScooterId = 14,
-                            ErAktiv = true,
-                            MærkeId = 4,
-                            Registreringsnummer = "WX5375",
-                            Stelnummer = "1HGCM82633A004360",
-                            KundeId = 14
-                        },
-                        new
-                        {
-                            ScooterId = 15,
-                            ErAktiv = true,
-                            MærkeId = 5,
-                            Registreringsnummer = "YZ3052",
-                            Stelnummer = "2HGCM82633A004361",
-                            KundeId = 15
-                        },
-                        new
-                        {
-                            ScooterId = 16,
-                            ErAktiv = true,
-                            MærkeId = 6,
-                            Registreringsnummer = "AB3651",
-                            Stelnummer = "1HGCM82633A004362",
-                            KundeId = 16
                         });
                 });
 
@@ -1395,71 +826,6 @@ namespace Anden_SemesterProjekt.Server.Migrations
                         .HasColumnType("bit");
 
                     b.ToTable("UdlejningsScootere", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            ScooterId = 17,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "CD3654",
-                            Stelnummer = "1HGCM82633A004363",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 18,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "EF9073",
-                            Stelnummer = "2HGCM82633A004364",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 19,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "GH1234",
-                            Stelnummer = "3HGCM82633A004365",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 20,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "IJ5678",
-                            Stelnummer = "4HGCM82633A004366",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 21,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "KL9012",
-                            Stelnummer = "5HGCM82633A004367",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 22,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "MN3456",
-                            Stelnummer = "6HGCM82633A004368",
-                            ErTilgængelig = true
-                        },
-                        new
-                        {
-                            ScooterId = 23,
-                            ErAktiv = true,
-                            MærkeId = 1,
-                            Registreringsnummer = "OP7890",
-                            Stelnummer = "7HGCM82633A004369",
-                            ErTilgængelig = true
-                        });
                 });
 
             modelBuilder.Entity("Anden_SemesterProjekt.Shared.Models.Ydelse", b =>

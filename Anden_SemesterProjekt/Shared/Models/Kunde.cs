@@ -18,7 +18,7 @@ namespace Anden_SemesterProjekt.Shared.Models
         public string Navn { get; set; } = string.Empty;
         [Required]
         [ValidateComplexType]
-        public Adresse? Adresse { get; set; } = new Adresse();
+        public Adresse? Adresse { get; set; }
         [Required]
         public List<TlfNummer> TlfNumre { get; set; } = new List<TlfNummer>();
         [Required]
