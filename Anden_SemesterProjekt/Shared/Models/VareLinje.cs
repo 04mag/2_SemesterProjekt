@@ -35,6 +35,10 @@ namespace Anden_SemesterProjekt.Shared.Models
 
         public string GetRabatString()
         {
+            if (Rabat == 0)
+            {
+                return "";
+            }
             return Rabat.ToString("0.00");
         }
 
