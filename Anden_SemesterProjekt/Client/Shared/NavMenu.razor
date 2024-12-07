@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Anden_SemesterProjekt</a>
+        <a class="navbar-brand" href="">Scooterland</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -10,18 +10,33 @@
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="ordrer" Match="NavLinkMatch.All">
+                <span class="oi oi-document" aria-hidden="true"></span> Ordrer
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="ordrer/opret">
+                <span class="oi oi-cart" aria-hidden="true"></span> Opret ordre
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="kunder">
+                <span class="oi oi-people" aria-hidden="true"></span> Kunder
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="varer">
+                <span class="oi oi-basket" aria-hidden="true"></span> Varer og ydelser
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="scooterlager">
+                <span class="oi oi-dashboard" aria-hidden="true"></span> Udlejnings scootere
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="mekanikere">
-                <span class="oi oi-plus" aria-hidden="true"></span> Mekanikere
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+                <span class="oi oi-people" aria-hidden="true"></span> Mekanikere
             </NavLink>
         </div>
     </nav>
