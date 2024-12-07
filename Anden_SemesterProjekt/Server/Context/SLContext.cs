@@ -757,7 +757,7 @@ namespace Anden_SemesterProjekt.Server.Context
                     Registreringsnummer = "GH1234",
                     MærkeId = 1,
                     ErAktiv = true,
-                    ErTilgængelig = true
+                    ErTilgængelig = false
                 },
                 new UdlejningsScooter
                 {
@@ -810,6 +810,28 @@ namespace Anden_SemesterProjekt.Server.Context
                     KundeScooterId = 1,
                     MekanikerId = 1,
                     Bemærkninger = ""
+                },
+                new Ordre
+                {
+                    OrdreId = 2,
+                    KundeId = 4,
+                    StartDato = DateTime.Now.Date.AddDays(-1),
+                    SlutDato = DateTime.Now.Date,
+                    ErBetalt = false,
+                    ErAfsluttet = false,
+                    KundeScooterId = 4,
+                    MekanikerId = 4,
+                    Bemærkninger = "Dækskifte til nye dæk, samt skifte af kæde."
+                },
+                new Ordre
+                {
+                    OrdreId = 3,
+                    KundeId = 10,
+                    StartDato = new DateTime(2024, 12, 5),
+                    SlutDato = new DateTime(2024, 12, 5),
+                    ErBetalt = false,
+                    ErAfsluttet = true,
+                    Bemærkninger = ""
                 }
             );
 
@@ -824,6 +846,88 @@ namespace Anden_SemesterProjekt.Server.Context
                     VareBeskrivelse = "Service",
                     VarePris = 500,
                     YdelseAntalTimer = 4
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 2,
+                    OrdreId = 2,
+                    VareId = 12,
+                    Antal = 2,
+                    Rabat = 0,
+                    VareBeskrivelse = "Dæk",
+                    VarePris = 500
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 3,
+                    OrdreId = 2,
+                    VareId = 24,
+                    Antal = 2,
+                    Rabat = 25,
+                    VareBeskrivelse = "Dækskifte",
+                    VarePris = 100,
+                    YdelseAntalTimer = 0.25
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 4,
+                    OrdreId = 2,
+                    VareId = 36,
+                    Antal = 1,
+                    Rabat = 0,
+                    VareBeskrivelse = "Kæde skift",
+                    VarePris = 280,
+                    YdelseAntalTimer = 1
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 5,
+                    OrdreId = 3,
+                    VareId = 1,
+                    Antal = 1,
+                    Rabat = 0,
+                    VareBeskrivelse = "Hjelm",
+                    VarePris = 500
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 6,
+                    OrdreId = 3,
+                    VareId = 2,
+                    Antal = 1,
+                    Rabat = 200,
+                    VareBeskrivelse = "Handsker",
+                    VarePris = 200
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 7,
+                    OrdreId = 3,
+                    VareId = 3,
+                    Antal = 1,
+                    Rabat = 0,
+                    VareBeskrivelse = "Jakke",
+                    VarePris = 800
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 8,
+                    OrdreId = 3,
+                    VareId = 4,
+                    Antal = 1,
+                    Rabat = 0,
+                    VareBeskrivelse = "Bukser",
+                    VarePris = 600
+                },
+                new VareLinje
+                {
+                    VareLinjeId = 9,
+                    OrdreId = 3,
+                    VareId = 5,
+                    Antal = 1,
+                    Rabat = 0,
+                    VareBeskrivelse = "Støvler",
+                    VarePris = 400
                 }
             );
 
@@ -836,6 +940,16 @@ namespace Anden_SemesterProjekt.Server.Context
                     StartDato = new DateTime(2024, 12, 1),
                     SlutDato = new DateTime(2024, 12, 3),
                     AntalKmKørt = 14,
+                    SelvrisikoUdløst = true
+                },
+                new Udlejning
+                {
+                    UdlejningId = 2,
+                    UdlejningsScooterId = 19,
+                    OrdreId = 2,
+                    StartDato = DateTime.Now.Date.AddDays(-1),
+                    SlutDato = DateTime.Now.Date,
+                    AntalKmKørt = 0,
                     SelvrisikoUdløst = false
                 }
             );
