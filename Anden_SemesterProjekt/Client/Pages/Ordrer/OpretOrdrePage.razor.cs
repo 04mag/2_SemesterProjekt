@@ -5,9 +5,9 @@ using Microsoft.JSInterop;
 using System.Net.Http.Json;
 
 
-namespace Anden_SemesterProjekt.Client.Components;
+namespace Anden_SemesterProjekt.Client.Pages.Ordrer;
 
-public partial class OpretOrdreComponent
+public partial class OpretOrdrePage
 {
     #region Data og Initialisering
 
@@ -74,7 +74,7 @@ public partial class OpretOrdreComponent
         alleMekanikere = await MekanikerService.GetMekanikere();
         if (ordreKunde != null) ordreMekaniker = ordreKunde.TilknyttetMekaniker;
     }
-    
+
     private void VareSøgefeltÆndret(ChangeEventArgs e)
     {
         søgeTekstVarer = e.Value.ToString();
@@ -276,9 +276,9 @@ public partial class OpretOrdreComponent
         if (result.IsSuccessStatusCode)
         {
             SetUdlejningsScooterTilIkkeTilgængelig();
-                // Når ordren er oprettet, navigér til den nye ordre med det genererede ordreId
-                NavigationManager.NavigateTo($"/ordrer");  // Antag, at OrdreId er et property på ordren
-                await JS.InvokeVoidAsync("alert", "Ordre oprettet");
+            // Når ordren er oprettet, navigér til den nye ordre med det genererede ordreId
+            NavigationManager.NavigateTo($"/ordrer");  // Antag, at OrdreId er et property på ordren
+            await JS.InvokeVoidAsync("alert", "Ordre oprettet");
         }
         else
         {
@@ -304,7 +304,7 @@ public partial class OpretOrdreComponent
         søgeTekstVarer = string.Empty;
     }
 
-    
+
     private void NulstilAlleFelter()
     {
         ordreMekaniker = null;
@@ -317,15 +317,15 @@ public partial class OpretOrdreComponent
     }
     private async Task SetUdlejningsScooterTilIkkeTilgængelig()
     {
-        if (udlejningsScooterId != 0) await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false); 
+        if (udlejningsScooterId != 0) await ScooterService.UpdateScooterTilgængelighed(udlejningsScooterId, false);
 
     }
     private void MekanikerValgt()
     {
-      
+
         StateHasChanged();
     }
-   
+
 
     private void KundeScooterÆndres()
     {
