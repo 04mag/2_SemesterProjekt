@@ -5,13 +5,18 @@
 
 <PageTitle>Ordrer</PageTitle>
 
-<h3>Ordrer</h3>
+<h3 class="mb-3">Ordrer</h3>
+
+<button type="button" class="btn btn-primary mb-2" @onclick="CreateOrdre">Opret ny ordre</button>
 
 <OrdreListComponent Ordrer="Ordrer" />
 
 @code {
     [Inject]
     public IOrdreClientService OrdreService { get; set; }
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
 
     public List<Ordre> Ordrer { get; set; } = new List<Ordre>();
 
@@ -23,5 +28,10 @@
         {
             Ordrer = ordreResult.OrderByDescending(o => o.OrdreId).ToList();
         }
+    }
+
+    private void CreateOrdre()
+    {
+        NavigationManager.NavigateTo("/ordrer/opret");
     }
 }
