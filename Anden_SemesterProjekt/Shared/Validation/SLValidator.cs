@@ -2,7 +2,7 @@
 
 public class SLValidator
 {
-    public static bool StringLenght(string input, int min, int max)
+    public static bool StringLength(string input, int min, int max)
     {
         if (input.Length >= min && input.Length <= max)
         {

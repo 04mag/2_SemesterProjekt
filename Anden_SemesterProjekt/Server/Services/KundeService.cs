@@ -21,7 +21,7 @@ namespace Anden_SemesterProjekt.Server.Services
         public async Task<int> CreateKunde(Kunde kunde)
         {
             //Tjekker om kundens navn er mellem 2 og 50 karaktere langt.
-            if (!SLValidator.StringLenght(kunde.Navn, 2, 50)) return -1;
+            if (!SLValidator.StringLength(kunde.Navn, 2, 50)) return -1;
 
             //Tjekker om kunden har en gyldig email.
             if (!SLValidator.EmailIsValid(kunde.Email)) return -1;
@@ -34,11 +34,11 @@ namespace Anden_SemesterProjekt.Server.Services
 
             //Adresse tjek
             if (kunde.Adresse == null) return -1;
-            if (!SLValidator.StringLenght(kunde.Adresse.Gadenavn, 2, 100)) return -1;
-            if (!SLValidator.StringLenght(kunde.Adresse.Husnummer, 1, 5)) return -1;
-            if (!SLValidator.StringLenght(kunde.Adresse.Etage, 0, 3)) return -1;
-            if (!SLValidator.StringLenght(kunde.Adresse.Side, 0, 3)) return -1;
-            if (!SLValidator.StringLenght(kunde.Adresse.Dørnummer, 0, 5)) return -1;
+            if (!SLValidator.StringLength(kunde.Adresse.Gadenavn, 2, 100)) return -1;
+            if (!SLValidator.StringLength(kunde.Adresse.Husnummer, 1, 5)) return -1;
+            if (!SLValidator.StringLength(kunde.Adresse.Etage, 0, 3)) return -1;
+            if (!SLValidator.StringLength(kunde.Adresse.Side, 0, 3)) return -1;
+            if (!SLValidator.StringLength(kunde.Adresse.Dørnummer, 0, 5)) return -1;
 
             //Postnummer tjekkes ikke da denne tjekkes i databasen i forhold til om foreign key er valid. Dermed valideres by også.
 
@@ -92,7 +92,7 @@ namespace Anden_SemesterProjekt.Server.Services
         public async Task<bool> UpdateKunde(Kunde kunde)
         {
             //Tjekker om kundens navn er mellem 2 og 50 karaktere langt.
-            if (!SLValidator.StringLenght(kunde.Navn, 2, 50)) return false;
+            if (!SLValidator.StringLength(kunde.Navn, 2, 50)) return false;
 
             //Tjekker om kunden har en gyldig email.
             if (!SLValidator.EmailIsValid(kunde.Email)) return false;
@@ -105,11 +105,11 @@ namespace Anden_SemesterProjekt.Server.Services
 
             //Adresse tjek
             if (kunde.Adresse == null) return false;
-            if (!SLValidator.StringLenght(kunde.Adresse.Gadenavn, 2, 100)) return false;
-            if (!SLValidator.StringLenght(kunde.Adresse.Husnummer, 1, 5)) return false;
-            if (!SLValidator.StringLenght(kunde.Adresse.Etage, 0, 3)) return false;
-            if (!SLValidator.StringLenght(kunde.Adresse.Side, 0, 3)) return false;
-            if (!SLValidator.StringLenght(kunde.Adresse.Dørnummer, 0, 5)) return false;
+            if (!SLValidator.StringLength(kunde.Adresse.Gadenavn, 2, 100)) return false;
+            if (!SLValidator.StringLength(kunde.Adresse.Husnummer, 1, 5)) return false;
+            if (!SLValidator.StringLength(kunde.Adresse.Etage, 0, 3)) return false;
+            if (!SLValidator.StringLength(kunde.Adresse.Side, 0, 3)) return false;
+            if (!SLValidator.StringLength(kunde.Adresse.Dørnummer, 0, 5)) return false;
 
             //Postnummer tjekkes ikke da denne tjekkes i databasen i forhold til om foreign key er valid. Dermed valideres by også.
 

@@ -53,7 +53,7 @@ namespace NunitTestProject
         [TestCase("altid false", 10, 1, false)]
         public void StringLenghtTest(string input, int min, int max, bool expectedResult)
         {
-            bool result = SLValidator.StringLenght(input, min, max);
+            bool result = SLValidator.StringLength(input, min, max);
 
             Assert.That(result, Is.EqualTo(expectedResult));
         }
