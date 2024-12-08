@@ -22,7 +22,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
 
             if (result != null)
             {
-                kunder = result.OrderBy(x => x.Navn).ToList();
+                kunder = result.OrderByDescending(k => k.KundeId).ToList();
             }
         }
 
