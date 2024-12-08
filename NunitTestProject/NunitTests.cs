@@ -33,9 +33,9 @@ namespace NunitTestProject
         [TestCase("22345678", true)]
         //False fordi nummer starter med 1
         [TestCase("12345678", false)]
-        [TestCase("1234567", false)]
-        [TestCase("123456789", false)]
-        [TestCase("12345678a", false)]
+        [TestCase("7654321", false)]
+        [TestCase("987654321", false)]
+        [TestCase("2345678a", false)]
         //False fordi nummer starter med 0
         [TestCase("02345678 ", false)]
         public void PhoneIsValidTest(string input, bool expectedResult)
