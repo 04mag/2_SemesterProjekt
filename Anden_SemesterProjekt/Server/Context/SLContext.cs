@@ -827,8 +827,8 @@ namespace Anden_SemesterProjekt.Server.Context
                 {
                     OrdreId = 3,
                     KundeId = 10,
-                    StartDato = new DateTime(2024, 12, 5),
-                    SlutDato = new DateTime(2024, 12, 5),
+                    StartDato = DateTime.Now.Date,
+                    SlutDato = DateTime.Now.Date,
                     ErBetalt = false,
                     ErAfsluttet = true,
                     Bemærkninger = ""
