@@ -51,7 +51,7 @@ namespace NunitTestProject
         [TestCase("12345678", 9, 10, false)]
         //Hvis man sætter min større end max
         [TestCase("altid false", 10, 1, false)]
-        public void StringLenghtTest(string input, int min, int max, bool expectedResult)
+        public void StringLengthTest(string input, int min, int max, bool expectedResult)
         {
             bool result = SLValidator.StringLength(input, min, max);
 
