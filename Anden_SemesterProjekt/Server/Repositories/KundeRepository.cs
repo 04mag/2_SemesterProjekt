@@ -142,8 +142,9 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     return result;
                 }
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return null;
             }
         }
