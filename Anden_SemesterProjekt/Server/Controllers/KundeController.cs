@@ -36,76 +36,111 @@ namespace Anden_SemesterProjekt.Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetKunder()
         {
-            var kunder = await _kundeService.ReadKunder();
+            try
+            {
+                var kunder = await _kundeService.ReadKunder();
 
-            if (kunder == null)
-            {
-                return NotFound();
+                if (kunder == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(kunder);
+                }
             }
-            else
+            catch (Exception e)
             {
-                return Ok(kunder);
+                return Conflict(e.Message);
             }
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetKunde(int id)
         {
-            var kunde = await _kundeService.ReadKunde(id);
+            try
+            {
+                var kunde = await _kundeService.ReadKunde(id);
 
-            if (kunde == null)
-            {
-                return NotFound();
+                if (kunde == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(kunde);
+                }
             }
-            else
+            catch (Exception e)
             {
-                return Ok(kunde);
+                return Conflict(e.Message);
             }
         }
 
         [HttpPost]
         public async Task<IActionResult> PostKunde(Kunde kunde)
         {
-            int id = await _kundeService.CreateKunde(kunde);
+            try
+            {
+                int id = await _kundeService.CreateKunde(kunde);
 
-            if (id == -1)
-            {
-                return Conflict();
+                if (id > 0)
+                {
+                    //Henter den nye kunde og tildeler den det nye id.
+                    return CreatedAtAction(nameof(GetKunde), new { id = id }, kunde);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception e)
             {
-                //Henter den nye kunde og tildeler den det nye id.
-                return CreatedAtAction(nameof(GetKunde), new { id = id }, kunde);
+                return Conflict(e.Message);
             }
         }
 
         [HttpPut]
         public async Task<IActionResult> PutKunde(Kunde kunde)
         {
-            bool updated = await _kundeService.UpdateKunde(kunde);
+            try
+            {
+                bool updated = await _kundeService.UpdateKunde(kunde);
 
-            if (updated)
-            {
-                return Ok();
+                if (updated)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return NotFound();
+                return Conflict(e.Message);
             }
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKunde(int id)
         {
-            bool deleted =  await _kundeService.DeleteKunde(id);
-            
-            if (deleted)
+            try
             {
-                return Ok();
+                bool deleted = await _kundeService.DeleteKunde(id);
+
+                if (deleted)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
-            else
+            catch (Exception e)
             {
-                return NotFound();
+                return Conflict(e.Message);
             }
         }
     }

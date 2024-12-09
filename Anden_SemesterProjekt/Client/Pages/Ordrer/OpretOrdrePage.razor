@@ -191,85 +191,82 @@
     </div>
 
     <!-- Service Info -->
-    @foreach (var vl in nyOrdre.VareLinjer)
+    @if (nyOrdre.OrdreContainsYdelse())
     {
-        @if (vl.YdelseAntalTimer > 0)
-        {
-            <div class="card mb-4 shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">Service Info</h4>
+        <div class="card mb-4 shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Service Info</h4>
+            </div>
+            <div class="card-body">
+
+                <!-- Mekaniker dropdown -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <label for="mekaniker" class="form-label fw-bold">Vælg mekaniker</label>
+                        <InputSelect id="mekaniker" @bind-Value="nyOrdre.MekanikerId" class="form-select">
+                            <option value="">Vælg mekaniker</option>
+                            @foreach (var mekaniker in alleMekanikere)
+                            {
+                                <option value="@mekaniker.MekanikerId" title="@string.Join(", ", mekaniker.Mærker.Select(m => m.ScooterMærke))">@mekaniker.Navn</option>
+                            }
+                        </InputSelect>
+                    </div>
+
+                    <!-- Scooter dropdown -->
+                    <div class="col-md-3">
+                        <label for="scooter" class="form-label fw-bold">Vælg scooter</label>
+                        <InputSelect id="scooter" @bind-Value="nyOrdre.KundeScooterId" class="form-select">
+                            <option value="">Vælg scooter</option>
+                            @foreach (var s in kundeScootere)
+                            {
+                                <option value="@s.ScooterId">@s.Mærke.ScooterMærke - @s.Registreringsnummer</option>
+                            }
+                        </InputSelect>
+                    </div>
+
+                    <!-- Slutdato -->
+                    <div class="col md-3">
+                        <div class="col-md-6">
+                            <label for="slutdato" class="form-label fw-bold">Slutdato</label>
+                            <InputDate id="slutdato" @bind-Value="nyOrdre.SlutDato" class="form-control" />
+                        </div>
+
+                    </div>
                 </div>
-                <div class="card-body">
 
-                    <!-- Mekaniker dropdown -->
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <label for="mekaniker" class="form-label fw-bold">Vælg mekaniker</label>
-                            <InputSelect id="mekaniker" @bind-Value="nyOrdre.MekanikerId" class="form-select">
-                                <option value="">Vælg mekaniker</option>
-                                @foreach (var mekaniker in alleMekanikere)
-                                {
-                                    <option value="@mekaniker.MekanikerId" title="@string.Join(", ", mekaniker.Mærker.Select(m => m.ScooterMærke))">@mekaniker.Navn</option>
-                                }
-                            </InputSelect>
-                        </div>
-
-                        <!-- Scooter dropdown -->
-                        <div class="col-md-3">
-                            <label for="scooter" class="form-label fw-bold">Vælg scooter</label>
-                            <InputSelect id="scooter" @bind-Value="nyOrdre.KundeScooterId" class="form-select">
-                                <option value="">Vælg scooter</option>
-                                @foreach (var s in kundeScootere)
-                                {
-                                    <option value="@s.ScooterId">@s.Mærke.ScooterMærke - @s.Registreringsnummer</option>
-                                }
-                            </InputSelect>
-                        </div>
-
-                        <!-- Slutdato -->
-                        <div class="col md-3">
-                            <div class="col-md-6">
-                                <label for="slutdato" class="form-label fw-bold">Slutdato</label>
-                                <InputDate id="slutdato" @bind-Value="nyOrdre.SlutDato" class="form-control"/>
+                <!-- Udlejning Sektion -->
+                <hr class="my-4" />
+                <div>
+                    <h5 class="fw-bold">Scooterudlejning</h5>
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="form-check">
+                                <!-- Checkbox til aktivering -->
+                                <InputCheckbox id="udlejningCheckbox" class="form-check-input" @bind-Value="udlejningAktiveret" />
+                                <label for="udlejningCheckbox" class="form-check-label">Aktiver udlejning</label>
                             </div>
-
                         </div>
                     </div>
 
-                    <!-- Udlejning Sektion -->
-                    <hr class="my-4"/>
-                    <div>
-                        <h5 class="fw-bold">Scooterudlejning</h5>
+                    @if (udlejningAktiveret)
+                    {
+                        <!-- Dropdown bliver synlig, hvis udlejningCheckbox er valgt -->
                         <div class="row mb-3">
-                            <div class="col-12">
-                                <div class="form-check">
-                                    <!-- Checkbox til aktivering -->
-                                    <InputCheckbox id="udlejningCheckbox" class="form-check-input" @bind-Value="udlejningAktiveret"/>
-                                    <label for="udlejningCheckbox" class="form-check-label">Aktiver udlejning</label>
-                                </div>
+                            <div class="col-md-6">
+                                <label for="udlejningsScooter" class="form-label fw-bold">Vælg scooter</label>
+                                <InputSelect id="udlejningsScooter" @bind-Value="udlejningsScooterId" class="form-select">
+                                    <option value="">Vælg scooter</option>
+                                    @foreach (var s in udlejningsScootere)
+                                    {
+                                        <option value="@s.ScooterId">@s.Mærke.ScooterMærke - @s.Registreringsnummer</option>
+                                    }
+                                </InputSelect>
                             </div>
                         </div>
-
-                        @if (udlejningAktiveret)
-                        {
-                            <!-- Dropdown bliver synlig, hvis udlejningCheckbox er valgt -->
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="udlejningsScooter" class="form-label fw-bold">Vælg scooter</label>
-                                    <InputSelect id="udlejningsScooter" @bind-Value="udlejningsScooterId" class="form-select">
-                                        <option value="">Vælg scooter</option>
-                                        @foreach (var s in udlejningsScootere)
-                                        {
-                                            <option value="@s.ScooterId">@s.Mærke.ScooterMærke - @s.Registreringsnummer</option>
-                                        }
-                                    </InputSelect>
-                                </div>
-                            </div>
-                        }
-                    </div>
+                    }
                 </div>
             </div>
-        }
+        </div>
     }
 
 <div class="text-center col-12 mt-3">

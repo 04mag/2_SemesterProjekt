@@ -33,11 +33,14 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
             {
                 if (selectedMærkeId == 0)
                 {
-                    return Kunder.Where(m => m.TlfNumre.Any(t => t.TelefonNummer.Contains(searchString, StringComparison.OrdinalIgnoreCase))).ToList();
+                    return Kunder.Where(m => m.TlfNumre.Any(t => t.TelefonNummer.Contains(searchString, StringComparison.OrdinalIgnoreCase)) || m.Navn.Contains(searchString, StringComparison.OrdinalIgnoreCase) || m.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
                 }
                 else
                 {
-                    return Kunder.Where(m => m.TlfNumre.Any(t => t.TelefonNummer.Contains(searchString, StringComparison.OrdinalIgnoreCase))).Where(Kunder => Kunder.Scootere.Any(s => s.MærkeId == selectedMærkeId)).ToList();
+                    return Kunder
+                        .Where(m => m.TlfNumre
+                        .Any(t => t.TelefonNummer.Contains(searchString, StringComparison.OrdinalIgnoreCase)) || m.Navn.Contains(searchString, StringComparison.OrdinalIgnoreCase) || m.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+                        .Where(Kunder => Kunder.Scootere.Any(s => s.MærkeId == selectedMærkeId)).ToList();
                 }
             }
         }

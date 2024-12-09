@@ -1,21 +1,19 @@
-﻿<div class="container">
-    <!-- Overskrift og søgefelt -->
-    <div class="row align-items-center mb-4">
-        <!-- Vareoversigt -->
-        <div class="col-6">
-            <h3 class="mb-0">Vareoversigt</h3>
-        </div>
-
-        <!-- Søgefelt -->
-        <div class="col-6 text-end">
-            <input type="text"
-            class="form-control"
-            placeholder="Søg efter varer..."
-            @bind-value="searchTerm"
-            @bind-value:event="oninput" />
-        </div>
+﻿<!-- Overskrift og søgefelt -->
+<div class="row mb-4">
+    <!-- Vareoversigt -->
+    <div class="col-md-6">
+        <h3 class="mb-0">Vareoversigt</h3>
     </div>
-</div>    
+
+    <!-- Søgefelt -->
+    <div class="col-md-6">
+        <input type="text"
+               class="form-control float-end"
+               placeholder="Søg efter varer..."
+               @bind-value="searchTerm"
+               @bind-value:event="oninput" />
+    </div>
+</div>
 
 <div class="table-container mb-4">
     @if (Varer == null || !Varer.Any())
@@ -75,40 +73,7 @@
             </div>
         </div>
     </EditForm>
-
-    
-
  }
-
-
-
-
-
-@* 
-}
-<div class="row">
-    @if (Varer != null && Varer.Any())
-    {
-        @foreach (var vare in Varer)
-        {
-            <VareRenderComponent VareModel="vare" />
-        }
-    }
-    else
-    {
-        <div class="alert alert-info">Ingen varer fundet.</div>
-    }
-</div> *@
-
-
-@*  @if (Varer != null)
-{
-    @foreach (var vare in Varer)
-    {
-        <VareRenderComponent VareModel="vare" OnSelectVare="OnSelectVare" OnDeleteVare="OnDeleteVare" OnEditVare="OnEditVare" />
-
-    }
-}  *@
 
 
 

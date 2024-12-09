@@ -4,6 +4,7 @@ using Anden_SemesterProjekt.Server.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Anden_SemesterProjekt.Server.Migrations
 {
     [DbContext(typeof(SLContext))]
-    partial class SLContextModelSnapshot : ModelSnapshot
+    [Migration("20241208105231_changeToSeedData")]
+    partial class changeToSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -655,8 +658,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                             KundeId = 4,
                             KundeScooterId = 4,
                             MekanikerId = 4,
-                            SlutDato = new DateTime(2024, 12, 9, 0, 0, 0, 0, DateTimeKind.Local),
-                            StartDato = new DateTime(2024, 12, 8, 0, 0, 0, 0, DateTimeKind.Local)
+                            SlutDato = new DateTime(2024, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartDato = new DateTime(2024, 12, 7, 0, 0, 0, 0, DateTimeKind.Local)
                         },
                         new
                         {
@@ -665,8 +668,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                             ErAfsluttet = true,
                             ErBetalt = false,
                             KundeId = 10,
-                            SlutDato = new DateTime(2024, 12, 9, 0, 0, 0, 0, DateTimeKind.Local),
-                            StartDato = new DateTime(2024, 12, 9, 0, 0, 0, 0, DateTimeKind.Local)
+                            SlutDato = new DateTime(2024, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartDato = new DateTime(2024, 12, 8, 0, 0, 0, 0, DateTimeKind.Local)
                         });
                 });
 
@@ -917,8 +920,8 @@ namespace Anden_SemesterProjekt.Server.Migrations
                             PrisPrKm = 0.53000000000000003,
                             Selvrisiko = 1000.0,
                             SelvrisikoUdløst = false,
-                            SlutDato = new DateTime(2024, 12, 9, 0, 0, 0, 0, DateTimeKind.Local),
-                            StartDato = new DateTime(2024, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            SlutDato = new DateTime(2024, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
+                            StartDato = new DateTime(2024, 12, 7, 0, 0, 0, 0, DateTimeKind.Local),
                             UdlejningsScooterId = 19
                         });
                 });

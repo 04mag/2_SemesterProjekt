@@ -216,66 +216,66 @@ public partial class OpretOrdrePage
     public async Task OpretOrdre()
     {
         // Tjekker at alle ordreinfo er tilstede inden vi opretter.
+        if (nyOrdre.KundeId == 0)
         {
-            if (nyOrdre.KundeId == 0)
-            {
-                await JS.InvokeVoidAsync("alert", "Vælg en kunde");
-                return;
-            }
-
-            if (nyOrdre.VareLinjer.Count == 0)
-            {
-                await JS.InvokeVoidAsync("alert", "Tilføj mindst én vare");
-                return;
-            }
-
-            if (nyOrdre.SlutDato.Date < nyOrdre.StartDato.Date)
-            {
-                await JS.InvokeVoidAsync("alert", "Slutdato kan ikke være før startdato");
-                return;
-            }
-
-            if (nyOrdre.VareLinjer.Any(v => v.YdelseAntalTimer > 0 && nyOrdre.MekanikerId == null))
-            {
-                await JS.InvokeVoidAsync("alert", "Vælg en mekaniker");
-                return;
-            }
-
-            if (nyOrdre.VareLinjer.Any(v => v.YdelseAntalTimer > 0 && nyOrdre.KundeScooterId == null))
-            {
-                await JS.InvokeVoidAsync("alert", "Vælg en scooter");
-                return;
-            }
-
-            if (udlejningsScooterId == 0 && udlejningAktiveret)
-            {
-                await JS.InvokeVoidAsync("alert", "Vælg en scooter til udlejning");
-                return;
-            }
-
-            if (nyOrdre.OrdreContainsYdelse())
-            {
-                nyOrdre.ErAfsluttet = false;
-            }
-            else
-            {
-                nyOrdre.ErAfsluttet = true;
-            }
+            await JS.InvokeVoidAsync("alert", "Vælg en kunde");
+            return;
         }
 
+        if (nyOrdre.VareLinjer.Count == 0)
         {
-            //nyOrdre.Mekaniker = ordreMekaniker;
-            //nyOrdre.KundeScooter = ordreKundeScooter;
-            nyOrdre.ErBetalt = false;
-            nyOrdre.StartDato = DateTime.Now;
-            nyOrdre.BetalingsDato = DateTime.Now;
+            await JS.InvokeVoidAsync("alert", "Tilføj mindst én vare");
+            return;
         }
-        SetUdlejningsScooter();
+
+        if (nyOrdre.SlutDato.Date < nyOrdre.StartDato.Date)
+        {
+            await JS.InvokeVoidAsync("alert", "Slutdato kan ikke være før startdato");
+            return;
+        }
+
+        if (nyOrdre.VareLinjer.Any(v => v.YdelseAntalTimer > 0 && nyOrdre.MekanikerId == null))
+        {
+            await JS.InvokeVoidAsync("alert", "Vælg en mekaniker");
+            return;
+        }
+
+        if (nyOrdre.VareLinjer.Any(v => v.YdelseAntalTimer > 0 && nyOrdre.KundeScooterId == null))
+        {
+            await JS.InvokeVoidAsync("alert", "Vælg en scooter");
+            return;
+        }
+
+        if (udlejningsScooterId == 0 && udlejningAktiveret)
+        {
+            await JS.InvokeVoidAsync("alert", "Vælg en scooter til udlejning");
+            return;
+        }
+
+        if (nyOrdre.OrdreContainsYdelse())
+        {
+            nyOrdre.ErAfsluttet = false;
+            await SetUdlejningsScooter();
+        }
+        else
+        {
+            nyOrdre.ErAfsluttet = true;
+            nyOrdre.MekanikerId = null;
+            nyOrdre.KundeScooterId = null;
+            nyOrdre.SlutDato = DateTime.Now.Date;
+            nyOrdre.BetalingsDato = DateTime.Now.Date;
+        }
+
+        nyOrdre.StartDato = DateTime.Now.Date;
 
         var result = await OrdreService.AddOrdre(nyOrdre);
         if (result.IsSuccessStatusCode)
         {
-            SetUdlejningsScooterTilIkkeTilgængelig();
+            if (nyOrdre.Udlejning != null)
+            {
+                //Bør måske flyttes til repository istedet???
+                await SetUdlejningsScooterTilIkkeTilgængelig();
+            }
             // Når ordren er oprettet, navigér til den nye ordre med det genererede ordreId
             NavigationManager.NavigateTo($"/ordrer");  // Antag, at OrdreId er et property på ordren
             await JS.InvokeVoidAsync("alert", "Ordre oprettet");

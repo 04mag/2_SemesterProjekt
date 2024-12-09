@@ -21,24 +21,33 @@ namespace Anden_SemesterProjekt.Server.Services
         public async Task<int> CreateKunde(Kunde kunde)
         {
             //Tjekker om kundens navn er mellem 2 og 50 karaktere langt.
-            if (!SLValidator.StringLength(kunde.Navn, 2, 50)) return -1;
+            if (!SLValidator.StringLenght(kunde.Navn, 2, 50)) 
+            {
+                throw new Exception("Kunde navn skal være mellem 2 og 50 karaktere langt.");
+            };
 
             //Tjekker om kunden har en gyldig email.
-            if (!SLValidator.EmailIsValid(kunde.Email)) return -1;
+            if (!SLValidator.EmailIsValid(kunde.Email))
+            {
+                throw new Exception($"Ugyldig emailadresse.");
+            };
 
             //Tjekker om alle tlfNumre er gyldige.
             foreach (var tlf in kunde.TlfNumre)
             {
-                if (!SLValidator.PhoneNumberIsValid(tlf.TelefonNummer)) return -1;
+                if (!SLValidator.PhoneNumberIsValid(tlf.TelefonNummer)) 
+                {
+                    throw new Exception("Et af de tilføjede telefonnumre er ikke gyldigt.");
+                }
             }
 
             //Adresse tjek
-            if (kunde.Adresse == null) return -1;
-            if (!SLValidator.StringLength(kunde.Adresse.Gadenavn, 2, 100)) return -1;
-            if (!SLValidator.StringLength(kunde.Adresse.Husnummer, 1, 5)) return -1;
-            if (!SLValidator.StringLength(kunde.Adresse.Etage, 0, 3)) return -1;
-            if (!SLValidator.StringLength(kunde.Adresse.Side, 0, 3)) return -1;
-            if (!SLValidator.StringLength(kunde.Adresse.Dørnummer, 0, 5)) return -1;
+            if (kunde.Adresse == null) throw new Exception("Kunde skal have en adresse.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Gadenavn, 2, 100)) throw new Exception("Gadenavn skal være mellem 2 og 100 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Husnummer, 1, 5)) throw new Exception("Husnummer skal være mellem 1 og 5 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Etage, 0, 3)) throw new Exception("Etage skal være mellem 0 og 3 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Side, 0, 3)) throw new Exception("Side skal være mellem 0 og 3 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Dørnummer, 0, 5)) throw new Exception("Dørnummer skal være mellem 0 og 5 karaktere langt.");
 
             //Postnummer tjekkes ikke da denne tjekkes i databasen i forhold til om foreign key er valid. Dermed valideres by også.
 
@@ -92,24 +101,33 @@ namespace Anden_SemesterProjekt.Server.Services
         public async Task<bool> UpdateKunde(Kunde kunde)
         {
             //Tjekker om kundens navn er mellem 2 og 50 karaktere langt.
-            if (!SLValidator.StringLength(kunde.Navn, 2, 50)) return false;
+            if (!SLValidator.StringLenght(kunde.Navn, 2, 50))
+            {
+                throw new Exception("Kunde navn skal være mellem 2 og 50 karaktere langt.");
+            };
 
             //Tjekker om kunden har en gyldig email.
-            if (!SLValidator.EmailIsValid(kunde.Email)) return false;
+            if (!SLValidator.EmailIsValid(kunde.Email))
+            {
+                throw new Exception($"Ugyldig emailadresse.");
+            };
 
             //Tjekker om alle tlfNumre er gyldige.
             foreach (var tlf in kunde.TlfNumre)
             {
-                if (!SLValidator.PhoneNumberIsValid(tlf.TelefonNummer)) return false;
+                if (!SLValidator.PhoneNumberIsValid(tlf.TelefonNummer))
+                {
+                    throw new Exception("Et af de tilføjede telefonnumre er ikke gyldigt.");
+                }
             }
 
             //Adresse tjek
-            if (kunde.Adresse == null) return false;
-            if (!SLValidator.StringLength(kunde.Adresse.Gadenavn, 2, 100)) return false;
-            if (!SLValidator.StringLength(kunde.Adresse.Husnummer, 1, 5)) return false;
-            if (!SLValidator.StringLength(kunde.Adresse.Etage, 0, 3)) return false;
-            if (!SLValidator.StringLength(kunde.Adresse.Side, 0, 3)) return false;
-            if (!SLValidator.StringLength(kunde.Adresse.Dørnummer, 0, 5)) return false;
+            if (kunde.Adresse == null) throw new Exception("Kunde skal have en adresse.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Gadenavn, 2, 100)) throw new Exception("Gadenavn skal være mellem 2 og 100 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Husnummer, 1, 5)) throw new Exception("Husnummer skal være mellem 1 og 5 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Etage, 0, 3)) throw new Exception("Etage skal være mellem 0 og 3 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Side, 0, 3)) throw new Exception("Side skal være mellem 0 og 3 karaktere langt.");
+            if (!SLValidator.StringLenght(kunde.Adresse.Dørnummer, 0, 5)) throw new Exception("Dørnummer skal være mellem 0 og 5 karaktere langt.");
 
             //Postnummer tjekkes ikke da denne tjekkes i databasen i forhold til om foreign key er valid. Dermed valideres by også.
 

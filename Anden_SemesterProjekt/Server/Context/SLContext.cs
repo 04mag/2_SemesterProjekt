@@ -176,69 +176,89 @@ namespace Anden_SemesterProjekt.Server.Context
                     Navn = "Troels Nielsen",
                     Email = "TrNi@mail.dk",
                     MekanikerId = 1,
-                    ErAktiv = true
+                    ErAktiv = true,
+                    Adresse = null
                 },
                 new Kunde { 
                     KundeId = 2, 
                     Navn = "Anna Hansen", 
                     Email = "AnnaH@mail.dk", 
                     MekanikerId = 3, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 3, 
                     Navn = "Peter Jensen", 
                     Email = "PeJe@mail.dk", 
                     MekanikerId = 1, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 4, 
                     Navn = "Lars Nielsen", 
                     Email = "LaNi@mail.dk", 
                     MekanikerId = 4, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 5, 
                     Navn = "Mette Sørensen",
                     Email = "MeSo@mail.dk", 
                     MekanikerId = 2, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 6, 
                     Navn = "Kasper Andersen", 
                     Email = "KaAn@mail.dk", 
                     MekanikerId = 3, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 7, 
                     Navn = "Sofie Pedersen", 
                     Email = "SoPe@mail.dk", 
                     MekanikerId = 3, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 8, 
                     Navn = "Jonas Kristensen", 
                     Email = "JoKr@mail.dk", 
                     MekanikerId = 1, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 9, 
                     Navn = "Camilla Thomsen", 
                     Email = "CaTh@mail.dk", 
                     MekanikerId = 4, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde { 
                     KundeId = 10, 
                     Navn = "Frederik Rasmussen", 
                     Email = "FrRa@mail.dk", 
                     MekanikerId = 1, 
-                    ErAktiv = true },
+                    ErAktiv = true,
+                    Adresse = null
+                },
                 new Kunde
                 {
                     KundeId = 11,
                     Navn = "Jens Nielsen",
                     Email = "JensNielsen@mail.dk",
                     MekanikerId = 2,
-                    ErAktiv = true
+                    ErAktiv = true,
+                    Adresse = null
                 },
                 new Kunde
                 {
@@ -246,7 +266,8 @@ namespace Anden_SemesterProjekt.Server.Context
                     Navn = "Maja Larsen",
                     Email = "MaLa@mail.dk",
                     MekanikerId = 3,
-                    ErAktiv = true
+                    ErAktiv = true,
+                    Adresse = null
                 },
                 new Kunde
                 {
@@ -254,7 +275,8 @@ namespace Anden_SemesterProjekt.Server.Context
                     Navn = "Nikolaj Møller",
                     Email = "NiMo@mail.dk",
                     MekanikerId = 2,
-                    ErAktiv = true
+                    ErAktiv = true,
+                    Adresse = null
                 },
                 new Kunde
                 {
@@ -262,7 +284,8 @@ namespace Anden_SemesterProjekt.Server.Context
                     Navn = "Julie Olesen",
                     Email = "JuOl@mail.dk",
                     MekanikerId = 1,
-                    ErAktiv = true
+                    ErAktiv = true,
+                    Adresse = null
                 },
                 new Kunde
                 {
@@ -270,7 +293,8 @@ namespace Anden_SemesterProjekt.Server.Context
                     Navn = "Henrik Poulsen",
                     Email = "HePo@mail.dk",
                     MekanikerId = 4,
-                    ErAktiv = true
+                    ErAktiv = true,
+                    Adresse = null
                 },
                 new Kunde
                 {
@@ -278,7 +302,8 @@ namespace Anden_SemesterProjekt.Server.Context
                     Navn = "Katrine Holm",
                     Email = "KaHo@mail.dk",
                     MekanikerId = 3,
-                    ErAktiv = true
+                    ErAktiv = true,
+                    Adresse = null
                 }
             );
 
