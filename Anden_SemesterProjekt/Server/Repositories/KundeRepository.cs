@@ -28,24 +28,23 @@ namespace Anden_SemesterProjekt.Server.Repositories
         ///
         public async Task<int> CreateKunde(Kunde kunde)
         {
-            int id = 0;
             try
             {
                 await _context.Kunder.AddAsync(kunde);
                 await _context.SaveChangesAsync();
 
-                id = kunde.KundeId;
+                int id = kunde.KundeId;
+
+                if (id > 0)
+                {
+                    return id;
+                }
+                else
+                {
+                    throw new Exception("Kunde kunne ikke oprettes.");
+                }
             }
             catch
-            {
-                throw new Exception("Kunde kunne ikke oprettes.");
-            }
-
-            if (id > 0)
-            {
-                return id;
-            }
-            else
             {
                 throw new Exception("Kunde kunne ikke oprettes.");
             }
