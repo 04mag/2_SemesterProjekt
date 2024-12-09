@@ -3,6 +3,7 @@ using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Net.Http.Json;
+using System.Text;
 
 
 namespace Anden_SemesterProjekt.Client.Pages.Ordrer;
@@ -123,7 +124,7 @@ public partial class OpretOrdrePage
         ordreKunde = kunde;
         nyOrdre.KundeId = kunde.KundeId;
 
-        if (ordreVareLinjer.Any(v => v.Vare is Ydelse)) nyOrdre.MekanikerId = kunde.MekanikerId;
+        nyOrdre.MekanikerId = kunde.MekanikerId;
 
         ordreMekaniker = kunde.TilknyttetMekaniker;
         MekanikerÆndres();
@@ -291,6 +292,10 @@ public partial class OpretOrdrePage
         nyOrdre.Kunde = nyKunde;
         søgeTekstKunder = nyKunde.Navn;
         nyOrdre.MekanikerId = nyKunde.MekanikerId;
+
+        ordreMekaniker = nyKunde.TilknyttetMekaniker;
+        MekanikerÆndres();
+
         opretKundeModal = false; // Luk modalvinduet
         alleKunder = await KundeService.GetKunder(); // Opdater kundeliste
         StateHasChanged(); // Opdater UI

@@ -156,8 +156,12 @@
                             }
                         </ul>
                     }
-                    <div class="text-end mt-3">
-                        <button class="btn btn-secondary btn-sm" type="button" @onclick="OpretKunde">Ny kunde</button>
+                    <div class="mt-3">
+                        @if (ordreMekaniker != null && ordreMekaniker.Navn != null)
+                        {
+                            <span>Tilknyttet mekaniker: @ordreMekaniker.Navn</span>
+                        }
+                        <button class="btn btn-secondary btn-sm float-end" type="button" @onclick="OpretKunde">Ny kunde</button>
                     </div>
                 </div>
             </div>
