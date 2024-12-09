@@ -1,12 +1,20 @@
 ﻿@using Anden_SemesterProjekt.Client.Services
 @using Anden_SemesterProjekt.Shared.Models
-@layout NoMenuLayout
+@implements IAsyncDisposable
+@* @layout NoMenuLayout *@
 
 @page "/ordrer/{OrdreId:int}"
 
 <PageTitle>(@OrdreId)Ordre Information</PageTitle>
 
-<div class="maxwidth">
+@* Print knappe *@
+<div class="hideWhilePrint">
+    <button class="btn btn-primary float-end" id="PrintBtn">Print / Gem</button>
+</div>
+
+<div class="maxwidth printDiv">
+
+    @* Øverste del af ordre/faktura/kvittering *@
     <div class="row">
         
         <div class="col-md-12 mb-2">
@@ -61,7 +69,7 @@
     </div>
 
     
-
+    @* Selve tabellen med infor om varer, pris osv. *@
     <div class="row mb-5">
         <table class="table table-sm">
             <thead>
@@ -371,7 +379,7 @@
         </table>
     </div>
 
-
+    @* Betaling / bemærkninger *@
     @if (OrdreModel.ErAfsluttet == false)
     {
         <div class="row mb-5">
@@ -388,7 +396,6 @@
             <span>Bankoverførsel til: Reg.nr. 1234 Konto nr. 5678</span>
         </div>
     }
-    
 
     <div class="footer">
         <div class="row maxwidth align-items-center">
@@ -406,6 +413,9 @@
     [Inject]
     public IOrdreClientService OrdreService { get; set; }
 
+    [Inject]
+    public IJSRuntime JS { get; set; }
+
     public Ordre OrdreModel { get; set; } = new Ordre();
 
     override protected async Task OnInitializedAsync()
@@ -418,6 +428,36 @@
         }
 
         //Indlæse varer og ydelser for ordre manuelt her for at omgå problemer med json og arv. Ellers fås antal timer ikke med på ydelser.
+    }
+
+
+
+    //Print del
+    private IJSObjectReference? module;
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import",
+                "./Pages/Ordrer/OrdreInfoPage.razor.js");
+
+            await module.InvokeVoidAsync("addHandlers");
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        if (module is not null)
+        {
+            try
+            {
+                await module.DisposeAsync();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
+        }
     }
 
 }
