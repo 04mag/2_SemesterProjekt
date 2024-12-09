@@ -2,14 +2,14 @@
     <!-- Overskrift og søgefelt -->
     <div class="row align-items-center mb-4">
         <!-- Vareoversigt -->
-        <div class="col-6">
+        <div class="col-md-6">
             <h3 class="mb-0">Vareoversigt</h3>
         </div>
 
         <!-- Søgefelt -->
-        <div class="col-6 text-end">
+        <div class="col-md-6">
             <input type="text"
-            class="form-control"
+                   class="form-control float-end"
             placeholder="Søg efter varer..."
             @bind-value="searchTerm"
             @bind-value:event="oninput" />
