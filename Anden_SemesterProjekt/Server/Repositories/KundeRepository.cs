@@ -25,12 +25,21 @@ namespace Anden_SemesterProjekt.Server.Repositories
         /// </summary>
         /// <param name="kunde"></param>
         /// <returns>Retunerer kundeId hvis kunden er oprettet, ellers -1.</returns>
+        ///
         public async Task<int> CreateKunde(Kunde kunde)
         {
-            await _context.Kunder.AddAsync(kunde);
-            await _context.SaveChangesAsync();
+            int id = 0;
+            try
+            {
+                await _context.Kunder.AddAsync(kunde);
+                await _context.SaveChangesAsync();
 
-            int id = kunde.KundeId;
+                id = kunde.KundeId;
+            }
+            catch
+            {
+                throw new Exception("Kunde kunne ikke oprettes.");
+            }
 
             if (id > 0)
             {
@@ -38,7 +47,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
-                return -1;
+                throw new Exception("Kunde kunne ikke oprettes.");
             }
         }
 
@@ -57,18 +66,18 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             else
             {
-                bool aktiveOrdrer = await _context.Ordrer.AnyAsync(o => o.KundeId == id && o.ErAfsluttet == false);
-
-                if (aktiveOrdrer)
-                {
-                    return false;
-                }
-
                 kunde.ErAktiv = false;
 
-                await UpdateKunde(kunde);
+                try
+                {
+                    await UpdateKunde(kunde);
+                    await _context.SaveChangesAsync();
+                }
+                catch
+                {
+                    throw new Exception("Kunde kunne ikke slettes, da kunde status ikke kunne opdateres.");
+                }
 
-                await _context.SaveChangesAsync();
                 return true;
             }
         }
@@ -96,7 +105,6 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.Scootere!).ThenInclude(s => s.Mærke)
                     .Include(k => k.TlfNumre)
                     .Include(k => k.TilknyttetMekaniker)
-                    .Include(k => k.Ordrer)
                     .Include(k => k.Adresse).ThenInclude(a => a!.By)
                     .Where(k => k.KundeId == id)
                     .FirstOrDefaultAsync();
@@ -112,7 +120,7 @@ namespace Anden_SemesterProjekt.Server.Repositories
             }
             catch
             {
-                return null;
+                throw new Exception("Kunde kunne ikke findes.");
             }
         }
 
@@ -128,7 +136,6 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     .Include(k => k.Scootere!).ThenInclude(s => s.Mærke)
                     .Include(k => k.TlfNumre)
                     .Include(k => k.TilknyttetMekaniker)
-                    .Include(k => k.Ordrer)
                     .Include(k => k.Adresse).ThenInclude(a => a!.By)
                     .Where(k => k.ErAktiv == true)
                     .ToListAsync();
@@ -142,10 +149,9 @@ namespace Anden_SemesterProjekt.Server.Repositories
                     return result;
                 }
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine(e.Message);
-                return null;
+                throw new Exception("Kunder kunne ikke findes.");
             }
         }
 
@@ -160,77 +166,76 @@ namespace Anden_SemesterProjekt.Server.Repositories
             var existingKunde = await _context.Kunder.FindAsync(kunde.KundeId);
             if (existingKunde == null)
             {
-                return false;
+                throw new Exception("Kunden som blev forsøgt opdateret findes ikke.");
             }
-            else
+
+            //Setter alle værdier på existingKunde til værdierne på kunde
+            _context.Entry(existingKunde).CurrentValues.SetValues(kunde);
+
+
+            //Opdaterer adresse
+            if (kunde.Adresse == null)
             {
-                //Setter alle værdier på existingKunde til værdierne på kunde
-                _context.Entry(existingKunde).CurrentValues.SetValues(kunde);
-
-
-                //Opdaterer adresse
-                if (kunde.Adresse == null)
-                {
-                    kunde.Adresse = new Adresse();
-                }
-                var existingAdresse = await _context.Adresser.FindAsync(kunde.Adresse.AdresseId);
-                if (existingAdresse == null)
-                {
-                    return false;
-                }
-                else
-                {
-                    _context.Entry(existingAdresse).CurrentValues.SetValues(kunde.Adresse);
-                }
-
-
-                //Sletter tlfNumre fra database som ikke længere findes i kunde objektet
-                //Finder Id på alle kundens tlfnumre
-                var allValidIds = kunde.TlfNumre.Select(t => t.TlfNummerId).ToList();
-                //Finder alle tlfnumre som ikke findes i kunde objektet
-                var missingRows = await _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToListAsync();
-                
-
-                foreach (var nummer in kunde.TlfNumre)
-                {
-                    if (nummer.TlfNummerId == 0)
-                    {
-                        existingKunde.TlfNumre.Add(nummer);
-                    }
-                }
-
-                existingKunde.TlfNumre = existingKunde.TlfNumre.Except(missingRows).ToList();
-
-                //Sletter scootere som ikke længere tilhører kunden
-                if (kunde.Scootere == null)
-                {
-                    kunde.Scootere = new List<KundeScooter>();
-                }
-                //Finder Id på alle kundens scootere
-                var allValidScooterIds = kunde.Scootere.Select(s => s.ScooterId).ToList();
-                //Finder alle scootere som ikke findes i kunde objektet
-                var missingScooterRows = _context.Scootere.OfType<KundeScooter>().Where(s => s.KundeId == kunde.KundeId && !allValidScooterIds.Contains(s.ScooterId)).ToList();
-
-                if (existingKunde.Scootere == null)
-                {
-                    existingKunde.Scootere = new List<KundeScooter>();
-                }
-
-                foreach (var scooter in kunde.Scootere)
-                {
-                    if (scooter.ScooterId == 0)
-                    {
-                        existingKunde.Scootere.Add(scooter);
-                    }
-                }
-
-                existingKunde.Scootere = existingKunde.Scootere.Except(missingScooterRows).ToList();
-
-                
-
-                await _context.SaveChangesAsync();
-                return true;
+                kunde.Adresse = new Adresse();
             }
+            
+            var existingAdresse = await _context.Adresser.FindAsync(kunde.Adresse.AdresseId);
+            if (existingAdresse == null)
+            {
+                throw new Exception("Adressen som blev forsøgt opdateret findes ikke.");
+            }
+
+            _context.Entry(existingAdresse).CurrentValues.SetValues(kunde.Adresse);
+
+
+            //Sletter tlfNumre fra database som ikke længere findes i kunde objektet
+            //Finder Id på alle kundens tlfnumre
+            var allValidIds = kunde.TlfNumre.Select(t => t.TlfNummerId).ToList();
+            //Finder alle tlfnumre som ikke findes i kunde objektet
+            var missingRows = await _context.TlfNumre.Where(t => t.KundeId == kunde.KundeId && !allValidIds.Contains(t.TlfNummerId)).ToListAsync();
+
+
+            foreach (var nummer in kunde.TlfNumre)
+            {
+                if (nummer.TlfNummerId == 0)
+                {
+                    existingKunde.TlfNumre.Add(nummer);
+                }
+            }
+
+            existingKunde.TlfNumre = existingKunde.TlfNumre.Except(missingRows).ToList();
+
+
+            //Sletter scootere som ikke længere tilhører kunden
+            if (kunde.Scootere == null)
+            {
+                kunde.Scootere = new List<KundeScooter>();
+            }
+
+            //Finder Id på alle kundens scootere
+            var allValidScooterIds = kunde.Scootere.Select(s => s.ScooterId).ToList();
+            //Finder alle scootere som ikke findes i kunde objektet
+            var missingScooterRows = _context.Scootere.OfType<KundeScooter>().Where(s => s.KundeId == kunde.KundeId && !allValidScooterIds.Contains(s.ScooterId)).ToList();
+
+            if (existingKunde.Scootere == null)
+            {
+                existingKunde.Scootere = new List<KundeScooter>();
+            }
+
+            foreach (var scooter in kunde.Scootere)
+            {
+                if (scooter.ScooterId == 0)
+                {
+                    existingKunde.Scootere.Add(scooter);
+                }
+            }
+
+            existingKunde.Scootere = existingKunde.Scootere.Except(missingScooterRows).ToList();
+
+
+
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
