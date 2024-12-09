@@ -1,37 +1,37 @@
 ﻿@using Anden_SemesterProjekt.Client.Services
 @using Anden_SemesterProjekt.Shared.Models
 @using System.Drawing
-<div class="col-12">
-    <div style="background-color:@BackgroundColor" class="row border border-primary rounded mb-1 p-1 align-middle">
-        <div class="col-md-1 p-1">
+<div class="col-12 mb-1">
+    <div style="background-color:@BackgroundColor" class="row border border-primary rounded mb-1 p-1">
+        <div class="col-md-1 p-1 align-content-center">
             <span># @Ordre.OrdreId</span>
         </div>
         @if (Ordre.Kunde != null)
         {
-            <div class="col-md-2 p-1">
+            <div class="col-md-2 p-1 align-content-center">
                 <span>@Ordre.Kunde.Navn</span>
             </div>
         }
-        <div class="col-md-2 p-1">
+        <div class="col-md-2 p-1 align-content-center">
             <span>Start Dato: @Ordre.StartDato.ToShortDateString()</span>
         </div>
-        <div class="col-md-2 p-1">
+        <div class="col-md-2 p-1 align-content-center">
             <span>Slut Dato: @Ordre.SlutDato.ToShortDateString()</span>
         </div>
-        <div class="col-md-2 p-1">
+        <div class="col-md-2 p-1 align-content-center">
             <span>Status: @Ordre.GetStatus()</span>
         </div>
         <div class="col-md-3 p-1">
-            <button disabled="@isBusy" type="button" class="btn btn-primary float-end mb-2" @onclick="HandleClick">@GetInfoString()</button>
+            <button disabled="@isBusy" type="button" class="btn btn-primary float-end mb-1 align-content-center" @onclick="HandleClick">@GetInfoString()</button>
             @if (Ordre.ErAfsluttet == false)
             {
-                <button disabled="@isBusy" type="button" class="btn btn-warning float-end me-2 mb-2" @onclick="OnEditClicked">Rediger</button>
+                <button disabled="@isBusy" type="button" class="btn btn-warning float-end me-2 mb-1 align-content-center" @onclick="OnEditClicked">Rediger</button>
             }
             @if (Ordre.ErAfsluttet == true)
             {
                 @if (!Ordre.ErBetalt)
                 {
-                    <button disabled="@isBusy" type="button" class="btn btn-danger float-end me-2 mb-2" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
+                    <button disabled="@isBusy" type="button" class="btn btn-danger float-end me-2 mb-1 align-content-center" @onclick="OnBetaltClicked">@ErBetaltButtonText</button>
                 }
             }
         </div>
