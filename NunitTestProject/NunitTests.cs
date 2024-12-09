@@ -20,6 +20,8 @@ namespace NunitTestProject
         [TestCase("mail@mail.co.uk", true)]
         [TestCase("mail@mail", false)]
         [TestCase("mailmail.dk", false)]
+        [TestCase("mail@mail.dk()", false)]
+        [TestCase("[#mail@mail.dk", false)]
         [TestCase("mailmail", false)]
         [TestCase("mail@mail..dk", false)]
         [TestCase("mail@mail.d", false)]
