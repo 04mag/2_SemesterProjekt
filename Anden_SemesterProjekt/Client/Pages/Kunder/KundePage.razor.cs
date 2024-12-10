@@ -24,6 +24,10 @@ namespace Anden_SemesterProjekt.Client.Pages.Kunder
             {
                 kunder = result.OrderByDescending(k => k.KundeId).ToList();
             }
+            else if (result == null)
+            {
+                kunder = null;
+            }
         }
 
         protected override async Task OnInitializedAsync()

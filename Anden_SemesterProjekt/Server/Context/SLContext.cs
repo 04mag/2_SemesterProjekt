@@ -179,75 +179,84 @@ namespace Anden_SemesterProjekt.Server.Context
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 2, 
-                    Navn = "Anna Hansen", 
-                    Email = "AnnaH@mail.dk", 
-                    MekanikerId = 3, 
+                new Kunde
+                {
+                    KundeId = 2,
+                    Navn = "Anna Hansen",
+                    Email = "AnnaH@mail.dk",
+                    MekanikerId = 3,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 3, 
-                    Navn = "Peter Jensen", 
-                    Email = "PeJe@mail.dk", 
-                    MekanikerId = 1, 
+                new Kunde
+                {
+                    KundeId = 3,
+                    Navn = "Peter Jensen",
+                    Email = "PeJe@mail.dk",
+                    MekanikerId = 1,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 4, 
-                    Navn = "Lars Nielsen", 
-                    Email = "LaNi@mail.dk", 
-                    MekanikerId = 4, 
+                new Kunde
+                {
+                    KundeId = 4,
+                    Navn = "Lars Nielsen",
+                    Email = "LaNi@mail.dk",
+                    MekanikerId = 4,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 5, 
+                new Kunde
+                {
+                    KundeId = 5,
                     Navn = "Mette Sørensen",
-                    Email = "MeSo@mail.dk", 
-                    MekanikerId = 2, 
+                    Email = "MeSo@mail.dk",
+                    MekanikerId = 2,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 6, 
-                    Navn = "Kasper Andersen", 
-                    Email = "KaAn@mail.dk", 
-                    MekanikerId = 3, 
+                new Kunde
+                {
+                    KundeId = 6,
+                    Navn = "Kasper Andersen",
+                    Email = "KaAn@mail.dk",
+                    MekanikerId = 3,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 7, 
-                    Navn = "Sofie Pedersen", 
-                    Email = "SoPe@mail.dk", 
-                    MekanikerId = 3, 
+                new Kunde
+                {
+                    KundeId = 7,
+                    Navn = "Sofie Pedersen",
+                    Email = "SoPe@mail.dk",
+                    MekanikerId = 3,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 8, 
-                    Navn = "Jonas Kristensen", 
-                    Email = "JoKr@mail.dk", 
-                    MekanikerId = 1, 
+                new Kunde
+                {
+                    KundeId = 8,
+                    Navn = "Jonas Kristensen",
+                    Email = "JoKr@mail.dk",
+                    MekanikerId = 1,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 9, 
-                    Navn = "Camilla Thomsen", 
-                    Email = "CaTh@mail.dk", 
-                    MekanikerId = 4, 
+                new Kunde
+                {
+                    KundeId = 9,
+                    Navn = "Camilla Thomsen",
+                    Email = "CaTh@mail.dk",
+                    MekanikerId = 4,
                     ErAktiv = true,
                     Adresse = null
                 },
-                new Kunde { 
-                    KundeId = 10, 
-                    Navn = "Frederik Rasmussen", 
-                    Email = "FrRa@mail.dk", 
-                    MekanikerId = 1, 
+                new Kunde
+                {
+                    KundeId = 10,
+                    Navn = "Frederik Rasmussen",
+                    Email = "FrRa@mail.dk",
+                    MekanikerId = 1,
                     ErAktiv = true,
                     Adresse = null
                 },
@@ -634,17 +643,17 @@ namespace Anden_SemesterProjekt.Server.Context
             );
 
             modelBuilder.Entity<TlfNummer>().HasData(
-                new TlfNummer 
-                { 
-                    TlfNummerId = 1, 
-                    KundeId = 1, 
-                    TelefonNummer = "34345678" 
+                new TlfNummer
+                {
+                    TlfNummerId = 1,
+                    KundeId = 1,
+                    TelefonNummer = "34345678"
                 },
-                new TlfNummer 
-                { 
+                new TlfNummer
+                {
                     TlfNummerId = 2,
-                    KundeId = 1, 
-                    TelefonNummer = "47254321" 
+                    KundeId = 1,
+                    TelefonNummer = "47254321"
                 },
                 new TlfNummer
                 {

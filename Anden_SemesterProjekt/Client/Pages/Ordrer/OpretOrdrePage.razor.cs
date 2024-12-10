@@ -67,10 +67,48 @@ public partial class OpretOrdrePage
 
     protected override async Task OnInitializedAsync()
     {
-        alleVarer = await VareService.GetAktiveVarer();
-        alleYdelser = await VareService.GetAktiveYdelser();
-        alleKunder = await KundeService.GetKunder();
+        
+        try
+        {
+            List<Vare>? varerResult = await VareService.GetAktiveVarer();
+
+            if (varerResult != null)
+            {
+                alleVarer = varerResult;
+            }
+        }
+        catch
+        {
+            alleVarer = new List<Vare>();
+        }
+
+        try
+        {
+            List<Ydelse>? ydelserResult = await VareService.GetAktiveYdelser();
+
+            if (ydelserResult != null)
+            {
+                alleYdelser = ydelserResult;
+            }
+        }
+        catch
+        {
+            alleYdelser = new List<Ydelse>();
+        }
+
+        List<Kunde>? kunderResult = await KundeService.GetKunder();
+
+        if (kunderResult != null)
+        {
+            alleKunder = kunderResult;
+        }
+        else
+        {
+            alleKunder = new List<Kunde>();
+        }
+
         ordreVareLinje = new VareLinje();
+
         udlejningsScootere = await ScooterService.GetAllUdlejningsScootereAsync();
         udlejningsScootere = udlejningsScootere.Where(s => s.ErTilgængelig).ToList();
         ordreVareLinje.Vare = ordreVare;
