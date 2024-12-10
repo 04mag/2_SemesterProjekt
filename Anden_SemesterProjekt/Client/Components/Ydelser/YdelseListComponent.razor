@@ -66,11 +66,11 @@
             <div class="modal-content">
                 <span class="close-button" @onclick="CloseEditModal">&times;</span>
                 <h3>Navn:</h3>
-                <input type="text" @bind="redigeretYdelse.Beskrivelse" />
+                <input type="text" class="form-control mb-3" @bind="redigeretYdelse.Beskrivelse" />
                 <h3>Pris:</h3>
-                <input type="number" @bind="redigeretYdelse.Pris" />
+                <input type="number" step="any" class="form-control mb-3" @bind="redigeretYdelse.Pris" />
                 <h3>Antal timer:</h3>
-                <input type="number" @bind="redigeretYdelse.AntalTimer" />
+                <input type="number" step="any" class="form-control mb-3" @bind="redigeretYdelse.AntalTimer" />
                 <button class="btn btn-primary" type="submit">Gem</button>
                 <p></p>
                 <button class="btn btn-danger btn-sm delete-button" type=button @onclick="() =>SoftDelete()">Slet</button>
