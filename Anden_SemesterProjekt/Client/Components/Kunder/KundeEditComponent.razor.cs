@@ -63,15 +63,15 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
                 if (result.IsSuccessStatusCode)
                 {
-                    isSubmitting = false;
                     await JS.InvokeVoidAsync("alert", "Nye kundeoplysninger blev gemt.");
+                    isSubmitting = false;
                     NavigationManager.NavigateTo("/kunder");
 
                 }
                 else
                 {
-                    isSubmitting = false;
                     await JS.InvokeVoidAsync("alert", "Der skete en fejl under opdatering af kunden.");
+                    isSubmitting = false;
                 }
             }
 
@@ -80,11 +80,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
         private async void HandleInvalidSubmit()
         {
-            isSubmitting = true;
-            
-            await JS.InvokeVoidAsync("alert", "Der er udfyldt ugyldige felter.");
-
-            isSubmitting = false;
+            await JS.InvokeVoidAsync("alert", "Felter er ikke udfyldt korrekt!");
         }
 
         private async Task<bool> CheckPostnummer()

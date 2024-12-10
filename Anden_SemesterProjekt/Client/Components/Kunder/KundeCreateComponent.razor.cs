@@ -2,6 +2,7 @@
 using Anden_SemesterProjekt.Shared.Models;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
 
 namespace Anden_SemesterProjekt.Client.Components.Kunder
 {
@@ -19,6 +20,9 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
         [Parameter]
         public EventCallback<Kunde> OnKundeAdded { get; set; }
+
+        [Inject]
+        public IJSRuntime JS { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
@@ -43,6 +47,7 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
                 if (result != null)
                 {
+                    await JS.InvokeVoidAsync("alert", "Kunde tilføjet");
                     await OnKundeAdded.InvokeAsync(result);
                     kundeModel = new Kunde();
                     Mekaniker = null;
@@ -54,11 +59,8 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
 
         private async Task HandleInvalidSubmit()
         {
-            isSubmitting = true;
-
             await CheckPostnummer();
-
-            isSubmitting = false;
+            await JS.InvokeVoidAsync("alert", "Felter er ikke udfyldt korrekt!");
         }
 
         private async Task<bool> CheckPostnummer()
