@@ -32,6 +32,8 @@ public partial class OpretOrdrePage
     private bool isChecked = false;
     private bool udlejningAktiveret;
 
+    private bool isBusy = false;
+
     // Søgning på varer og kunder
 
     #region Søgning på varer og kunder
@@ -216,6 +218,8 @@ public partial class OpretOrdrePage
 
     public async Task OpretOrdre()
     {
+        
+
         // Tjekker at alle ordreinfo er tilstede inden vi opretter.
         if (nyOrdre.KundeId == 0)
         {
@@ -253,6 +257,11 @@ public partial class OpretOrdrePage
             return;
         }
 
+        //Sætter isBusy til true, så brugeren ikke kan trykke flere gange på knappen
+        isBusy = true;
+
+        StateHasChanged();
+
         if (nyOrdre.OrdreContainsYdelse())
         {
             nyOrdre.ErAfsluttet = false;
@@ -285,6 +294,8 @@ public partial class OpretOrdrePage
         {
             await JS.InvokeVoidAsync("alert", "Ordre kunne ikke oprettes");
         }
+
+        isBusy = false;
     }
     private async Task NyKunde(Kunde? nyKunde)
     {
