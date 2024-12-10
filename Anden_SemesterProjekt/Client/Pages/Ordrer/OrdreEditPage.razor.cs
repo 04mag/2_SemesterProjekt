@@ -84,6 +84,7 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
                 }
                 else
                 {
+                    OrdreModel.ErAfsluttet = false;
                     await JS.InvokeVoidAsync("alert", "Ordren kunne ikke opdateres!");
                     await HentOrdre();
                 }
@@ -96,9 +97,9 @@ namespace Anden_SemesterProjekt.Client.Pages.Ordrer
             isBusy = false;
         }
 
-        public void OnInvalidSubmit()
+        public async Task OnInvalidSubmit()
         {
-            Console.WriteLine("Invalid submit!");
+            await JS.InvokeVoidAsync("alert", "Felter er ikke udfyldt korrekt!");
         }
     }
 }

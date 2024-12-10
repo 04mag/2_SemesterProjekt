@@ -3,70 +3,78 @@
 
 <PageTitle>Rediger ordre</PageTitle>
 
-@if (OrdreModel != null && OrdreModel.OrdreId == 0)
+@if (isBusy)
 {
-    <p>Ordre indlæses...</p>
-}
-else if (OrdreModel == null)
-{
-    <p>Ordre med ID: @Id blev ikke fundet</p>
-}
-else if (OrdreModel.ErAfsluttet == true)
-{
-    <p>Ordre med ID: @OrdreModel.OrdreId er allerede afsluttet og kan dermed ikke ændres.</p>
+    <Spinner />
 }
 else
 {
-    <PageTitle>(@OrdreModel.OrdreId)Rediger ordre</PageTitle>
-    <div class="row p-3 mb-5 border border-primary rounded">
-        <div class="col-md-6">
-            <h3>Rediger ordre med ID: @OrdreModel.OrdreId</h3>
+    @if (OrdreModel != null && OrdreModel.OrdreId == 0)
+    {
+        <p>Ordre indlæses...</p>
+    }
+    else if (OrdreModel == null)
+    {
+        <p>Ordre med ID: @Id blev ikke fundet</p>
+    }
+    else if (OrdreModel.ErAfsluttet == true)
+    {
+        <p>Ordre med ID: @OrdreModel.OrdreId er allerede afsluttet og kan dermed ikke ændres.</p>
+    }
+    else
+    {
+        <PageTitle>(@OrdreModel.OrdreId)Rediger ordre</PageTitle>
+        <div class="row p-3 mb-5 border border-primary rounded">
+            <div class="col-md-6">
+                <h3>Rediger ordre med ID: @OrdreModel.OrdreId</h3>
+            </div>
+            <div class="col-md-6">
+                @if (OrdreModel.Kunde != null)
+                {
+                    <h4 class="float-end">Kunde: @OrdreModel.Kunde.Navn</h4>
+                }
+            </div>
         </div>
-        <div class="col-md-6">
-            @if (OrdreModel.Kunde != null)
+
+        <EditForm class="row p-3 mb-5 border border-primary rounded" EditContext="EditContext" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
+            <DataAnnotationsValidator />
+            <div class="col-md-6 mb-3">
+                <label for="Bemærkninger" class="form-label">Bemærkninger</label>
+                <InputTextArea id="Bemærkninger" class="form-control" @bind-Value="OrdreModel.Bemærkninger" />
+                <ValidationMessage For="@(() => OrdreModel.Bemærkninger)" />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="SlutDato" class="form-label">Slut dato</label>
+                <InputDate id="Dato" class="form-control" @bind-Value="OrdreModel.SlutDato" />
+                <ValidationMessage For="@(() => OrdreModel.SlutDato)" />
+            </div>
+            @if (OrdreModel.Udlejning != null)
             {
-                <h4 class="float-end">Kunde: @OrdreModel.Kunde.Navn</h4>
+                <div class="col-12">
+                    <h4>Udlejning</h4>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="AntalKmKørt" class="form-label">Antal km kørt</label>
+                    <InputNumber id="AntalKmKørt" class="form-control" @bind-Value="OrdreModel.Udlejning.AntalKmKørt" />
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="SelvrisikoUdløst">Selvrisiko udløst?</label>
+                    <InputCheckbox id="SelvrisikoUdløst" @bind-Value="OrdreModel.Udlejning.SelvrisikoUdløst" />
+                </div>
             }
-        </div>
-    </div>
 
-    <EditForm class="row p-3 mb-5 border border-primary rounded" EditContext="EditContext" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
-        <DataAnnotationsValidator />
-        <div class="col-md-6 mb-3">
-            <label for="Bemærkninger" class="form-label">Bemærkninger</label>
-            <InputTextArea id="Bemærkninger" class="form-control" @bind-Value="OrdreModel.Bemærkninger" />
-            <ValidationMessage For="@(() => OrdreModel.Bemærkninger)" />
-        </div>
-        <div class="col-md-6 mb-3">
-            <label for="SlutDato" class="form-label">Slut dato</label>
-            <InputDate id="Dato" class="form-control" @bind-Value="OrdreModel.SlutDato" />
-            <ValidationMessage For="@(() => OrdreModel.SlutDato)" />
-        </div>
-        @if (OrdreModel.Udlejning != null)
-        {
             <div class="col-12">
-                <h4>Udlejning</h4>
+                <h4>Afslut ordre</h4>
             </div>
-            <div class="col-md-6 mb-3">
-                <label for="AntalKmKørt" class="form-label">Antal km kørt</label>
-                <InputNumber id="AntalKmKørt" class="form-control" @bind-Value="OrdreModel.Udlejning.AntalKmKørt" />
+            <div class="col-12 mb-3">
+                <label for="ErAfsluttet">Skal ordren markeres som afsluttet?</label>
+                <InputCheckbox id="ErAfsluttet" @bind-Value="ordreAfsluttet" />
             </div>
-            <div class="col-md-6 mb-3">
-                <label for="SelvrisikoUdløst">Selvrisiko udløst?</label>
-                <InputCheckbox id="SelvrisikoUdløst" @bind-Value="OrdreModel.Udlejning.SelvrisikoUdløst" />
-            </div>
-        }
 
-        <div class="col-12">
-            <h4>Afslut ordre</h4>
-        </div>
-        <div class="col-12 mb-3">
-            <label for="ErAfsluttet">Skal ordren markeres som afsluttet?</label>
-            <InputCheckbox id="ErAfsluttet" @bind-Value="ordreAfsluttet" />
-        </div>
-
-        <div class="col-12 mb-3">
-            <button disabled="@isBusy" type="submit" class="btn btn-primary">Gem</button>
-        </div>
-    </EditForm>
+            <div class="col-12 mb-3">
+                <button disabled="@isBusy" type="submit" class="btn btn-primary">Gem</button>
+            </div>
+        </EditForm>
+    }
 }
+
