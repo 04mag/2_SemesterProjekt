@@ -1,4 +1,5 @@
-﻿@using Anden_SemesterProjekt.Shared.Models
+﻿@using Anden_SemesterProjekt.Client.Services
+@using Anden_SemesterProjekt.Shared.Models
 
 
 
@@ -17,6 +18,11 @@
                     {
                         <br />
                         <span>Mærke: @scooter.Mærke.ScooterMærke</span>
+                    }
+                    else if (MærkeList != null && scooter.MærkeId > 0)
+                    {
+                        <br />
+                        <span>Mærke: @MærkeList.FirstOrDefault(m => m.MærkeId == scooter.MærkeId)?.ScooterMærke</span>
                     }
                 </div>
                 @if (OnDeleteScooter.HasDelegate)
@@ -38,6 +44,16 @@
 
     [Parameter]
     public EventCallback<KundeScooter> OnDeleteScooter { get; set; }
+
+    [Inject]
+    public IMærkeClientService MærkeService { get; set; }
+
+    public List<Mærke>? MærkeList { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        MærkeList = await MærkeService.GetMærker();
+    }
 }
 
 
