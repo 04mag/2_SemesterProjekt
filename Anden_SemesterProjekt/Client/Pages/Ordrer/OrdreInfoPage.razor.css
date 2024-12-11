@@ -24,3 +24,10 @@ tbody tr:hover {
     background-color: #ffffff; /* Lys baggrund når musen hover */
     cursor: default; /* Ændrer markøren til en hånd for klikbare elementer */
 }
+
+.image-auto {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 40px;
+}

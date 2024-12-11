@@ -34,7 +34,7 @@
             
         </div>
 
-        <h1 class="mb-3">Scooterland</h1>
+        <img class="image-auto mb-3" src="@imageSource" />
 
         @if (OrdreModel.Kunde != null)
         {
@@ -380,7 +380,7 @@
     </div>
 
     @* Betaling / bemærkninger *@
-    @if (OrdreModel.ErAfsluttet == false)
+    @if (OrdreModel.ErAfsluttet == false && OrdreModel.Bemærkninger.Length > 0)
     {
         <div class="row mb-5">
             <h4>Bemærkninger</h4>
@@ -399,6 +399,7 @@
 
     <div class="footer">
         <div class="row maxwidth align-items-center">
+            <span>Scooterland Aps</span>
             <span>Scootervej 47, 7100 Vejle &emsp; CVR: 273847383</span>
             <span>Telefon: (+45)13354758 &emsp; Email: mail@scooterland.dk</span>
         </div>
@@ -417,6 +418,8 @@
     public IJSRuntime JS { get; set; }
 
     public Ordre OrdreModel { get; set; } = new Ordre();
+
+    private string imageSource = "Images/ScooterLandBlueRed.png";
 
     override protected async Task OnInitializedAsync()
     {
