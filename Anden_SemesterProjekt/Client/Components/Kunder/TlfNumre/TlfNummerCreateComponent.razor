@@ -34,6 +34,7 @@
         isSubmitting = true;
         await OnInputSuccess.InvokeAsync(tlfNummerModel);
         tlfNummerModel = new TlfNummer();
+        editContext = new EditContext(tlfNummerModel);
         isSubmitting = false;
     }
 
