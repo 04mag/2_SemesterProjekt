@@ -28,7 +28,8 @@ namespace Anden_SemesterProjekt.Server.Repositories
                 return 0;
             }
 
-            _context.Scootere.Remove(scooter);
+            scooter.ErAktiv = false;
+            _context.Scootere.Update(scooter);
             return await _context.SaveChangesAsync();
         }
 
