@@ -25,7 +25,7 @@
     <!-- Dropdown for Mærker -->
     <div class="col-md-6 mb-3">
         <label for="mærke">Vælg Mærke:</label>
-        <select id="mærke" class="form-control" @bind="newScooter.MærkeId">
+        <select id="mærke" class="form-select" @bind="newScooter.MærkeId">
             <option value="0">-- Vælg Mærke --</option>
             @if (Mærker != null)
             {
