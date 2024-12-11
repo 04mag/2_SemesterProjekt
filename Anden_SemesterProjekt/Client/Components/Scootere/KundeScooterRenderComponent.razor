@@ -12,9 +12,12 @@
                 <div>
                     <span>Stelnummer: @scooter.Stelnummer</span> 
                     <br />
-                    <span>Registreringsnummer: @scooter.Registreringsnummer</span> 
-                    <br />
-                    <span>Mærke: @scooter.Mærke?.ScooterMærke</span>
+                    <span>Registreringsnummer: @scooter.Registreringsnummer</span>
+                    @if (scooter.Mærke != null)
+                    {
+                        <br />
+                        <span>Mærke: @scooter.Mærke.ScooterMærke</span>
+                    }
                 </div>
                 @if (OnDeleteScooter.HasDelegate)
                 {
