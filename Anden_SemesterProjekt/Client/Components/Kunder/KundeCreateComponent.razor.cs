@@ -97,7 +97,6 @@ namespace Anden_SemesterProjekt.Client.Components.Kunder
         public List<Mekaniker>? Mekanikere { get; set; } = new List<Mekaniker>();
         public Mekaniker? Mekaniker { get; set; } = null;
         private bool mekanikerSelectOpen = false;
-        private string addMekanikerButtonText = "Tilføj Mekaniker";
 
         private void OnMekanikerSelected(Mekaniker mekaniker)
         {
