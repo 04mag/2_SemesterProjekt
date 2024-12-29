@@ -7,8 +7,6 @@ namespace Anden_SemesterProjekt.Server.Repositories
         Task<Scooter> ReadScooterAsync(int id);
         Task<List<UdlejningsScooter>> ReadUdlejningsScootereAsync();
         Task<List<KundeScooter>> ReadKundeScootereAsync(int kundeId);
-
-
         Task<int> CreateScooterAsync(Scooter scooter);
         Task<int> UpdateScooterAsync(Scooter Scooter);
         Task UpdateScooterTilgængelighedAsync(int scooterId, bool erTilgængelig);
